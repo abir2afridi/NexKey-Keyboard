@@ -1,0 +1,6 @@
+{
+  "name": "NexKey Keyboard",
+  "description": "Original Multilingual Android Keyboard with Ridmik-class Bangla phonetic typing, customizable layouts, emoji, clipboard manager, and smart prediction engine.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
