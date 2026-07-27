@@ -2,6 +2,7 @@ package com.example.ui
 
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import android.provider.Settings
 import android.view.inputmethod.InputMethodManager
 import androidx.compose.foundation.background
@@ -21,6 +22,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import kotlinx.coroutines.delay
 
 @Composable
 fun SetupScreen(
@@ -30,9 +35,27 @@ fun SetupScreen(
     var isEnabled by remember { mutableStateOf(checkIsKeyboardEnabled(context)) }
     var isSelected by remember { mutableStateOf(checkIsKeyboardSelected(context)) }
 
-    LaunchedEffect(isEnabled, isSelected) {
-        if (isEnabled && isSelected) {
-            onSetupComplete()
+    val lifecycleOwner = LocalLifecycleOwner.current
+    DisposableEffect(lifecycleOwner) {
+        val observer = LifecycleEventObserver { _, event ->
+            if (event == Lifecycle.Event.ON_RESUME) {
+                isEnabled = checkIsKeyboardEnabled(context)
+                isSelected = checkIsKeyboardSelected(context)
+            }
+        }
+        lifecycleOwner.lifecycle.addObserver(observer)
+        onDispose { lifecycleOwner.lifecycle.removeObserver(observer) }
+    }
+
+    LaunchedEffect(Unit) {
+        while (true) {
+            isEnabled = checkIsKeyboardEnabled(context)
+            isSelected = checkIsKeyboardSelected(context)
+            if (isEnabled && isSelected) {
+                onSetupComplete()
+                return@LaunchedEffect
+            }
+            delay(500)
         }
     }
 
@@ -71,7 +94,7 @@ fun SetupScreen(
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
-            
+
             Text(
                 text = "Follow these steps to get started",
                 color = Color.Gray,
@@ -84,9 +107,9 @@ fun SetupScreen(
             SetupStepCard(
                 stepNumber = "1",
                 title = "Enable Keyboard",
-                description = "Turn on NexKey in your system language & input settings.",
+                description = "Turn on NexKey in system Settings → Languages & input → On-screen keyboard.",
                 isCompleted = isEnabled,
-                buttonText = if (isEnabled) "Enabled" else "Enable",
+                buttonText = if (isEnabled) "Enabled \u2713" else "Open Settings",
                 onClick = {
                     context.startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
                 }
@@ -96,10 +119,10 @@ fun SetupScreen(
 
             SetupStepCard(
                 stepNumber = "2",
-                title = "Select Keyboard",
-                description = "Set NexKey as your active typing method.",
+                title = "Select as Default",
+                description = "Choose NexKey as your active keyboard from the picker.",
                 isCompleted = isSelected,
-                buttonText = if (isSelected) "Selected" else "Select",
+                buttonText = if (isSelected) "Selected \u2713" else "Open Picker",
                 onClick = {
                     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showInputMethodPicker()
@@ -129,9 +152,18 @@ fun checkIsKeyboardEnabled(context: Context): Boolean {
 }
 
 fun checkIsKeyboardSelected(context: Context): Boolean {
-    val currentIme = Settings.Secure.getString(
-        context.contentResolver,
-        Settings.Secure.DEFAULT_INPUT_METHOD
-    )
-    return currentIme != null && currentIme.contains(context.packageName)
+    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+        val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.currentInputMethodInfo?.packageName == context.packageName
+    } else {
+        try {
+            val currentIme = Settings.Secure.getString(
+                context.contentResolver,
+                Settings.Secure.DEFAULT_INPUT_METHOD
+            )
+            currentIme != null && currentIme.contains(context.packageName)
+        } catch (_: SecurityException) {
+            false
+        }
+    }
 }

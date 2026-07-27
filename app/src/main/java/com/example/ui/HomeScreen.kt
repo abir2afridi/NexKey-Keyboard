@@ -24,173 +24,194 @@ fun HomeScreen(
     onNavigateToSettings: () -> Unit,
     onNavigateToThemes: () -> Unit,
     onNavigateToHelp: () -> Unit,
-    onNavigateToSetup: () -> Unit
+    onNavigateToSetup: () -> Unit,
+    onNavigateToSandbox: () -> Unit,
+    onNavigateToStats: () -> Unit
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
     val isSelected = checkIsKeyboardSelected(context)
+    val isActive = isEnabled && isSelected
 
     Scaffold(
-        topBar = {
-            TopAppBar(
-                title = { Text("NexKey Keyboard", fontWeight = FontWeight.Bold) },
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White
-                )
-            )
-        },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
-        Column(
-            modifier = Modifier
-                .padding(paddingValues)
-                .fillMaxSize()
-                .padding(16.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            // Keyboard Status Card
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-                shape = RoundedCornerShape(16.dp),
-                onClick = {
-                    if (!isEnabled || !isSelected) {
-                        onNavigateToSetup()
+        Box(modifier = Modifier.fillMaxSize()) {
+            ScenicHeader()
+
+            Column(
+                modifier = Modifier
+                    .padding(paddingValues)
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState()),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Spacer(modifier = Modifier.height(200.dp)) // Higher offset for scenic header visibility
+
+                // Floating Status Card (Exact matching Ridmik style)
+                Card(
+                    modifier = Modifier
+                        .padding(horizontal = 20.dp)
+                        .fillMaxWidth(),
+                    colors = CardDefaults.cardColors(containerColor = Color(0xFFFFF9E1)), // Cream background
+                    shape = RoundedCornerShape(28.dp),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 10.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(24.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "NexKey Keyboard",
+                                color = Color(0xFF202124),
+                                fontSize = 19.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(7.dp)
+                                        .clip(androidx.compose.foundation.shape.CircleShape)
+                                        .background(if (isActive) Color(0xFF4CAF50) else Color(0xFFFBC02D))
+                                )
+                                Spacer(modifier = Modifier.width(6.dp))
+                                Text(
+                                    text = if (isActive) "Active" else "Inactive",
+                                    color = Color(0xFF5F6368),
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+
+                        Spacer(modifier = Modifier.height(30.dp))
+
+                        if (!isActive) {
+                            Text(
+                                text = "NexKey Keyboard is not active!",
+                                color = Color(0xFFD93025), // Precision red
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "Press the button below to activate the keyboard",
+                                color = Color(0xFF5F6368),
+                                fontSize = 13.sp,
+                                modifier = Modifier.padding(top = 6.dp)
+                            )
+                        } else {
+                            Text(
+                                text = "NexKey Keyboard is active!",
+                                color = Color(0xFF1E8E3E), // Precision green
+                                fontSize = 17.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                            Text(
+                                text = "Your keyboard is ready to use",
+                                color = Color(0xFF5F6368),
+                                fontSize = 13.sp,
+                                modifier = Modifier.padding(top = 6.dp)
+                            )
+                        }
+
+                        Spacer(modifier = Modifier.height(30.dp))
+
+                        Button(
+                            onClick = { if (!isActive) onNavigateToSetup() else onNavigateToSandbox() },
+                            modifier = Modifier
+                                .fillMaxWidth(0.75f)
+                                .height(52.dp),
+                            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF202124)), // Dark grey button
+                            shape = RoundedCornerShape(26.dp)
+                        ) {
+                            Text(
+                                text = if (!isActive) "Activate" else "Test Now",
+                                color = Color.White,
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
-            ) {
+
+                Spacer(modifier = Modifier.height(40.dp))
+
+                // Circular Menu Grid (Matching proportions)
+                Column(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        RidmikMenuIcon(icon = Icons.Default.Storefront, label = "Shop", onClick = {}, modifier = Modifier.weight(1f))
+                        RidmikMenuIcon(icon = Icons.Default.Palette, label = "Theme", onClick = onNavigateToThemes, modifier = Modifier.weight(1f))
+                        RidmikMenuIcon(icon = Icons.Default.Tune, label = "Customize", onClick = {}, modifier = Modifier.weight(1f))
+                    }
+                    Row(modifier = Modifier.fillMaxWidth()) {
+                        RidmikMenuIcon(icon = Icons.Default.Settings, label = "Settings", onClick = onNavigateToSettings, modifier = Modifier.weight(1f))
+                        RidmikMenuIcon(icon = Icons.Default.ContentPaste, label = "Clipboard", onClick = {}, modifier = Modifier.weight(1f))
+                        RidmikMenuIcon(icon = Icons.Default.BarChart, label = "Stats", onClick = onNavigateToStats, modifier = Modifier.weight(1f))
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(36.dp))
+
+                // Gradient Feature Banners (Matching gradients from screenshot)
+                Column(
+                    modifier = Modifier.padding(horizontal = 24.dp),
+                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    GradientFeatureBanner(
+                        title = "AI Assist",
+                        subtitle = "Make your writing smarter now",
+                        icon = Icons.Default.AutoAwesome,
+                        gradient = listOf(Color(0xFFE8EAF6), Color(0xFFEDE7F6)), // Light Purple gradient
+                        onClick = {}
+                    )
+                    GradientFeatureBanner(
+                        title = "Learn to Type",
+                        subtitle = "Learn Bangla with Phonetic & more",
+                        icon = Icons.Default.Edit,
+                        gradient = listOf(Color(0xFFF1F3F4), Color(0xFFF8F9FA)), // Light Grey gradient
+                        onClick = onNavigateToHelp
+                    )
+                    GradientFeatureBanner(
+                        title = "Create Theme",
+                        subtitle = "Create your own theme",
+                        icon = Icons.Default.Style,
+                        gradient = listOf(Color(0xFFE0F2F1), Color(0xFFE8F5E9)), // Mint gradient
+                        onClick = {}
+                    )
+                }
+
+                Spacer(modifier = Modifier.height(60.dp))
+
+                // Branding Footer
                 Row(
-                    modifier = Modifier.padding(16.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 32.dp, start = 24.dp, end = 24.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Box(
                         modifier = Modifier
-                            .size(48.dp)
+                            .size(56.dp)
                             .clip(RoundedCornerShape(12.dp))
-                            .background(if (isEnabled && isSelected) Color(0xFF4CAF50).copy(alpha = 0.15f) else Color(0xFFFF5252).copy(alpha = 0.15f)),
+                            .background(Color(0xFF2E7D32)),
                         contentAlignment = Alignment.Center
                     ) {
-                        Icon(
-                            imageVector = if (isEnabled && isSelected) Icons.Default.CheckCircle else Icons.Default.Error,
-                            contentDescription = null,
-                            tint = if (isEnabled && isSelected) Color(0xFF4CAF50) else Color(0xFFFF5252)
-                        )
+                        Icon(Icons.Default.Keyboard, contentDescription = null, tint = Color.White, modifier = Modifier.size(32.dp))
                     }
                     Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = if (isEnabled && isSelected) "Keyboard Active" else "Action Required",
-                            color = Color.White,
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 16.sp
-                        )
-                        Text(
-                            text = if (isEnabled && isSelected) "NexKey is ready to use" else "Tap to finish setup",
-                            color = Color.Gray,
-                            fontSize = 13.sp
-                        )
-                    }
-                    if (!isEnabled || !isSelected) {
-                        Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color.Gray)
+                    Column {
+                        Text(text = "NexKey Keyboard", color = Color.Black, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                        Text(text = "1.0.0 (Release)", color = Color.Gray, fontSize = 13.sp)
                     }
                 }
             }
-
-            Text(
-                text = "Personalize",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
-            ) {
-                MenuCard(
-                    icon = Icons.Default.Palette,
-                    title = "Themes",
-                    desc = "Customize looks",
-                    modifier = Modifier.weight(1f),
-                    onClick = onNavigateToThemes
-                )
-                MenuCard(
-                    icon = Icons.Default.Settings,
-                    title = "Settings",
-                    desc = "Preferences",
-                    modifier = Modifier.weight(1f),
-                    onClick = onNavigateToSettings
-                )
-            }
-
-            Text(
-                text = "Resources",
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                modifier = Modifier.padding(top = 8.dp)
-            )
-
-            Card(
-                modifier = Modifier.fillMaxWidth(),
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-                shape = RoundedCornerShape(16.dp),
-                onClick = onNavigateToHelp
-            ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Icon(Icons.Default.HelpCenter, contentDescription = null, tint = Color(0xFF00E5FF))
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text("Help & Guide", color = Color.White, fontWeight = FontWeight.Bold)
-                        Text("Phonetic cheat sheet and tips", color = Color.Gray, fontSize = 13.sp)
-                    }
-                    Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color.Gray)
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-            
-            // Branding or Version
-            Text(
-                text = "NexKey Version 1.0",
-                color = Color.Gray,
-                fontSize = 12.sp,
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            )
-        }
-    }
-}
-
-@Composable
-fun MenuCard(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    title: String,
-    desc: String,
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = modifier.height(120.dp),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-        shape = RoundedCornerShape(16.dp),
-        onClick = onClick
-    ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.Center
-        ) {
-            Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF00E5FF))
-            Spacer(modifier = Modifier.height(12.dp))
-            Text(text = title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-            Text(text = desc, color = Color.Gray, fontSize = 12.sp)
         }
     }
 }

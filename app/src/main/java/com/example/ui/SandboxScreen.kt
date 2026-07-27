@@ -99,6 +99,7 @@ fun SandboxScreen(
                     composingText = sandboxComposing,
                     suggestions = sandboxSuggestions,
                     actionLabel = "↵",
+                    showNumberRow = true,
                     onKeyTap = { key ->
                         if (sandboxMode == KeyboardMode.BANGLA_PHONETIC && key.all { it.isLetter() || it == '.' || it == '^' }) {
                             sandboxComposing += key

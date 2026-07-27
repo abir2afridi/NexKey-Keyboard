@@ -1,12 +1,13 @@
 package com.example.engine
 
-import java.util.Locale
+import android.content.Context
+import com.example.data.AppDatabase
+import com.example.data.LearnedWordEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
-/**
- * High-performance Dictionary Trie and Prediction Engine.
- * Supports prefix search, frequency ranking, personal learned words,
- * and autocorrect suggestions for both English and Bangla.
- */
 class PredictionEngine {
 
     private class TrieNode {
@@ -19,8 +20,27 @@ class PredictionEngine {
     private val banglaRoot = TrieNode()
     private val personalWords = HashSet<String>()
 
+    private var database: AppDatabase? = null
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var incognito: Boolean = false
+
+    fun init(context: Context) {
+        database = AppDatabase.getInstance(context)
+        scope.launch {
+            val savedWords = database?.learnedWordDao()?.getPredictions("", isBangla = false, limit = 200) ?: emptyList()
+            savedWords.forEach { insertWord(englishRoot, it.word, it.frequency) }
+            val savedBanglaWords = database?.learnedWordDao()?.getPredictions("", isBangla = true, limit = 200) ?: emptyList()
+            savedBanglaWords.forEach { insertWord(banglaRoot, it.word, it.frequency) }
+        }
+    }
+
+    fun setIncognito(enabled: Boolean) {
+        incognito = enabled
+    }
+
+    fun isIncognito(): Boolean = incognito
+
     init {
-        // Seed core English vocabulary
         val englishSeed = listOf(
             "the" to 100, "be" to 95, "to" to 90, "of" to 85, "and" to 80,
             "a" to 78, "in" to 75, "that" to 70, "have" to 68, "I" to 65,
@@ -35,7 +55,6 @@ class PredictionEngine {
         )
         englishSeed.forEach { (word, freq) -> insertWord(englishRoot, word, freq) }
 
-        // Seed core Bangla vocabulary
         val banglaSeed = listOf(
             "আমি" to 100, "বাংলা" to 98, "তুমি" to 95, "ধন্যবাদ" to 90, "কেমন" to 88,
             "আছো" to 85, "ভালো" to 82, "আমাদের" to 80, "দেশ" to 78, "সোনার" to 75,
@@ -54,20 +73,35 @@ class PredictionEngine {
         current.frequency = maxOf(current.frequency, frequency)
     }
 
-    /**
-     * Learn a user-typed word into the personal dictionary.
-     */
     fun learnWord(word: String, isBangla: Boolean = false) {
+        if (incognito) return
         val trimmed = word.trim()
         if (trimmed.length < 2) return
         personalWords.add(trimmed)
         val root = if (isBangla) banglaRoot else englishRoot
-        insertWord(root, trimmed, 150) // High frequency for user-learned words
+        insertWord(root, trimmed, 150)
+
+        scope.launch {
+            val existing = database?.learnedWordDao()?.findWord(trimmed)
+            if (existing != null) {
+                database?.learnedWordDao()?.insertOrUpdate(
+                    existing.copy(frequency = existing.frequency + 1, lastUsedAt = System.currentTimeMillis())
+                )
+            } else {
+                database?.learnedWordDao()?.insertOrUpdate(
+                    LearnedWordEntity(word = trimmed, isBangla = isBangla, frequency = 150)
+                )
+            }
+        }
     }
 
-    /**
-     * Get candidate predictions for a given prefix.
-     */
+    fun clearAllLearned() {
+        personalWords.clear()
+        scope.launch {
+            database?.learnedWordDao()?.clearAll()
+        }
+    }
+
     fun getPredictions(prefix: String, isBangla: Boolean = false, limit: Int = 4): List<String> {
         val query = prefix.trim()
         if (query.isEmpty()) return emptyList()
@@ -75,7 +109,6 @@ class PredictionEngine {
         val root = if (isBangla) banglaRoot else englishRoot
         val results = mutableListOf<Pair<String, Int>>()
 
-        // Find prefix node
         var current: TrieNode? = root
         for (ch in query) {
             current = current?.children?.get(ch)
@@ -86,7 +119,6 @@ class PredictionEngine {
             collectWords(current, StringBuilder(query), results)
         }
 
-        // Also check Bangla Phonetic candidate if input is Latin and Bangla mode is on
         val list = results.sortedByDescending { it.second }
             .map { it.first }
             .distinct()
@@ -109,7 +141,7 @@ class PredictionEngine {
         if (node.isWord) {
             results.add(prefix.toString() to node.frequency)
         }
-        if (results.size > 50) return // Safety bound
+        if (results.size > 50) return
         for ((ch, childNode) in node.children) {
             prefix.append(ch)
             collectWords(childNode, prefix, results)

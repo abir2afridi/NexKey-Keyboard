@@ -1,7 +1,15 @@
 package com.example.clipboard
 
 import android.content.Context
-import java.util.concurrent.ConcurrentHashMap
+import com.example.data.AppDatabase
+import com.example.data.ClipEntity
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
 data class ClipItem(
     val id: String = java.util.UUID.randomUUID().toString(),
@@ -10,57 +18,79 @@ data class ClipItem(
     val timestamp: Long = System.currentTimeMillis()
 )
 
-/**
- * Manages clipboard history, pinning, auto-expiration, and content categorization.
- */
 object ClipboardManager {
 
-    private val clips = ConcurrentHashMap<String, ClipItem>()
+    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private var database: AppDatabase? = null
+    private var incognito: Boolean = false
 
-    init {
-        // Seed initial clipboard items for demo/testing
-        addClip("Welcome to NexKey Keyboard! Type in English or বাংলা easily.")
-        addClip("https://github.com/aistudio/nexkey")
+    private val _clips = MutableStateFlow<List<ClipItem>>(emptyList())
+    val clips: StateFlow<List<ClipItem>> = _clips.asStateFlow()
+
+    fun init(context: Context) {
+        database = AppDatabase.getInstance(context)
+        loadClips()
+    }
+
+    fun setIncognito(enabled: Boolean) {
+        incognito = enabled
+    }
+
+    fun isIncognito(): Boolean = incognito
+
+    private fun loadClips() {
+        scope.launch {
+            val entities = database?.clipDao()?.getAllClips() ?: emptyList()
+            _clips.value = entities.map { it.toClipItem() }
+        }
     }
 
     fun addClip(text: String) {
+        if (incognito) return
         val trimmed = text.trim()
-        if (trimmed.isEmpty()) return
-        
-        // Avoid duplicate active top entry
-        val existing = clips.values.find { it.text == trimmed }
-        if (existing != null) {
-            clips[existing.id] = existing.copy(timestamp = System.currentTimeMillis())
-        } else {
-            val item = ClipItem(text = trimmed)
-            clips[item.id] = item
-        }
+        if (trimmed.isEmpty() || trimmed.length < 3) return
 
-        // Keep maximum 50 unpinned items
-        val unpinned = clips.values.filter { !it.isPinned }.sortedBy { it.timestamp }
-        if (unpinned.size > 50) {
-            val toRemove = unpinned.take(unpinned.size - 50)
-            toRemove.forEach { clips.remove(it.id) }
+        scope.launch {
+            val existing = database?.clipDao()?.findClipByText(trimmed)
+            if (existing != null) {
+                database?.clipDao()?.insertClip(existing.copy(timestamp = System.currentTimeMillis()))
+            } else {
+                database?.clipDao()?.insertClip(ClipEntity(text = trimmed))
+            }
+
+            val all = database?.clipDao()?.getAllClips() ?: emptyList()
+            val unpinned = all.filter { !it.isPinned }
+            if (unpinned.size > 50) {
+                unpinned.takeLast(unpinned.size - 50).forEach {
+                    database?.clipDao()?.deleteClip(it.id)
+                }
+            }
+            loadClips()
         }
     }
 
     fun togglePin(id: String) {
-        clips[id]?.let { item ->
-            clips[id] = item.copy(isPinned = !item.isPinned)
+        scope.launch {
+            database?.clipDao()?.togglePin(id)
+            loadClips()
         }
     }
 
     fun deleteClip(id: String) {
-        clips.remove(id)
+        scope.launch {
+            database?.clipDao()?.deleteClip(id)
+            loadClips()
+        }
     }
 
     fun clearAllUnpinned() {
-        clips.values.filter { !it.isPinned }.forEach { clips.remove(it.id) }
+        scope.launch {
+            database?.clipDao()?.clearAllUnpinned()
+            loadClips()
+        }
     }
 
-    fun getClips(): List<ClipItem> {
-        return clips.values.sortedWith(
-            compareByDescending<ClipItem> { it.isPinned }.thenByDescending { it.timestamp }
-        )
-    }
+    fun getClips(): List<ClipItem> = _clips.value
+
+    private fun ClipEntity.toClipItem() = ClipItem(id, text, isPinned, timestamp)
 }

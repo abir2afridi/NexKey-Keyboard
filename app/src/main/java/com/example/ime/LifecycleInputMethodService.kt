@@ -1,8 +1,8 @@
 package com.example.ime
 
 import android.inputmethodservice.InputMethodService
-import android.os.Bundle
 import android.view.View
+import android.view.inputmethod.EditorInfo
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LifecycleRegistry
@@ -39,20 +39,16 @@ abstract class LifecycleInputMethodService : InputMethodService(),
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_CREATE)
     }
 
-    override fun onInitializeInterface() {
-        super.onInitializeInterface()
-    }
-
-    override fun onWindowShown() {
-        super.onWindowShown()
+    override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
+        super.onStartInputView(info, restarting)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_START)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_RESUME)
     }
 
-    override fun onWindowHidden() {
-        super.onWindowHidden()
+    override fun onFinishInputView(finishingInput: Boolean) {
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_PAUSE)
         lifecycleRegistry.handleLifecycleEvent(Lifecycle.Event.ON_STOP)
+        super.onFinishInputView(finishingInput)
     }
 
     override fun onDestroy() {
@@ -61,7 +57,16 @@ abstract class LifecycleInputMethodService : InputMethodService(),
         _viewModelStore.clear()
     }
 
+    override fun onEvaluateInputViewShown(): Boolean {
+        return true
+    }
+
     protected fun View.setLifecycleOwners() {
+        window?.window?.decorView?.let { decorView ->
+            decorView.setViewTreeLifecycleOwner(this@LifecycleInputMethodService)
+            decorView.setViewTreeViewModelStoreOwner(this@LifecycleInputMethodService)
+            decorView.setViewTreeSavedStateRegistryOwner(this@LifecycleInputMethodService)
+        }
         setViewTreeLifecycleOwner(this@LifecycleInputMethodService)
         setViewTreeViewModelStoreOwner(this@LifecycleInputMethodService)
         setViewTreeSavedStateRegistryOwner(this@LifecycleInputMethodService)

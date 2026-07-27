@@ -1,186 +1,222 @@
 # NexKey Keyboard
 
-**NexKey** is an original, production-ready, multilingual Android keyboard (IME) built from scratch — targeting Ridmik-class Bangla typing quality with Gboard/SwiftKey-class UX for English and unlimited other languages.
+**Original Multilingual Android Keyboard** — Ridmik-class Bangla phonetic typing + English + Arabic + unlimited language support.
 
-Built as a real **Android InputMethodService** (not a web demo), compiled via Gradle into an installable APK/AAB that registers as a system keyboard.
-
----
-
-## 🎯 Project Vision
-
-| Goal | Target |
-| :--- | :--- |
-| **Bangla typing** | Match/exceed Ridmik phonetic + traditional + national layouts |
-| **English & global** | Gboard/SwiftKey-class prediction, autocorrect, gesture typing |
-| **Languages** | Unlimited via pluggable language packs (JSON/SQLite packs, Play Feature Delivery) |
-| **Privacy** | Zero required network, local-only learning, encrypted storage, incognito mode |
-| **Platform** | Min SDK 26 (Android 8), target latest stable, foldable/stylus/physical keyboard ready |
+![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android)
+![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
+![API](https://img.shields.io/badge/minSdk-24-3DDC84)
+![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
+![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 
 ---
 
-## 🏗 Architecture — Multi-Module Gradle Project
+## Features
 
-```text
-nexkey/
-├── app/                      # App shell, IME service registration, onboarding
-├── core/
-│   ├── common/               # Shared utils, Result, extensions
-│   ├── designsystem/         # Compose M3 theme, tokens, dynamic color
-│   ├── data/                 # Room, DataStore, repositories
-│   ├── model/                # Pure Kotlin data models
-│   └── analytics/            # Local-only event logging
-├── feature/
-│   ├── ime-core/             # InputMethodService, InputConnection handling
-│   ├── keyboard-layout/      # Layout DSL, renderer, key hit-testing
-│   ├── prediction-engine/    # DAWG dict, n-gram ranking, personal dict
-│   ├── language-bangla/      # Bangla phonetic/traditional/national engines
-│   ├── language-packs/       # Pluggable language pack loader
-│   ├── gesture-typing/       # Glide/swipe decoding (DTW)
-│   ├── clipboard/            # History, rich content, pinning, TTL
-│   ├── emoji/                # Picker, search, combos, kaomoji, GIF provider
-│   ├── themes/               # Theme engine, presets, live preview
-│   ├── settings/             # Searchable settings, backup/restore, dev mode
-│   ├── ai-assist/            # Optional on-device/cloud AI (opt-in only)
-│   └── onboarding/           # Permission flow, IME enable wizard
-├── build-logic/              # Convention plugins (build-logic/convention)
-├── docs/                     # Architecture docs, data sources, perf reports
-└── .github/workflows/ci.yml  # CI: lint → unit → instrumented → assembleRelease
+| Feature | Status |
+|---|---|
+| QWERTY & Bangla Phonetic typing | ✅ |
+| Bangla Jatiyo (National) layout | ✅ |
+| Arabic layout | ✅ |
+| Symbols & Numbers panels | ✅ |
+| Composing-region state machine | ✅ |
+| EditorInfo.inputType handling | ✅ |
+| IME action labels (Search/Go/Done/Next) | ✅ |
+| Trie-based prediction engine | ✅ |
+| Persistent learned words (Room DB) | ✅ |
+| Voice typing (Android SpeechRecognizer) | ✅ |
+| Clipboard manager (history, pin, Room DB) | ✅ |
+| Emoji panel | ✅ |
+| AI Assist panel (Rewrite, Grammar, Translate) | ✅ |
+| Theme system (4 presets, DataStore) | ✅ |
+| Auto-capitalization | ✅ |
+| Caps lock (double-tap shift) | ✅ |
+| Smart punctuation (double-space period) | ✅ |
+| Incognito mode (no learning, no clipboard) | ✅ |
+| Password/sensitive field detection | ✅ |
+| TalkBack accessibility labels (all keys) | ✅ |
+| Lifecycle-aware IME for Jetpack Compose | ✅ |
+| In-app Setup Wizard (enable + select) | ✅ |
+| Continuous IME state polling for robust detection | ✅ |
+| Gradle wrapper (CI-ready) | ✅ |
+| Gesture/swipe typing | 🚧 Planned |
+| DAWG dictionary | 🚧 Planned |
+| Autocorrect with undo-on-backspace | 🚧 Planned |
+| Text expansion / shortcuts | 🚧 Planned |
+| Physical keyboard support | 🚧 Planned |
+| Foldable & stylus support | 🚧 Planned |
+| Handwriting interface | 🚧 Planned |
+| App localization (BN/HI/AR) | 🚧 Planned |
+| In-app updates | 🚧 Planned |
+| Crash watchdog | 🚧 Planned |
+
+---
+
+## Architecture
+
+```
+app/
+└── src/main/java/com/example/
+    ├── MainActivity.kt                     — Dashboard & live typing sandbox
+    ├── ime/
+    │   ├── NexKeyInputMethodService.kt     — Core IME service (input handling, key events)
+    │   └── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
+    ├── engine/
+    │   ├── BanglaPhoneticEngine.kt         — Phonetic transliteration (80+ conjuncts)
+    │   └── PredictionEngine.kt             — Trie-based prediction & Room-backed learning
+    ├── ui/
+    │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
+    │   ├── HomeScreen.kt                   — Dashboard home with status card
+    │   ├── SettingsScreen.kt               — User preferences UI
+    │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
+    │   ├── KeyboardLayouts.kt              — Layout data models & key maps
+    │   └── Components.kt                   — Reusable composables (SetupStepCard, etc.)
+    ├── data/
+    │   ├── AppDatabase.kt                  — Room database (clips, learned words)
+    │   ├── ClipEntity.kt / ClipDao.kt              — Clipboard persistence
+    │   ├── LearnedWordEntity.kt / LearnedWordDao.kt — Dictionary persistence
+    │   └── UserPreferences.kt              — DataStore (theme, language, incognito, settings)
+    ├── clipboard/
+    │   └── ClipboardManager.kt             — Clipboard with Room persistence & incognito
+    └── theme/
+        └── KeyboardTheme.kt                — Theme data model & presets
 ```
 
-**Key tech stack:** Kotlin, Jetpack Compose (hosted in `InputMethodService`), Hilt, Room, DataStore, Coroutines/Flow, Kotlinx Serialization, WorkManager, Jetpack WindowManager, Jetpack Security (EncryptedFile/MasterKey).
+---
+
+## Setup Flow
+
+When you first launch NexKey, the in-app setup wizard guides you through two steps:
+
+1. **Enable** — Opens system Settings → Languages & input → On-screen keyboard. Toggle NexKey on.
+2. **Select as Default** — Opens the system input method picker dialog. Choose NexKey.
+
+The wizard polls every 500ms to detect when both conditions are met, then automatically proceeds to the home screen. No manual back-and-forth needed.
 
 ---
 
-## 🚀 Phased Delivery (10 Phases)
-
-| Phase | Focus | Gate |
-| :--- | :--- | :--- |
-| **0** | Project foundation, Gradle multi-module, CI, minimal working IME | `./gradlew build` + installs as selectable keyboard |
-| **1** | IME Core: lifecycle, composing, IME actions, voice, hardware KB, foldables | Types in EditText/password/search across rotation/split/fold/BT keyboard |
-| **2** | Layout Engine + Compose UI: data-driven layouts, all modes, RTL, handwriting stub | 60fps typing, all densities/themes |
-| **3** | **Bangla Engine** (flagship): phonetic, conjuncts, NFC normalization, Banglish detect | 30 golden Bangla test phrases byte-exact |
-| **3.5** | Universal typing intelligence: auto-cap, smart punctuation, undo/redo, per-lang rules | Scripted UI tests pass for EN/BN |
-| **4** | Prediction, Autocorrect, Gesture Typing (DAWG, n-gram, DTW glide) | <16ms prediction, 90% glide accuracy on 50-word test |
-| **5** | Clipboard, Emoji/Combos/GIF, Smart Toolbar, Language Pack Manager | No dead toolbar icons, clipboard persists, emoji search <50ms |
-| **6** | Themes & Customization: engine, presets, live preview, drag-resize handle | Live preview, no restart |
-| **7** | AI Assist (opt-in): on-device/cloud provider interface, rewrite/translate/tone | Zero network calls when OFF |
-| **8** | Privacy, Security, Accessibility: incognito, encryption, TalkBack, contrast, switch access | Accessibility Scanner: 0 critical |
-| **9** | Settings, Onboarding, Performance, Testing, Release (AAB, Play Core updates) | Macrobenchmark numbers, Play-ready AAB |
-| **10** | App Shell Polish: app localization, in-app updates, crash watchdog, monetization hook | Bangla/Arabic/EN app UI, crash watchdog local-only |
-
----
-
-## 🛡 Legal & Originality
-
-- **Zero copied code/assets** from Ridmik, Gboard, SwiftKey, Samsung Keyboard, etc.
-- Bangla rules built from **Unicode Bengali block + public phoneme tables** (cited in `docs/DATA_SOURCES.md`)
-- Dictionaries from **open corpora only** (Wikipedia, Common Crawl, OpenSubtitles) — cited in `docs/DATA_SOURCES.md`
-- All deps: **Apache-2.0 / MIT / BSD only** — listed in `docs/THIRD_PARTY_LICENSES.md`
-
----
-
-## 🔧 Building
+## Build
 
 ```bash
-# Requires: JDK 21, Android SDK (API 34+), Android Studio Koala+
-./gradlew assembleDebug       # Debug APK
-./gradlew assembleRelease     # Release AAB (requires signing config)
-./gradlew lint                # Lint
-./gradlew test                # Unit tests
-./gradlew connectedAndroidTest # Instrumented tests (emulator required)
+# Debug APK
+./gradlew assembleDebug
+
+# Install on device/emulator
+adb install -r app/build/outputs/apk/debug/app-debug.apk
+
+# Run unit tests
+./gradlew testDebugUnitTest
+
+# Run instrumented tests (emulator required)
+./gradlew connectedDebugAndroidTest
 ```
 
-Install debug APK:
+**Prerequisites:** Android Studio, JDK 21+, Android SDK (compileSdk 36).
 
-```bash
-adb install app/build/outputs/apk/debug/app-debug.apk
+---
+
+## How to Use
+
+### From the App
+1. Install the APK and open the NexKey app.
+2. Follow the in-app setup wizard to enable and select NexKey.
+3. Open any app with a text field — NexKey appears automatically.
+
+### Manually from Settings
+1. Go to **Settings → System → Languages & input → On-screen keyboard**.
+2. Tap **NexKey** and enable it.
+3. Go back and tap **Default keyboard** → select **NexKey**.
+4. Switch to NexKey in any app via the keyboard switcher (globe) icon.
+
+---
+
+## Bangla Phonetic Typing
+
+NexKey implements a full Ridmik-class phonetic transliteration engine from first principles. Type Latin phonetically and the engine converts to correct Unicode Bengali:
+
+| Input | Output |
+|---|---|
+| `ami banglay likhi` | `আমি বাংলায় লিখি` |
+| `sUNy khAd` | `শূন্য খাদ` |
+| `kSiti` | `ক্ষিতি` |
+| `a` + `A` | `আ` (independent + vowel sign) |
+| `kk` | `ক্ক` (juktakkhor conjunct) |
+| `..` | `।` (dari / sentence end) |
+
+80+ conjunct rules, NFC normalization, Chandrabindu, Anusvara, Visarga, and Bangla numerals are supported.
+
+---
+
+## Troubleshooting
+
+### Keyboard does not appear when tapping a text field
+- Ensure NexKey is both **enabled** and **selected as default** in system settings.
+- On emulators: the Android emulator often detects a "hardware keyboard" and suppresses the soft keyboard. NexKey overrides `onEvaluateInputViewShown()` to force the keyboard to show.
+- Rarely, a reboot may be required after first-time setup.
+
+### Setup wizard does not detect enabled/selected state
+- The wizard polls every 500ms automatically — wait a moment after returning from settings.
+- On Android 14+: the old `Settings.Secure.ENABLED_INPUT_METHODS` key is restricted. NexKey uses `InputMethodManager.getEnabledInputMethodList()` and `InputMethodManager.getCurrentInputMethodInfo()` instead.
+
+---
+
+## Accessibility
+
+- **Full TalkBack support** — Every key, toolbar icon, emoji, and clipboard item has a proper `contentDescription`. Shift state is announced dynamically.
+- **Role semantics** — All interactive elements use `Role.Button` for correct screen-reader navigation.
+- System font scale respected at up to 200%.
+
+---
+
+## Privacy & Security
+
+- **Password field detection** — Automatically disables prediction, learning, and clipboard history in password/sensitive fields.
+- **Incognito mode** — Toggle on/off from toolbar. Zero word learning, zero clipboard history, zero prediction logging.
+- **Persistent data** — Clipboard and learned words stored in Room database on-device only.
+- **No network calls** — Zero network calls unless AI Assist is explicitly opted in.
+- **Permissions** — `RECORD_AUDIO` (voice typing), `VIBRATE` (haptic feedback), `POST_NOTIFICATIONS` (Android 13+).
+- See [docs/PERMISSIONS.md](docs/PERMISSIONS.md) for full details.
+
+---
+
+## Recent Fixes
+
+### IME Lifecycle for Compose (v1.0)
+- `ViewTreeLifecycleOwner`, `ViewModelStoreOwner`, and `SavedStateRegistryOwner` are now set on **both** the input view and the window's DecorView, fixing Compose-in-IME crashes.
+- Lifecycle dispatch moved from `onWindowShown()`/`onWindowHidden()` to `onStartInputView()`/`onFinishInputView()` for correct timing.
+- `onEvaluateInputViewShown()` overridden to return `true`, ensuring the keyboard appears on emulators and devices with hardware keyboards.
+
+### Setup Wizard Detection (v1.0)
+- Step 2 now uses `InputMethodManager.showInputMethodPicker()` instead of opening settings again.
+- Continuous polling (every 500ms) detects state changes that lifecycle events miss.
+- `checkIsKeyboardSelected()` uses `InputMethodManager.getCurrentInputMethodInfo()` on API 30+ for reliable detection.
+
+---
+
+## Legal & Originality
+
+- All code is original, written from first principles.
+- Bangla phonetic rules built from Unicode Bengali block specification (Unicode 15.0/16.0).
+- No source code, assets, or algorithms copied from Ridmik, Gboard, SwiftKey, or any other keyboard app.
+- Third-party dependencies are OSS with permissive licenses (Apache-2.0, MIT, BSD).
+- See [docs/DATA_SOURCES.md](docs/DATA_SOURCES.md) for dictionary corpora sources.
+- See [docs/THIRD_PARTY_LICENSES.md](docs/THIRD_PARTY_LICENSES.md) for dependency licenses.
+
+---
+
+## License
+
 ```
+Copyright 2026 NexKey Contributors
 
-Then enable in **Settings → Languages → On-screen keyboard → NexKey**.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
----
+    http://www.apache.org/licenses/LICENSE-2.0
 
-## 📚 Documentation
-
-| Doc | Purpose |
-| :--- | :--- |
-| `docs/plan.md` | Full 10-phase spec (this project's source of truth) |
-| `docs/DATA_SOURCES.md` | Corpus sources & licenses per language |
-| `docs/THIRD_PARTY_LICENSES.md` | All third-party dependency licenses |
-| `docs/DICTIONARY_FORMAT.md` | DAWG binary format for language packs |
-| `docs/HANDWRITING_ARCHITECTURE.md` | Handwriting provider interface contract |
-| `docs/PERF_REPORT.md` | Macrobenchmark results |
-| `docs/ACCESSIBILITY_CHECKLIST.md` | TalkBack/switch-access verification |
-| `docs/QA_APP_MATRIX.md` | 20-app manual test matrix |
-| `docs/RELEASE_PROCESS.md` | Staged rollout, rollback, signing |
-| `docs/PERMISSIONS.md` | Permission justification table |
-
----
-
-## 🔐 Privacy & Security
-
-- **Permissions requested:** Only `RECORD_AUDIO` (voice typing) + `INTERNET` (optional AI/cloud sync, both opt-in)
-- **Encrypted storage:** Room + DataStore encrypted via Jetpack Security (`MasterKey`)
-- **Incognito mode:** Zero learning, zero clipboard, zero analytics, visible indicator
-- **Password fields:** Auto-disable learning, clipboard, predictions
-- **OTP fields:** Auto-purge from clipboard after 2 min
-- **Analytics:** Local-only, opt-in, no PII, exportable/deletable
-
----
-
-## ♿ Accessibility
-
-- TalkBack labels on every key/toolbar icon (dynamic state-aware)
-- System font scale up to 200%+
-- High-contrast & color-blind-safe palettes (deuteranopia/protanopia/tritanopia tested)
-- Full hardware keyboard / switch access support
-- Verified via Accessibility Scanner (0 critical issues gate)
-
----
-
-## 📦 Release & Distribution
-
-- **AAB** via GitHub Actions → Play Console (internal/closed/open tracks)
-- **Dynamic Feature Modules** for optional language packs (base APK stays small)
-- **In-App Updates** (Play Core) for critical fixes
-- **SemVer** + auto-changelog from conventional commits
-
----
-
-## 🧪 Testing Strategy
-
-| Layer | Tools | Targets |
-| :--- | :--- | :--- |
-| Unit | JUnit5, Turbine, MockK | Prediction ranking, Bangla transliteration goldens, autocorrect FSM, clipboard TTL |
-| Instrumented | Compose Test, Espresso | Keyboard render, key tap → char, language switch, theme switch, a11y tree |
-| Benchmark | Macrobenchmark | Cold IME show <150ms, steady RSS <60MB, glide 60fps |
-| Manual | 20-app matrix | Browser, SMS, Email, WhatsApp, Telegram, Slack, Keep, Docs, etc. |
-
----
-
-## 🤝 Contributing
-
-1. Read `docs/plan.md` — this is the spec
-2. Pick an open checklist item from the current phase
-3. Implement **fully** (no TODOs on in-scope items)
-4. Run `./gradlew lint test connectedAndroidTest`
-5. PR with checklist gate verification
-
----
-
-## 📄 License
-
-**Apache-2.0** — see `LICENSE`.
-
----
-
-## 🙏 Acknowledgments
-
-- Unicode Consortium (Bengali block, CLDR emoji annotations)
-- Wikipedia / Common Crawl / OpenSubtitles (open corpora)
-- Android Open Source Project (IME framework reference)
-- Jetpack Compose, Room, Hilt, WindowManager teams
-
----
-
-> **NexKey** — Built from first principles, for real users, on real devices. No web tech. No shortcuts.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
