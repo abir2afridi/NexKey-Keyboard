@@ -23,117 +23,229 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun SetupStepCard(
-    stepNumber: String,
+fun PremiumCard(
+    modifier: Modifier = Modifier,
+    containerColor: Color = Color.White,
+    onClick: (() -> Unit)? = null,
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Card(
+        modifier = modifier
+            .shadow(
+                elevation = 8.dp,
+                shape = RoundedCornerShape(28.dp),
+                ambientColor = Color.Black.copy(alpha = 0.1f),
+                spotColor = Color.Black.copy(alpha = 0.1f)
+            ),
+        colors = CardDefaults.cardColors(containerColor = containerColor),
+        shape = RoundedCornerShape(28.dp),
+        onClick = { onClick?.invoke() },
+        enabled = onClick != null
+    ) {
+        Column(modifier = Modifier.padding(24.dp), content = content)
+    }
+}
+
+@Composable
+fun PremiumMenuIcon(
+    icon: ImageVector,
+    label: String,
+    accentColor: Color,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(76.dp)
+                .shadow(elevation = 4.dp, shape = CircleShape)
+                .clip(CircleShape)
+                .background(
+                    Brush.linearGradient(
+                        listOf(accentColor.copy(alpha = 0.15f), accentColor.copy(alpha = 0.05f))
+                    )
+                )
+                .background(Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = accentColor,
+                modifier = Modifier.size(32.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        Text(
+            text = label,
+            color = Color(0xFF3C4043),
+            fontSize = 15.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
+fun PremiumFeatureBanner(
     title: String,
-    description: String,
-    isCompleted: Boolean,
-    buttonText: String,
+    subtitle: String,
+    icon: ImageVector,
+    gradient: List<Color>,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = if (isCompleted) Color(0xFFF1F8E9) else Color(0xFFF5F5F5)),
-        shape = RoundedCornerShape(20.dp),
-        border = if (isCompleted) androidx.compose.foundation.BorderStroke(1.dp, Color(0xFF4CAF50)) else null
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(96.dp)
+            .shadow(elevation = 6.dp, shape = RoundedCornerShape(24.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.Transparent)
     ) {
-        Row(
+        Box(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
+                .fillMaxSize()
+                .background(Brush.horizontalGradient(gradient))
+                .padding(horizontal = 24.dp),
+            contentAlignment = Alignment.CenterStart
         ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Row(
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clip(CircleShape)
+                        .background(Color.White.copy(alpha = 0.5f)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Box(
-                        modifier = Modifier
-                            .size(28.dp)
-                            .clip(CircleShape)
-                            .background(if (isCompleted) Color(0xFF4CAF50) else Color(0xFFE0E0E0)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = stepNumber,
-                            color = if (isCompleted) Color.White else Color(0xFF757575),
-                            fontWeight = FontWeight.Bold,
-                            fontSize = 13.sp
-                        )
-                    }
-
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = null,
+                        tint = Color(0xFF202124),
+                        modifier = Modifier.size(28.dp)
+                    )
+                }
+                Spacer(modifier = Modifier.width(20.dp))
+                Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = title,
                         color = Color(0xFF202124),
-                        fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = subtitle,
+                        color = Color(0xFF202124).copy(alpha = 0.6f),
+                        fontSize = 13.sp
                     )
                 }
-
-                Spacer(modifier = Modifier.height(4.dp))
-
-                Text(
-                    text = description,
-                    color = Color(0xFF5F6368),
-                    fontSize = 13.sp
+                Icon(
+                    imageVector = Icons.Default.ChevronRight,
+                    contentDescription = null,
+                    tint = Color(0xFF202124).copy(alpha = 0.3f),
+                    modifier = Modifier.size(24.dp)
                 )
-            }
-
-            Spacer(modifier = Modifier.width(12.dp))
-
-            Button(
-                onClick = onClick,
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isCompleted) Color(0xFF4CAF50).copy(alpha = 0.1f) else Color(0xFF202124),
-                    contentColor = if (isCompleted) Color(0xFF2E7D32) else Color.White
-                ),
-                shape = RoundedCornerShape(12.dp),
-                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-            ) {
-                Text(text = buttonText, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
         }
     }
 }
 
 @Composable
-fun PhoneticRow(latin: String, bangla: String, meaning: String) {
-    Row(
+fun PremiumScenicHeader(isActive: Boolean) {
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFF5F5F5))
-            .padding(horizontal = 16.dp, vertical = 12.dp),
-        horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+            .height(320.dp)
+            .background(
+                Brush.verticalGradient(
+                    listOf(Color(0xFF003D33), Color(0xFF004D40), Color(0xFF2E7D32))
+                )
+            )
     ) {
-        Text(text = latin, color = Color(0xFF1976D2), fontWeight = FontWeight.Bold, fontSize = 15.sp)
-        Text(text = "➜", color = Color(0xFF9E9E9E), fontSize = 12.sp)
-        Text(text = bangla, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 18.sp)
-        Text(text = "($meaning)", color = Color(0xFF757575), fontSize = 12.sp)
-    }
-}
+        // Sun with advanced Glow
+        Box(
+            modifier = Modifier
+                .padding(top = 40.dp)
+                .align(Alignment.TopCenter)
+                .size(180.dp)
+                .background(
+                    Brush.radialGradient(
+                        0f to Color(0xFFFFEE58).copy(alpha = 0.5f),
+                        0.6f to Color(0xFFFFEE58).copy(alpha = 0.1f),
+                        1f to Color.Transparent
+                    )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(110.dp)
+                    .clip(CircleShape)
+                    .background(
+                        Brush.verticalGradient(
+                            listOf(Color(0xFFFFEE58), Color(0xFFFBC02D))
+                        )
+                    )
+            )
+        }
 
-@Composable
-fun FeatureBadge(
-    icon: ImageVector,
-    title: String,
-    desc: String,
-    modifier: Modifier = Modifier
-) {
-    Box(
-        modifier = modifier
-            .clip(RoundedCornerShape(16.dp))
-            .background(Color(0xFFF5F5F5))
-            .padding(16.dp)
-    ) {
-        Column {
-            Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(24.dp))
-            Spacer(modifier = Modifier.height(8.dp))
-            Text(text = title, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 14.sp)
-            Text(text = desc, color = Color(0xFF5F6368), fontSize = 12.sp)
+        // Layered Mountains (Red range from screenshot)
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            val width = size.width
+            val height = size.height
+            
+            // Clouds
+            drawCircle(Color.White.copy(alpha = 0.08f), radius = 70f, center = androidx.compose.ui.geometry.Offset(width * 0.2f, height * 0.25f))
+            drawCircle(Color.White.copy(alpha = 0.08f), radius = 90f, center = androidx.compose.ui.geometry.Offset(width * 0.26f, height * 0.28f))
+            drawCircle(Color.White.copy(alpha = 0.08f), radius = 60f, center = androidx.compose.ui.geometry.Offset(width * 0.85f, height * 0.2f))
+
+            // Back Mountain
+            val path1 = Path().apply {
+                moveTo(0f, height * 0.65f)
+                lineTo(width * 0.2f, height * 0.5f)
+                lineTo(width * 0.4f, height * 0.62f)
+                lineTo(width * 0.6f, height * 0.45f)
+                lineTo(width * 0.8f, height * 0.58f)
+                lineTo(width, height * 0.42f)
+                lineTo(width, height)
+                lineTo(0f, height)
+                close()
+            }
+            drawPath(path1, Color(0xFFE53935).copy(alpha = 0.9f))
+
+            // Front Mountain
+            val path2 = Path().apply {
+                moveTo(0f, height * 0.85f)
+                lineTo(width * 0.3f, height * 0.65f)
+                lineTo(width * 0.55f, height * 0.82f)
+                lineTo(width * 0.8f, height * 0.6f)
+                lineTo(width, height * 0.75f)
+                lineTo(width, height)
+                lineTo(0f, height)
+                close()
+            }
+            drawPath(path2, Color(0xFFC62828))
+        }
+
+        // Glass Text Overlay
+        Box(
+            modifier = Modifier
+                .padding(24.dp)
+                .align(Alignment.BottomStart)
+                .clip(RoundedCornerShape(16.dp))
+                .background(Color.White.copy(alpha = 0.15f))
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            Text(
+                text = "NexKey Pro",
+                color = Color.White,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.Bold
+            )
         }
     }
 }
@@ -196,108 +308,6 @@ fun SettingItem(
 }
 
 @Composable
-fun RidmikMenuIcon(
-    icon: ImageVector,
-    label: String,
-    onClick: () -> Unit,
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier
-            .clickable(onClick = onClick)
-            .padding(vertical = 12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Box(
-            modifier = Modifier
-                .size(72.dp)
-                .clip(CircleShape)
-                .background(Color(0xFFF1F3F4))
-                .shadow(elevation = 1.dp, shape = CircleShape),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                imageVector = icon,
-                contentDescription = label,
-                tint = Color(0xFF202124),
-                modifier = Modifier.size(32.dp)
-            )
-        }
-        Spacer(modifier = Modifier.height(12.dp))
-        Text(
-            text = label,
-            color = Color(0xFF3C4043),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
-        )
-    }
-}
-
-@Composable
-fun GradientFeatureBanner(
-    title: String,
-    subtitle: String,
-    icon: ImageVector,
-    gradient: List<Color>,
-    onClick: () -> Unit
-) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(88.dp)
-            .clickable(onClick = onClick),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Transparent),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Brush.horizontalGradient(gradient))
-                .padding(horizontal = 24.dp),
-            contentAlignment = Alignment.CenterStart
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Box(
-                    modifier = Modifier
-                        .size(44.dp)
-                        .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.4f)),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Icon(
-                        imageVector = icon,
-                        contentDescription = null,
-                        tint = Color(0xFF202124),
-                        modifier = Modifier.size(26.dp)
-                    )
-                }
-                Spacer(modifier = Modifier.width(18.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = title,
-                        color = Color(0xFF202124),
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = subtitle,
-                        color = Color(0xFF202124).copy(alpha = 0.6f),
-                        fontSize = 12.sp
-                    )
-                }
-                Icon(
-                    imageVector = Icons.Default.ChevronRight,
-                    contentDescription = null,
-                    tint = Color(0xFF202124).copy(alpha = 0.2f),
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-        }
-    }
-}
-
-@Composable
 fun SettingSliderItem(
     title: String,
     value: Float,
@@ -355,82 +365,156 @@ fun SettingSwitchItem(title: String, subtitle: String?, icon: ImageVector, check
 }
 
 @Composable
-fun ScenicHeader() {
-    Box(
+fun PhoneticRow(latin: String, bangla: String, meaning: String) {
+    Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(300.dp)
-            .background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFF003D33), Color(0xFF004D40), Color(0xFF2E7D32))
-                )
-            )
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFF5F5F5))
+            .padding(horizontal = 16.dp, vertical = 12.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
     ) {
-        // Sun with Glow
-        Box(
-            modifier = Modifier
-                .padding(top = 40.dp)
-                .align(Alignment.TopCenter)
-                .size(160.dp)
-                .background(
-                    Brush.radialGradient(
-                        0f to Color(0xFFFFEE58).copy(alpha = 0.4f),
-                        0.5f to Color(0xFFFFEE58).copy(alpha = 0.1f),
-                        1f to Color.Transparent
-                    )
-                ),
-            contentAlignment = Alignment.Center
+        Text(text = latin, color = Color(0xFF1976D2), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+        Text(text = "➜", color = Color(0xFF9E9E9E), fontSize = 12.sp)
+        Text(text = bangla, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(text = "($meaning)", color = Color(0xFF757575), fontSize = 12.sp)
+    }
+}
+
+@Composable
+fun SetupStepCard(
+    stepNumber: String,
+    title: String,
+    description: String,
+    isCompleted: Boolean,
+    buttonText: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = if (isCompleted) Color(0xFFF1F8E9) else Color(0xFFF8F9FA)
+        ),
+        border = if (isCompleted) null else androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFDADCE0))
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp)
         ) {
-            Box(
-                modifier = Modifier
-                    .size(100.dp)
-                    .clip(CircleShape)
-                    .background(
-                        Brush.verticalGradient(
-                            listOf(Color(0xFFFFEE58), Color(0xFFFBC02D))
-                        )
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Box(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clip(CircleShape)
+                        .background(if (isCompleted) Color(0xFF2E7D32) else Color(0xFF5F6368)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = stepNumber,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 14.sp
                     )
-            )
-        }
-
-        // Layered Mountains (High Fidelity)
-        Canvas(modifier = Modifier.fillMaxSize()) {
-            val width = size.width
-            val height = size.height
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Text(
+                    text = title,
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF202124)
+                )
+            }
             
-            // Clouds (Subtle texture)
-            drawCircle(Color.White.copy(alpha = 0.05f), radius = 60f, center = androidx.compose.ui.geometry.Offset(width * 0.2f, height * 0.2f))
-            drawCircle(Color.White.copy(alpha = 0.05f), radius = 80f, center = androidx.compose.ui.geometry.Offset(width * 0.25f, height * 0.22f))
-            drawCircle(Color.White.copy(alpha = 0.05f), radius = 50f, center = androidx.compose.ui.geometry.Offset(width * 0.8f, height * 0.15f))
-
-            // Far Mountain Range
-            val path1 = Path().apply {
-                moveTo(0f, height * 0.7f)
-                lineTo(width * 0.15f, height * 0.55f)
-                lineTo(width * 0.3f, height * 0.65f)
-                lineTo(width * 0.5f, height * 0.48f)
-                lineTo(width * 0.75f, height * 0.62f)
-                lineTo(width * 0.9f, height * 0.52f)
-                lineTo(width, height * 0.75f)
-                lineTo(width, height)
-                lineTo(0f, height)
-                close()
+            Spacer(modifier = Modifier.height(12.dp))
+            
+            Text(
+                text = description,
+                fontSize = 14.sp,
+                color = Color(0xFF5F6368),
+                lineHeight = 20.sp
+            )
+            
+            Spacer(modifier = Modifier.height(20.dp))
+            
+            Button(
+                onClick = onClick,
+                enabled = !isCompleted,
+                modifier = Modifier.fillMaxWidth(),
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = if (isCompleted) Color(0xFF2E7D32) else Color(0xFF202124),
+                    disabledContainerColor = Color(0xFFE8F5E9),
+                    disabledContentColor = Color(0xFF2E7D32)
+                ),
+                shape = RoundedCornerShape(12.dp)
+            ) {
+                Text(
+                    text = buttonText,
+                    fontWeight = FontWeight.SemiBold
+                )
             }
-            drawPath(path1, Color(0xFFE53935))
-
-            // Near Mountain Range
-            val path2 = Path().apply {
-                moveTo(0f, height * 0.85f)
-                lineTo(width * 0.25f, height * 0.65f)
-                lineTo(width * 0.45f, height * 0.82f)
-                lineTo(width * 0.65f, height * 0.58f)
-                lineTo(width * 0.85f, height * 0.78f)
-                lineTo(width, height * 0.7f)
-                lineTo(width, height)
-                lineTo(0f, height)
-                close()
-            }
-            drawPath(path2, Color(0xFFC62828))
         }
     }
+}
+
+@Composable
+fun MinimalGridItem(
+    icon: ImageVector,
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(vertical = 16.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = label,
+            tint = Color(0xFF202124),
+            modifier = Modifier.size(24.dp)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = label,
+            color = Color(0xFF5F6368),
+            fontSize = 13.sp,
+            fontWeight = FontWeight.Medium
+        )
+    }
+}
+
+@Composable
+fun MinimalStatItem(
+    value: String,
+    label: String,
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(vertical = 8.dp),
+        horizontalAlignment = Alignment.Start
+    ) {
+        Text(
+            text = value,
+            color = Color(0xFF202124),
+            fontSize = 24.sp,
+            fontWeight = FontWeight.Bold
+        )
+        Text(
+            text = label,
+            color = Color(0xFF5F6368),
+            fontSize = 12.sp
+        )
+    }
+}
+
+@Composable
+fun MinimalDivider() {
+    HorizontalDivider(
+        modifier = Modifier.padding(vertical = 24.dp),
+        thickness = 1.dp,
+        color = Color(0xFFF1F3F4)
+    )
 }
