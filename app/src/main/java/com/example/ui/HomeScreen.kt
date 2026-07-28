@@ -3,6 +3,9 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -21,9 +24,11 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.UserPreferences
 
 @Composable
@@ -63,49 +68,51 @@ fun HomeScreen(
         label = "pulseAlpha"
     )
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(horizontal = 20.dp)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Spacer(modifier = Modifier.height(56.dp))
-
-            // Brand & Status
+        // Fixed Header
             Row(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 20.dp, vertical = 12.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
-                    Text(
-                        text = "NexKey",
-                        fontSize = 28.sp,
-                        fontWeight = FontWeight.Black,
-                        color = Color(0xFF1B5E20)
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        painter = painterResource(R.drawable.icon_header),
+                        contentDescription = "NexKey",
+                        modifier = Modifier.size(28.dp)
                     )
-                    Text(
-                        text = "Vibrant. Fast. Original.",
-                        fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontWeight = FontWeight.Medium
-                    )
+                    Spacer(modifier = Modifier.width(12.dp))
+                    Column {
+                        Text(
+                            text = "NexKey",
+                            fontSize = 22.sp,
+                            fontWeight = FontWeight.Black,
+                            color = Color(0xFF1B5E20)
+                        )
+                        Text(
+                            text = "Vibrant. Fast. Original.",
+                            fontSize = 11.sp,
+                            color = Color(0xFF1B5E20).copy(alpha = 0.7f),
+                            fontWeight = FontWeight.Medium
+                        )
+                    }
                 }
 
-                Surface(
-                    shape = RoundedCornerShape(20.dp),
-                    color = if (isActive) MaterialTheme.colorScheme.primary else Color(0xFFFF9800),
-                    modifier = Modifier.padding(top = 4.dp)
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = if (isActive) Color(0xFF1B5E20) else Color(0xFFFF9800),
+                modifier = Modifier.padding(top = 4.dp)
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
                 ) {
-                    Row(
-                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
                     Box(
                         modifier = Modifier
                             .size(6.dp)
@@ -113,18 +120,26 @@ fun HomeScreen(
                             .background(Color.White)
                             .alpha(if (isActive) pulseAlpha else 1f)
                     )
-                        Spacer(modifier = Modifier.width(6.dp))
-                        Text(
-                            text = if (isActive) "ACTIVE" else "SETUP",
-                            fontSize = 10.sp,
-                            fontWeight = FontWeight.ExtraBold,
-                            color = Color.White
-                        )
-                    }
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text(
+                        text = if (isActive) "ACTIVE" else "SETUP",
+                        fontSize = 10.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = Color.White
+                    )
                 }
             }
+        }
 
-            Spacer(modifier = Modifier.height(24.dp))
+        // Scrollable Content
+        Column(
+            modifier = Modifier
+                .weight(1f)
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+                .verticalScroll(rememberScrollState())
+        ) {
+            Spacer(modifier = Modifier.height(8.dp))
 
             // Primary Action
             Card(
@@ -145,7 +160,7 @@ fun HomeScreen(
                         .fillMaxSize()
                         .background(
                             Brush.horizontalGradient(
-                                if (isActive) listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
+                                if (isActive) listOf(Color(0xFF1B5E20), Color(0xFF1B5E20).copy(alpha = 0.8f))
                                 else listOf(Color(0xFFFF9800), Color(0xFFE65100))
                             )
                         ),
@@ -176,7 +191,7 @@ fun HomeScreen(
                 text = "DISCOVER TOOLS & STATS",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
+                color = Color(0xFF1B5E20),
                 modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
             )
 
@@ -290,13 +305,13 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .size(36.dp)
                                         .clip(CircleShape)
-                                        .background(MaterialTheme.colorScheme.primaryContainer),
+                                        .background(Color(0xFFC8E6C9)),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.BarChart,
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary,
+                                        tint = Color(0xFF1B5E20),
                                         modifier = Modifier.size(20.dp)
                                     )
                                 }
@@ -313,7 +328,7 @@ fun HomeScreen(
                                     text = totalWords.toString(),
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = MaterialTheme.colorScheme.primary
+                                    color = Color(0xFF1B5E20)
                                 )
                                 Text(
                                     text = "Words typed",
@@ -424,7 +439,7 @@ fun HomeScreen(
                 text = "KEYBOARD SETTINGS",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
+                color = Color(0xFF1B5E20),
                 modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
             )
 
@@ -489,7 +504,7 @@ fun HomeScreen(
                     text = "NexKey Pro • Stable v1.0.0",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+                    color = Color(0xFF1B5E20).copy(alpha = 0.5f)
                 )
             }
 
@@ -497,3 +512,5 @@ fun HomeScreen(
         }
     }
 }
+
+
