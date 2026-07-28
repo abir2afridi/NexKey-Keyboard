@@ -18,19 +18,27 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.clipboard.ClipboardManager
 import com.example.clipboard.ClipItem
+import com.example.data.UserPreferences
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClipboardScreen(
     onBack: () -> Unit
 ) {
-    val clips by ClipboardManager.clips.collectAsState()
+    val context = LocalContext.current
+    val prefs = remember { UserPreferences(context) }
+    val clipboardRecentEnabled by prefs.clipboardRecent.collectAsState(initial = true)
+    val allClips by ClipboardManager.clips.collectAsState()
+    val clips = allClips.filter { c ->
+        clipboardRecentEnabled || c.isPinned
+    }
     
     Scaffold(
         topBar = {

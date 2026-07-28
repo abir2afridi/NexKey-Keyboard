@@ -86,6 +86,13 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var spaceCursorSpeedState by mutableStateOf(150)
     private var showTypedWordFirstEnabled by mutableStateOf(true)
     private var clipboardExpiryMinutes by mutableStateOf(120)
+    private var autoCorrectionEnabled by mutableStateOf(true)
+    private var phoneticAutoCorrectionEnabled by mutableStateOf(true)
+    private var nextWordSuggestionsEnabled by mutableStateOf(true)
+    private var clipboardRecentEnabled by mutableStateOf(true)
+    private var clipboardImagesEnabled by mutableStateOf(true)
+    private var physicalKbEmojiEnabled by mutableStateOf(true)
+    private var popupDismissDelayState by mutableStateOf("Default")
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -177,6 +184,13 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 clipboardExpiryMinutes = it
                 ClipboardManager.setExpiryMinutes(it)
             } }
+            launch { userPreferences.autoCorrection.collectLatest { autoCorrectionEnabled = it } }
+            launch { userPreferences.phoneticAutoCorrection.collectLatest { phoneticAutoCorrectionEnabled = it } }
+            launch { userPreferences.nextWordSuggestions.collectLatest { nextWordSuggestionsEnabled = it } }
+            launch { userPreferences.clipboardRecent.collectLatest { clipboardRecentEnabled = it } }
+            launch { userPreferences.clipboardImages.collectLatest { clipboardImagesEnabled = it } }
+            launch { userPreferences.physicalKbEmoji.collectLatest { physicalKbEmojiEnabled = it } }
+            launch { userPreferences.popupDismissDelay.collectLatest { popupDismissDelayState = it } }
         }
     }
 
@@ -211,6 +225,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     popupOnKeypressEnabled = popupOnKeypressEnabled,
                     largeNumberRowEnabled = largeNumberRowEnabled,
                     longPressDelayMs = longPressDelayMsState.toLong(),
+                    spaceCursorSpeed = spaceCursorSpeedState,
+                    spaceCursorDelay = spaceCursorDelayState,
+                    splitKeyboardEnabled = splitKeyboardEnabled,
+                    popupDismissDelay = popupDismissDelayState,
+                    physicalKbEmojiEnabled = physicalKbEmojiEnabled,
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -415,18 +434,27 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
         if (composingBuffer.isNotEmpty()) {
             val isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC
-            val finalWord = if (isBangla) BanglaPhoneticEngine.parse(composingBuffer) else composingBuffer
+            val rawWord = if (isBangla) BanglaPhoneticEngine.parse(composingBuffer) else composingBuffer
+            val correctedWord = if (autoCorrectionEnabled && !isSensitiveField) {
+                val correction = predictionEngine.getCorrection(rawWord, isBangla)
+                if (correction != null && rawWord.length > 2) correction else rawWord
+            } else {
+                rawWord
+            }
             ic.beginBatchEdit()
-            ic.commitText("$finalWord ", 1)
+            ic.commitText("$correctedWord ", 1)
             ic.endBatchEdit()
             if (!isSensitiveField) {
-                predictionEngine.learnWord(finalWord, isBangla = isBangla)
+                predictionEngine.learnWord(correctedWord, isBangla = isBangla)
+                predictionEngine.setLastTypedWord(correctedWord)
                 if (!isIncognito) {
-                    scope.launch { userPreferences.incrementStats(words = 1, chars = finalWord.length + 1) }
+                    scope.launch { userPreferences.incrementStats(words = 1, chars = correctedWord.length + 1) }
+                }
+                if (nextWordSuggestionsEnabled) {
+                    candidates = predictionEngine.getNextWordPredictions()
                 }
             }
             composingBuffer = ""
-            candidates = emptyList()
         } else {
             val now = System.currentTimeMillis()
             if (now - lastSpaceTime < 400) {
@@ -502,9 +530,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         ic.endBatchEdit()
         if (!isSensitiveField && personalizedSuggestionsEnabled) {
             predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC)
+            predictionEngine.setLastTypedWord(word)
+            if (nextWordSuggestionsEnabled) {
+                candidates = predictionEngine.getNextWordPredictions()
+            }
         }
         composingBuffer = ""
-        candidates = emptyList()
     }
 
     private fun updateCandidates(query: String) {

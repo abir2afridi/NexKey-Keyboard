@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/logo.png" alt="NexKey Logo" width="128" height="128">
+</p>
+
 # NexKey Keyboard
 
 **Original Multilingual Android Keyboard** — Ridmik-class Bangla phonetic typing + English + Arabic + unlimited language support.

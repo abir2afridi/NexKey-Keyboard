@@ -19,6 +19,7 @@ class PredictionEngine {
     private val englishRoot = TrieNode()
     private val banglaRoot = TrieNode()
     private val personalWords = HashSet<String>()
+    private var lastTypedWord: String = ""
 
     private var database: AppDatabase? = null
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
@@ -100,6 +101,27 @@ class PredictionEngine {
         scope.launch {
             database?.learnedWordDao()?.clearAll()
         }
+    }
+
+    fun setLastTypedWord(word: String) {
+        lastTypedWord = word
+    }
+
+    fun getNextWordPredictions(isBangla: Boolean = false): List<String> {
+        if (lastTypedWord.isBlank()) return emptyList()
+        return getPredictions("", isBangla, limit = 3, showTypedWordFirst = false)
+    }
+
+    fun getCorrection(word: String, isBangla: Boolean = false): String? {
+        val root = if (isBangla) banglaRoot else englishRoot
+        var current: TrieNode? = root
+        for (ch in word) {
+            current = current?.children?.get(ch)
+            if (current == null) return null
+        }
+        if (current?.isWord == true && current.frequency > 0) return null
+        val predictions = getPredictions(word, isBangla, limit = 1, showTypedWordFirst = false)
+        return if (predictions.isNotEmpty() && predictions[0] != word) predictions[0] else null
     }
 
     fun getPredictions(prefix: String, isBangla: Boolean = false, limit: Int = 4, showTypedWordFirst: Boolean = false): List<String> {

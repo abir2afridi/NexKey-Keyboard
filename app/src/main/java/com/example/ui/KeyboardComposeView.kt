@@ -45,11 +45,13 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -94,6 +96,11 @@ fun KeyboardComposeView(
     popupOnKeypressEnabled: Boolean = true,
     largeNumberRowEnabled: Boolean = false,
     longPressDelayMs: Long = 300L,
+    spaceCursorSpeed: Int = 150,
+    spaceCursorDelay: Int = 1000,
+    splitKeyboardEnabled: Boolean = false,
+    popupDismissDelay: String = "Default",
+    physicalKbEmojiEnabled: Boolean = true,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -107,8 +114,16 @@ fun KeyboardComposeView(
     onCursorMove: (Int) -> Unit = {},
     onIncognitoToggle: (() -> Unit)? = null
 ) {
+    val popupAutoDismissMs = when (popupDismissDelay) {
+        "Short" -> 1500L
+        "Long" -> 3000L
+        else -> Long.MAX_VALUE
+    }
+    val config = LocalConfiguration.current
+    val hasPhysicalKeyboard = config.keyboard == android.content.res.Configuration.KEYBOARD_QWERTY
+    val effectiveShowEmojiKey = showEmojiKey || (physicalKbEmojiEnabled && hasPhysicalKeyboard)
     var longPressKey by remember { mutableStateOf<KeyModel?>(null) }
-    val orientation = LocalConfiguration.current.orientation
+    val orientation = config.orientation
     val effectiveHeight = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) keyboardHeightLandscape else keyboardHeightPortrait
     val effectiveOneHanded = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) oneHandedWidthLandscape else oneHandedWidth
 
@@ -127,7 +142,7 @@ fun KeyboardComposeView(
                     theme = theme,
                     isIncognito = isIncognito,
                     showVoiceKey = showVoiceKey,
-                    showEmojiKey = showEmojiKey,
+                    showEmojiKey = effectiveShowEmojiKey,
                     showGlobeKey = showGlobeKey,
                     onModeChange = onModeChange,
                     onVoiceClick = onVoiceClick,
@@ -178,6 +193,9 @@ fun KeyboardComposeView(
                             moveCursorSpaceEnabled = moveCursorSpaceEnabled,
                             largeNumberRowEnabled = largeNumberRowEnabled,
                             longPressDelayMs = longPressDelayMs,
+                            spaceCursorSpeed = spaceCursorSpeed,
+                            spaceCursorDelay = spaceCursorDelay,
+                            splitKeyboardEnabled = splitKeyboardEnabled,
                             onKeyTap = onKeyTap,
                             onBackspaceTap = onBackspaceTap,
                             onSpaceTap = onSpaceTap,
@@ -194,6 +212,12 @@ fun KeyboardComposeView(
             if (popupOnKeypressEnabled) {
                 longPressKey?.let { key ->
                     if (key.popupCandidates.isNotEmpty()) {
+                        if (popupAutoDismissMs < Long.MAX_VALUE) {
+                            LaunchedEffect(key) {
+                                kotlinx.coroutines.delay(popupAutoDismissMs)
+                                longPressKey = null
+                            }
+                        }
                         Box(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -412,6 +436,9 @@ fun KeyboardKeysGrid(
     moveCursorSpaceEnabled: Boolean = true,
     largeNumberRowEnabled: Boolean = false,
     longPressDelayMs: Long = 300L,
+    spaceCursorSpeed: Int = 150,
+    spaceCursorDelay: Int = 1000,
+    splitKeyboardEnabled: Boolean = false,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -422,7 +449,7 @@ fun KeyboardKeysGrid(
     onLongPress: (KeyModel) -> Unit = {}
 ) {
     var totalDragX by remember { mutableStateOf(0f) }
-    val dragThreshold = 40f
+    val dragThreshold = ((200f - spaceCursorSpeed * 0.35f) + spaceCursorDelay * 0.02f).coerceIn(15f, 180f)
 
     Column(
         modifier = Modifier
