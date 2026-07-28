@@ -25,17 +25,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.ui.HomeScreen
-import com.example.ui.SetupScreen
-import com.example.ui.SettingsScreen
-import com.example.ui.ThemesScreen
-import com.example.ui.HelpScreen
-import com.example.ui.SandboxScreen
-import com.example.ui.DictionaryScreen
-import com.example.ui.ClipboardScreen
-import com.example.ui.AboutScreen
-import com.example.ui.TypingStatsScreen
-import com.example.ui.CustomThemeScreen
+import com.example.ui.*
 import com.example.ui.navigation.Screen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.checkIsKeyboardEnabled
@@ -150,13 +140,36 @@ fun NexKeyApp() {
             composable(Screen.Settings.route) {
                 SettingsScreen(
                     onBack = { navController.popBackStack() },
-                    onNavigateToDictionary = { navController.navigate(Screen.Dictionary.route) },
-                    onNavigateToClipboard = { navController.navigate(Screen.ClipboardManager.route) },
+                    onNavigateToPreferences = { navController.navigate(Screen.SettingsPreferences.route) },
+                    onNavigateToAppearance = { navController.navigate(Screen.SettingsAppearance.route) },
+                    onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
+                    onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
+                    onNavigateToAdvanced = { navController.navigate(Screen.SettingsAdvanced.route) },
+                    onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                     onNavigateToAbout = { navController.navigate(Screen.About.route) },
-                    onNavigateToStats = { navController.navigate(Screen.Stats.route) },
-                    onNavigateToCustomTheme = { navController.navigate(Screen.CustomTheme.route) },
-                    onNavigateToThemes = { navController.navigate(Screen.Themes.route) }
+                    onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) }
                 )
+            }
+            composable(Screen.SettingsPreferences.route) {
+                PreferencesSettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsAppearance.route) {
+                AppearanceSettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsTextCorrection.route) {
+                TextCorrectionSettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsAdvanced.route) {
+                AdvancedSettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsMoreLanguages.route) {
+                MoreLanguagesScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsGifQuality.route) {
+                GifQualitySettingsScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.SettingsAppLanguage.route) {
+                AppLanguageScreen(onBack = { navController.popBackStack() })
             }
             composable(Screen.Themes.route) {
                 ThemesScreen(onBack = { navController.popBackStack() })

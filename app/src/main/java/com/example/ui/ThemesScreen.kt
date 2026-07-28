@@ -41,38 +41,38 @@ fun ThemesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Keyboard Themes") },
+                title = { Text("Keyboard Themes", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 24.dp)
         ) {
             Text(
-                text = "Select a theme for your keyboard",
-                color = Color.Gray,
-                fontSize = 14.sp,
-                modifier = Modifier.padding(bottom = 24.dp)
+                text = "Select a preset for your keyboard",
+                color = Color(0xFF5F6368),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(vertical = 24.dp)
             )
 
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp)
+                horizontalArrangement = Arrangement.spacedBy(20.dp),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 items(themes) { theme ->
                     ThemePreviewCard(
@@ -95,12 +95,12 @@ fun ThemePreviewCard(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFF1B1C28))
+            .clip(RoundedCornerShape(24.dp))
+            .background(Color(0xFFF8F9FA))
             .border(
                 width = 2.dp,
-                color = if (isSelected) Color(0xFF00E5FF) else Color.Transparent,
-                shape = RoundedCornerShape(12.dp)
+                color = if (isSelected) Color(0xFF2E7D32) else Color(0xFFF1F3F4),
+                shape = RoundedCornerShape(24.dp)
             )
             .clickable { onClick() }
             .padding(12.dp)
@@ -109,20 +109,20 @@ fun ThemePreviewCard(
         Box(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(80.dp)
-                .clip(RoundedCornerShape(8.dp))
+                .height(100.dp)
+                .clip(RoundedCornerShape(16.dp))
                 .background(theme.backgroundColor)
-                .padding(4.dp)
+                .padding(8.dp)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
                 repeat(3) { row ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                        repeat(if (row == 2) 7 else 8) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        repeat(if (row == 2) 6 else 8) {
                             Box(
                                 modifier = Modifier
                                     .weight(1f)
-                                    .height(18.dp)
-                                    .clip(RoundedCornerShape(2.dp))
+                                    .height(20.dp)
+                                    .clip(RoundedCornerShape(4.dp))
                                     .background(theme.keyBackgroundColor)
                             )
                         }
@@ -131,14 +131,14 @@ fun ThemePreviewCard(
             }
         }
 
-        Spacer(modifier = Modifier.height(12.dp))
+        Spacer(modifier = Modifier.height(14.dp))
 
         Text(
             text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
-            color = Color.White,
+            color = Color(0xFF202124),
             fontWeight = FontWeight.Bold,
-            fontSize = 14.sp,
-            modifier = Modifier.align(Alignment.CenterHorizontally)
+            fontSize = 15.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 4.dp)
         )
     }
 }

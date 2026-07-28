@@ -61,7 +61,7 @@ fun SetupScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color(0xFF0F1017)
+        color = Color.White
     ) {
         Column(
             modifier = Modifier
@@ -73,36 +73,36 @@ fun SetupScreen(
         ) {
             Box(
                 modifier = Modifier
-                    .size(80.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(Color(0xFF00E5FF).copy(alpha = 0.15f)),
+                    .size(100.dp)
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color(0xFFE8F5E9)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Keyboard,
                     contentDescription = null,
-                    tint = Color(0xFF00E5FF),
-                    modifier = Modifier.size(40.dp)
+                    tint = Color(0xFF2E7D32),
+                    modifier = Modifier.size(56.dp)
                 )
             }
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             Text(
                 text = "Welcome to NexKey",
-                color = Color.White,
+                color = Color(0xFF202124),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
                 text = "Follow these steps to get started",
-                color = Color.Gray,
+                color = Color(0xFF5F6368),
                 fontSize = 16.sp,
                 modifier = Modifier.padding(top = 8.dp)
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             SetupStepCard(
                 stepNumber = "1",
@@ -115,7 +115,7 @@ fun SetupScreen(
                 }
             )
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(20.dp))
 
             SetupStepCard(
                 stepNumber = "2",
@@ -130,14 +130,14 @@ fun SetupScreen(
             )
 
             if (isEnabled && isSelected) {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(48.dp))
                 Button(
                     onClick = onSetupComplete,
-                    modifier = Modifier.fillMaxWidth(),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF00E5FF)),
-                    shape = RoundedCornerShape(12.dp)
+                    modifier = Modifier.fillMaxWidth().height(56.dp),
+                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+                    shape = RoundedCornerShape(28.dp)
                 ) {
-                    Text("Finish Setup", color = Color.Black, fontWeight = FontWeight.Bold)
+                    Text("Finish Setup", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
         }

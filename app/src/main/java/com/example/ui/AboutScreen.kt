@@ -8,13 +8,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Code
-import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Info
-import androidx.compose.material.icons.filled.Keyboard
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.Link
-import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,40 +28,42 @@ fun AboutScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("About NexKey") },
+                title = { Text("About", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(24.dp)
+                .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            Spacer(modifier = Modifier.height(40.dp))
+            
             Box(
                 modifier = Modifier
                     .size(100.dp)
-                    .clip(RoundedCornerShape(24.dp))
-                    .background(Color(0xFF00E5FF).copy(alpha = 0.15f)),
+                    .clip(RoundedCornerShape(28.dp))
+                    .background(Color(0xFFE8F5E9)),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Keyboard,
                     contentDescription = null,
-                    tint = Color(0xFF00E5FF),
+                    tint = Color(0xFF2E7D32),
                     modifier = Modifier.size(56.dp)
                 )
             }
@@ -76,43 +72,44 @@ fun AboutScreen(
 
             Text(
                 text = "NexKey Keyboard",
-                color = Color.White,
-                fontSize = 24.sp,
+                color = Color(0xFF202124),
+                fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "Version 1.0.0 (Release)",
-                color = Color.Gray,
-                fontSize = 14.sp
+                color = Color(0xFF5F6368),
+                fontSize = 15.sp,
+                modifier = Modifier.padding(top = 4.dp)
             )
 
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "NexKey is a modern, multilingual keyboard designed for speed and privacy. It features high-quality Bangla phonetic support and smart AI-powered text corrections.",
-                color = Color.LightGray,
+                text = "NexKey is a modern, premium keyboard designed for speed and privacy. It features industry-leading Bangla phonetic transliteration and intelligent correction engines.",
+                color = Color(0xFF3C4043),
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
-                lineHeight = 22.sp
+                lineHeight = 24.sp
             )
 
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
-            AboutLinkItem(icon = Icons.Default.Star, title = "Rate on Play Store") {}
+            AboutLinkItem(icon = Icons.Default.StarOutline, title = "Rate NexKey") {}
             AboutLinkItem(icon = Icons.Default.Language, title = "Visit Website") {}
-            AboutLinkItem(icon = Icons.Default.Code, title = "Open Source License") {}
-            AboutLinkItem(icon = Icons.Default.Link, title = "Privacy Policy") {}
+            AboutLinkItem(icon = Icons.Default.Code, title = "Open Source Licenses") {}
+            AboutLinkItem(icon = Icons.Default.Policy, title = "Privacy Policy") {}
 
             Spacer(modifier = Modifier.weight(1f))
-            Spacer(modifier = Modifier.height(40.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Made with ", color = Color.Gray, fontSize = 12.sp)
-                Icon(Icons.Default.Favorite, contentDescription = null, tint = Color(0xFFFF5252), modifier = Modifier.size(14.dp))
-                Text(text = " by NexKey Team", color = Color.Gray, fontSize = 12.sp)
+                Text(text = "Made with ", color = Color(0xFF5F6368), fontSize = 13.sp)
+                Icon(Icons.Default.Favorite, contentDescription = null, tint = Color(0xFFD93025), modifier = Modifier.size(16.dp))
+                Text(text = " by NexKey Team", color = Color(0xFF5F6368), fontSize = 13.sp)
             }
             
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
@@ -125,19 +122,26 @@ fun AboutLinkItem(
 ) {
     Surface(
         onClick = onClick,
-        color = Color(0xFF1B1C28),
-        shape = RoundedCornerShape(12.dp),
+        color = Color(0xFFF8F9FA),
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp)
+            .padding(vertical = 8.dp)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
+            modifier = Modifier.padding(18.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF00E5FF), modifier = Modifier.size(20.dp))
+            Box(
+                modifier = Modifier.size(36.dp).clip(CircleShape).background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF5F6368), modifier = Modifier.size(20.dp))
+            }
             Spacer(modifier = Modifier.width(16.dp))
-            Text(text = title, color = Color.White, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+            Text(text = title, color = Color(0xFF202124), fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Spacer(modifier = Modifier.weight(1f))
+            Icon(Icons.Default.ChevronRight, null, tint = Color(0xFFBDC1C6), modifier = Modifier.size(20.dp))
         }
     }
 }

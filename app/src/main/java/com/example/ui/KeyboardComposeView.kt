@@ -81,6 +81,9 @@ fun KeyboardComposeView(
     suggestions: List<String>,
     actionLabel: String,
     showNumberRow: Boolean = false,
+    hideLongPressHints: Boolean = false,
+    keyboardHeightPortrait: Int = 100,
+    oneHandedWidth: Int = 100,
     isIncognito: Boolean = false,
     isPasswordField: Boolean = false,
     onKeyTap: (String) -> Unit,
@@ -142,21 +145,33 @@ fun KeyboardComposeView(
                 }
 
                 if (mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD && mode != KeyboardMode.AI_ASSIST) {
-                    KeyboardKeysGrid(
-                        mode = mode,
-                        shiftState = shiftState,
-                        theme = theme,
-                        actionLabel = actionLabel,
-                        showNumberRow = showNumberRow,
-                        onKeyTap = onKeyTap,
-                        onBackspaceTap = onBackspaceTap,
-                        onSpaceTap = onSpaceTap,
-                        onEnterTap = onEnterTap,
-                        onShiftTap = onShiftTap,
-                        onModeChange = onModeChange,
-                        onCursorMove = onCursorMove,
-                        onLongPress = { longPressKey = it }
+                    val adjustedTheme = theme.copy(
+                        keyHeightDp = (theme.keyHeightDp * (keyboardHeightPortrait / 100f)).toInt()
                     )
+                    
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = ((100 - oneHandedWidth) / 2f).dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        KeyboardKeysGrid(
+                            mode = mode,
+                            shiftState = shiftState,
+                            theme = adjustedTheme,
+                            actionLabel = actionLabel,
+                            showNumberRow = showNumberRow,
+                            hideLongPressHints = hideLongPressHints,
+                            onKeyTap = onKeyTap,
+                            onBackspaceTap = onBackspaceTap,
+                            onSpaceTap = onSpaceTap,
+                            onEnterTap = onEnterTap,
+                            onShiftTap = onShiftTap,
+                            onModeChange = onModeChange,
+                            onCursorMove = onCursorMove,
+                            onLongPress = { longPressKey = it }
+                        )
+                    }
                 }
             }
 
@@ -377,6 +392,7 @@ fun KeyboardKeysGrid(
     theme: KeyboardTheme,
     actionLabel: String,
     showNumberRow: Boolean = false,
+    hideLongPressHints: Boolean = false,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -403,6 +419,7 @@ fun KeyboardKeysGrid(
                         shiftState = shiftState,
                         theme = theme,
                         modifier = Modifier.weight(1f),
+                        hideHints = hideLongPressHints,
                         onTap = { onKeyTap(it) },
                         onLongPress = { onLongPress(keyModel) }
                     )
@@ -426,6 +443,7 @@ fun KeyboardKeysGrid(
                         shiftState = shiftState,
                         theme = theme,
                         modifier = Modifier.weight(1f),
+                        hideHints = hideLongPressHints,
                         onTap = { onKeyTap(it) },
                         onLongPress = { onLongPress(keyModel) }
                     )
@@ -443,6 +461,7 @@ fun KeyboardKeysGrid(
                     shiftState = shiftState,
                     theme = theme,
                     modifier = Modifier.weight(1f),
+                    hideHints = hideLongPressHints,
                     onTap = { onKeyTap(it) },
                     onLongPress = { onLongPress(keyModel) }
                 )
@@ -492,6 +511,7 @@ fun KeyItem(
     shiftState: ShiftState,
     theme: KeyboardTheme,
     modifier: Modifier = Modifier,
+    hideHints: Boolean = false,
     onTap: (String) -> Unit,
     onLongPress: (() -> Unit)? = null
 ) {
@@ -506,7 +526,23 @@ fun KeyItem(
         onClick = { onTap(charToOutput) },
         onLongClick = onLongPress
     ) {
-        Text(text = charToOutput, color = if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor, fontSize = 18.sp, fontWeight = FontWeight.Medium)
+        Box(contentAlignment = Alignment.Center) {
+            Text(
+                text = charToOutput,
+                color = if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor,
+                fontSize = 18.sp,
+                fontWeight = FontWeight.Medium
+            )
+            
+            if (!hideHints && keyModel.popupCandidates.isNotEmpty()) {
+                Text(
+                    text = keyModel.popupCandidates.first(),
+                    color = (if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor).copy(alpha = 0.4f),
+                    fontSize = 10.sp,
+                    modifier = Modifier.align(Alignment.TopEnd).padding(4.dp)
+                )
+            }
+        }
     }
 }
 

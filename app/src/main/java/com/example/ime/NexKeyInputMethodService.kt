@@ -48,6 +48,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var keyHeight by mutableStateOf(54)
     private var keyRadius by mutableStateOf(10)
     private var showNumRow by mutableStateOf(false)
+    private var hideLongPressHints by mutableStateOf(false)
+    private var kbHeightPortrait by mutableStateOf(100)
+    private var oneHandedWidth by mutableStateOf(100)
     private var hapticLevel by mutableStateOf(50)
     private var soundLevel by mutableStateOf(50)
 
@@ -100,6 +103,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.keyHeight.collectLatest { keyHeight = it } }
             launch { userPreferences.keyRadius.collectLatest { keyRadius = it } }
             launch { userPreferences.showNumberRow.collectLatest { showNumRow = it } }
+            launch { userPreferences.hideLongPressHints.collectLatest { hideLongPressHints = it } }
+            launch { userPreferences.kbHeightPortrait.collectLatest { kbHeightPortrait = it } }
+            launch { userPreferences.oneHandedWidthPortrait.collectLatest { oneHandedWidth = it } }
             launch { userPreferences.hapticIntensity.collectLatest { hapticLevel = it } }
             launch { userPreferences.soundVolume.collectLatest { soundLevel = it } }
         }
@@ -122,6 +128,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     suggestions = candidates,
                     actionLabel = actionLabel,
                     showNumberRow = showNumRow,
+                    hideLongPressHints = hideLongPressHints,
+                    keyboardHeightPortrait = kbHeightPortrait,
+                    oneHandedWidth = oneHandedWidth,
                     isIncognito = isIncognito,
                     isPasswordField = isPasswordField,
                     onKeyTap = { key -> handleKeyTap(key) },

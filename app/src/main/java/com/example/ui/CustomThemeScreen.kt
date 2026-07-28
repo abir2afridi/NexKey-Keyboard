@@ -19,12 +19,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.theme.KeyboardTheme
-import com.example.theme.ThemePreset
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,54 +42,62 @@ fun CustomThemeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Custom Theme") },
+                title = { Text("Theme Creator", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 actions = {
-                    TextButton(onClick = onBack) {
-                        Text("Save", color = Color(0xFF00E5FF), fontWeight = FontWeight.Bold)
+                    Button(
+                        onClick = onBack,
+                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+                        shape = RoundedCornerShape(12.dp),
+                        modifier = Modifier.padding(end = 8.dp)
+                    ) {
+                        Text("Save", color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            Spacer(modifier = Modifier.height(16.dp))
+            
             // Preview
-            Text(text = "Preview", color = Color.Gray, fontSize = 12.sp)
+            Text(text = "LIVE PREVIEW", color = Color(0xFF5F6368), fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
             
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
-                    .clip(RoundedCornerShape(12.dp))
+                    .height(160.dp)
+                    .clip(RoundedCornerShape(24.dp))
                     .background(bgColor)
-                    .padding(8.dp)
+                    .padding(12.dp),
+                contentAlignment = Alignment.Center
             ) {
-                Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                     repeat(3) { row ->
-                        Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
+                        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                             repeat(if (row == 2) 7 else 9) {
                                 Box(
                                     modifier = Modifier
                                         .weight(1f)
-                                        .height(24.dp)
-                                        .clip(RoundedCornerShape(4.dp))
+                                        .height(32.dp)
+                                        .clip(RoundedCornerShape(6.dp))
                                         .background(keyColor)
                                 )
                             }
@@ -108,18 +113,18 @@ fun CustomThemeScreen(
             
             Spacer(modifier = Modifier.height(16.dp))
             
-            Button(
-                onClick = { /* Reset to default */ 
+            TextButton(
+                onClick = { 
                     bgColor = Color(0xFF12131C)
                     keyColor = Color(0xFF1E2136)
                     accentColor = Color(0xFF00E5FF)
                 },
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2D314E)),
-                shape = RoundedCornerShape(12.dp)
+                modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Reset to Default")
+                Text("Reset to Default", color = Color(0xFF5F6368))
             }
+            
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
@@ -131,18 +136,18 @@ fun ColorPickerSection(
     options: List<Color>,
     onColorSelected: (Color) -> Unit
 ) {
-    Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-        Text(text = title, color = Color.White, fontWeight = FontWeight.Medium)
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+    Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
+        Text(text = title, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+        LazyRow(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             items(options) { color ->
                 Box(
                     modifier = Modifier
-                        .size(40.dp)
+                        .size(44.dp)
                         .clip(CircleShape)
                         .background(color)
                         .border(
                             width = 2.dp,
-                            color = if (selectedColor == color) Color.White else Color.Transparent,
+                            color = if (selectedColor == color) Color(0xFF2E7D32) else Color(0xFFF1F3F4),
                             shape = CircleShape
                         )
                         .clickable { onColorSelected(color) },
@@ -153,7 +158,7 @@ fun ColorPickerSection(
                             imageVector = Icons.Default.Check,
                             contentDescription = null,
                             tint = if (color == Color.White) Color.Black else Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(24.dp)
                         )
                     }
                 }

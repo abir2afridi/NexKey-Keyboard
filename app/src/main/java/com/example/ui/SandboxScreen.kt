@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -42,20 +43,20 @@ fun SandboxScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Typing Sandbox") },
+                title = { Text("Typing Sandbox", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -67,8 +68,8 @@ fun SandboxScreen(
         ) {
             Text(
                 text = "Test the keyboard in this playground. Your typing here won't be saved.",
-                color = Color.Gray,
-                fontSize = 13.sp
+                color = Color(0xFF5F6368),
+                fontSize = 14.sp
             )
 
             OutlinedTextField(
@@ -77,20 +78,23 @@ fun SandboxScreen(
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Try typing here...") },
                 placeholder = { Text("e.g. ami bangla valobashi") },
-                shape = RoundedCornerShape(12.dp),
+                shape = RoundedCornerShape(20.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color.White,
-                    unfocusedTextColor = Color.White,
-                    focusedBorderColor = Color(0xFF00E5FF),
-                    unfocusedBorderColor = Color(0xFF2D314E)
+                    focusedTextColor = Color(0xFF202124),
+                    unfocusedTextColor = Color(0xFF202124),
+                    focusedBorderColor = Color(0xFF2E7D32),
+                    unfocusedBorderColor = Color(0xFFF1F3F4),
+                    focusedContainerColor = Color(0xFFF8F9FA),
+                    unfocusedContainerColor = Color(0xFFF8F9FA)
                 )
             )
 
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(16.dp))
-                    .border(1.dp, Color(0xFF2D314E), RoundedCornerShape(16.dp))
+                    .clip(RoundedCornerShape(24.dp))
+                    .border(1.dp, Color(0xFFF1F3F4), RoundedCornerShape(24.dp))
+                    .shadow(elevation = 2.dp, shape = RoundedCornerShape(24.dp))
             ) {
                 KeyboardComposeView(
                     mode = sandboxMode,

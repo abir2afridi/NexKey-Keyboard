@@ -12,4 +12,13 @@ sealed class Screen(val route: String) {
     object About : Screen("about")
     object Stats : Screen("stats")
     object CustomTheme : Screen("custom_theme")
+
+    // Settings Sub-screens
+    object SettingsPreferences : Screen("settings_preferences")
+    object SettingsAppearance : Screen("settings_appearance")
+    object SettingsTextCorrection : Screen("settings_text_correction")
+    object SettingsAdvanced : Screen("settings_advanced")
+    object SettingsMoreLanguages : Screen("settings_more_languages")
+    object SettingsGifQuality : Screen("settings_gif_quality")
+    object SettingsAppLanguage : Screen("settings_app_language")
 }

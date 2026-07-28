@@ -3,6 +3,7 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -37,34 +38,35 @@ fun TypingStatsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Typing Analytics") },
+                title = { Text("Typing Analytics", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
                 text = "Your Productivity",
-                color = Color(0xFF00E5FF),
+                color = Color(0xFF2E7D32),
                 fontSize = 14.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
             )
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -86,7 +88,7 @@ fun TypingStatsScreen(
 
             Text(
                 text = "Typing Milestones",
-                color = Color(0xFF00E5FF),
+                color = Color(0xFF2E7D32),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -112,22 +114,25 @@ fun TypingStatsScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color(0xFF1B1C28))
-                    .padding(20.dp),
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(Color(0xFFF1F3F4))
+                    .padding(24.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color(0xFF00E5FF), modifier = Modifier.size(32.dp))
-                    Spacer(modifier = Modifier.height(12.dp))
+                    Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(36.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "You've saved roughly ${(totalChars / 5) * 0.5} seconds using NexKey predictions!",
-                        color = Color.Gray,
-                        fontSize = 13.sp,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        color = Color(0xFF5F6368),
+                        fontSize = 14.sp,
+                        textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                        lineHeight = 20.sp
                     )
                 }
             }
+            
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
@@ -141,14 +146,23 @@ fun StatCard(
 ) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-        shape = RoundedCornerShape(16.dp)
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+        shape = RoundedCornerShape(24.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF1F3F4))
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF00E5FF), modifier = Modifier.size(24.dp))
+        Column(modifier = Modifier.padding(20.dp)) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(Color.White),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(22.dp))
+            }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = value, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold)
-            Text(text = title, color = Color.Gray, fontSize = 12.sp)
+            Text(text = value, color = Color(0xFF202124), fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(text = title, color = Color(0xFF5F6368), fontSize = 13.sp)
         }
     }
 }
@@ -162,37 +176,37 @@ fun MilestoneItem(
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
-            .background(if (isAchieved) Color(0xFF00E5FF).copy(alpha = 0.1f) else Color(0xFF1B1C28))
+            .clip(RoundedCornerShape(20.dp))
+            .background(if (isAchieved) Color(0xFFE8F5E9) else Color(0xFFF8F9FA))
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Box(
             modifier = Modifier
-                .size(40.dp)
-                .clip(androidx.compose.foundation.shape.CircleShape)
-                .background(if (isAchieved) Color(0xFF00E5FF) else Color(0xFF2D314E)),
+                .size(44.dp)
+                .clip(CircleShape)
+                .background(if (isAchieved) Color(0xFF2E7D32) else Color(0xFFE0E0E0)),
             contentAlignment = Alignment.Center
         ) {
             Icon(
                 imageVector = if (isAchieved) Icons.Default.AutoAwesome else Icons.Default.Speed,
                 contentDescription = null,
-                tint = if (isAchieved) Color.Black else Color.Gray,
-                modifier = Modifier.size(20.dp)
+                tint = if (isAchieved) Color.White else Color(0xFF9E9E9E),
+                modifier = Modifier.size(22.dp)
             )
         }
         Spacer(modifier = Modifier.width(16.dp))
         Column {
             Text(
                 text = title,
-                color = if (isAchieved) Color.White else Color.Gray,
+                color = if (isAchieved) Color(0xFF202124) else Color(0xFF757575),
                 fontWeight = FontWeight.Bold,
-                fontSize = 15.sp
+                fontSize = 16.sp
             )
             Text(
                 text = desc,
-                color = Color.Gray,
-                fontSize = 12.sp
+                color = Color(0xFF5F6368),
+                fontSize = 13.sp
             )
         }
     }

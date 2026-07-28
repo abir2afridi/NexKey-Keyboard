@@ -10,6 +10,7 @@ import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -23,39 +24,44 @@ fun HelpScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Help & Guide") },
+                title = { Text("Help & Guide", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color(0xFF0F1017),
-                    titleContentColor = Color.White,
-                    navigationIconContentColor = Color.White
+                    containerColor = Color.White,
+                    titleContentColor = Color(0xFF202124),
+                    navigationIconContentColor = Color(0xFF202124)
                 )
             )
         },
-        containerColor = Color(0xFF0F1017)
+        containerColor = Color.White
     ) { paddingValues ->
         Column(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize()
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Spacer(modifier = Modifier.height(8.dp))
+            
             Text(
                 text = "Ridmik-Class Phonetic Cheat Sheet",
-                color = Color(0xFF00E5FF),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                color = Color(0xFF2E7D32),
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 4.dp)
             )
 
             Card(
-                colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-                shape = RoundedCornerShape(16.dp)
+                modifier = Modifier.padding(horizontal = 4.dp),
+                colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+                shape = RoundedCornerShape(20.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF1F3F4))
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -77,9 +83,10 @@ fun HelpScreen(
 
             Text(
                 text = "Tips",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                color = Color(0xFF202124),
+                fontSize = 17.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(horizontal = 4.dp)
             )
 
             TipCard(
@@ -96,6 +103,8 @@ fun HelpScreen(
                 title = "Voice Typing",
                 description = "Tap the microphone icon on the toolbar to speak instead of typing."
             )
+            
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
@@ -103,17 +112,15 @@ fun HelpScreen(
 @Composable
 fun TipCard(title: String, description: String) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFF1B1C28)),
-        shape = RoundedCornerShape(12.dp)
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp),
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFF1F8E9)),
+        shape = RoundedCornerShape(16.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC8E6C9))
     ) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = title, color = Color.White, fontWeight = FontWeight.Bold, fontSize = 15.sp)
-            Spacer(modifier = Modifier.height(4.dp))
-            Text(text = description, color = Color.Gray, fontSize = 13.sp)
+        Column(modifier = Modifier.padding(18.dp)) {
+            Text(text = title, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(text = description, color = Color(0xFF388E3C), fontSize = 13.sp, lineHeight = 18.sp)
         }
     }
 }
-
-// I need to import or move PhoneticRow from MainActivity. 
-// I'll move it to Components.kt for better reuse.
