@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="docs/logo.png" alt="NexKey Logo" width="128" height="128">
+  <img src="https://github.com/abir2afridi/NexKey-Keyboard/blob/main/app/src/main/drawable/nexkey_apk-icon.png" alt="NexKey Logo" width="128" height="128">
 </p>
 
 # NexKey Keyboard
