@@ -152,7 +152,7 @@ fun checkIsKeyboardEnabled(context: Context): Boolean {
 }
 
 fun checkIsKeyboardSelected(context: Context): Boolean {
-    return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+    return if (Build.VERSION.SDK_INT >= 34) {
         val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.currentInputMethodInfo?.packageName == context.packageName
     } else {

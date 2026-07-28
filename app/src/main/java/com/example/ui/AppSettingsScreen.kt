@@ -35,6 +35,7 @@ fun AppSettingsScreen(
     val themeOptions = listOf("SYSTEM", "LIGHT", "DARK")
     val themeLabels = listOf("System Default", "Light", "Dark")
 
+    androidx.compose.runtime.key(appTheme) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -45,13 +46,13 @@ fun AppSettingsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -72,7 +73,7 @@ fun AppSettingsScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 1.dp
             ) {
                 Column {
@@ -93,13 +94,13 @@ fun AppSettingsScreen(
                             Text(
                                 text = themeLabels[index],
                                 fontSize = 16.sp,
-                                color = Color(0xFF202124)
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         if (index < themeOptions.lastIndex) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = 16.dp),
-                                color = Color(0xFFF1F3F4)
+                                color = MaterialTheme.colorScheme.outlineVariant
                             )
                         }
                     }
@@ -118,7 +119,7 @@ fun AppSettingsScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 1.dp
             ) {
                 Column {
@@ -130,7 +131,7 @@ fun AppSettingsScreen(
                     )
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
-                        color = Color(0xFFF1F3F4)
+                        color = MaterialTheme.colorScheme.outlineVariant
                     )
                     SettingItem(
                         title = "About",
@@ -143,5 +144,6 @@ fun AppSettingsScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
         }
+    }
     }
 }

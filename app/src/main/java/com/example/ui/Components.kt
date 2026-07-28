@@ -257,6 +257,9 @@ fun SettingItem(
     icon: ImageVector,
     onClick: () -> Unit
 ) {
+    val onBg = MaterialTheme.colorScheme.onSurface
+    val iconTint = MaterialTheme.colorScheme.onSurfaceVariant
+
     Surface(
         onClick = onClick,
         color = Color.Transparent,
@@ -271,13 +274,13 @@ fun SettingItem(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF1F3F4)),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = icon,
                     contentDescription = null,
-                    tint = Color(0xFF5F6368),
+                    tint = iconTint,
                     modifier = Modifier.size(22.dp)
                 )
             }
@@ -285,14 +288,14 @@ fun SettingItem(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    color = Color(0xFF202124),
+                    color = onBg,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Medium
                 )
                 subtitle?.let {
                     Text(
                         text = it,
-                        color = Color(0xFF5F6368),
+                        color = iconTint,
                         fontSize = 13.sp
                     )
                 }
@@ -300,7 +303,7 @@ fun SettingItem(
             Icon(
                 imageVector = Icons.Default.ChevronRight,
                 contentDescription = null,
-                tint = Color(0xFFBDC1C6),
+                tint = iconTint.copy(alpha = 0.5f),
                 modifier = Modifier.size(20.dp)
             )
         }
@@ -556,4 +559,33 @@ fun MinimalDivider() {
         thickness = 1.dp,
         color = Color(0xFFF1F3F4)
     )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun BentoCard(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit,
+    content: @Composable BoxScope.() -> Unit
+) {
+    Card(
+        modifier = modifier
+            .shadow(
+                elevation = 2.dp,
+                shape = RoundedCornerShape(24.dp),
+                ambientColor = Color.Black.copy(alpha = 0.04f),
+                spotColor = Color.Black.copy(alpha = 0.04f)
+            ),
+        shape = RoundedCornerShape(24.dp),
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE8F5E9)),
+        onClick = onClick
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            content = content
+        )
+    }
 }

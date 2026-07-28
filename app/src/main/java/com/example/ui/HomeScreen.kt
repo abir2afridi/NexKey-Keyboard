@@ -114,34 +114,6 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Stats Row
-            Surface(
-                modifier = Modifier.fillMaxWidth(),
-                color = Color.White.copy(alpha = 0.6f),
-                shape = RoundedCornerShape(20.dp),
-                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE8F5E9))
-            ) {
-                Row(
-                    modifier = Modifier.padding(16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(24.dp)
-                ) {
-                    MinimalStatItem(
-                        value = totalWords.toString(),
-                        label = "Words typed",
-                        valueColor = Color(0xFF2E7D32),
-                        modifier = Modifier.weight(1f)
-                    )
-                    MinimalStatItem(
-                        value = "${timeSaved.toInt()}s",
-                        label = "Time saved",
-                        valueColor = Color(0xFF1976D2),
-                        modifier = Modifier.weight(1f)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
             // Primary Action
             Button(
                 onClick = { if (isActive) onNavigateToSandbox() else onNavigateToSetup() },
@@ -170,24 +142,249 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Discover Tools
+            // Discover Tools & Stats (Bento Grid)
             Text(
-                text = "DISCOVER TOOLS",
+                text = "DISCOVER TOOLS & STATS",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFF4CAF50),
                 modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
             )
 
-            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    ColorfulGridItem(icon = Icons.Default.Palette, label = "Themes", color = Color(0xFF7B1FA2), onClick = onNavigateToThemes, modifier = Modifier.weight(1f))
-                    ColorfulGridItem(icon = Icons.Default.BarChart, label = "Stats", color = Color(0xFF388E3C), onClick = onNavigateToStats, modifier = Modifier.weight(1f))
-                    ColorfulGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", color = Color(0xFFF57C00), onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                // Column 1
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // Themes Card
+                    BentoCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(165.dp),
+                        onClick = onNavigateToThemes
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(Color(0xFFF3E5F5)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Palette,
+                                    contentDescription = null,
+                                    tint = Color(0xFF7B1FA2),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Column {
+                                Text(
+                                    text = "Themes",
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF202124)
+                                )
+                                Text(
+                                    text = "Change style",
+                                    fontSize = 12.sp,
+                                    color = Color(0xFF5F6368)
+                                )
+                            }
+                        }
+                    }
+
+                    // Tutorial Card
+                    BentoCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(115.dp),
+                        onClick = onNavigateToHelp
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(Color(0xFFFFF3E0)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.AutoStories,
+                                    contentDescription = null,
+                                    tint = Color(0xFFF57C00),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Text(
+                                text = "Tutorial",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF202124)
+                            )
+                        }
+                    }
                 }
-                Row(modifier = Modifier.fillMaxWidth()) {
-                    ColorfulGridItem(icon = Icons.Default.Storefront, label = "Store", color = Color(0xFF0097A7), onClick = {}, modifier = Modifier.weight(1f))
-                    ColorfulGridItem(icon = Icons.Default.Settings, label = "App Settings", color = Color(0xFF1976D2), onClick = onNavigateToAppSettings, modifier = Modifier.weight(1f))
+
+                // Column 2
+                Column(
+                    modifier = Modifier.weight(1f),
+                    verticalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    // Stats Card (Dynamic)
+                    BentoCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(165.dp),
+                        onClick = onNavigateToStats
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(CircleShape)
+                                        .background(Color(0xFFE8F5E9)),
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Icon(
+                                        imageVector = Icons.Default.BarChart,
+                                        contentDescription = null,
+                                        tint = Color(0xFF2E7D32),
+                                        modifier = Modifier.size(20.dp)
+                                    )
+                                }
+                                Text(
+                                    text = "Stats",
+                                    fontSize = 11.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF5F6368)
+                                )
+                            }
+                            
+                            Column {
+                                Text(
+                                    text = totalWords.toString(),
+                                    fontSize = 24.sp,
+                                    fontWeight = FontWeight.Black,
+                                    color = Color(0xFF2E7D32)
+                                )
+                                Text(
+                                    text = "Words typed",
+                                    fontSize = 11.sp,
+                                    color = Color(0xFF5F6368)
+                                )
+                                Spacer(modifier = Modifier.height(4.dp))
+                                Text(
+                                    text = "${timeSaved.toInt()}s saved",
+                                    fontSize = 12.sp,
+                                    fontWeight = FontWeight.Bold,
+                                    color = Color(0xFF1976D2)
+                                )
+                            }
+                        }
+                    }
+
+                    // Store Card
+                    BentoCard(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(115.dp),
+                        onClick = {}
+                    ) {
+                        Column(
+                            modifier = Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(36.dp)
+                                    .clip(CircleShape)
+                                    .background(Color(0xFFE0F7FA)),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Icon(
+                                    imageVector = Icons.Default.Storefront,
+                                    contentDescription = null,
+                                    tint = Color(0xFF00838F),
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                            Text(
+                                text = "Store",
+                                fontSize = 15.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = Color(0xFF202124)
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            // App Settings Card (Wide)
+            BentoCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(84.dp),
+                onClick = onNavigateToAppSettings
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxSize(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(CircleShape)
+                            .background(Color(0xFFE3F2FD)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Settings,
+                            contentDescription = null,
+                            tint = Color(0xFF1565C0),
+                            modifier = Modifier.size(24.dp)
+                        )
+                    }
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = "App Settings",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color(0xFF202124)
+                        )
+                        Text(
+                            text = "Change language and set preferences",
+                            fontSize = 12.sp,
+                            color = Color(0xFF5F6368)
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = null,
+                        tint = Color(0xFF5F6368).copy(alpha = 0.7f),
+                        modifier = Modifier.size(20.dp)
+                    )
                 }
             }
 

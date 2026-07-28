@@ -321,11 +321,11 @@ fun AppLanguageScreen(onBack: () -> Unit) {
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
         )
 
-        Surface(
-            shape = RoundedCornerShape(16.dp),
-            color = Color.White,
-            shadowElevation = 1.dp
-        ) {
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surface,
+                shadowElevation = 1.dp
+            ) {
             Column {
                 appLanguages.forEachIndexed { index, lang ->
                     val isSelected = lang.code == selectedLanguage
@@ -346,19 +346,19 @@ fun AppLanguageScreen(onBack: () -> Unit) {
                             Text(
                                 text = "${lang.displayName} (${lang.localName})",
                                 fontSize = 15.sp,
-                                color = Color(0xFF202124)
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
                                 text = lang.code,
                                 fontSize = 12.sp,
-                                color = Color(0xFF5F6368)
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
                     if (index < appLanguages.lastIndex) {
                         HorizontalDivider(
                             modifier = Modifier.padding(horizontal = 16.dp),
-                            color = Color(0xFFF1F3F4)
+                            color = MaterialTheme.colorScheme.outlineVariant
                         )
                     }
                 }
@@ -372,26 +372,28 @@ fun AppLanguageScreen(onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SettingsSubScaffold(title: String, onBack: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
+    val bg = MaterialTheme.colorScheme.surface
+    val onBg = MaterialTheme.colorScheme.onSurface
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(title, fontWeight = FontWeight.Bold) },
                 navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White, 
-                    titleContentColor = Color(0xFF202124), 
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = bg,
+                    titleContentColor = onBg,
+                    navigationIconContentColor = onBg
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { padding ->
         Column(
             modifier = Modifier
                 .padding(padding)
                 .fillMaxSize()
                 .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()), 
+                .verticalScroll(rememberScrollState()),
             content = content
         )
     }
