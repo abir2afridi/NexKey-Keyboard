@@ -13,6 +13,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
@@ -39,17 +40,22 @@ fun HomeScreen(
     val totalChars by prefs.totalChars.collectAsState(initial = 0)
     val timeSaved = (totalChars / 5) * 0.5 // Estimated seconds saved
 
-    Surface(
-        modifier = Modifier.fillMaxSize(),
-        color = Color.White
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                Brush.verticalGradient(
+                    listOf(Color(0xFFF1F8E9), Color.White, Color.White)
+                )
+            )
     ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 32.dp)
+                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState())
         ) {
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(56.dp))
 
             // Brand & Status
             Row(
@@ -57,16 +63,24 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(
-                    text = "NexKey",
-                    fontSize = 32.sp,
-                    fontWeight = FontWeight.Black,
-                    color = Color(0xFF202124)
-                )
+                Column {
+                    Text(
+                        text = "NexKey",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Black,
+                        color = Color(0xFF1B5E20)
+                    )
+                    Text(
+                        text = "Vibrant. Fast. Original.",
+                        fontSize = 13.sp,
+                        color = Color(0xFF4CAF50),
+                        fontWeight = FontWeight.Medium
+                    )
+                }
                 
                 Surface(
-                    shape = CircleShape,
-                    color = if (isActive) Color(0xFFE8F5E9) else Color(0xFFFFF3E0),
+                    shape = RoundedCornerShape(20.dp),
+                    color = if (isActive) Color(0xFF2E7D32) else Color(0xFFFF9800),
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
                     Row(
@@ -75,107 +89,116 @@ fun HomeScreen(
                     ) {
                         Box(
                             modifier = Modifier
-                                .size(8.dp)
+                                .size(5.dp)
                                 .clip(CircleShape)
-                                .background(if (isActive) Color(0xFF2E7D32) else Color(0xFFFB8C00))
+                                .background(Color.White)
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
+                        Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = if (isActive) "Active" else "Inactive",
-                            fontSize = 12.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = if (isActive) Color(0xFF2E7D32) else Color(0xFFFB8C00)
+                            text = if (isActive) "ACTIVE" else "SETUP",
+                            fontSize = 10.sp,
+                            fontWeight = FontWeight.ExtraBold,
+                            color = Color.White
                         )
                     }
                 }
             }
 
-            Text(
-                text = "Minimal, fast, original.",
-                fontSize = 16.sp,
-                color = Color(0xFF5F6368),
-                modifier = Modifier.padding(top = 4.dp)
-            )
+            Spacer(modifier = Modifier.height(24.dp))
 
-            MinimalDivider()
-
-            // Stats Row
-            Row(
+            // Stats Row in a colorful container
+            Surface(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(48.dp)
+                color = Color.White.copy(alpha = 0.6f),
+                shape = RoundedCornerShape(20.dp),
+                border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE8F5E9))
             ) {
-                MinimalStatItem(
-                    value = totalWords.toString(),
-                    label = "Words typed",
-                    modifier = Modifier.weight(1f)
-                )
-                MinimalStatItem(
-                    value = "${timeSaved.toInt()}s",
-                    label = "Time saved",
-                    modifier = Modifier.weight(1f)
-                )
+                Row(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalArrangement = Arrangement.spacedBy(24.dp)
+                ) {
+                    MinimalStatItem(
+                        value = totalWords.toString(),
+                        label = "Words typed",
+                        valueColor = Color(0xFF2E7D32),
+                        modifier = Modifier.weight(1f)
+                    )
+                    MinimalStatItem(
+                        value = "${timeSaved.toInt()}s",
+                        label = "Time saved",
+                        valueColor = Color(0xFF1976D2),
+                        modifier = Modifier.weight(1f)
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(24.dp))
 
             // Primary Action
             Button(
                 onClick = { if (isActive) onNavigateToSandbox() else onNavigateToSetup() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(64.dp),
+                    .height(56.dp),
                 shape = RoundedCornerShape(16.dp),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = Color(0xFF202124),
+                    containerColor = if (isActive) Color(0xFF2E7D32) else Color(0xFF1B5E20),
                     contentColor = Color.White
                 ),
-                elevation = null
+                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
             ) {
+                Icon(
+                    imageVector = if (isActive) Icons.Default.PlayArrow else Icons.Default.FlashOn,
+                    contentDescription = null,
+                    modifier = Modifier.size(20.dp)
+                )
+                Spacer(modifier = Modifier.width(10.dp))
                 Text(
-                    text = if (isActive) "Try Sandbox" else "Finish Setup",
-                    fontSize = 18.sp,
+                    text = if (isActive) "Typing Sandbox" else "Complete Setup",
+                    fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // Tools Section
+            // Colorful Tools Section
             Text(
-                text = "Tools",
-                fontSize = 14.sp,
-                fontWeight = FontWeight.Bold,
-                color = Color(0xFF9AA0A6),
-                modifier = Modifier.padding(bottom = 8.dp)
+                text = "DISCOVER TOOLS",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF4CAF50),
+                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
             )
 
-            Column {
+            Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    MinimalGridItem(icon = Icons.Default.Palette, label = "Themes", onClick = onNavigateToThemes, modifier = Modifier.weight(1f))
-                    MinimalGridItem(icon = Icons.Default.Settings, label = "Settings", onClick = onNavigateToSettings, modifier = Modifier.weight(1f))
-                    MinimalGridItem(icon = Icons.Default.BarChart, label = "Analytics", onClick = onNavigateToStats, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.Palette, label = "Themes", color = Color(0xFF7B1FA2), onClick = onNavigateToThemes, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.Settings, label = "Settings", color = Color(0xFF1976D2), onClick = onNavigateToSettings, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.BarChart, label = "Stats", color = Color(0xFF388E3C), onClick = onNavigateToStats, modifier = Modifier.weight(1f))
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    MinimalGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
-                    MinimalGridItem(icon = Icons.Default.SmartToy, label = "AI Assist", onClick = {}, modifier = Modifier.weight(1f))
-                    MinimalGridItem(icon = Icons.Default.History, label = "History", onClick = {}, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", color = Color(0xFFF57C00), onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.SmartToy, label = "AI Assist", color = Color(0xFFD81B60), onClick = {}, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.Storefront, label = "Store", color = Color(0xFF0097A7), onClick = {}, modifier = Modifier.weight(1f))
                 }
             }
 
-            Spacer(modifier = Modifier.height(64.dp))
+            Spacer(modifier = Modifier.height(48.dp))
 
             // Footer
-            Column(
+            Box(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "NexKey Pro v1.0.0",
-                    fontSize = 12.sp,
-                    color = Color(0xFFBDC1C6)
+                    text = "NexKey Pro • Stable v1.0.0",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color(0xFF4CAF50).copy(alpha = 0.5f)
                 )
-                Spacer(modifier = Modifier.height(32.dp))
             }
+            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }

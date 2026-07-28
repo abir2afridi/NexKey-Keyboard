@@ -487,19 +487,58 @@ fun MinimalGridItem(
 }
 
 @Composable
-fun MinimalStatItem(
-    value: String,
+fun ColorfulGridItem(
+    icon: ImageVector,
     label: String,
+    color: Color,
+    onClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier = modifier.padding(vertical = 8.dp),
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(vertical = 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(
+            modifier = Modifier
+                .size(48.dp)
+                .clip(CircleShape)
+                .background(color.copy(alpha = 0.12f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = label,
+                tint = color,
+                modifier = Modifier.size(22.dp)
+            )
+        }
+        Spacer(modifier = Modifier.height(10.dp))
+        Text(
+            text = label,
+            color = Color(0xFF202124),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+    }
+}
+
+@Composable
+fun MinimalStatItem(
+    value: String,
+    label: String,
+    valueColor: Color = Color(0xFF202124),
+    modifier: Modifier = Modifier
+) {
+    Column(
+        modifier = modifier.padding(vertical = 4.dp),
         horizontalAlignment = Alignment.Start
     ) {
         Text(
             text = value,
-            color = Color(0xFF202124),
-            fontSize = 24.sp,
+            color = valueColor,
+            fontSize = 20.sp,
             fontWeight = FontWeight.Bold
         )
         Text(
@@ -513,7 +552,7 @@ fun MinimalStatItem(
 @Composable
 fun MinimalDivider() {
     HorizontalDivider(
-        modifier = Modifier.padding(vertical = 24.dp),
+        modifier = Modifier.padding(vertical = 16.dp),
         thickness = 1.dp,
         color = Color(0xFFF1F3F4)
     )
