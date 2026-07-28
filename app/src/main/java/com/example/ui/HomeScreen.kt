@@ -186,7 +186,6 @@ fun HomeScreen(
                     ColorfulGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", color = Color(0xFFF57C00), onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    ColorfulGridItem(icon = Icons.Default.SmartToy, label = "AI Assist", color = Color(0xFFD81B60), onClick = {}, modifier = Modifier.weight(1f))
                     ColorfulGridItem(icon = Icons.Default.Storefront, label = "Store", color = Color(0xFF0097A7), onClick = {}, modifier = Modifier.weight(1f))
                     ColorfulGridItem(icon = Icons.Default.Settings, label = "App Settings", color = Color(0xFF1976D2), onClick = onNavigateToAppSettings, modifier = Modifier.weight(1f))
                 }

@@ -170,12 +170,7 @@ fun SandboxScreen(
                             else -> KeyboardTheme.DarkNeon
                         }
                     },
-                    onOpenSettings = {},
-                    onAiAction = { prompt ->
-                        if (testInputText.isNotEmpty()) {
-                            testInputText = "✨ $testInputText"
-                        }
-                    }
+                    onOpenSettings = {}
                 )
             }
         }

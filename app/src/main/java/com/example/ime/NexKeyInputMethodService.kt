@@ -143,7 +143,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onVoiceClick = { startVoiceInput() },
                     onThemeToggle = { toggleTheme() },
                     onOpenSettings = { launchSettingsActivity() },
-                    onAiAction = { action -> handleAiAction(action) },
                     onCursorMove = { direction -> handleCursorMove(direction) },
                     onIncognitoToggle = { toggleIncognito() }
                 )
@@ -453,27 +452,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             speechRecognizer?.startListening(intent)
         } catch (e: Exception) {
             Toast.makeText(this, "Failed to start voice input: ${e.message}", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun handleAiAction(prompt: String) {
-        val ic = currentInputConnection ?: return
-        val selectedText = ic.getSelectedText(0)?.toString() ?: ""
-        if (selectedText.isNotEmpty()) {
-            val result = if (prompt.contains("Rewrite")) {
-                "✨ $selectedText"
-            } else if (prompt.contains("Grammar")) {
-                selectedText.replace("teh", "the").replace("im", "I'm")
-            } else if (prompt.contains("Translate")) {
-                BanglaPhoneticEngine.parse(selectedText)
-            } else {
-                "Professional: $selectedText"
-            }
-            ic.beginBatchEdit()
-            ic.commitText(result, 1)
-            ic.endBatchEdit()
-        } else {
-            Toast.makeText(this, "Highlight text first!", Toast.LENGTH_SHORT).show()
         }
     }
 

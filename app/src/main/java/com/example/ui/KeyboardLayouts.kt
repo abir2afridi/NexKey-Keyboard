@@ -8,8 +8,7 @@ enum class KeyboardMode {
     SYMBOLS,
     NUMBERS,
     EMOJI,
-    CLIPBOARD,
-    AI_ASSIST
+    CLIPBOARD
 }
 
 enum class ShiftState {

@@ -26,7 +26,7 @@
 | Voice typing (Android SpeechRecognizer) | ✅ |
 | Clipboard manager (history, pin, Room DB) | ✅ |
 | Emoji panel | ✅ |
-| AI Assist panel (Rewrite, Grammar, Translate) | ✅ |
+
 | Theme system (4 presets, DataStore) | ✅ |
 | Auto-capitalization | ✅ |
 | Caps lock (double-tap shift) | ✅ |
@@ -172,7 +172,7 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 - **Password field detection** — Automatically disables prediction, learning, and clipboard history in password/sensitive fields.
 - **Incognito mode** — Toggle on/off from toolbar. Zero word learning, zero clipboard history, zero prediction logging.
 - **Persistent data** — Clipboard and learned words stored in Room database on-device only.
-- **No network calls** — Zero network calls unless AI Assist is explicitly opted in.
+- **No network calls** — Zero network calls.
 - **Permissions** — `RECORD_AUDIO` (voice typing), `VIBRATE` (haptic feedback), `POST_NOTIFICATIONS` (Android 13+).
 - See [docs/PERMISSIONS.md](docs/PERMISSIONS.md) for full details.
 

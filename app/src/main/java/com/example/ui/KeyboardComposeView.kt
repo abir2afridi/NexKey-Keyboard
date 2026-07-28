@@ -25,7 +25,6 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Backspace
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
@@ -96,7 +95,6 @@ fun KeyboardComposeView(
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
     onOpenSettings: () -> Unit,
-    onAiAction: (String) -> Unit,
     onCursorMove: (Int) -> Unit = {},
     onIncognitoToggle: (() -> Unit)? = null
 ) {
@@ -132,10 +130,6 @@ fun KeyboardComposeView(
                         theme = theme,
                         onClipClick = { clip -> onKeyTap(clip) }
                     )
-                    KeyboardMode.AI_ASSIST -> AiAssistPanel(
-                        theme = theme,
-                        onAiAction = onAiAction
-                    )
                     else -> CandidateStrip(
                         composingText = composingText,
                         suggestions = suggestions,
@@ -144,7 +138,7 @@ fun KeyboardComposeView(
                     )
                 }
 
-                if (mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD && mode != KeyboardMode.AI_ASSIST) {
+                if (mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD) {
                     val adjustedTheme = theme.copy(
                         keyHeightDp = (theme.keyHeightDp * (keyboardHeightPortrait / 100f)).toInt()
                     )
@@ -280,16 +274,6 @@ fun SmartToolbar(
                     theme = theme
                 ) {
                     onModeChange(if (currentMode == KeyboardMode.EMOJI) KeyboardMode.ENGLISH else KeyboardMode.EMOJI)
-                }
-            }
-            item {
-                ToolbarIcon(
-                    icon = Icons.Default.AutoAwesome,
-                    contentDescription = "AI",
-                    active = currentMode == KeyboardMode.AI_ASSIST,
-                    theme = theme
-                ) {
-                    onModeChange(if (currentMode == KeyboardMode.AI_ASSIST) KeyboardMode.ENGLISH else KeyboardMode.AI_ASSIST)
                 }
             }
             item {
@@ -606,29 +590,4 @@ fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
     }
 }
 
-@Composable
-fun AiAssistPanel(theme: KeyboardTheme, onAiAction: (String) -> Unit) {
-    Column(modifier = Modifier.fillMaxWidth().height(210.dp).background(theme.backgroundColor).padding(12.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-            Icon(imageVector = Icons.Default.AutoAwesome, contentDescription = null, tint = theme.accentColor, modifier = Modifier.size(18.dp))
-            Text(text = "NexKey Smart AI Helper", color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 14.sp)
-        }
-        Spacer(modifier = Modifier.height(10.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            AiActionButton("Rewrite & Polish", theme) { onAiAction("Rewrite text to be clear and elegant.") }
-            AiActionButton("Fix Grammar", theme) { onAiAction("Fix spelling and grammar errors.") }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            AiActionButton("Translate EN ⇄ BN", theme) { onAiAction("Translate to Bangla/English.") }
-            AiActionButton("Professional Tone", theme) { onAiAction("Make tone polite and professional.") }
-        }
-    }
-}
 
-@Composable
-fun AiActionButton(title: String, theme: KeyboardTheme, onClick: () -> Unit) {
-    Box(modifier = Modifier.clip(RoundedCornerShape(8.dp)).background(theme.keyBackgroundColor).clickable(role = Role.Button, onClick = onClick).padding(horizontal = 14.dp, vertical = 10.dp), contentAlignment = Alignment.Center) {
-        Text(text = title, color = theme.keyTextColor, fontSize = 12.sp, fontWeight = FontWeight.SemiBold)
-    }
-}
