@@ -92,14 +92,14 @@ fun HomeScreen(
                     Text(
                         text = "Vibrant. Fast. Original.",
                         fontSize = 13.sp,
-                        color = Color(0xFF4CAF50),
+                        color = MaterialTheme.colorScheme.primary,
                         fontWeight = FontWeight.Medium
                     )
                 }
 
                 Surface(
                     shape = RoundedCornerShape(20.dp),
-                    color = if (isActive) Color(0xFF2E7D32) else Color(0xFFFF9800),
+                    color = if (isActive) MaterialTheme.colorScheme.primary else Color(0xFFFF9800),
                     modifier = Modifier.padding(top = 4.dp)
                 ) {
                     Row(
@@ -145,7 +145,7 @@ fun HomeScreen(
                         .fillMaxSize()
                         .background(
                             Brush.horizontalGradient(
-                                if (isActive) listOf(Color(0xFF2E7D32), Color(0xFF1B5E20))
+                                if (isActive) listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
                                 else listOf(Color(0xFFFF9800), Color(0xFFE65100))
                             )
                         ),
@@ -176,7 +176,7 @@ fun HomeScreen(
                 text = "DISCOVER TOOLS & STATS",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
             )
 
@@ -290,13 +290,13 @@ fun HomeScreen(
                                     modifier = Modifier
                                         .size(36.dp)
                                         .clip(CircleShape)
-                                        .background(Color(0xFFE8F5E9)),
+                                        .background(MaterialTheme.colorScheme.primaryContainer),
                                     contentAlignment = Alignment.Center
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.BarChart,
                                         contentDescription = null,
-                                        tint = Color(0xFF2E7D32),
+                                        tint = MaterialTheme.colorScheme.primary,
                                         modifier = Modifier.size(20.dp)
                                     )
                                 }
@@ -313,7 +313,7 @@ fun HomeScreen(
                                     text = totalWords.toString(),
                                     fontSize = 24.sp,
                                     fontWeight = FontWeight.Black,
-                                    color = Color(0xFF2E7D32)
+                                    color = MaterialTheme.colorScheme.primary
                                 )
                                 Text(
                                     text = "Words typed",
@@ -424,7 +424,7 @@ fun HomeScreen(
                 text = "KEYBOARD SETTINGS",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.primary,
                 modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
             )
 
@@ -489,7 +489,7 @@ fun HomeScreen(
                     text = "NexKey Pro • Stable v1.0.0",
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF4CAF50).copy(alpha = 0.5f)
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
                 )
             }
 

@@ -87,7 +87,7 @@ fun AppSettingsScreen(
 
             Text(
                 text = "LOOK & FEEL",
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
@@ -111,7 +111,7 @@ fun AppSettingsScreen(
                             RadioButton(
                                 selected = appTheme == option,
                                 onClick = { scope.launch { prefs.setAppTheme(option) } },
-                                colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
+                                colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
@@ -184,7 +184,7 @@ fun AppSettingsScreen(
 
             Text(
                 text = "NAVIGATION",
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
@@ -207,7 +207,7 @@ fun AppSettingsScreen(
                             RadioButton(
                                 selected = navigationStyle == option,
                                 onClick = { scope.launch { prefs.setNavigationStyle(option) } },
-                                colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
+                                colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
                             )
                             Spacer(modifier = Modifier.width(12.dp))
                             Text(
@@ -230,7 +230,7 @@ fun AppSettingsScreen(
 
             Text(
                 text = "OTHER",
-                color = Color(0xFF4CAF50),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)

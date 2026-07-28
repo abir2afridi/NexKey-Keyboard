@@ -58,7 +58,7 @@ fun SettingsScreen(
         ) {
             Text(
                 text = "Keyboard Settings",
-                color = Color(0xFF2E7D32),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
@@ -117,7 +117,7 @@ fun SettingsScreen(
 
             Text(
                 text = "Application",
-                color = Color(0xFF2E7D32),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)

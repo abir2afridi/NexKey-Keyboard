@@ -10,6 +10,8 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
+import androidx.compose.ui.graphics.Color
+
 private val DarkColorScheme =
   darkColorScheme(primary = Purple80, secondary = PurpleGrey80, tertiary = Pink80)
 
@@ -18,23 +20,14 @@ private val LightColorScheme =
     primary = Purple40,
     secondary = PurpleGrey40,
     tertiary = Pink40,
-
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-    */
   )
 
 @Composable
 fun MyApplicationTheme(
   appTheme: String = "SYSTEM",
+  accentColorHex: String = "#FF2E7D32",
   // Dynamic color is available on Android 12+
-  dynamicColor: Boolean = true,
+  dynamicColor: Boolean = false,
   content: @Composable () -> Unit,
 ) {
   val darkTheme = when (appTheme) {
@@ -43,16 +36,34 @@ fun MyApplicationTheme(
     else -> isSystemInDarkTheme()
   }
 
-  val colorScheme =
-    when {
-      dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-        val context = LocalContext.current
-        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-      }
+  val seedColor = try {
+    Color(android.graphics.Color.parseColor(accentColorHex))
+  } catch (_: Exception) {
+    Color(0xFF2E7D32)
+  }
 
-      darkTheme -> DarkColorScheme
-      else -> LightColorScheme
+  val colorScheme = when {
+    dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+      val context = LocalContext.current
+      if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
     }
+    darkTheme -> {
+      DarkColorScheme.copy(
+        primary = seedColor,
+        onPrimary = Color.White,
+        primaryContainer = seedColor.copy(alpha = 0.2f),
+        onPrimaryContainer = seedColor
+      )
+    }
+    else -> {
+      LightColorScheme.copy(
+        primary = seedColor,
+        onPrimary = Color.White,
+        primaryContainer = seedColor.copy(alpha = 0.1f),
+        onPrimaryContainer = seedColor
+      )
+    }
+  }
 
   MaterialTheme(colorScheme = colorScheme, typography = Typography, content = content)
 }

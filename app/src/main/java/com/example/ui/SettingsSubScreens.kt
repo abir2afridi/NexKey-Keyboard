@@ -15,7 +15,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -190,7 +189,7 @@ fun MoreLanguagesScreen(onBack: () -> Unit) {
     SettingsSubScaffold(title = "More Languages", onBack = onBack) {
         Text(
             text = "Install additional languages", 
-            color = Color(0xFF2E7D32), 
+            color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold, 
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
@@ -226,7 +225,7 @@ fun LanguageInstallItem(name: String, desc: String, icon: androidx.compose.ui.gr
         }
         Button(
             onClick = {}, 
-            colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
             shape = RoundedCornerShape(8.dp),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
         ) {
@@ -315,7 +314,7 @@ fun AppLanguageScreen(onBack: () -> Unit) {
     SettingsSubScaffold(title = "App Language", onBack = onBack) {
         Text(
             text = "Select app UI language", 
-            color = Color(0xFF2E7D32), 
+            color = MaterialTheme.colorScheme.primary, 
             fontWeight = FontWeight.Bold, 
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
@@ -339,7 +338,7 @@ fun AppLanguageScreen(onBack: () -> Unit) {
                         RadioButton(
                             selected = isSelected,
                             onClick = { scope.launch { prefs.setAppLanguage(lang.code) } },
-                            colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
+                            colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Column(modifier = Modifier.weight(1f)) {

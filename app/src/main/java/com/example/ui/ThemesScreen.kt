@@ -99,7 +99,7 @@ fun ThemePreviewCard(
             .background(MaterialTheme.colorScheme.surfaceVariant)
             .border(
                 width = 2.dp,
-                color = if (isSelected) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                 shape = RoundedCornerShape(24.dp)
             )
             .clickable { onClick() }

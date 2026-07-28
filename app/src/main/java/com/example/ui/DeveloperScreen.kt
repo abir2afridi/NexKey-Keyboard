@@ -60,7 +60,7 @@ fun DeveloperScreen(onBack: () -> Unit) {
                 Icon(
                     imageVector = Icons.Default.Person,
                     contentDescription = null,
-                    tint = Color(0xFF2E7D32),
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(56.dp)
                 )
             }

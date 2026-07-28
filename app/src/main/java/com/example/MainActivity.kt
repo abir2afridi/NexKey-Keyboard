@@ -19,7 +19,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -43,8 +42,9 @@ class MainActivity : ComponentActivity() {
             val context = androidx.compose.ui.platform.LocalContext.current
             val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
             val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
+            val accentColor by prefs.accentColor.collectAsState(initial = "#FF2E7D32")
 
-            MyApplicationTheme(appTheme = appTheme) {
+            MyApplicationTheme(appTheme = appTheme, accentColorHex = accentColor) {
                 NexKeyApp()
             }
         }
@@ -88,9 +88,9 @@ fun NexKeyApp() {
                             }
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF2E7D32),
-                            selectedTextColor = Color(0xFF2E7D32),
-                            indicatorColor = Color(0xFFE8F5E9),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -107,9 +107,9 @@ fun NexKeyApp() {
                             }
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF2E7D32),
-                            selectedTextColor = Color(0xFF2E7D32),
-                            indicatorColor = Color(0xFFE8F5E9),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -126,9 +126,9 @@ fun NexKeyApp() {
                             }
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color(0xFF2E7D32),
-                            selectedTextColor = Color(0xFF2E7D32),
-                            indicatorColor = Color(0xFFE8F5E9),
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
                             unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )

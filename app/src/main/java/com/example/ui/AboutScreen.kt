@@ -64,7 +64,7 @@ fun AboutScreen(
                 Icon(
                     imageVector = Icons.Default.Keyboard,
                     contentDescription = null,
-                    tint = Color(0xFF2E7D32),
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(56.dp)
                 )
             }

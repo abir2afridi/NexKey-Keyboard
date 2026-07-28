@@ -71,7 +71,7 @@ fun DictionaryScreen(
     ) { paddingValues ->
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                CircularProgressIndicator(color = Color(0xFF2E7D32))
+                CircularProgressIndicator(color = MaterialTheme.colorScheme.primary)
             }
         } else if (words.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
@@ -93,7 +93,7 @@ fun DictionaryScreen(
                 item {
                     Text(
                         text = "Learned Words (${words.size})",
-                        color = Color(0xFF2E7D32),
+                        color = MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)

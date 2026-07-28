@@ -63,7 +63,7 @@ fun TypingStatsScreen(
         ) {
             Text(
                 text = "Your Productivity",
-                color = Color(0xFF2E7D32),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(top = 16.dp, bottom = 4.dp)
@@ -88,7 +88,7 @@ fun TypingStatsScreen(
 
             Text(
                 text = "Typing Milestones",
-                color = Color(0xFF2E7D32),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -120,7 +120,7 @@ fun TypingStatsScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                    Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(36.dp))
+                    Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(36.dp))
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "You've saved roughly ${(totalChars / 5) * 0.5} seconds using NexKey predictions!",
@@ -158,7 +158,7 @@ fun StatCard(
                     .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(22.dp))
+                Icon(imageVector = icon, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = value, color = MaterialTheme.colorScheme.onSurface, fontSize = 28.sp, fontWeight = FontWeight.Bold)
@@ -185,7 +185,7 @@ fun MilestoneItem(
             modifier = Modifier
                 .size(44.dp)
                 .clip(CircleShape)
-                .background(if (isAchieved) Color(0xFF2E7D32) else Color(0xFFE0E0E0)),
+                .background(if (isAchieved) MaterialTheme.colorScheme.primary else Color(0xFFE0E0E0)),
             contentAlignment = Alignment.Center
         ) {
             Icon(

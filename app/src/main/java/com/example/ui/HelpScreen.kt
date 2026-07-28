@@ -51,7 +51,7 @@ fun HelpScreen(
             
             Text(
                 text = "Ridmik-Class Phonetic Cheat Sheet",
-                color = Color(0xFF2E7D32),
+                color = MaterialTheme.colorScheme.primary,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(horizontal = 4.dp)
@@ -118,7 +118,7 @@ fun TipCard(title: String, description: String) {
         border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFC8E6C9))
     ) {
         Column(modifier = Modifier.padding(18.dp)) {
-            Text(text = title, color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+            Text(text = title, color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             Spacer(modifier = Modifier.height(6.dp))
             Text(text = description, color = Color(0xFF388E3C), fontSize = 13.sp, lineHeight = 18.sp)
         }

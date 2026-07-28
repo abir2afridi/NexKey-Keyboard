@@ -51,7 +51,7 @@ fun CustomThemeScreen(
                 actions = {
                     Button(
                         onClick = onBack,
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
@@ -147,7 +147,7 @@ fun ColorPickerSection(
                         .background(color)
                         .border(
                             width = 2.dp,
-                            color = if (selectedColor == color) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant,
+                            color = if (selectedColor == color) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
                             shape = CircleShape
                         )
                         .clickable { onColorSelected(color) },

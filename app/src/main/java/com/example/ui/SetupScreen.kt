@@ -75,13 +75,13 @@ fun SetupScreen(
                 modifier = Modifier
                     .size(100.dp)
                     .clip(RoundedCornerShape(28.dp))
-                    .background(Color(0xFFE8F5E9)),
+                    .background(MaterialTheme.colorScheme.primaryContainer),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
                     imageVector = Icons.Default.Keyboard,
                     contentDescription = null,
-                    tint = Color(0xFF2E7D32),
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(56.dp)
                 )
             }
@@ -134,7 +134,7 @@ fun SetupScreen(
                 Button(
                     onClick = onSetupComplete,
                     modifier = Modifier.fillMaxWidth().height(56.dp),
-                    colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF2E7D32)),
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(28.dp)
                 ) {
                     Text("Finish Setup", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)

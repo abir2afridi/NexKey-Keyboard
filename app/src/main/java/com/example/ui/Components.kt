@@ -27,6 +27,8 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -171,7 +173,7 @@ fun PremiumScenicHeader(isActive: Boolean) {
             .height(320.dp)
             .background(
                 Brush.verticalGradient(
-                    listOf(Color(0xFF003D33), Color(0xFF004D40), Color(0xFF2E7D32))
+                    listOf(MaterialTheme.colorScheme.primary.copy(alpha = 0.8f), MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primary.copy(alpha = 0.9f))
                 )
             )
     ) {
@@ -329,15 +331,15 @@ fun SettingSliderItem(
     Column(modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
             Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp, fontWeight = FontWeight.Medium)
-            Text(text = value.toInt().toString(), color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
+            Text(text = value.toInt().toString(), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
         }
         Slider(
             value = value,
             onValueChange = onValueChange,
             valueRange = range,
             colors = SliderDefaults.colors(
-                thumbColor = Color(0xFF2E7D32),
-                activeTrackColor = Color(0xFF2E7D32),
+                thumbColor = MaterialTheme.colorScheme.primary,
+                activeTrackColor = MaterialTheme.colorScheme.primary,
                 inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
             )
         )
@@ -419,7 +421,7 @@ fun SetupStepCard(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(if (isCompleted) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant),
+                        .background(if (isCompleted) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -454,9 +456,9 @@ fun SetupStepCard(
                 enabled = !isCompleted,
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isCompleted) Color(0xFF2E7D32) else MaterialTheme.colorScheme.primary,
-                    disabledContainerColor = Color(0xFFE8F5E9),
-                    disabledContentColor = Color(0xFF2E7D32)
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    disabledContainerColor = MaterialTheme.colorScheme.primaryContainer,
+                    disabledContentColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = RoundedCornerShape(12.dp)
             ) {
@@ -618,26 +620,34 @@ fun FloatingNavigationBar(
 ) {
     Surface(
         modifier = modifier
-            .padding(horizontal = 32.dp)
-            .widthIn(max = 400.dp)
-            .height(60.dp)
+            .padding(horizontal = 28.dp)
+            .widthIn(max = 420.dp)
+            .height(64.dp)
             .shadow(
-                elevation = 16.dp,
+                elevation = 20.dp,
                 shape = CircleShape,
-                ambientColor = Color.Black.copy(alpha = 0.2f),
-                spotColor = Color.Black.copy(alpha = 0.2f)
+                ambientColor = Color.Black.copy(alpha = 0.15f),
+                spotColor = Color.Black.copy(alpha = 0.25f)
             ),
-        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.94f),
         shape = CircleShape,
         border = androidx.compose.foundation.BorderStroke(
             width = 0.5.dp,
-            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
         )
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 12.dp),
+                .background(
+                    Brush.verticalGradient(
+                        listOf(
+                            Color.White.copy(alpha = 0.05f),
+                            Color.Transparent
+                        )
+                    )
+                )
+                .padding(horizontal = 10.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.CenterVertically,
             content = content
@@ -653,28 +663,45 @@ fun FloatingNavigationBarItem(
     label: @Composable () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val haptic = LocalHapticFeedback.current
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+
     val contentColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
-        animationSpec = tween(300),
+        targetValue = if (selected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+        animationSpec = spring(stiffness = Spring.StiffnessLow),
         label = "contentColor"
     )
 
     val backgroundColor by animateColorAsState(
-        targetValue = if (selected) Color(0xFFE8F5E9) else Color.Transparent,
-        animationSpec = tween(300),
+        targetValue = if (selected) MaterialTheme.colorScheme.primary.copy(alpha = 0.12f) else Color.Transparent,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessLow),
         label = "backgroundColor"
+    )
+
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else if (selected) 1.05f else 1f,
+        animationSpec = spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium),
+        label = "scale"
     )
 
     Box(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .clip(CircleShape)
             .background(backgroundColor)
             .clickable(
-                interactionSource = remember { MutableInteractionSource() },
+                interactionSource = interactionSource,
                 indication = null,
-                onClick = onClick
+                onClick = {
+                    haptic.performHapticFeedback(HapticFeedbackType.LongPress)
+                    onClick()
+                }
             )
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = 18.dp, vertical = 12.dp),
         contentAlignment = Alignment.Center
     ) {
         Row(
@@ -684,15 +711,19 @@ fun FloatingNavigationBarItem(
             CompositionLocalProvider(
                 LocalContentColor provides contentColor
             ) {
-                icon()
+                Box(modifier = Modifier.size(24.dp), contentAlignment = Alignment.Center) {
+                    icon()
+                }
                 AnimatedVisibility(
                     visible = selected,
-                    enter = fadeIn() + expandHorizontally(),
-                    exit = fadeOut() + shrinkHorizontally()
+                    enter = fadeIn(animationSpec = tween(400)) + expandHorizontally(animationSpec = spring(stiffness = Spring.StiffnessLow)),
+                    exit = fadeOut(animationSpec = tween(200)) + shrinkHorizontally(animationSpec = spring(stiffness = Spring.StiffnessLow))
                 ) {
                     Row {
                         Spacer(modifier = Modifier.width(8.dp))
-                        label()
+                        Box(modifier = Modifier.padding(bottom = 1.dp)) {
+                            label()
+                        }
                     }
                 }
             }

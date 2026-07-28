@@ -87,7 +87,7 @@ fun ClipboardItemCard(clip: ClipItem) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(20.dp),
-        border = if (clip.isPinned) androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF2E7D32)) else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        border = if (clip.isPinned) androidx.compose.foundation.BorderStroke(1.5.dp, MaterialTheme.colorScheme.primary) else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
@@ -108,14 +108,14 @@ fun ClipboardItemCard(clip: ClipItem) {
                         Icon(
                             imageVector = Icons.Default.PushPin,
                             contentDescription = "Pin",
-                            tint = if (clip.isPinned) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
+                            tint = if (clip.isPinned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(18.dp)
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
                         text = if (clip.isPinned) "Pinned" else "Recent",
-                        color = if (clip.isPinned) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
+                        color = if (clip.isPinned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold
                     )
