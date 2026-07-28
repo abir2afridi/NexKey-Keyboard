@@ -101,6 +101,9 @@ fun KeyboardComposeView(
     splitKeyboardEnabled: Boolean = false,
     popupDismissDelay: String = "Default",
     physicalKbEmojiEnabled: Boolean = true,
+    holdPasteEnabled: Boolean = false,
+    holdPasteTriggerKey: String = "v",
+    holdPasteDuration: Int = 400,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -112,7 +115,8 @@ fun KeyboardComposeView(
     onThemeToggle: () -> Unit,
     onOpenSettings: () -> Unit,
     onCursorMove: (Int) -> Unit = {},
-    onIncognitoToggle: (() -> Unit)? = null
+    onIncognitoToggle: (() -> Unit)? = null,
+    onHoldPaste: (() -> Unit)? = null
 ) {
     val popupAutoDismissMs = when (popupDismissDelay) {
         "Short" -> 1500L
@@ -203,7 +207,13 @@ fun KeyboardComposeView(
                             onShiftTap = onShiftTap,
                             onModeChange = onModeChange,
                             onCursorMove = onCursorMove,
-                            onLongPress = { longPressKey = it }
+                            onLongPress = { key ->
+                                if (holdPasteEnabled && key.code == holdPasteTriggerKey) {
+                                    onHoldPaste?.invoke()
+                                } else {
+                                    longPressKey = key
+                                }
+                            }
                         )
                     }
                 }

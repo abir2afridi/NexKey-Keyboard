@@ -82,6 +82,11 @@ class UserPreferences(private val context: Context) {
         // Gif Quality
         private val KEY_HIGH_QUALITY_GIFS = booleanPreferencesKey("high_quality_gifs")
         private val KEY_SEND_HIGH_QUALITY_GIFS = booleanPreferencesKey("send_high_quality_gifs")
+
+        // Hold to Paste
+        private val KEY_HOLD_PASTE_ENABLED = booleanPreferencesKey("hold_paste_enabled")
+        private val KEY_HOLD_PASTE_DURATION = intPreferencesKey("hold_paste_duration")
+        private val KEY_HOLD_PASTE_TRIGGER_KEY = stringPreferencesKey("hold_paste_trigger_key")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -146,6 +151,10 @@ class UserPreferences(private val context: Context) {
     val highQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_HIGH_QUALITY_GIFS] ?: true }
     val sendHighQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_SEND_HIGH_QUALITY_GIFS] ?: true }
 
+    val holdPasteEnabled: Flow<Boolean> = context.dataStore.data.map { it[KEY_HOLD_PASTE_ENABLED] ?: false }
+    val holdPasteDuration: Flow<Int> = context.dataStore.data.map { it[KEY_HOLD_PASTE_DURATION] ?: 400 }
+    val holdPasteTriggerKey: Flow<String> = context.dataStore.data.map { it[KEY_HOLD_PASTE_TRIGGER_KEY] ?: "v" }
+
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
@@ -188,6 +197,10 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_HIGH_QUALITY_GIFS] = enabled }
     suspend fun setSendHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_SEND_HIGH_QUALITY_GIFS] = enabled }
+
+    suspend fun setHoldPasteEnabled(enabled: Boolean) = context.dataStore.edit { it[KEY_HOLD_PASTE_ENABLED] = enabled }
+    suspend fun setHoldPasteDuration(durationMs: Int) = context.dataStore.edit { it[KEY_HOLD_PASTE_DURATION] = durationMs }
+    suspend fun setHoldPasteTriggerKey(key: String) = context.dataStore.edit { it[KEY_HOLD_PASTE_TRIGGER_KEY] = key }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }

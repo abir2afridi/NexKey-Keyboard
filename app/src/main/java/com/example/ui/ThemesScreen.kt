@@ -21,22 +21,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ThemesScreen(
     onBack: () -> Unit
 ) {
-    val themes = remember {
-        listOf(
-            KeyboardTheme.DarkNeon,
-            KeyboardTheme.LightMinimal,
-            KeyboardTheme.AmoledBlack,
-            KeyboardTheme.EmeraldGreen
-        )
-    }
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val prefs = remember { com.example.data.UserPreferences(context) }
+    val scope = rememberCoroutineScope()
+    val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
     
-    var selectedTheme by remember { mutableStateOf(KeyboardTheme.DarkNeon) }
+    val themes = remember { KeyboardTheme.allThemes() }
+    
+    val selectedTheme = remember(savedThemePresetName) {
+        try {
+            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName))
+        } catch (e: Exception) {
+            KeyboardTheme.DarkNeon
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -72,13 +77,18 @@ fun ThemesScreen(
             LazyVerticalGrid(
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp),
+                modifier = Modifier.padding(bottom = 24.dp)
             ) {
                 items(themes) { theme ->
                     ThemePreviewCard(
                         theme = theme,
                         isSelected = selectedTheme.preset == theme.preset,
-                        onClick = { selectedTheme = theme }
+                        onClick = {
+                            scope.launch {
+                                prefs.setTheme(theme.preset)
+                            }
+                        }
                     )
                 }
             }

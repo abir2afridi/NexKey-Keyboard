@@ -163,12 +163,9 @@ fun SandboxScreen(
                     },
                     onVoiceClick = {},
                     onThemeToggle = {
-                        sandboxTheme = when (sandboxTheme.preset) {
-                            ThemePreset.DARK_NEON -> KeyboardTheme.LightMinimal
-                            ThemePreset.LIGHT_MINIMAL -> KeyboardTheme.AmoledBlack
-                            ThemePreset.AMOLED_BLACK -> KeyboardTheme.EmeraldGreen
-                            else -> KeyboardTheme.DarkNeon
-                        }
+                        val themes = ThemePreset.values()
+                        val nextIndex = (sandboxTheme.preset.ordinal + 1) % themes.size
+                        sandboxTheme = KeyboardTheme.fromPreset(themes[nextIndex])
                     },
                     onOpenSettings = {}
                 )

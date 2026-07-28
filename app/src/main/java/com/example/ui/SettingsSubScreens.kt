@@ -46,6 +46,10 @@ fun PreferencesSettingsScreen(onBack: () -> Unit) {
     val volumeCursor by prefs.volumeCursor.collectAsState(initial = false)
     val smartVolumeControl by prefs.smartVolumeControl.collectAsState(initial = true)
 
+    val holdPasteEnabled by prefs.holdPasteEnabled.collectAsState(initial = false)
+    val holdPasteDuration by prefs.holdPasteDuration.collectAsState(initial = 400)
+    val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
+
     SettingsSubScaffold(title = "Preferences", onBack = onBack) {
         SettingSwitchItem("Auto-capitalization", "Capitalize the first word of each sentence", Icons.Default.TextFormat, autoCap) { scope.launch { prefs.setAutoCapitalize(it) } }
         SettingSwitchItem("Double-space period", "Double tap on spacebar inserts a period followed by a space", Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
@@ -75,7 +79,22 @@ fun PreferencesSettingsScreen(onBack: () -> Unit) {
         SettingSwitchItem("Move Cursor Using Space Key", "Swipe space to move cursor", Icons.Default.SwapHoriz, moveCursorSpace) { scope.launch { prefs.setMoveCursorSpace(it) } }
         SettingSwitchItem("Volume cursor", "Use volume keys to move cursor", Icons.Default.SettingsInputComponent, volumeCursor) { scope.launch { prefs.setVolumeCursor(it) } }
         SettingSwitchItem("Smart volume key", "Disable during audio playback", Icons.Default.AutoMode, smartVolumeControl) { scope.launch { prefs.setSmartVolumeControl(it) } }
-        
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
+        SettingSwitchItem("Hold key to paste", "Long-press a key to paste clipboard text", Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
+        if (holdPasteEnabled) {
+            SettingDropdownItem(
+                title = "Trigger key",
+                subtitle = "Key to hold for paste",
+                icon = Icons.Default.Keyboard,
+                selectedOption = holdPasteTriggerKey.uppercase(),
+                options = listOf("V", "B", "N", "M", "G", "H", "Space", "Enter"),
+                onOptionSelected = { scope.launch { prefs.setHoldPasteTriggerKey(it.lowercase()) } }
+            )
+            SettingSliderItem("Hold duration", holdPasteDuration.toFloat(), 200f..800f) { scope.launch { prefs.setHoldPasteDuration(it.toInt()) } }
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

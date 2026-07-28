@@ -207,9 +207,6 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 - App theme (System/Light/Dark) setting in `AppSettingsScreen` persists via DataStore and updates every screen in real time.
 - `key(appTheme)` forces recomposition when theme changes, ensuring NavHost destinations reflect the new theme.
 
-### Gemini AI Removal (v1.0)
-- Removed `AI_ASSIST` keyboard mode, `AiAssistPanel` composable, toolbar AI button, and all Gemini API key references.
-- Removed secrets Gradle plugin, `.env.example`, and CI `GEMINI_API_KEY` env vars.
 
 ---
 

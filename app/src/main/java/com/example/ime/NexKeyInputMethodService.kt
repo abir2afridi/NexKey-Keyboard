@@ -93,6 +93,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var clipboardImagesEnabled by mutableStateOf(true)
     private var physicalKbEmojiEnabled by mutableStateOf(true)
     private var popupDismissDelayState by mutableStateOf("Default")
+    private var holdPasteEnabled by mutableStateOf(false)
+    private var holdPasteDuration by mutableStateOf(400)
+    private var holdPasteTriggerKey by mutableStateOf("v")
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -120,13 +123,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 userPreferences.theme.collectLatest { savedTheme ->
                     currentTheme = try {
                         val preset = ThemePreset.valueOf(savedTheme)
-                        when (preset) {
-                            ThemePreset.DARK_NEON -> KeyboardTheme.DarkNeon
-                            ThemePreset.LIGHT_MINIMAL -> KeyboardTheme.LightMinimal
-                            ThemePreset.AMOLED_BLACK -> KeyboardTheme.AmoledBlack
-                            ThemePreset.EMERALD_GREEN -> KeyboardTheme.EmeraldGreen
-                            else -> KeyboardTheme.DarkNeon
-                        }
+                        KeyboardTheme.fromPreset(preset)
                     } catch (e: Exception) {
                         KeyboardTheme.DarkNeon
                     }
@@ -191,6 +188,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.clipboardImages.collectLatest { clipboardImagesEnabled = it } }
             launch { userPreferences.physicalKbEmoji.collectLatest { physicalKbEmojiEnabled = it } }
             launch { userPreferences.popupDismissDelay.collectLatest { popupDismissDelayState = it } }
+            launch { userPreferences.holdPasteEnabled.collectLatest { holdPasteEnabled = it } }
+            launch { userPreferences.holdPasteDuration.collectLatest { holdPasteDuration = it } }
+            launch { userPreferences.holdPasteTriggerKey.collectLatest { holdPasteTriggerKey = it } }
         }
     }
 
@@ -230,6 +230,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     splitKeyboardEnabled = splitKeyboardEnabled,
                     popupDismissDelay = popupDismissDelayState,
                     physicalKbEmojiEnabled = physicalKbEmojiEnabled,
+                    holdPasteEnabled = holdPasteEnabled,
+                    holdPasteTriggerKey = holdPasteTriggerKey,
+                    holdPasteDuration = holdPasteDuration,
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -241,7 +244,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onThemeToggle = { toggleTheme() },
                     onOpenSettings = { launchSettingsActivity() },
                     onCursorMove = { direction -> handleCursorMove(direction) },
-                    onIncognitoToggle = { toggleIncognito() }
+                    onIncognitoToggle = { toggleIncognito() },
+                    onHoldPaste = { handlePasteClipboard() }
                 )
             }
         }
@@ -586,12 +590,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     private fun toggleTheme() {
-        currentTheme = when (currentTheme.preset) {
-            ThemePreset.DARK_NEON -> KeyboardTheme.LightMinimal
-            ThemePreset.LIGHT_MINIMAL -> KeyboardTheme.AmoledBlack
-            ThemePreset.AMOLED_BLACK -> KeyboardTheme.EmeraldGreen
-            else -> KeyboardTheme.DarkNeon
-        }
+        val themes = ThemePreset.values()
+        val nextIndex = (currentTheme.preset.ordinal + 1) % themes.size
+        currentTheme = KeyboardTheme.fromPreset(themes[nextIndex])
         scope.launch { userPreferences.setTheme(currentTheme.preset) }
     }
 
@@ -604,6 +605,19 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             Toast.makeText(this, "Incognito mode ON", Toast.LENGTH_SHORT).show()
         } else {
             Toast.makeText(this, "Incognito mode OFF", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun handlePasteClipboard() {
+        val ic = currentInputConnection ?: return
+        val clipboard = getSystemService(android.content.Context.CLIPBOARD_SERVICE) as android.content.ClipboardManager
+        val clip = clipboard.primaryClip ?: return
+        if (clip.itemCount > 0) {
+            val text = clip.getItemAt(0).coerceToText(this)?.toString() ?: return
+            if (composingBuffer.isNotEmpty()) commitComposingBuffer()
+            ic.beginBatchEdit()
+            ic.commitText(text, 1)
+            ic.endBatchEdit()
         }
     }
 
