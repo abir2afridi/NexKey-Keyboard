@@ -45,6 +45,12 @@ object ClipboardManager {
         }
     }
 
+    fun setExpiryMinutes(minutes: Int) {
+        expiryMinutes = minutes
+    }
+
+    private var expiryMinutes: Int = 120
+
     fun addClip(text: String) {
         if (incognito) return
         val trimmed = text.trim()
@@ -59,6 +65,11 @@ object ClipboardManager {
             }
 
             val all = database?.clipDao()?.getAllClips() ?: emptyList()
+            val now = System.currentTimeMillis()
+            val expiryMs = expiryMinutes * 60 * 1000L
+            all.filter { !it.isPinned && (now - it.timestamp) > expiryMs }.forEach {
+                database?.clipDao()?.deleteClip(it.id)
+            }
             val unpinned = all.filter { !it.isPinned }
             if (unpinned.size > 50) {
                 unpinned.takeLast(unpinned.size - 50).forEach {

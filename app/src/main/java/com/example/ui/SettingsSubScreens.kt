@@ -135,10 +135,12 @@ fun TextCorrectionSettingsScreen(onBack: () -> Unit) {
     val showSuggestions by prefs.showSuggestions.collectAsState(initial = true)
     val personalized by prefs.personalizedSuggestions.collectAsState(initial = true)
     val nextWord by prefs.nextWordSuggestions.collectAsState(initial = true)
+    val phoneticAutoCorrect by prefs.phoneticAutoCorrection.collectAsState(initial = true)
 
     SettingsSubScaffold(title = "Text Correction", onBack = onBack) {
         SettingSwitchItem("Block offensive words", "Do not suggest", Icons.Default.Block, blockOffensive) { scope.launch { prefs.setBlockOffensive(it) } }
         SettingSwitchItem("Auto-correction", "Punctuation corrects words", Icons.Default.Spellcheck, autoCorrection) { scope.launch { prefs.setAutoCorrection(it) } }
+        SettingSwitchItem("Phonetic auto-correction", "Correct Bangla transliteration", Icons.Default.Translate, phoneticAutoCorrect) { scope.launch { prefs.setPhoneticAutoCorrection(it) } }
         SettingSwitchItem("Show suggestions", "Display words while typing", Icons.Default.Lightbulb, showSuggestions) { scope.launch { prefs.setShowSuggestions(it) } }
         SettingSwitchItem("Personalized suggestions", "Learn from communication", Icons.Default.Person, personalized) { scope.launch { prefs.setPersonalizedSuggestions(it) } }
         SettingSwitchItem("Next-word suggestions", "Use previous word", Icons.Default.History, nextWord) { scope.launch { prefs.setNextWordSuggestions(it) } }
@@ -158,13 +160,14 @@ fun AdvancedSettingsScreen(onBack: () -> Unit) {
     val spaceDelay by prefs.spaceCursorDelay.collectAsState(initial = 1000)
     val spaceSpeed by prefs.spaceCursorSpeed.collectAsState(initial = 150)
     val typedWordFirst by prefs.showTypedWordFirst.collectAsState(initial = true)
-    val vibrationDur by prefs.vibrationDuration.collectAsState(initial = 0)
+    val hapticIntensity by prefs.hapticIntensity.collectAsState(initial = 50)
     val soundVol by prefs.soundVolume.collectAsState(initial = 50)
     val physicalKbEmoji by prefs.physicalKbEmoji.collectAsState(initial = true)
+    val popupDismiss by prefs.popupDismissDelay.collectAsState(initial = "Default")
 
     SettingsSubScaffold(title = "Advanced", onBack = onBack) {
         SettingSliderItem("Key long press delay (ms)", longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
-        SettingSliderItem("Keypress vibration duration", vibrationDur.toFloat(), 0f..100f) { scope.launch { prefs.setVibrationDuration(it.toInt()) } }
+        SettingSliderItem("Keypress vibration intensity", hapticIntensity.toFloat(), 0f..100f) { scope.launch { prefs.setHapticIntensity(it.toInt()) } }
         SettingSliderItem("Keypress sound volume", soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
         
         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
@@ -176,6 +179,19 @@ fun AdvancedSettingsScreen(onBack: () -> Unit) {
 
         SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
         SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
+        
+        val dismissOptions = listOf("Default", "Short", "Long")
+        Text(text = "Popup dismiss delay: $popupDismiss", color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            dismissOptions.forEach { option ->
+                FilterChip(
+                    selected = popupDismiss == option,
+                    onClick = { scope.launch { prefs.setPopupDismissDelay(option) } },
+                    label = { Text(option, fontSize = 12.sp) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
         
         SettingItem("Voice typing engine", "Default", Icons.Default.Mic) { /* Logic to select engine */ }
         

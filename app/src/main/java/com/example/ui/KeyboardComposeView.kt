@@ -1,6 +1,5 @@
 package com.example.ui
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -25,7 +24,7 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Backspace
+import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Security
@@ -57,6 +56,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
@@ -82,9 +82,18 @@ fun KeyboardComposeView(
     showNumberRow: Boolean = false,
     hideLongPressHints: Boolean = false,
     keyboardHeightPortrait: Int = 100,
+    keyboardHeightLandscape: Int = 100,
     oneHandedWidth: Int = 100,
+    oneHandedWidthLandscape: Int = 40,
     isIncognito: Boolean = false,
     isPasswordField: Boolean = false,
+    showVoiceKey: Boolean = true,
+    showEmojiKey: Boolean = true,
+    showGlobeKey: Boolean = true,
+    moveCursorSpaceEnabled: Boolean = true,
+    popupOnKeypressEnabled: Boolean = true,
+    largeNumberRowEnabled: Boolean = false,
+    longPressDelayMs: Long = 300L,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -99,6 +108,9 @@ fun KeyboardComposeView(
     onIncognitoToggle: (() -> Unit)? = null
 ) {
     var longPressKey by remember { mutableStateOf<KeyModel?>(null) }
+    val orientation = LocalConfiguration.current.orientation
+    val effectiveHeight = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) keyboardHeightLandscape else keyboardHeightPortrait
+    val effectiveOneHanded = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) oneHandedWidthLandscape else oneHandedWidth
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -114,6 +126,9 @@ fun KeyboardComposeView(
                     currentMode = mode,
                     theme = theme,
                     isIncognito = isIncognito,
+                    showVoiceKey = showVoiceKey,
+                    showEmojiKey = showEmojiKey,
+                    showGlobeKey = showGlobeKey,
                     onModeChange = onModeChange,
                     onVoiceClick = onVoiceClick,
                     onThemeToggle = onThemeToggle,
@@ -130,23 +145,27 @@ fun KeyboardComposeView(
                         theme = theme,
                         onClipClick = { clip -> onKeyTap(clip) }
                     )
-                    else -> CandidateStrip(
-                        composingText = composingText,
-                        suggestions = suggestions,
-                        theme = theme,
-                        onSuggestionSelect = onSuggestionSelect
-                    )
+                    else -> {
+                        if (suggestions.isNotEmpty() || composingText.isNotEmpty()) {
+                            CandidateStrip(
+                                composingText = composingText,
+                                suggestions = suggestions,
+                                theme = theme,
+                                onSuggestionSelect = onSuggestionSelect
+                            )
+                        }
+                    }
                 }
 
                 if (mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD) {
                     val adjustedTheme = theme.copy(
-                        keyHeightDp = (theme.keyHeightDp * (keyboardHeightPortrait / 100f)).toInt()
+                        keyHeightDp = (theme.keyHeightDp * (effectiveHeight / 100f)).toInt()
                     )
-                    
+
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = ((100 - oneHandedWidth) / 2f).dp),
+                            .padding(horizontal = ((100 - effectiveOneHanded) / 2f).dp),
                         contentAlignment = Alignment.Center
                     ) {
                         KeyboardKeysGrid(
@@ -156,6 +175,9 @@ fun KeyboardComposeView(
                             actionLabel = actionLabel,
                             showNumberRow = showNumberRow,
                             hideLongPressHints = hideLongPressHints,
+                            moveCursorSpaceEnabled = moveCursorSpaceEnabled,
+                            largeNumberRowEnabled = largeNumberRowEnabled,
+                            longPressDelayMs = longPressDelayMs,
                             onKeyTap = onKeyTap,
                             onBackspaceTap = onBackspaceTap,
                             onSpaceTap = onSpaceTap,
@@ -169,38 +191,39 @@ fun KeyboardComposeView(
                 }
             }
 
-            // Long Press Popup Overlay
-            longPressKey?.let { key ->
-                if (key.popupCandidates.isNotEmpty()) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.4f))
-                            .clickable { longPressKey = null },
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Card(
-                            colors = CardDefaults.cardColors(containerColor = theme.keySpecialColor),
-                            shape = RoundedCornerShape(12.dp),
-                            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
+            if (popupOnKeypressEnabled) {
+                longPressKey?.let { key ->
+                    if (key.popupCandidates.isNotEmpty()) {
+                        Box(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(Color.Black.copy(alpha = 0.4f))
+                                .clickable { longPressKey = null },
+                            contentAlignment = Alignment.Center
                         ) {
-                            Row(
-                                modifier = Modifier.padding(12.dp),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            Card(
+                                colors = CardDefaults.cardColors(containerColor = theme.keySpecialColor),
+                                shape = RoundedCornerShape(12.dp),
+                                elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                             ) {
-                                key.popupCandidates.forEach { candidate ->
-                                    Box(
-                                        modifier = Modifier
-                                            .size(44.dp)
-                                            .clip(RoundedCornerShape(8.dp))
-                                            .background(theme.keyBackgroundColor)
-                                            .clickable { 
-                                                onKeyTap(candidate)
-                                                longPressKey = null
-                                            },
-                                        contentAlignment = Alignment.Center
-                                    ) {
-                                        Text(text = candidate, color = theme.keyTextColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                Row(
+                                    modifier = Modifier.padding(12.dp),
+                                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    key.popupCandidates.forEach { candidate ->
+                                        Box(
+                                            modifier = Modifier
+                                                .size(44.dp)
+                                                .clip(RoundedCornerShape(8.dp))
+                                                .background(theme.keyBackgroundColor)
+                                                .clickable {
+                                                    onKeyTap(candidate)
+                                                    longPressKey = null
+                                                },
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(text = candidate, color = theme.keyTextColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                        }
                                     }
                                 }
                             }
@@ -217,6 +240,9 @@ fun SmartToolbar(
     currentMode: KeyboardMode,
     theme: KeyboardTheme,
     isIncognito: Boolean = false,
+    showVoiceKey: Boolean = true,
+    showEmojiKey: Boolean = true,
+    showGlobeKey: Boolean = true,
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -237,22 +263,24 @@ fun SmartToolbar(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            item {
-                ToolbarBadge(
-                    label = when (currentMode) {
-                        KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> "বাংলা"
-                        KeyboardMode.ARABIC -> "عربي"
-                        else -> "EN"
-                    },
-                    active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
-                    theme = theme
-                ) {
-                    if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
-                        onModeChange(KeyboardMode.BANGLA_JATIYO)
-                    } else if (currentMode == KeyboardMode.BANGLA_JATIYO) {
-                        onModeChange(KeyboardMode.ENGLISH)
-                    } else {
-                        onModeChange(KeyboardMode.BANGLA_PHONETIC)
+            if (showGlobeKey) {
+                item {
+                    ToolbarBadge(
+                        label = when (currentMode) {
+                            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                            KeyboardMode.ARABIC -> "عربي"
+                            else -> "EN"
+                        },
+                        active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
+                        theme = theme
+                    ) {
+                        if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
+                            onModeChange(KeyboardMode.BANGLA_JATIYO)
+                        } else if (currentMode == KeyboardMode.BANGLA_JATIYO) {
+                            onModeChange(KeyboardMode.ENGLISH)
+                        } else {
+                            onModeChange(KeyboardMode.BANGLA_PHONETIC)
+                        }
                     }
                 }
             }
@@ -266,18 +294,22 @@ fun SmartToolbar(
                     onModeChange(if (currentMode == KeyboardMode.CLIPBOARD) KeyboardMode.ENGLISH else KeyboardMode.CLIPBOARD)
                 }
             }
-            item {
-                ToolbarIcon(
-                    icon = Icons.Default.SentimentSatisfiedAlt,
-                    contentDescription = "Emoji",
-                    active = currentMode == KeyboardMode.EMOJI,
-                    theme = theme
-                ) {
-                    onModeChange(if (currentMode == KeyboardMode.EMOJI) KeyboardMode.ENGLISH else KeyboardMode.EMOJI)
+            if (showEmojiKey) {
+                item {
+                    ToolbarIcon(
+                        icon = Icons.Default.SentimentSatisfiedAlt,
+                        contentDescription = "Emoji",
+                        active = currentMode == KeyboardMode.EMOJI,
+                        theme = theme
+                    ) {
+                        onModeChange(if (currentMode == KeyboardMode.EMOJI) KeyboardMode.ENGLISH else KeyboardMode.EMOJI)
+                    }
                 }
             }
-            item {
-                ToolbarIcon(icon = Icons.Default.Mic, contentDescription = "Voice", active = false, theme = theme, onClick = onVoiceClick)
+            if (showVoiceKey) {
+                item {
+                    ToolbarIcon(icon = Icons.Default.Mic, contentDescription = "Voice", active = false, theme = theme, onClick = onVoiceClick)
+                }
             }
             item {
                 ToolbarIcon(icon = Icons.Default.Palette, contentDescription = "Theme", active = false, theme = theme, onClick = onThemeToggle)
@@ -377,6 +409,9 @@ fun KeyboardKeysGrid(
     actionLabel: String,
     showNumberRow: Boolean = false,
     hideLongPressHints: Boolean = false,
+    moveCursorSpaceEnabled: Boolean = true,
+    largeNumberRowEnabled: Boolean = false,
+    longPressDelayMs: Long = 300L,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -396,14 +431,16 @@ fun KeyboardKeysGrid(
         verticalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         if (showNumberRow && mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS) {
-            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+            val numRowHeight = if (largeNumberRowEnabled) 48.dp else 36.dp
+            Row(modifier = Modifier.fillMaxWidth().height(numRowHeight), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
                 KeyboardLayouts.NumbersRow.forEach { keyModel ->
                     KeyItem(
                         keyModel = keyModel,
                         shiftState = shiftState,
-                        theme = theme,
+                        theme = theme.copy(keyHeightDp = if (largeNumberRowEnabled) 48 else 36),
                         modifier = Modifier.weight(1f),
                         hideHints = hideLongPressHints,
+                        longPressDelayMs = longPressDelayMs,
                         onTap = { onKeyTap(it) },
                         onLongPress = { onLongPress(keyModel) }
                     )
@@ -428,6 +465,7 @@ fun KeyboardKeysGrid(
                         theme = theme,
                         modifier = Modifier.weight(1f),
                         hideHints = hideLongPressHints,
+                        longPressDelayMs = longPressDelayMs,
                         onTap = { onKeyTap(it) },
                         onLongPress = { onLongPress(keyModel) }
                     )
@@ -436,7 +474,7 @@ fun KeyboardKeysGrid(
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, onClick = onShiftTap) {
+            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, longPressDelayMs = longPressDelayMs, onClick = onShiftTap) {
                 Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null, tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor)
             }
             rows.getOrNull(2)?.forEach { keyModel ->
@@ -446,20 +484,21 @@ fun KeyboardKeysGrid(
                     theme = theme,
                     modifier = Modifier.weight(1f),
                     hideHints = hideLongPressHints,
+                    longPressDelayMs = longPressDelayMs,
                     onTap = { onKeyTap(it) },
                     onLongPress = { onLongPress(keyModel) }
                 )
             }
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = true, onClick = onBackspaceTap) {
-                Icon(imageVector = Icons.Default.Backspace, contentDescription = null, tint = theme.keySpecialTextColor)
+            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = onBackspaceTap) {
+                Icon(imageVector = Icons.AutoMirrored.Filled.Backspace, contentDescription = null, tint = theme.keySpecialTextColor)
             }
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) KeyboardMode.ENGLISH else KeyboardMode.SYMBOLS) }) {
+            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) KeyboardMode.ENGLISH else KeyboardMode.SYMBOLS) }) {
                 Text(text = if (mode == KeyboardMode.SYMBOLS) "ABC" else "?123", color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
-            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, onClick = {
+            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = {
                 when (mode) {
                     KeyboardMode.BANGLA_PHONETIC -> onModeChange(KeyboardMode.BANGLA_JATIYO)
                     KeyboardMode.BANGLA_JATIYO -> onModeChange(KeyboardMode.ENGLISH)
@@ -469,20 +508,22 @@ fun KeyboardKeysGrid(
                 Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "Phonetic"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.ARABIC -> "عربي"; else -> "EN" }, color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 12.sp)
             }
             KeyButton(
-                modifier = Modifier.weight(4f).pointerInput(Unit) {
-                    detectDragGestures(onDragStart = { totalDragX = 0f }, onDrag = { change, dragAmount ->
-                        change.consume(); totalDragX += dragAmount.x
-                        if (abs(totalDragX) > dragThreshold) { onCursorMove(if (totalDragX > 0) 1 else -1); totalDragX = 0f }
-                    })
-                },
-                theme = theme, isSpecial = false, onClick = onSpaceTap
+                modifier = Modifier.weight(4f).then(
+                    if (moveCursorSpaceEnabled) Modifier.pointerInput(Unit) {
+                        detectDragGestures(onDragStart = { totalDragX = 0f }, onDrag = { change, dragAmount ->
+                            change.consume(); totalDragX += dragAmount.x
+                            if (abs(totalDragX) > dragThreshold) { onCursorMove(if (totalDragX > 0) 1 else -1); totalDragX = 0f }
+                        })
+                    } else Modifier
+                ),
+                theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = onSpaceTap
             ) {
                 Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
             }
-            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO) "।" else ".") }) {
+            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO) "।" else ".") }) {
                 Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
-            KeyButton(modifier = Modifier.weight(1.5f), theme = theme, isSpecial = true, onClick = onEnterTap) {
+            KeyButton(modifier = Modifier.weight(1.5f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = onEnterTap) {
                 Text(text = actionLabel, color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
         }
@@ -496,6 +537,7 @@ fun KeyItem(
     theme: KeyboardTheme,
     modifier: Modifier = Modifier,
     hideHints: Boolean = false,
+    longPressDelayMs: Long = 300L,
     onTap: (String) -> Unit,
     onLongPress: (() -> Unit)? = null
 ) {
@@ -507,6 +549,7 @@ fun KeyItem(
         modifier = modifier,
         theme = theme,
         isSpecial = keyModel.isSpecial,
+        longPressDelayMs = longPressDelayMs,
         onClick = { onTap(charToOutput) },
         onLongClick = onLongPress
     ) {
@@ -517,7 +560,7 @@ fun KeyItem(
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Medium
             )
-            
+
             if (!hideHints && keyModel.popupCandidates.isNotEmpty()) {
                 Text(
                     text = keyModel.popupCandidates.first(),
@@ -532,7 +575,16 @@ fun KeyItem(
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun KeyButton(modifier: Modifier = Modifier, theme: KeyboardTheme, isSpecial: Boolean, contentDescription: String = "Key", onClick: () -> Unit, onLongClick: (() -> Unit)? = null, content: @Composable () -> Unit) {
+fun KeyButton(
+    modifier: Modifier = Modifier,
+    theme: KeyboardTheme,
+    isSpecial: Boolean,
+    contentDescription: String = "Key",
+    longPressDelayMs: Long = 300L,
+    onClick: () -> Unit,
+    onLongClick: (() -> Unit)? = null,
+    content: @Composable () -> Unit
+) {
     Box(
         modifier = modifier
             .height(theme.keyHeightDp.dp)
@@ -589,5 +641,3 @@ fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
         }
     }
 }
-
-

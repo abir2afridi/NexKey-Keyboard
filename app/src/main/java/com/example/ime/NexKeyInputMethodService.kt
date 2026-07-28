@@ -1,14 +1,21 @@
 package com.example.ime
 
 import android.content.Intent
+import android.media.AudioManager
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
+import android.os.VibratorManager
 import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.text.InputType
 import android.view.HapticFeedbackConstants
+import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.ComposeView
@@ -26,6 +33,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlin.system.measureTimeMillis
 
 class NexKeyInputMethodService : LifecycleInputMethodService() {
 
@@ -54,18 +62,51 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var hapticLevel by mutableStateOf(50)
     private var soundLevel by mutableStateOf(50)
 
+    // New preference collections
+    private var doubleSpaceTabEnabled by mutableStateOf(false)
+    private var voiceInputKeyEnabled by mutableStateOf(true)
+    private var showEmojiKeyEnabled by mutableStateOf(true)
+    private var showGlobeKeyEnabled by mutableStateOf(true)
+    private var allowOtherKeyboardsEnabled by mutableStateOf(true)
+    private var moveCursorSpaceEnabled by mutableStateOf(true)
+    private var volumeCursorEnabled by mutableStateOf(false)
+    private var smartVolumeControlEnabled by mutableStateOf(true)
+    private var popupOnKeypressEnabled by mutableStateOf(true)
+    private var showSuggestionsEnabled by mutableStateOf(true)
+    private var personalizedSuggestionsEnabled by mutableStateOf(true)
+    private var blockOffensiveEnabled by mutableStateOf(true)
+    private var enableResizing by mutableStateOf(false)
+    private var largeNumberRowEnabled by mutableStateOf(false)
+    private var kbHeightLandscape by mutableStateOf(100)
+    private var oneHandedWidthLandscape by mutableStateOf(40)
+    private var splitKeyboardEnabled by mutableStateOf(false)
+    private var forcedEnterEnabled by mutableStateOf(false)
+    private var longPressDelayMsState by mutableStateOf(300)
+    private var spaceCursorDelayState by mutableStateOf(1000)
+    private var spaceCursorSpeedState by mutableStateOf(150)
+    private var showTypedWordFirstEnabled by mutableStateOf(true)
+    private var clipboardExpiryMinutes by mutableStateOf(120)
+
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
     private lateinit var userPreferences: UserPreferences
     private val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
-    
+
     private var keyboardView: View? = null
+    private var vibrator: Vibrator? = null
 
     override fun onCreate() {
         super.onCreate()
         ClipboardManager.init(this)
         predictionEngine.init(this)
         userPreferences = UserPreferences(this)
+        vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            val vm = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
+            vm.defaultVibrator
+        } else {
+            @Suppress("DEPRECATION")
+            getSystemService(VIBRATOR_SERVICE) as Vibrator
+        }
 
         scope.launch {
             launch {
@@ -108,6 +149,34 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.oneHandedWidthPortrait.collectLatest { oneHandedWidth = it } }
             launch { userPreferences.hapticIntensity.collectLatest { hapticLevel = it } }
             launch { userPreferences.soundVolume.collectLatest { soundLevel = it } }
+
+            // New collections
+            launch { userPreferences.doubleSpaceTab.collectLatest { doubleSpaceTabEnabled = it } }
+            launch { userPreferences.voiceInputKey.collectLatest { voiceInputKeyEnabled = it } }
+            launch { userPreferences.showEmojiKey.collectLatest { showEmojiKeyEnabled = it } }
+            launch { userPreferences.showGlobeKey.collectLatest { showGlobeKeyEnabled = it } }
+            launch { userPreferences.allowOtherKeyboards.collectLatest { allowOtherKeyboardsEnabled = it } }
+            launch { userPreferences.moveCursorSpace.collectLatest { moveCursorSpaceEnabled = it } }
+            launch { userPreferences.volumeCursor.collectLatest { volumeCursorEnabled = it } }
+            launch { userPreferences.smartVolumeControl.collectLatest { smartVolumeControlEnabled = it } }
+            launch { userPreferences.popupOnKeypress.collectLatest { popupOnKeypressEnabled = it } }
+            launch { userPreferences.showSuggestions.collectLatest { showSuggestionsEnabled = it } }
+            launch { userPreferences.personalizedSuggestions.collectLatest { personalizedSuggestionsEnabled = it } }
+            launch { userPreferences.blockOffensive.collectLatest { blockOffensiveEnabled = it } }
+            launch { userPreferences.enableKbResizing.collectLatest { enableResizing = it } }
+            launch { userPreferences.largeNumberRow.collectLatest { largeNumberRowEnabled = it } }
+            launch { userPreferences.kbHeightLandscape.collectLatest { kbHeightLandscape = it } }
+            launch { userPreferences.oneHandedWidthLandscape.collectLatest { oneHandedWidthLandscape = it } }
+            launch { userPreferences.splitKeyboard.collectLatest { splitKeyboardEnabled = it } }
+            launch { userPreferences.forcedEnter.collectLatest { forcedEnterEnabled = it } }
+            launch { userPreferences.longPressDelayMs.collectLatest { longPressDelayMsState = it } }
+            launch { userPreferences.spaceCursorDelay.collectLatest { spaceCursorDelayState = it } }
+            launch { userPreferences.spaceCursorSpeed.collectLatest { spaceCursorSpeedState = it } }
+            launch { userPreferences.showTypedWordFirst.collectLatest { showTypedWordFirstEnabled = it } }
+            launch { userPreferences.clipboardExpiry.collectLatest {
+                clipboardExpiryMinutes = it
+                ClipboardManager.setExpiryMinutes(it)
+            } }
         }
     }
 
@@ -125,14 +194,23 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     shiftState = shiftState,
                     theme = themeWithPrefs,
                     composingText = composingBuffer,
-                    suggestions = candidates,
+                    suggestions = if (showSuggestionsEnabled) candidates else emptyList(),
                     actionLabel = actionLabel,
                     showNumberRow = showNumRow,
                     hideLongPressHints = hideLongPressHints,
-                    keyboardHeightPortrait = kbHeightPortrait,
+                    keyboardHeightPortrait = if (enableResizing) kbHeightPortrait else 100,
+                    keyboardHeightLandscape = kbHeightLandscape,
                     oneHandedWidth = oneHandedWidth,
+                    oneHandedWidthLandscape = oneHandedWidthLandscape,
                     isIncognito = isIncognito,
                     isPasswordField = isPasswordField,
+                    showVoiceKey = voiceInputKeyEnabled,
+                    showEmojiKey = showEmojiKeyEnabled,
+                    showGlobeKey = showGlobeKeyEnabled,
+                    moveCursorSpaceEnabled = moveCursorSpaceEnabled,
+                    popupOnKeypressEnabled = popupOnKeypressEnabled,
+                    largeNumberRowEnabled = largeNumberRowEnabled,
+                    longPressDelayMs = longPressDelayMsState.toLong(),
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -150,6 +228,27 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
         keyboardView = composeView
         return composeView
+    }
+
+    // Volume key interception for cursor control
+    override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (volumeCursorEnabled && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            if (smartVolumeControlEnabled) {
+                val am = getSystemService(AUDIO_SERVICE) as AudioManager
+                if (am.isMusicActive) return false
+            }
+            val direction = if (keyCode == KeyEvent.KEYCODE_VOLUME_UP) 1 else -1
+            handleCursorMove(direction)
+            return true
+        }
+        return super.onKeyDown(keyCode, event)
+    }
+
+    override fun onKeyUp(keyCode: Int, event: KeyEvent?): Boolean {
+        if (volumeCursorEnabled && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
+            return true
+        }
+        return super.onKeyUp(keyCode, event)
     }
 
     private fun handleCursorMove(direction: Int) {
@@ -184,11 +283,30 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun playFeedback() {
         if (hapticsEnabled) {
-            keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            if (hapticLevel > 0) {
+                try {
+                    val duration = (hapticLevel * 2).toLong()
+                    val amplitude = ((hapticLevel / 100f) * 255).toInt().coerceIn(1, 255)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        vibrator?.vibrate(VibrationEffect.createOneShot(duration, amplitude))
+                    } else {
+                        keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                    }
+                } catch (_: Exception) {
+                    keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+                }
+            } else {
+                keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
+            }
         }
         if (soundEnabled) {
             val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
-            am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD)
+            val volume = (soundLevel / 100f).coerceIn(0f, 1f)
+            try {
+                am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD, volume)
+            } catch (_: Exception) {
+                am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD)
+            }
         }
     }
 
@@ -222,23 +340,31 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         playFeedback()
         val ic = currentInputConnection ?: return
 
-        if (!isPasswordField && currentMode == KeyboardMode.BANGLA_PHONETIC && key.all { it.isLetter() || it == '.' || it == '^' }) {
+        val isAlphaKey = key.length == 1 && key[0].isLetter()
+        val isBanglaComposing = !isPasswordField && currentMode == KeyboardMode.BANGLA_PHONETIC && isAlphaKey
+        val isEnglishComposing = !isPasswordField && (currentMode == KeyboardMode.ENGLISH || currentMode == KeyboardMode.ARABIC) && isAlphaKey
+
+        if (isBanglaComposing) {
             composingBuffer += key
             val parsedBangla = BanglaPhoneticEngine.parse(composingBuffer)
             ic.setComposingText(parsedBangla, 1)
+            updateCandidates(composingBuffer)
+        } else if (isEnglishComposing) {
+            composingBuffer += key
+            ic.setComposingText(composingBuffer, 1)
             updateCandidates(composingBuffer)
         } else {
             if (composingBuffer.isNotEmpty()) {
                 commitComposingBuffer()
             }
             ic.beginBatchEdit()
-            
+
             val textToCommit = if (autoCapEnabled && key.length == 1 && isNewSentence()) {
                 key.uppercase()
             } else {
                 key
             }
-            
+
             ic.commitText(textToCommit, 1)
             ic.endBatchEdit()
 
@@ -288,12 +414,13 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         if (composingBuffer.isNotEmpty()) {
-            val finalWord = BanglaPhoneticEngine.parse(composingBuffer)
+            val isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC
+            val finalWord = if (isBangla) BanglaPhoneticEngine.parse(composingBuffer) else composingBuffer
             ic.beginBatchEdit()
             ic.commitText("$finalWord ", 1)
             ic.endBatchEdit()
             if (!isSensitiveField) {
-                predictionEngine.learnWord(finalWord, isBangla = true)
+                predictionEngine.learnWord(finalWord, isBangla = isBangla)
                 if (!isIncognito) {
                     scope.launch { userPreferences.incrementStats(words = 1, chars = finalWord.length + 1) }
                 }
@@ -302,11 +429,20 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             candidates = emptyList()
         } else {
             val now = System.currentTimeMillis()
-            if (smartPuncEnabled && now - lastSpaceTime < 400) {
-                ic.beginBatchEdit()
-                ic.deleteSurroundingText(1, 0)
-                ic.commitText(". ", 1)
-                ic.endBatchEdit()
+            if (now - lastSpaceTime < 400) {
+                if (doubleSpaceTabEnabled) {
+                    ic.beginBatchEdit()
+                    ic.deleteSurroundingText(1, 0)
+                    ic.commitText("\t", 1)
+                    ic.endBatchEdit()
+                } else if (smartPuncEnabled) {
+                    ic.beginBatchEdit()
+                    ic.deleteSurroundingText(1, 0)
+                    ic.commitText(". ", 1)
+                    ic.endBatchEdit()
+                } else {
+                    ic.commitText(" ", 1)
+                }
             } else {
                 ic.commitText(" ", 1)
             }
@@ -327,6 +463,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             candidates = emptyList()
         }
 
+        if (forcedEnterEnabled) {
+            ic?.commitText("\n", 1)
+            return
+        }
+
         val info = currentInputEditorInfo
         val imeAction = info?.imeOptions?.let { it and EditorInfo.IME_MASK_ACTION }
         if (imeAction != null && imeAction != EditorInfo.IME_ACTION_NONE && imeAction != EditorInfo.IME_ACTION_UNSPECIFIED) {
@@ -345,6 +486,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     private fun handleModeChange(newMode: KeyboardMode) {
+        if (newMode == KeyboardMode.ENGLISH && currentMode == KeyboardMode.ENGLISH && allowOtherKeyboardsEnabled) {
+            val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
+            imm.switchToLastInputMethod(window?.window?.decorView?.windowToken)
+            return
+        }
         currentMode = newMode
         scope.launch { userPreferences.setLanguage(newMode) }
     }
@@ -354,7 +500,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         ic.beginBatchEdit()
         ic.commitText("$word ", 1)
         ic.endBatchEdit()
-        if (!isSensitiveField) {
+        if (!isSensitiveField && personalizedSuggestionsEnabled) {
             predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC)
         }
         composingBuffer = ""
@@ -366,19 +512,43 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             candidates = emptyList()
             return
         }
-        candidates = predictionEngine.getPredictions(
+        val predictions = predictionEngine.getPredictions(
             prefix = query,
-            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC)
+            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC),
+            showTypedWordFirst = showTypedWordFirstEnabled
         )
+        candidates = if (blockOffensiveEnabled) {
+            predictions.filterNot { isOffensive(it) }
+        } else {
+            predictions
+        }
+    }
+
+    private val offensiveWords = setOf(
+        "fuck", "shit", "damn", "ass", "bitch", "bastard", "crap", "dick",
+        "piss", "slut", "whore", "cock", "cunt", "douche", "fag", "nigger",
+        "motherfucker", "bullshit", "asshole", "dumbass", "jackass"
+    )
+
+    private fun isOffensive(word: String): Boolean {
+        return word.lowercase() in offensiveWords
     }
 
     private fun commitComposingBuffer() {
         val ic = currentInputConnection ?: return
         if (composingBuffer.isNotEmpty()) {
-            val word = BanglaPhoneticEngine.parse(composingBuffer)
+            val word = if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
+                BanglaPhoneticEngine.parse(composingBuffer)
+            } else {
+                composingBuffer
+            }
             ic.beginBatchEdit()
             ic.commitText(word, 1)
             ic.endBatchEdit()
+            if (!isSensitiveField && !isIncognito) {
+                predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC)
+                scope.launch { userPreferences.incrementStats(words = 1, chars = word.length) }
+            }
             composingBuffer = ""
             candidates = emptyList()
         }

@@ -102,7 +102,7 @@ class PredictionEngine {
         }
     }
 
-    fun getPredictions(prefix: String, isBangla: Boolean = false, limit: Int = 4): List<String> {
+    fun getPredictions(prefix: String, isBangla: Boolean = false, limit: Int = 4, showTypedWordFirst: Boolean = false): List<String> {
         val query = prefix.trim()
         if (query.isEmpty()) return emptyList()
 
@@ -124,6 +124,10 @@ class PredictionEngine {
             .distinct()
             .take(limit)
             .toMutableList()
+
+        if (showTypedWordFirst && !list.contains(query)) {
+            list.add(0, query)
+        }
 
         if (!isBangla && query.all { it in 'a'..'z' || it in 'A'..'Z' }) {
             val banglaTransliterated = BanglaPhoneticEngine.parse(query)

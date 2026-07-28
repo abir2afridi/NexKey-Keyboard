@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -141,7 +140,7 @@ fun NexKeyApp() {
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
-                modifier = Modifier.padding(if (navigationStyle == "STANDARD") innerPadding else PaddingValues(0.dp))
+                modifier = Modifier.padding(innerPadding)
             ) {
                 composable(Screen.Setup.route) {
                     SetupScreen(
