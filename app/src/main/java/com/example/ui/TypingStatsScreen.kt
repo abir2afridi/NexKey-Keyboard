@@ -45,13 +45,13 @@ fun TypingStatsScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -115,7 +115,7 @@ fun TypingStatsScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(20.dp))
-                    .background(Color(0xFFF1F3F4))
+                    .background(MaterialTheme.colorScheme.outlineVariant)
                     .padding(24.dp),
                 contentAlignment = Alignment.Center
             ) {
@@ -124,7 +124,7 @@ fun TypingStatsScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
                         text = "You've saved roughly ${(totalChars / 5) * 0.5} seconds using NexKey predictions!",
-                        color = Color(0xFF5F6368),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 14.sp,
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                         lineHeight = 20.sp
@@ -146,23 +146,23 @@ fun StatCard(
 ) {
     Card(
         modifier = modifier,
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(24.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF1F3F4))
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
             Box(
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color.White),
+                    .background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
                 Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF2E7D32), modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = value, color = Color(0xFF202124), fontSize = 28.sp, fontWeight = FontWeight.Bold)
-            Text(text = title, color = Color(0xFF5F6368), fontSize = 13.sp)
+            Text(text = value, color = MaterialTheme.colorScheme.onSurface, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+            Text(text = title, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
         }
     }
 }
@@ -177,7 +177,7 @@ fun MilestoneItem(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(20.dp))
-            .background(if (isAchieved) Color(0xFFE8F5E9) else Color(0xFFF8F9FA))
+            .background(if (isAchieved) Color(0xFFE8F5E9) else MaterialTheme.colorScheme.surfaceVariant)
             .padding(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -199,13 +199,13 @@ fun MilestoneItem(
         Column {
             Text(
                 text = title,
-                color = if (isAchieved) Color(0xFF202124) else Color(0xFF757575),
+                color = if (isAchieved) MaterialTheme.colorScheme.onSurface else Color(0xFF757575),
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
             Text(
                 text = desc,
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
         }

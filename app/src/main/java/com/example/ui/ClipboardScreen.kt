@@ -44,22 +44,22 @@ fun ClipboardScreen(
                 actions = {
                     if (clips.isNotEmpty()) {
                         IconButton(onClick = { ClipboardManager.clearAllUnpinned() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Clear Unpinned", tint = Color(0xFF5F6368))
+                            Icon(Icons.Default.Delete, contentDescription = "Clear Unpinned", tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         if (clips.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No clips found in history", color = Color(0xFF5F6368), fontSize = 15.sp)
+                Text("No clips found in history", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
             }
         } else {
             LazyColumn(
@@ -108,14 +108,14 @@ fun ClipboardItemCard(clip: ClipItem) {
                         Icon(
                             imageVector = Icons.Default.PushPin,
                             contentDescription = "Pin",
-                            tint = if (clip.isPinned) Color(0xFF2E7D32) else Color(0xFF5F6368),
+                            tint = if (clip.isPinned) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(18.dp)
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
                         text = if (clip.isPinned) "Pinned" else "Recent",
-                        color = if (clip.isPinned) Color(0xFF2E7D32) else Color(0xFF5F6368),
+                        color = if (clip.isPinned) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -132,7 +132,7 @@ fun ClipboardItemCard(clip: ClipItem) {
             
             Text(
                 text = clip.text,
-                color = Color(0xFF202124),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 15.sp,
                 maxLines = 10,
                 overflow = TextOverflow.Ellipsis,

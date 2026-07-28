@@ -48,13 +48,13 @@ fun ThemesScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -64,7 +64,7 @@ fun ThemesScreen(
         ) {
             Text(
                 text = "Select a preset for your keyboard",
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(vertical = 24.dp)
             )
@@ -96,10 +96,10 @@ fun ThemePreviewCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(Color(0xFFF8F9FA))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .border(
                 width = 2.dp,
-                color = if (isSelected) Color(0xFF2E7D32) else Color(0xFFF1F3F4),
+                color = if (isSelected) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant,
                 shape = RoundedCornerShape(24.dp)
             )
             .clickable { onClick() }
@@ -135,7 +135,7 @@ fun ThemePreviewCard(
 
         Text(
             text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
-            color = Color(0xFF202124),
+            color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
             fontSize = 15.sp,
             modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 4.dp)

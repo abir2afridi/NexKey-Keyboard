@@ -50,13 +50,13 @@ fun SandboxScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -68,7 +68,7 @@ fun SandboxScreen(
         ) {
             Text(
                 text = "Test the keyboard in this playground. Your typing here won't be saved.",
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 14.sp
             )
 
@@ -80,12 +80,12 @@ fun SandboxScreen(
                 placeholder = { Text("e.g. ami bangla valobashi") },
                 shape = RoundedCornerShape(20.dp),
                 colors = OutlinedTextFieldDefaults.colors(
-                    focusedTextColor = Color(0xFF202124),
-                    unfocusedTextColor = Color(0xFF202124),
+                    focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                    unfocusedTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedBorderColor = Color(0xFF2E7D32),
-                    unfocusedBorderColor = Color(0xFFF1F3F4),
-                    focusedContainerColor = Color(0xFFF8F9FA),
-                    unfocusedContainerColor = Color(0xFFF8F9FA)
+                    unfocusedBorderColor = MaterialTheme.colorScheme.outlineVariant,
+                    focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant
                 )
             )
 
@@ -93,7 +93,7 @@ fun SandboxScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(24.dp))
-                    .border(1.dp, Color(0xFFF1F3F4), RoundedCornerShape(24.dp))
+                    .border(1.dp, MaterialTheme.colorScheme.outlineVariant, RoundedCornerShape(24.dp))
                     .shadow(elevation = 2.dp, shape = RoundedCornerShape(24.dp))
             ) {
                 KeyboardComposeView(

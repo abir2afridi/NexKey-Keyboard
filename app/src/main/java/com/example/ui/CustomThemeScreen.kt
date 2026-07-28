@@ -59,13 +59,13 @@ fun CustomThemeScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -78,7 +78,7 @@ fun CustomThemeScreen(
             Spacer(modifier = Modifier.height(16.dp))
             
             // Preview
-            Text(text = "LIVE PREVIEW", color = Color(0xFF5F6368), fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
+            Text(text = "LIVE PREVIEW", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp, fontWeight = FontWeight.Bold, letterSpacing = 1.sp)
             
             Box(
                 modifier = Modifier
@@ -121,7 +121,7 @@ fun CustomThemeScreen(
                 },
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Reset to Default", color = Color(0xFF5F6368))
+                Text("Reset to Default", color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
             
             Spacer(modifier = Modifier.height(32.dp))
@@ -137,7 +137,7 @@ fun ColorPickerSection(
     onColorSelected: (Color) -> Unit
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-        Text(text = title, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 15.sp)
+        Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 15.sp)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
             items(options) { color ->
                 Box(
@@ -147,7 +147,7 @@ fun ColorPickerSection(
                         .background(color)
                         .border(
                             width = 2.dp,
-                            color = if (selectedColor == color) Color(0xFF2E7D32) else Color(0xFFF1F3F4),
+                            color = if (selectedColor == color) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant,
                             shape = CircleShape
                         )
                         .clickable { onColorSelected(color) },

@@ -1,6 +1,8 @@
 package com.example.ui
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -10,6 +12,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.animation.core.*
+import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -48,14 +53,22 @@ fun HomeScreen(
     val totalChars by prefs.totalChars.collectAsState(initial = 0)
     val timeSaved = (totalChars / 5) * 0.5
 
+    // Infinite breathing pulsing animation for Active status dot
+    val infiniteTransition = rememberInfiniteTransition(label = "pulse")
+    val pulseAlpha by infiniteTransition.animateFloat(
+        initialValue = 0.3f,
+        targetValue = 1.0f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1200, easing = LinearEasing),
+            repeatMode = RepeatMode.Reverse
+        ),
+        label = "pulseAlpha"
+    )
+
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(
-                    listOf(Color(0xFFF1F8E9), Color.White, Color.White)
-                )
-            )
+            .background(MaterialTheme.colorScheme.background)
     ) {
         Column(
             modifier = Modifier
@@ -95,12 +108,13 @@ fun HomeScreen(
                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Box(
-                            modifier = Modifier
-                                .size(5.dp)
-                                .clip(CircleShape)
-                                .background(Color.White)
-                        )
+                    Box(
+                        modifier = Modifier
+                            .size(6.dp)
+                            .clip(CircleShape)
+                            .background(Color.White)
+                            .alpha(if (isActive) pulseAlpha else 1f)
+                    )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
                             text = if (isActive) "ACTIVE" else "SETUP",
@@ -115,29 +129,46 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             // Primary Action
-            Button(
+            Card(
                 onClick = { if (isActive) onNavigateToSandbox() else onNavigateToSetup() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(16.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isActive) Color(0xFF2E7D32) else Color(0xFF1B5E20),
-                    contentColor = Color.White
-                ),
-                elevation = ButtonDefaults.buttonElevation(defaultElevation = 2.dp)
+                    .height(56.dp)
+                    .shadow(
+                        elevation = 4.dp,
+                        shape = RoundedCornerShape(16.dp),
+                        ambientColor = Color.Black.copy(alpha = 0.08f),
+                        spotColor = Color.Black.copy(alpha = 0.08f)
+                    ),
+                shape = RoundedCornerShape(16.dp)
             ) {
-                Icon(
-                    imageVector = if (isActive) Icons.Default.PlayArrow else Icons.Default.FlashOn,
-                    contentDescription = null,
-                    modifier = Modifier.size(20.dp)
-                )
-                Spacer(modifier = Modifier.width(10.dp))
-                Text(
-                    text = if (isActive) "Typing Sandbox" else "Complete Setup",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            Brush.horizontalGradient(
+                                if (isActive) listOf(Color(0xFF2E7D32), Color(0xFF1B5E20))
+                                else listOf(Color(0xFFFF9800), Color(0xFFE65100))
+                            )
+                        ),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Icon(
+                            imageVector = if (isActive) Icons.Default.PlayArrow else Icons.Default.FlashOn,
+                            contentDescription = null,
+                            tint = Color.White,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(
+                            text = if (isActive) "Typing Sandbox" else "Complete Setup",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = Color.White
+                        )
+                    }
+                }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -190,12 +221,12 @@ fun HomeScreen(
                                     text = "Themes",
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF202124)
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                                 Text(
                                     text = "Change style",
                                     fontSize = 12.sp,
-                                    color = Color(0xFF5F6368)
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                         }
@@ -230,7 +261,7 @@ fun HomeScreen(
                                 text = "Tutorial",
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF202124)
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -275,7 +306,7 @@ fun HomeScreen(
                                     text = "Stats",
                                     fontSize = 11.sp,
                                     fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF5F6368)
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
                             
@@ -289,7 +320,7 @@ fun HomeScreen(
                                 Text(
                                     text = "Words typed",
                                     fontSize = 11.sp,
-                                    color = Color(0xFF5F6368)
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 Spacer(modifier = Modifier.height(4.dp))
                                 Text(
@@ -331,7 +362,7 @@ fun HomeScreen(
                                 text = "Store",
                                 fontSize = 15.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = Color(0xFF202124)
+                                color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                     }
@@ -371,18 +402,18 @@ fun HomeScreen(
                             text = "App Settings",
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Bold,
-                            color = Color(0xFF202124)
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
                             text = "Change language and set preferences",
                             fontSize = 12.sp,
-                            color = Color(0xFF5F6368)
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                     Icon(
                         imageVector = Icons.Default.ChevronRight,
                         contentDescription = null,
-                        tint = Color(0xFF5F6368).copy(alpha = 0.7f),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
                         modifier = Modifier.size(20.dp)
                     )
                 }
@@ -401,7 +432,7 @@ fun HomeScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 1.dp
             ) {
                 Column {
@@ -411,35 +442,35 @@ fun HomeScreen(
                         icon = Icons.Default.Tune,
                         onClick = onNavigateToPreferences
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "Appearance & Layouts",
                         subtitle = "Themes, height, and resizing",
                         icon = Icons.Default.Palette,
                         onClick = onNavigateToAppearance
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "Text correction",
                         subtitle = "Suggestions and dictionaries",
                         icon = Icons.Default.Spellcheck,
                         onClick = onNavigateToTextCorrection
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "More Languages",
                         subtitle = "Arabic, Chakma, Syloti...",
                         icon = Icons.Default.Language,
                         onClick = onNavigateToMoreLanguages
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "Advanced",
                         subtitle = "Delays and typing engine",
                         icon = Icons.Default.SettingsInputComponent,
                         onClick = onNavigateToAdvanced
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "Gif Quality",
                         subtitle = "Manage data usage for Gifs",
@@ -462,7 +493,7 @@ fun HomeScreen(
 
             Surface(
                 shape = RoundedCornerShape(16.dp),
-                color = Color.White,
+                color = MaterialTheme.colorScheme.surface,
                 shadowElevation = 1.dp
             ) {
                 Column {
@@ -472,7 +503,7 @@ fun HomeScreen(
                         icon = Icons.Default.Translate,
                         onClick = onNavigateToAppLanguage
                     )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
                     SettingItem(
                         title = "About",
                         subtitle = "About NexKey Keyboard",

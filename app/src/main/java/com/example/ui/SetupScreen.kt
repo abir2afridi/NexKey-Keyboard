@@ -61,7 +61,7 @@ fun SetupScreen(
 
     Surface(
         modifier = Modifier.fillMaxSize(),
-        color = Color.White
+        color = MaterialTheme.colorScheme.surface
     ) {
         Column(
             modifier = Modifier
@@ -90,14 +90,14 @@ fun SetupScreen(
 
             Text(
                 text = "Welcome to NexKey",
-                color = Color(0xFF202124),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
                 text = "Follow these steps to get started",
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(top = 8.dp)
             )

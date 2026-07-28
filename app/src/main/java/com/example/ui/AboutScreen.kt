@@ -35,13 +35,13 @@ fun AboutScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         Column(
             modifier = Modifier
@@ -72,13 +72,13 @@ fun AboutScreen(
 
             Text(
                 text = "NexKey Keyboard",
-                color = Color(0xFF202124),
+                color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
                 text = "Version 1.0.0 (Release)",
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(top = 4.dp)
             )
@@ -104,9 +104,9 @@ fun AboutScreen(
             Spacer(modifier = Modifier.height(48.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Made with ", color = Color(0xFF5F6368), fontSize = 13.sp)
+                Text(text = "Made with ", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
                 Icon(Icons.Default.Favorite, contentDescription = null, tint = Color(0xFFD93025), modifier = Modifier.size(16.dp))
-                Text(text = " by NexKey Team", color = Color(0xFF5F6368), fontSize = 13.sp)
+                Text(text = " by NexKey Team", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
             }
             
             Spacer(modifier = Modifier.height(32.dp))
@@ -133,13 +133,13 @@ fun AboutLinkItem(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(
-                modifier = Modifier.size(36.dp).clip(CircleShape).background(Color.White),
+                modifier = Modifier.size(36.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surface),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF5F6368), modifier = Modifier.size(20.dp))
+                Icon(imageVector = icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
             }
             Spacer(modifier = Modifier.width(16.dp))
-            Text(text = title, color = Color(0xFF202124), fontSize = 16.sp, fontWeight = FontWeight.Medium)
+            Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
             Spacer(modifier = Modifier.weight(1f))
             Icon(Icons.Default.ChevronRight, null, tint = Color(0xFFBDC1C6), modifier = Modifier.size(20.dp))
         }

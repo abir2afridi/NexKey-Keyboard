@@ -26,8 +26,8 @@
 | Voice typing (Android SpeechRecognizer) | ✅ |
 | Clipboard manager (history, pin, Room DB) | ✅ |
 | Emoji panel | ✅ |
-
 | Theme system (4 presets, DataStore) | ✅ |
+| App theme (System/Light/Dark) | ✅ |
 | Auto-capitalization | ✅ |
 | Caps lock (double-tap shift) | ✅ |
 | Smart punctuation (double-space period) | ✅ |
@@ -48,6 +48,8 @@
 | App localization (BN/HI/AR) | 🚧 Planned |
 | In-app updates | 🚧 Planned |
 | Crash watchdog | 🚧 Planned |
+| 46+ language support | ✅ |
+| App Language selector | ✅ |
 
 ---
 
@@ -66,10 +68,12 @@ app/
     ├── ui/
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
     │   ├── HomeScreen.kt                   — Dashboard home with status card
+    │   ├── AppSettingsScreen.kt            — App theme, language, about
+    │   ├── SettingsSubScreens.kt           — Language picker, settings scaffold
     │   ├── SettingsScreen.kt               — User preferences UI
     │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
     │   ├── KeyboardLayouts.kt              — Layout data models & key maps
-    │   └── Components.kt                   — Reusable composables (SetupStepCard, etc.)
+    │   └── Components.kt                   — Reusable composables (SettingItem, etc.)
     ├── data/
     │   ├── AppDatabase.kt                  — Room database (clips, learned words)
     │   ├── ClipEntity.kt / ClipDao.kt              — Clipboard persistence
@@ -188,7 +192,16 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 ### Setup Wizard Detection (v1.0)
 - Step 2 now uses `InputMethodManager.showInputMethodPicker()` instead of opening settings again.
 - Continuous polling (every 500ms) detects state changes that lifecycle events miss.
-- `checkIsKeyboardSelected()` uses `InputMethodManager.getCurrentInputMethodInfo()` on API 30+ for reliable detection.
+- `checkIsKeyboardSelected()` uses `InputMethodManager.getCurrentInputMethodInfo()` on API 34+, falls back to `Settings.Secure.DEFAULT_INPUT_METHOD` on older versions.
+
+### App Theme Across All Screens (v1.0)
+- All screens now use `MaterialTheme.colorScheme.*` instead of hardcoded `Color.White`.
+- App theme (System/Light/Dark) setting in `AppSettingsScreen` persists via DataStore and updates every screen in real time.
+- `key(appTheme)` forces recomposition when theme changes, ensuring NavHost destinations reflect the new theme.
+
+### Gemini AI Removal (v1.0)
+- Removed `AI_ASSIST` keyboard mode, `AiAssistPanel` composable, toolbar AI button, and all Gemini API key references.
+- Removed secrets Gradle plugin, `.env.example`, and CI `GEMINI_API_KEY` env vars.
 
 ---
 

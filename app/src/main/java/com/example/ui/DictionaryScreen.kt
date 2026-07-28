@@ -61,13 +61,13 @@ fun DictionaryScreen(
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.White,
-                    titleContentColor = Color(0xFF202124),
-                    navigationIconContentColor = Color(0xFF202124)
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
-        containerColor = Color.White
+        containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
         if (isLoading) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -77,7 +77,7 @@ fun DictionaryScreen(
             Box(modifier = Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
                 Text(
                     text = "Your dictionary is empty. NexKey learns new words as you type.",
-                    color = Color(0xFF5F6368),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 15.sp,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
                     lineHeight = 22.sp
@@ -110,7 +110,7 @@ fun DictionaryScreen(
                             }
                         }
                     )
-                    HorizontalDivider(color = Color(0xFFF1F3F4), thickness = 1.dp)
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
                 }
                 item {
                     Spacer(modifier = Modifier.height(32.dp))
@@ -134,10 +134,10 @@ fun WordItem(
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Column {
-            Text(text = word, color = Color(0xFF202124), fontSize = 17.sp, fontWeight = FontWeight.Medium)
+            Text(text = word, color = MaterialTheme.colorScheme.onSurface, fontSize = 17.sp, fontWeight = FontWeight.Medium)
             Text(
                 text = if (isBangla) "Bangla" else "English",
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
         }

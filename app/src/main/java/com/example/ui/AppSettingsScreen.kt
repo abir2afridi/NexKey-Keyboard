@@ -30,12 +30,16 @@ fun AppSettingsScreen(
     val context = LocalContext.current
     val prefs = remember { UserPreferences(context) }
     val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
+    val navigationStyle by prefs.navigationStyle.collectAsState(initial = "STANDARD")
     val scope = rememberCoroutineScope()
 
     val themeOptions = listOf("SYSTEM", "LIGHT", "DARK")
     val themeLabels = listOf("System Default", "Light", "Dark")
 
-    androidx.compose.runtime.key(appTheme) {
+    val navOptions = listOf("STANDARD", "FLOATING")
+    val navLabels = listOf("Standard Bottom Bar", "Floating Pill Bar")
+
+    androidx.compose.runtime.key(appTheme, navigationStyle) {
     Scaffold(
         topBar = {
             TopAppBar(
@@ -98,6 +102,52 @@ fun AppSettingsScreen(
                             )
                         }
                         if (index < themeOptions.lastIndex) {
+                            HorizontalDivider(
+                                modifier = Modifier.padding(horizontal = 16.dp),
+                                color = MaterialTheme.colorScheme.outlineVariant
+                            )
+                        }
+                    }
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            Text(
+                text = "Navigation Style",
+                color = Color(0xFF2E7D32),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+            )
+
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surface,
+                shadowElevation = 1.dp
+            ) {
+                Column {
+                    navOptions.forEachIndexed { index, option ->
+                        Row(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { scope.launch { prefs.setNavigationStyle(option) } }
+                                .padding(horizontal = 16.dp, vertical = 14.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            RadioButton(
+                                selected = navigationStyle == option,
+                                onClick = { scope.launch { prefs.setNavigationStyle(option) } },
+                                colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
+                            )
+                            Spacer(modifier = Modifier.width(12.dp))
+                            Text(
+                                text = navLabels[index],
+                                fontSize = 16.sp,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                        }
+                        if (index < navOptions.lastIndex) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(horizontal = 16.dp),
                                 color = MaterialTheme.colorScheme.outlineVariant

@@ -32,7 +32,8 @@ class UserPreferences(private val context: Context) {
         private val KEY_TOTAL_WORDS = intPreferencesKey("total_words_typed")
         private val KEY_TOTAL_CHARS = intPreferencesKey("total_chars_typed")
         private val KEY_APP_THEME = stringPreferencesKey("app_theme")
-    private val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
+        private val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
+        private val KEY_NAV_STYLE = stringPreferencesKey("nav_style")
 
         // Preference Settings
         private val KEY_DOUBLE_SPACE_TAB = booleanPreferencesKey("double_space_tab")
@@ -98,6 +99,7 @@ class UserPreferences(private val context: Context) {
     val totalChars: Flow<Int> = context.dataStore.data.map { it[KEY_TOTAL_CHARS] ?: 0 }
     val appTheme: Flow<String> = context.dataStore.data.map { it[KEY_APP_THEME] ?: "SYSTEM" }
     val appLanguage: Flow<String> = context.dataStore.data.map { it[KEY_APP_LANGUAGE] ?: "en" }
+    val navigationStyle: Flow<String> = context.dataStore.data.map { it[KEY_NAV_STYLE] ?: "STANDARD" }
 
     // New Flows
     val doubleSpaceTab: Flow<Boolean> = context.dataStore.data.map { it[KEY_DOUBLE_SPACE_TAB] ?: false }
@@ -248,5 +250,9 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setAppLanguage(language: String) {
         context.dataStore.edit { it[KEY_APP_LANGUAGE] = language }
+    }
+
+    suspend fun setNavigationStyle(style: String) {
+        context.dataStore.edit { it[KEY_NAV_STYLE] = style }
     }
 }

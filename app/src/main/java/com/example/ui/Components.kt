@@ -1,5 +1,7 @@
 package com.example.ui
 
+import androidx.compose.animation.*
+import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -10,6 +12,13 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ChevronRight
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -520,7 +529,7 @@ fun ColorfulGridItem(
         Spacer(modifier = Modifier.height(10.dp))
         Text(
             text = label,
-            color = Color(0xFF202124),
+            color = MaterialTheme.colorScheme.onSurface,
             fontSize = 12.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -546,7 +555,7 @@ fun MinimalStatItem(
         )
         Text(
             text = label,
-            color = Color(0xFF5F6368),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 12.sp
         )
     }
@@ -557,7 +566,7 @@ fun MinimalDivider() {
     HorizontalDivider(
         modifier = Modifier.padding(vertical = 16.dp),
         thickness = 1.dp,
-        color = Color(0xFFF1F3F4)
+        color = MaterialTheme.colorScheme.outlineVariant
     )
 }
 
@@ -568,8 +577,19 @@ fun BentoCard(
     onClick: () -> Unit,
     content: @Composable BoxScope.() -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.96f else 1f,
+        label = "BentoCardScale"
+    )
+
     Card(
         modifier = modifier
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .shadow(
                 elevation = 2.dp,
                 shape = RoundedCornerShape(24.dp),
@@ -577,9 +597,10 @@ fun BentoCard(
                 spotColor = Color.Black.copy(alpha = 0.04f)
             ),
         shape = RoundedCornerShape(24.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        border = androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFE8F5E9)),
-        onClick = onClick
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
+        onClick = onClick,
+        interactionSource = interactionSource
     ) {
         Box(
             modifier = Modifier
@@ -587,5 +608,94 @@ fun BentoCard(
                 .padding(16.dp),
             content = content
         )
+    }
+}
+
+@Composable
+fun FloatingNavigationBar(
+    modifier: Modifier = Modifier,
+    content: @Composable RowScope.() -> Unit
+) {
+    Surface(
+        modifier = modifier
+            .padding(horizontal = 32.dp)
+            .widthIn(max = 400.dp)
+            .height(60.dp)
+            .shadow(
+                elevation = 16.dp,
+                shape = CircleShape,
+                ambientColor = Color.Black.copy(alpha = 0.2f),
+                spotColor = Color.Black.copy(alpha = 0.2f)
+            ),
+        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.95f),
+        shape = CircleShape,
+        border = androidx.compose.foundation.BorderStroke(
+            width = 0.5.dp,
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+        )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 12.dp),
+            horizontalArrangement = Arrangement.SpaceEvenly,
+            verticalAlignment = Alignment.CenterVertically,
+            content = content
+        )
+    }
+}
+
+@Composable
+fun FloatingNavigationBarItem(
+    selected: Boolean,
+    onClick: () -> Unit,
+    icon: @Composable () -> Unit,
+    label: @Composable () -> Unit,
+    modifier: Modifier = Modifier
+) {
+    val contentColor by animateColorAsState(
+        targetValue = if (selected) Color(0xFF2E7D32) else MaterialTheme.colorScheme.onSurfaceVariant,
+        animationSpec = tween(300),
+        label = "contentColor"
+    )
+
+    val backgroundColor by animateColorAsState(
+        targetValue = if (selected) Color(0xFFE8F5E9) else Color.Transparent,
+        animationSpec = tween(300),
+        label = "backgroundColor"
+    )
+
+    Box(
+        modifier = modifier
+            .clip(CircleShape)
+            .background(backgroundColor)
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+                onClick = onClick
+            )
+            .padding(horizontal = 16.dp, vertical = 10.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            CompositionLocalProvider(
+                LocalContentColor provides contentColor
+            ) {
+                icon()
+                AnimatedVisibility(
+                    visible = selected,
+                    enter = fadeIn() + expandHorizontally(),
+                    exit = fadeOut() + shrinkHorizontally()
+                ) {
+                    Row {
+                        Spacer(modifier = Modifier.width(8.dp))
+                        label()
+                    }
+                }
+            }
+        }
     }
 }
