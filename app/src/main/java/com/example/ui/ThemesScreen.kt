@@ -106,49 +106,116 @@ fun ThemePreviewCard(
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(24.dp))
-            .background(MaterialTheme.colorScheme.surfaceVariant)
+            .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f))
             .border(
                 width = 2.dp,
-                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant,
+                color = if (isSelected) MaterialTheme.colorScheme.primary else Color.Transparent,
                 shape = RoundedCornerShape(24.dp)
             )
             .clickable { onClick() }
-            .padding(12.dp)
+            .padding(10.dp)
     ) {
-        // Mini Keyboard Preview
-        Box(
+        // Mini Keyboard Preview Container
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(100.dp)
                 .clip(RoundedCornerShape(16.dp))
                 .background(theme.backgroundColor)
-                .padding(8.dp)
+                .padding(6.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
-            Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-                repeat(3) { row ->
-                    Row(horizontalArrangement = Arrangement.spacedBy(6.dp)) {
-                        repeat(if (row == 2) 6 else 8) {
-                            Box(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .height(20.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(theme.keyBackgroundColor)
-                            )
-                        }
-                    }
+            // Simulated Toolbar
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(14.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(theme.suggestionBgColor.copy(alpha = 0.5f)),
+                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                repeat(4) {
+                    Box(
+                        modifier = Modifier
+                            .padding(start = 4.dp)
+                            .size(6.dp)
+                            .clip(RoundedCornerShape(1.dp))
+                            .background(theme.accentColor.copy(alpha = 0.4f))
+                    )
                 }
+            }
+
+            // Keyboard Rows
+            // Row 1
+            Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                repeat(10) {
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                }
+            }
+            // Row 2
+            Row(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(3.dp)
+            ) {
+                repeat(9) {
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                }
+            }
+            // Row 3
+            Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.5f) // Shift
+                repeat(7) {
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                }
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.5f) // Backspace
+            }
+            // Row 4
+            Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.2f) // Mode
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.2f) // Emoji
+                Box(
+                    modifier = Modifier
+                        .weight(4f)
+                        .height(16.dp)
+                        .clip(RoundedCornerShape(3.dp))
+                        .background(theme.accentColor)
+                )
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.6f) // Enter
             }
         }
 
-        Spacer(modifier = Modifier.height(14.dp))
+        Spacer(modifier = Modifier.height(12.dp))
 
         Text(
             text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
-            fontSize = 15.sp,
-            modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 4.dp)
+            fontSize = 14.sp,
+            modifier = Modifier.align(Alignment.CenterHorizontally)
+        )
+    }
+}
+
+@Composable
+fun RowScope.MiniKey(
+    bgColor: Color,
+    textColor: Color,
+    weight: Float = 1f
+) {
+    Box(
+        modifier = Modifier
+            .weight(weight)
+            .height(16.dp)
+            .clip(RoundedCornerShape(3.dp))
+            .background(bgColor),
+        contentAlignment = Alignment.Center
+    ) {
+        // Dot to represent text
+        Box(
+            modifier = Modifier
+                .size(2.dp)
+                .clip(RoundedCornerShape(0.5.dp))
+                .background(textColor.copy(alpha = 0.5f))
         )
     }
 }
