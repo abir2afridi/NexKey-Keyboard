@@ -16,6 +16,8 @@
 local.properties
 .env
 debug.keystore
+*.jks
+*.keystore
 .history/
 docs/
 .artifacts/

@@ -58,7 +58,7 @@ abstract class LifecycleInputMethodService : InputMethodService(),
     }
 
     override fun onEvaluateInputViewShown(): Boolean {
-        return true
+        return super.onEvaluateInputViewShown() || true
     }
 
     protected fun View.setLifecycleOwners() {
