@@ -129,12 +129,20 @@ fun NexKeyApp() {
             }
             composable(Screen.Home.route) {
                 HomeScreen(
-                    onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
                     onNavigateToThemes = { navController.navigate(Screen.Themes.route) },
                     onNavigateToHelp = { navController.navigate(Screen.Help.route) },
                     onNavigateToSetup = { navController.navigate(Screen.Setup.route) },
                     onNavigateToSandbox = { navController.navigate(Screen.Sandbox.route) },
-                    onNavigateToStats = { navController.navigate(Screen.Stats.route) }
+                    onNavigateToStats = { navController.navigate(Screen.Stats.route) },
+                    onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) },
+                    onNavigateToPreferences = { navController.navigate(Screen.SettingsPreferences.route) },
+                    onNavigateToAppearance = { navController.navigate(Screen.SettingsAppearance.route) },
+                    onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
+                    onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
+                    onNavigateToAdvanced = { navController.navigate(Screen.SettingsAdvanced.route) },
+                    onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
+                    onNavigateToAbout = { navController.navigate(Screen.About.route) },
+                    onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) }
                 )
             }
             composable(Screen.Settings.route) {
@@ -170,6 +178,9 @@ fun NexKeyApp() {
             }
             composable(Screen.SettingsAppLanguage.route) {
                 AppLanguageScreen(onBack = { navController.popBackStack() })
+            }
+            composable(Screen.AppSettings.route) {
+                AppSettingsScreen(onBack = { navController.popBackStack() })
             }
             composable(Screen.Themes.route) {
                 ThemesScreen(onBack = { navController.popBackStack() })

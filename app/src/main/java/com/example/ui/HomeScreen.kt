@@ -23,12 +23,20 @@ import com.example.data.UserPreferences
 
 @Composable
 fun HomeScreen(
-    onNavigateToSettings: () -> Unit,
     onNavigateToThemes: () -> Unit,
     onNavigateToHelp: () -> Unit,
     onNavigateToSetup: () -> Unit,
     onNavigateToSandbox: () -> Unit,
-    onNavigateToStats: () -> Unit
+    onNavigateToStats: () -> Unit,
+    onNavigateToPreferences: () -> Unit = {},
+    onNavigateToAppearance: () -> Unit = {},
+    onNavigateToTextCorrection: () -> Unit = {},
+    onNavigateToMoreLanguages: () -> Unit = {},
+    onNavigateToAdvanced: () -> Unit = {},
+    onNavigateToGifQuality: () -> Unit = {},
+    onNavigateToAbout: () -> Unit = {},
+    onNavigateToAppLanguage: () -> Unit = {},
+    onNavigateToAppSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -38,7 +46,7 @@ fun HomeScreen(
     val prefs = remember { UserPreferences(context) }
     val totalWords by prefs.totalWords.collectAsState(initial = 0)
     val totalChars by prefs.totalChars.collectAsState(initial = 0)
-    val timeSaved = (totalChars / 5) * 0.5 // Estimated seconds saved
+    val timeSaved = (totalChars / 5) * 0.5
 
     Box(
         modifier = Modifier
@@ -77,7 +85,7 @@ fun HomeScreen(
                         fontWeight = FontWeight.Medium
                     )
                 }
-                
+
                 Surface(
                     shape = RoundedCornerShape(20.dp),
                     color = if (isActive) Color(0xFF2E7D32) else Color(0xFFFF9800),
@@ -106,7 +114,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Stats Row in a colorful container
+            // Stats Row
             Surface(
                 modifier = Modifier.fillMaxWidth(),
                 color = Color.White.copy(alpha = 0.6f),
@@ -162,7 +170,7 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Colorful Tools Section
+            // Discover Tools
             Text(
                 text = "DISCOVER TOOLS",
                 fontSize = 11.sp,
@@ -174,17 +182,111 @@ fun HomeScreen(
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Row(modifier = Modifier.fillMaxWidth()) {
                     ColorfulGridItem(icon = Icons.Default.Palette, label = "Themes", color = Color(0xFF7B1FA2), onClick = onNavigateToThemes, modifier = Modifier.weight(1f))
-                    ColorfulGridItem(icon = Icons.Default.Settings, label = "Settings", color = Color(0xFF1976D2), onClick = onNavigateToSettings, modifier = Modifier.weight(1f))
                     ColorfulGridItem(icon = Icons.Default.BarChart, label = "Stats", color = Color(0xFF388E3C), onClick = onNavigateToStats, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", color = Color(0xFFF57C00), onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
                 }
                 Row(modifier = Modifier.fillMaxWidth()) {
-                    ColorfulGridItem(icon = Icons.Default.AutoStories, label = "Tutorial", color = Color(0xFFF57C00), onClick = onNavigateToHelp, modifier = Modifier.weight(1f))
                     ColorfulGridItem(icon = Icons.Default.SmartToy, label = "AI Assist", color = Color(0xFFD81B60), onClick = {}, modifier = Modifier.weight(1f))
                     ColorfulGridItem(icon = Icons.Default.Storefront, label = "Store", color = Color(0xFF0097A7), onClick = {}, modifier = Modifier.weight(1f))
+                    ColorfulGridItem(icon = Icons.Default.Settings, label = "App Settings", color = Color(0xFF1976D2), onClick = onNavigateToAppSettings, modifier = Modifier.weight(1f))
                 }
             }
 
-            Spacer(modifier = Modifier.height(48.dp))
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // Keyboard Settings
+            Text(
+                text = "KEYBOARD SETTINGS",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF4CAF50),
+                modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
+            )
+
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White,
+                shadowElevation = 1.dp
+            ) {
+                Column {
+                    SettingItem(
+                        title = "Preferences",
+                        subtitle = "Feedback, clipboard, and gestures",
+                        icon = Icons.Default.Tune,
+                        onClick = onNavigateToPreferences
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "Appearance & Layouts",
+                        subtitle = "Themes, height, and resizing",
+                        icon = Icons.Default.Palette,
+                        onClick = onNavigateToAppearance
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "Text correction",
+                        subtitle = "Suggestions and dictionaries",
+                        icon = Icons.Default.Spellcheck,
+                        onClick = onNavigateToTextCorrection
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "More Languages",
+                        subtitle = "Arabic, Chakma, Syloti...",
+                        icon = Icons.Default.Language,
+                        onClick = onNavigateToMoreLanguages
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "Advanced",
+                        subtitle = "Delays and typing engine",
+                        icon = Icons.Default.SettingsInputComponent,
+                        onClick = onNavigateToAdvanced
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "Gif Quality",
+                        subtitle = "Manage data usage for Gifs",
+                        icon = Icons.Default.Gif,
+                        onClick = onNavigateToGifQuality
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+            // Application Section
+            Text(
+                text = "APPLICATION",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = Color(0xFF4CAF50),
+                modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
+            )
+
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = Color.White,
+                shadowElevation = 1.dp
+            ) {
+                Column {
+                    SettingItem(
+                        title = "App Language",
+                        subtitle = "Change between Bangla and English",
+                        icon = Icons.Default.Translate,
+                        onClick = onNavigateToAppLanguage
+                    )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = Color(0xFFF1F3F4))
+                    SettingItem(
+                        title = "About",
+                        subtitle = "About NexKey Keyboard",
+                        icon = Icons.Default.Info,
+                        onClick = onNavigateToAbout
+                    )
+                }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
 
             // Footer
             Box(
@@ -198,7 +300,8 @@ fun HomeScreen(
                     color = Color(0xFF4CAF50).copy(alpha = 0.5f)
                 )
             }
-            Spacer(modifier = Modifier.height(32.dp))
+
+            Spacer(modifier = Modifier.height(80.dp))
         }
     }
 }
