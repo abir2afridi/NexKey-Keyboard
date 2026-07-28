@@ -52,26 +52,26 @@ fun PreferencesSettingsScreen(onBack: () -> Unit) {
         SettingSwitchItem("Double-space period", "Double tap on spacebar inserts a period followed by a space", Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
         SettingSwitchItem("Double-space tab", "Double tap on spacebar inserts a tab", Icons.AutoMirrored.Filled.KeyboardTab, doubleSpaceTab) { scope.launch { prefs.setDoubleSpaceTab(it) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
         
         SettingSwitchItem("Clipboard Recent Items", "Show recent copied or cut text in clipboard", Icons.Default.ContentPaste, clipboardRecent) { scope.launch { prefs.setClipboardRecent(it) } }
         SettingSliderItem("Keep copied text on Clipboard", clipboardExpiry.toFloat(), 10f..1440f) { scope.launch { prefs.setClipboardExpiry(it.toInt()) } }
         SettingSwitchItem("Show copied images on Clipboard", "Show screenshots or copied images", Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Vibrate on keypress", null, Icons.Default.Vibration, haptics) { scope.launch { prefs.setHaptics(it) } }
         SettingSwitchItem("Sound on keypress", null, Icons.AutoMirrored.Filled.VolumeUp, sound) { scope.launch { prefs.setSound(it) } }
         SettingSwitchItem("Popup on keypress", null, Icons.AutoMirrored.Filled.Message, popupOnKeypress) { scope.launch { prefs.setPopupOnKeypress(it) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Voice input key", null, Icons.Default.Mic, voiceInputKey) { scope.launch { prefs.setVoiceInputKey(it) } }
         SettingSwitchItem("Show Emoji Key", "Switch to Emoji button", Icons.Default.EmojiEmotions, showEmojiKey) { scope.launch { prefs.setShowEmojiKey(it) } }
         SettingSwitchItem("Show Globe Key", "Switch keyboard language", Icons.Default.Language, showGlobeKey) { scope.launch { prefs.setShowGlobeKey(it) } }
         SettingSwitchItem("Allow Other Keyboards", "Globe key switches to others", Icons.Default.Keyboard, allowOtherKeyboards) { scope.launch { prefs.setAllowOtherKeyboards(it) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Move Cursor Using Space Key", "Swipe space to move cursor", Icons.Default.SwapHoriz, moveCursorSpace) { scope.launch { prefs.setMoveCursorSpace(it) } }
         SettingSwitchItem("Volume cursor", "Use volume keys to move cursor", Icons.Default.SettingsInputComponent, volumeCursor) { scope.launch { prefs.setVolumeCursor(it) } }
@@ -104,18 +104,18 @@ fun AppearanceSettingsScreen(onBack: () -> Unit) {
         SettingSwitchItem("Large number row", null, Icons.Default.ViewStream, largeNumRow) { scope.launch { prefs.setLargeNumberRow(it) } }
         SettingSwitchItem("Hide long press hints", "Hide small labels from key corners", Icons.Default.VisibilityOff, hideHints) { scope.launch { prefs.setHideLongPressHints(it) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Enable keyboard resizing", null, Icons.Default.AspectRatio, enableResizing) { scope.launch { prefs.setEnableKbResizing(it) } }
         SettingSliderItem("Keyboard Height (Portrait)", heightPortrait.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightPortrait(it.toInt()) } }
         SettingSliderItem("Keyboard Height (Landscape)", heightLandscape.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightLandscape(it.toInt()) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
         
         SettingSliderItem("One Handed Width (Portrait)", widthOneHandedPortrait.toFloat(), 50f..100f) { scope.launch { prefs.setOneHandedWidthPortrait(it.toInt()) } }
         SettingSliderItem("One Handed Width (Landscape)", widthOneHandedLandscape.toFloat(), 30f..100f) { scope.launch { prefs.setOneHandedWidthLandscape(it.toInt()) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Enable split keyboard", "For foldable phones", Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
         SettingSwitchItem("Forced enter button", "Do not show emoji on enter", Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }
@@ -168,12 +168,12 @@ fun AdvancedSettingsScreen(onBack: () -> Unit) {
         SettingSliderItem("Keypress vibration duration", vibrationDur.toFloat(), 0f..100f) { scope.launch { prefs.setVibrationDuration(it.toInt()) } }
         SettingSliderItem("Keypress sound volume", soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSliderItem("Space cursor long press delay (ms)", spaceDelay.toFloat(), 200f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
         SettingSliderItem("Space cursor speed", spaceSpeed.toFloat(), 50f..500f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
         
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = Color(0xFFF1F3F4))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
         SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
@@ -213,15 +213,15 @@ fun LanguageInstallItem(name: String, desc: String, icon: androidx.compose.ui.gr
     ) {
         Row(modifier = Modifier.weight(1f), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
             Box(
-                modifier = Modifier.size(40.dp).clip(CircleShape).background(Color(0xFFF1F3F4)),
+                modifier = Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceVariant),
                 contentAlignment = androidx.compose.ui.Alignment.Center
             ) {
-                Icon(icon, null, tint = Color(0xFF5F6368), modifier = Modifier.size(22.dp))
+                Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(name, color = Color(0xFF202124), fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                Text(desc, color = Color(0xFF5F6368), fontSize = 13.sp)
+                Text(name, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text(desc, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
             }
         }
         Button(

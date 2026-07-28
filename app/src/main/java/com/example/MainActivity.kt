@@ -67,13 +67,10 @@ fun NexKeyApp() {
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentDestination = navBackStackEntry?.destination
     
-    val topLevelScreens = listOf(Screen.Home.route, Screen.Help.route, Screen.About.route)
-    val isTopLevel = currentDestination?.route in topLevelScreens
-
     Scaffold(
         modifier = Modifier.fillMaxSize(),
         bottomBar = {
-            if (isTopLevel && navigationStyle == "STANDARD") {
+            if (navigationStyle == "STANDARD") {
                 NavigationBar(
                     containerColor = MaterialTheme.colorScheme.surface,
                     contentColor = MaterialTheme.colorScheme.onSurface,
@@ -168,9 +165,7 @@ fun NexKeyApp() {
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
                         onNavigateToAdvanced = { navController.navigate(Screen.SettingsAdvanced.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
-                        onNavigateToAbout = { navController.navigate(Screen.About.route) },
-                        onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) }
+                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
@@ -214,6 +209,9 @@ fun NexKeyApp() {
                         onNavigateToAbout = { navController.navigate(Screen.About.route) }
                     )
                 }
+                composable(Screen.Developer.route) {
+                    DeveloperScreen(onBack = { navController.popBackStack() })
+                }
                 composable(Screen.Themes.route) {
                     ThemesScreen(onBack = { navController.popBackStack() })
                 }
@@ -230,7 +228,10 @@ fun NexKeyApp() {
                     ClipboardScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.About.route) {
-                    AboutScreen(onBack = { navController.popBackStack() })
+                    AboutScreen(
+                        onBack = { navController.popBackStack() },
+                        onNavigateToDeveloper = { navController.navigate(Screen.Developer.route) }
+                    )
                 }
                 composable(Screen.Stats.route) {
                     TypingStatsScreen(onBack = { navController.popBackStack() })
@@ -240,7 +241,7 @@ fun NexKeyApp() {
                 }
             }
             
-            if (isTopLevel && navigationStyle == "FLOATING") {
+            if (navigationStyle == "FLOATING") {
                 FloatingNavigationBar(
                     modifier = Modifier
                         .align(Alignment.BottomCenter)

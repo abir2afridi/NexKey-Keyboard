@@ -22,4 +22,5 @@ sealed class Screen(val route: String) {
     object SettingsGifQuality : Screen("settings_gif_quality")
     object SettingsAppLanguage : Screen("settings_app_language")
     object AppSettings : Screen("app_settings")
+    object Developer : Screen("developer")
 }

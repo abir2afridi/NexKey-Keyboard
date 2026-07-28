@@ -16,20 +16,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(
-    onBack: () -> Unit,
-    onNavigateToDeveloper: () -> Unit = {}
-) {
+fun DeveloperScreen(onBack: () -> Unit) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("About", fontWeight = FontWeight.Bold) },
+                title = { Text("Developer", fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
@@ -62,7 +58,7 @@ fun AboutScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Icon(
-                    imageVector = Icons.Default.Keyboard,
+                    imageVector = Icons.Default.Person,
                     contentDescription = null,
                     tint = Color(0xFF2E7D32),
                     modifier = Modifier.size(56.dp)
@@ -72,38 +68,65 @@ fun AboutScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "NexKey Keyboard",
+                text = "Abir Hasan Siam",
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Version 1.0.0 (Release)",
+                text = "22 years | Gazipur, Dhaka",
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(top = 4.dp)
             )
+            Text(
+                text = "Blood: B+",
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                fontSize = 14.sp
+            )
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            Text(
-                text = "NexKey is a modern, premium keyboard designed for speed and privacy. It features industry-leading Bangla phonetic transliteration and intelligent correction engines.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                fontSize = 15.sp,
-                textAlign = TextAlign.Center,
-                lineHeight = 24.sp
-            )
+            // Profile Card
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surface,
+                shadowElevation = 4.dp
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(18.dp)
+                ) {
+                    Text("Education", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    InfoRow(icon = Icons.Default.School, text = "BSc in Computer Science - Independent University of Bangladesh (2021-Present)")
+                    Spacer(modifier = Modifier.height(4.dp))
+                    InfoRow(icon = Icons.Default.School, text = "HSC - Misir Ali Khan School & College (2019-2020)")
+                    Spacer(modifier = Modifier.height(4.dp))
+                    InfoRow(icon = Icons.Default.School, text = "SSC - Professor MEH Arif Secondary School (2017-2018)")
 
-            Spacer(modifier = Modifier.height(48.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    Spacer(modifier = Modifier.height(16.dp))
 
-            AboutLinkItem(icon = Icons.Default.StarOutline, title = "Rate NexKey") {}
-            AboutLinkItem(icon = Icons.Default.Language, title = "Visit Website") {}
-            AboutLinkItem(icon = Icons.Default.Code, title = "Open Source Licenses") {}
-            AboutLinkItem(icon = Icons.Default.Policy, title = "Privacy Policy") {}
-            HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-            AboutLinkItem(icon = Icons.Default.Person, title = "Developer", onClick = onNavigateToDeveloper)
+                    Text("Skills & Technologies", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    InfoRow(icon = Icons.Default.Code, text = "Dart (Flutter), React, Python")
+                    InfoRow(icon = Icons.Default.PhoneAndroid, text = "Android APK, Flutter, React.js")
+                    InfoRow(icon = Icons.Default.DesignServices, text = "App UI/UX, Gradient & Card-based layouts")
+                    InfoRow(icon = Icons.Default.Terminal, text = "Windows, Linux, Git, GitHub")
 
-            Spacer(modifier = Modifier.weight(1f))
+                    Spacer(modifier = Modifier.height(16.dp))
+                    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    Text("Contact", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color(0xFF4CAF50))
+                    Spacer(modifier = Modifier.height(8.dp))
+                    InfoRow(icon = Icons.Default.Email, text = "abir2afridi@gmail.com")
+                    InfoRow(icon = Icons.Default.Language, text = "github.com/abir2afridi")
+                    InfoRow(icon = Icons.Default.Public, text = "abir2afridi.vercel.app")
+                }
+            }
+
             Spacer(modifier = Modifier.height(48.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -113,59 +136,6 @@ fun AboutScreen(
             }
 
             Spacer(modifier = Modifier.height(32.dp))
-        }
-    }
-}
-
-@Composable
-fun InfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
-    Row(
-        modifier = Modifier.padding(vertical = 3.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(16.dp)
-        )
-        Spacer(modifier = Modifier.width(10.dp))
-        Text(
-            text = text,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 13.sp
-        )
-    }
-}
-
-@Composable
-fun AboutLinkItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
-    title: String,
-    onClick: () -> Unit
-) {
-    Surface(
-        onClick = onClick,
-        color = MaterialTheme.colorScheme.surfaceVariant,
-        shape = RoundedCornerShape(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 8.dp)
-    ) {
-        Row(
-            modifier = Modifier.padding(18.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Box(
-                modifier = Modifier.size(36.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surface),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(imageVector = icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-            Spacer(modifier = Modifier.weight(1f))
-            Icon(Icons.Default.ChevronRight, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(20.dp))
         }
     }
 }

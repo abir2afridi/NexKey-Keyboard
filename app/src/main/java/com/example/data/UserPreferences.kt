@@ -34,6 +34,7 @@ class UserPreferences(private val context: Context) {
         private val KEY_APP_THEME = stringPreferencesKey("app_theme")
         private val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
         private val KEY_NAV_STYLE = stringPreferencesKey("nav_style")
+        private val KEY_ACCENT_COLOR = stringPreferencesKey("accent_color")
 
         // Preference Settings
         private val KEY_DOUBLE_SPACE_TAB = booleanPreferencesKey("double_space_tab")
@@ -100,6 +101,7 @@ class UserPreferences(private val context: Context) {
     val appTheme: Flow<String> = context.dataStore.data.map { it[KEY_APP_THEME] ?: "SYSTEM" }
     val appLanguage: Flow<String> = context.dataStore.data.map { it[KEY_APP_LANGUAGE] ?: "en" }
     val navigationStyle: Flow<String> = context.dataStore.data.map { it[KEY_NAV_STYLE] ?: "STANDARD" }
+    val accentColor: Flow<String> = context.dataStore.data.map { it[KEY_ACCENT_COLOR] ?: "#FF2E7D32" }
 
     // New Flows
     val doubleSpaceTab: Flow<Boolean> = context.dataStore.data.map { it[KEY_DOUBLE_SPACE_TAB] ?: false }
@@ -254,5 +256,9 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setNavigationStyle(style: String) {
         context.dataStore.edit { it[KEY_NAV_STYLE] = style }
+    }
+
+    suspend fun setAccentColor(color: String) {
+        context.dataStore.edit { it[KEY_ACCENT_COLOR] = color }
     }
 }

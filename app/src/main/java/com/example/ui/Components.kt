@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.sp
 @Composable
 fun PremiumCard(
     modifier: Modifier = Modifier,
-    containerColor: Color = Color.White,
+    containerColor: Color = MaterialTheme.colorScheme.surface,
     onClick: (() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
@@ -92,7 +92,7 @@ fun PremiumMenuIcon(
         Spacer(modifier = Modifier.height(12.dp))
         Text(
             text = label,
-            color = Color(0xFF3C4043),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 15.sp,
             fontWeight = FontWeight.SemiBold
         )
@@ -128,13 +128,13 @@ fun PremiumFeatureBanner(
                     modifier = Modifier
                         .size(48.dp)
                         .clip(CircleShape)
-                        .background(Color.White.copy(alpha = 0.5f)),
+                        .background(MaterialTheme.colorScheme.surface.copy(alpha = 0.5f)),
                     contentAlignment = Alignment.Center
                 ) {
                     Icon(
                         imageVector = icon,
                         contentDescription = null,
-                        tint = Color(0xFF202124),
+                        tint = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.size(28.dp)
                     )
                 }
@@ -142,20 +142,20 @@ fun PremiumFeatureBanner(
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = title,
-                        color = Color(0xFF202124),
+                        color = MaterialTheme.colorScheme.onSurface,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold
                     )
                     Text(
                         text = subtitle,
-                        color = Color(0xFF202124).copy(alpha = 0.6f),
+                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
                         fontSize = 13.sp
                     )
                 }
                 Icon(
                     imageVector = Icons.Default.ChevronRight,
                     contentDescription = null,
-                    tint = Color(0xFF202124).copy(alpha = 0.3f),
+                    tint = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.3f),
                     modifier = Modifier.size(24.dp)
                 )
             }
@@ -328,7 +328,7 @@ fun SettingSliderItem(
 ) {
     Column(modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = title, color = Color(0xFF202124), fontSize = 15.sp, fontWeight = FontWeight.Medium)
+            Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp, fontWeight = FontWeight.Medium)
             Text(text = value.toInt().toString(), color = Color(0xFF2E7D32), fontWeight = FontWeight.Bold)
         }
         Slider(
@@ -338,7 +338,7 @@ fun SettingSliderItem(
             colors = SliderDefaults.colors(
                 thumbColor = Color(0xFF2E7D32),
                 activeTrackColor = Color(0xFF2E7D32),
-                inactiveTrackColor = Color(0xFFF1F3F4)
+                inactiveTrackColor = MaterialTheme.colorScheme.surfaceVariant
             )
         )
     }
@@ -352,15 +352,15 @@ fun SettingSwitchItem(title: String, subtitle: String?, icon: ImageVector, check
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .background(Color(0xFFF1F3F4)),
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
                 contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = icon, contentDescription = null, tint = Color(0xFF5F6368), modifier = Modifier.size(22.dp))
+                Icon(imageVector = icon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column {
-                Text(text = title, color = Color(0xFF202124), fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                subtitle?.let { Text(text = it, color = Color(0xFF5F6368), fontSize = 13.sp) }
+                Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                subtitle?.let { Text(text = it, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp) }
             }
         }
         Switch(
@@ -382,15 +382,15 @@ fun PhoneticRow(latin: String, bangla: String, meaning: String) {
         modifier = Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFF5F5F5))
+            .background(MaterialTheme.colorScheme.surfaceVariant)
             .padding(horizontal = 16.dp, vertical = 12.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(text = latin, color = Color(0xFF1976D2), fontWeight = FontWeight.Bold, fontSize = 15.sp)
-        Text(text = "➜", color = Color(0xFF9E9E9E), fontSize = 12.sp)
-        Text(text = bangla, color = Color(0xFF202124), fontWeight = FontWeight.Bold, fontSize = 18.sp)
-        Text(text = "($meaning)", color = Color(0xFF757575), fontSize = 12.sp)
+        Text(text = "➜", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp)
+        Text(text = bangla, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+        Text(text = "($meaning)", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 12.sp)
     }
 }
 
@@ -407,9 +407,9 @@ fun SetupStepCard(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(20.dp),
         colors = CardDefaults.cardColors(
-            containerColor = if (isCompleted) Color(0xFFF1F8E9) else Color(0xFFF8F9FA)
+            containerColor = if (isCompleted) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface
         ),
-        border = if (isCompleted) null else androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFDADCE0))
+        border = if (isCompleted) null else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
     ) {
         Column(
             modifier = Modifier.padding(20.dp)
@@ -419,12 +419,12 @@ fun SetupStepCard(
                     modifier = Modifier
                         .size(32.dp)
                         .clip(CircleShape)
-                        .background(if (isCompleted) Color(0xFF2E7D32) else Color(0xFF5F6368)),
+                        .background(if (isCompleted) Color(0xFF2E7D32) else MaterialTheme.colorScheme.outlineVariant),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = stepNumber,
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontWeight = FontWeight.Bold,
                         fontSize = 14.sp
                     )
@@ -434,16 +434,16 @@ fun SetupStepCard(
                     text = title,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF202124)
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
-            
+
             Spacer(modifier = Modifier.height(12.dp))
-            
+
             Text(
                 text = description,
                 fontSize = 14.sp,
-                color = Color(0xFF5F6368),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
                 lineHeight = 20.sp
             )
             
@@ -454,7 +454,7 @@ fun SetupStepCard(
                 enabled = !isCompleted,
                 modifier = Modifier.fillMaxWidth(),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = if (isCompleted) Color(0xFF2E7D32) else Color(0xFF202124),
+                    containerColor = if (isCompleted) Color(0xFF2E7D32) else MaterialTheme.colorScheme.primary,
                     disabledContainerColor = Color(0xFFE8F5E9),
                     disabledContentColor = Color(0xFF2E7D32)
                 ),
@@ -485,13 +485,13 @@ fun MinimalGridItem(
         Icon(
             imageVector = icon,
             contentDescription = label,
-            tint = Color(0xFF202124),
+            tint = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.size(24.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = label,
-            color = Color(0xFF5F6368),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 13.sp,
             fontWeight = FontWeight.Medium
         )
@@ -540,7 +540,7 @@ fun ColorfulGridItem(
 fun MinimalStatItem(
     value: String,
     label: String,
-    valueColor: Color = Color(0xFF202124),
+    valueColor: Color,
     modifier: Modifier = Modifier
 ) {
     Column(

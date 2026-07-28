@@ -39,8 +39,6 @@ fun HomeScreen(
     onNavigateToMoreLanguages: () -> Unit = {},
     onNavigateToAdvanced: () -> Unit = {},
     onNavigateToGifQuality: () -> Unit = {},
-    onNavigateToAbout: () -> Unit = {},
-    onNavigateToAppLanguage: () -> Unit = {},
     onNavigateToAppSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -476,39 +474,6 @@ fun HomeScreen(
                         subtitle = "Manage data usage for Gifs",
                         icon = Icons.Default.Gif,
                         onClick = onNavigateToGifQuality
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(24.dp))
-
-            // Application Section
-            Text(
-                text = "APPLICATION",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF4CAF50),
-                modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
-            )
-
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 1.dp
-            ) {
-                Column {
-                    SettingItem(
-                        title = "App Language",
-                        subtitle = "Change between Bangla and English",
-                        icon = Icons.Default.Translate,
-                        onClick = onNavigateToAppLanguage
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "About",
-                        subtitle = "About NexKey Keyboard",
-                        icon = Icons.Default.Info,
-                        onClick = onNavigateToAbout
                     )
                 }
             }

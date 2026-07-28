@@ -85,9 +85,9 @@ fun ClipboardScreen(
 fun ClipboardItemCard(clip: ClipItem) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Color(0xFFF8F9FA)),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceVariant),
         shape = RoundedCornerShape(20.dp),
-        border = if (clip.isPinned) androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF2E7D32)) else androidx.compose.foundation.BorderStroke(1.dp, Color(0xFFF1F3F4)),
+        border = if (clip.isPinned) androidx.compose.foundation.BorderStroke(1.5.dp, Color(0xFF2E7D32)) else androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
         Column(modifier = Modifier.padding(20.dp)) {
@@ -101,7 +101,7 @@ fun ClipboardItemCard(clip: ClipItem) {
                         modifier = Modifier
                             .size(36.dp)
                             .clip(CircleShape)
-                            .background(if (clip.isPinned) Color(0xFFE8F5E9) else Color(0xFFF1F3F4))
+                            .background(if (clip.isPinned) Color(0xFFE8F5E9) else MaterialTheme.colorScheme.surfaceVariant)
                             .clickable { ClipboardManager.togglePin(clip.id) },
                         contentAlignment = Alignment.Center
                     ) {
@@ -124,7 +124,7 @@ fun ClipboardItemCard(clip: ClipItem) {
                     onClick = { ClipboardManager.deleteClip(clip.id) },
                     modifier = Modifier.size(32.dp)
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = Color(0xFFBDC1C6), modifier = Modifier.size(18.dp))
+                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 }
             }
             

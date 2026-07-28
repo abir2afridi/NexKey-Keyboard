@@ -191,7 +191,7 @@ fun MilestoneItem(
             Icon(
                 imageVector = if (isAchieved) Icons.Default.AutoAwesome else Icons.Default.Speed,
                 contentDescription = null,
-                tint = if (isAchieved) Color.White else Color(0xFF9E9E9E),
+                tint = if (isAchieved) Color.White else MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.size(22.dp)
             )
         }
@@ -199,7 +199,7 @@ fun MilestoneItem(
         Column {
             Text(
                 text = title,
-                color = if (isAchieved) MaterialTheme.colorScheme.onSurface else Color(0xFF757575),
+                color = if (isAchieved) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
