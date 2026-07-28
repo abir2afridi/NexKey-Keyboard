@@ -1,0 +1,132 @@
+name: "📱 Android-Specific Bug"
+description: "🤖 Report a bug specific to Android devices, IME behavior, or system integration"
+title: "[ANDROID]: "
+labels: [bug, mobile]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📱 Report Android-specific issues in **NexKey Keyboard**
+
+        ⚙️ IME lifecycle problems, system integration bugs, or device-specific behavior.
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "✅ Prerequisites"
+      options:
+        - label: "🔍 I have searched existing issues and this is not a duplicate"
+          required: true
+
+  - type: dropdown
+    id: issue-category
+    attributes:
+      label: "🎯 Issue Category"
+      options:
+        - "📱 IME service / keyboard not showing"
+        - "🔄 Keyboard not switching / layout issues"
+        - "🚧 Setup wizard not detecting enable/select state"
+        - "🎙️ Voice typing not working (RECORD_AUDIO)"
+        - "📋 Clipboard manager / incognito mode"
+        - "🔎 Prediction engine / word learning"
+        - "💥 Keyboard disappearing or crashing"
+        - "🔔 Notification / permissions"
+        - "😀 Emoji panel issues"
+        - "♿ Accessibility / TalkBack issues"
+        - "🔒 Password field detection"
+        - "🎨 Theme / appearance not applying"
+        - "🌙 App theme (System/Light/Dark) issues"
+    validations:
+      required: true
+
+  - type: input
+    id: device-model
+    attributes:
+      label: "📱 Device Model"
+      placeholder: "e.g., Samsung Galaxy S25, Pixel 9 Pro, Nothing Phone 3"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: android-version
+    attributes:
+      label: "🤖 Android Version"
+      options:
+        - Android 12 (API 31)
+        - Android 13 (API 33)
+        - Android 14 (API 34)
+        - Android 15 (API 35)
+        - Android 16 (API 36)
+        - Other
+    validations:
+      required: true
+
+  - type: input
+    id: rom
+    attributes:
+      label: "📱 ROM / Customizations"
+      description: Stock, One UI, MIUI, ColorOS, Pixel OS, GrapheneOS, etc.
+      placeholder: "e.g., Stock Android, One UI 7, MIUI 16"
+    validations:
+      required: false
+
+  - type: dropdown
+    id: keyboard-layout
+    attributes:
+      label: "⌨️ Keyboard Layout"
+      options:
+        - "🇬🇧 English QWERTY"
+        - "🇧🇩 Bangla Phonetic"
+        - "🇧🇩 Bangla Jatiyo"
+        - "🇸🇦 Arabic"
+        - "🔄 All / switching between layouts"
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 Description"
+      description: Clearly describe the issue and what you expected to happen
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "📋 Steps to Reproduce"
+      placeholder: |
+        1. Go to Settings → Language & Input
+        2. Select NexKey as default keyboard
+        3. Open any messaging app
+        4. Tap a text field — keyboard does not appear
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "💻 ADB Logs"
+      description: If you can capture logs, include relevant lines
+      placeholder: "adb logcat -s NexKeyInputMethodService"
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "💡 Additional Context"
+      description: Any other relevant information
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: "🤝 Code of Conduct"
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

@@ -1,0 +1,37 @@
+name: "🔒 Security Vulnerability Report"
+description: "⚠️ DO NOT report security vulnerabilities in public issues. This form redirects you to private reporting."
+title: "[SECURITY]: Private report — use GitHub Security Advisories"
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## ⚠️ ❗ This is NOT the right place to report security vulnerabilities.
+
+        🚨 Reporting security issues publicly puts all users at risk.
+
+        🔒 Please use one of these private channels instead:
+
+        - 🔐 **GitHub Security Advisories**: [Report a vulnerability](../../security/advisories/new)
+        - 🔒 **Private contact**: Open a [GitHub Security Advisory](../../security/advisories/new)
+
+        ---
+
+        🛡️ **NexKey Keyboard** takes security seriously:
+
+        - 🌍 No network calls by default
+        - 🚫 Password field detection disables prediction/clipboard
+        - 🕵️ Incognito mode for sensitive typing
+        - 💾 All data stored on-device only
+
+        🙏 Thank you for helping keep this project secure.
+
+  - type: checkboxes
+    id: acknowledgement
+    attributes:
+      label: "🔔 I understand"
+      options:
+        - label: >
+            🔒 I understand this is not the right form for security reports and
+            I will use the private reporting channels above.
+          required: true

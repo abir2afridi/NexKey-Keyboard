@@ -1,0 +1,90 @@
+name: "📖 Documentation Issue"
+description: "📝 Report missing, incorrect, or outdated documentation"
+title: "[DOCS]: "
+labels: [documentation]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📖 Help us improve the documentation for **NexKey Keyboard**!
+
+        🔍 Spot a typo? Missing info? Let us know.
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "✅ Prerequisites"
+      options:
+        - label: "🔍 I have searched existing issues and this is not a duplicate"
+          required: true
+
+  - type: dropdown
+    id: doc-area
+    attributes:
+      label: "📚 Documentation Area"
+      options:
+        - "📖 README.md"
+        - "📄 docs/PERMISSIONS.md"
+        - "📊 docs/DATA_SOURCES.md"
+        - "📜 docs/THIRD_PARTY_LICENSES.md"
+        - "🤖 In-app help / tutorial"
+        - "💬 Code comments"
+        - "🔧 Build / CI documentation"
+        - "🔄 Other"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: "🏷️ Issue Type"
+      options:
+        - "💢 Missing documentation"
+        - "❌ Incorrect information"
+        - "🔄 Outdated information"
+        - "💭 Hard to understand"
+        - "✏️ Typo / grammar"
+    validations:
+      required: true
+
+  - type: input
+    id: doc-link
+    attributes:
+      label: "🔗 Link to the Problematic Page"
+      description: If applicable, provide the URL or file path
+      placeholder: "docs/PERMISSIONS.md"
+    validations:
+      required: false
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 What's Wrong?"
+      description: Clearly describe what is missing, incorrect, or unclear
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "💡 Suggested Improvement"
+      description: How would you improve this?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: contribute
+    attributes:
+      label: "🤝 Willingness to Contribute"
+      options:
+        - label: "💪 I'd be happy to submit a PR to fix this"
+          required: false
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: "🤝 Code of Conduct"
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/abir2afridi/NexKey-Keyboard/blob/main/app/src/main/drawable/nexkey_apk-headericon.png" alt="NexKey Logo" width="128" height="128">
+  <img src="https://github.com/abir2afridi/NexKey-Keyboard/blob/main/app/src/main/res/drawable/icon_header.png" alt="NexKey Logo" width="128" height="128">
 </p>
 
 # NexKey Keyboard
@@ -11,6 +11,10 @@
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
+[![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
+[![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
+[![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
+[![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
 
 ---
 
@@ -206,6 +210,21 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 ### Gemini AI Removal (v1.0)
 - Removed `AI_ASSIST` keyboard mode, `AiAssistPanel` composable, toolbar AI button, and all Gemini API key references.
 - Removed secrets Gradle plugin, `.env.example`, and CI `GEMINI_API_KEY` env vars.
+
+---
+
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](.github/CONTRIBUTING.md) for:
+
+- 🐛 [Bug reports](https://github.com/abir2afridi/NexKey-Keyboard/issues/new?template=01-bug-report.yml)
+- 💡 [Feature requests](https://github.com/abir2afridi/NexKey-Keyboard/issues/new?template=02-feature-request.yml)
+- 📖 [Documentation fixes](https://github.com/abir2afridi/NexKey-Keyboard/issues/new?template=03-documentation.yml)
+- ⚡ [Performance reports](https://github.com/abir2afridi/NexKey-Keyboard/issues/new?template=04-performance.yml)
+- 🎨 [UI/UX feedback](https://github.com/abir2afridi/NexKey-Keyboard/issues/new?template=05-ui-ux.yml)
+- 🔒 [Security advisories](.github/SECURITY.md)
+
+All contributors must follow our [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
 ---
 

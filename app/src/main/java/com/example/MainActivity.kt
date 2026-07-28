@@ -16,7 +16,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -56,6 +58,7 @@ fun NexKeyApp() {
     val context = androidx.compose.ui.platform.LocalContext.current
     val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
     val navigationStyle by prefs.navigationStyle.collectAsState(initial = "STANDARD")
+    val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
 
     val startDestination = if (checkIsKeyboardEnabled(context) && checkIsKeyboardSelected(context)) {
         Screen.Home.route
@@ -152,7 +155,20 @@ fun NexKeyApp() {
                     )
                 }
                 composable(Screen.Home.route) {
+                    val scope = rememberCoroutineScope()
                     HomeScreen(
+                        appTheme = appTheme,
+                        onToggleTheme = {
+                            scope.launch {
+                                prefs.setAppTheme(
+                                    when (appTheme) {
+                                        "SYSTEM" -> "DARK"
+                                        "DARK" -> "LIGHT"
+                                        else -> "SYSTEM"
+                                    }
+                                )
+                            }
+                        },
                         onNavigateToThemes = { navController.navigate(Screen.Themes.route) },
                         onNavigateToHelp = { navController.navigate(Screen.Help.route) },
                         onNavigateToSetup = { navController.navigate(Screen.Setup.route) },

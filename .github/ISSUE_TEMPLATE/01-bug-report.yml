@@ -1,0 +1,172 @@
+name: "🐛 Bug Report"
+description: "🚨 Report a bug or unexpected behavior in NexKey Keyboard"
+title: "[BUG]: "
+labels: [bug, needs-triage]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🐛 Thanks for reporting a bug in **NexKey Keyboard**!
+
+        📋 Please fill in as much detail as possible so we can reproduce and fix it.
+        ⏳ We'll triage this within a few days.
+
+  - type: checkboxes
+    id: existing-issue-check
+    attributes:
+      label: "✅ Prerequisites"
+      description: Before submitting, please confirm
+      options:
+        - label: "🔍 I have searched existing issues and this is not a duplicate"
+          required: true
+        - label: "📖 I have read the documentation and troubleshooting guide"
+          required: true
+
+  - type: input
+    id: app-version
+    attributes:
+      label: "📱 App Version"
+      description: What version of NexKey are you using? (See App Settings → About)
+      placeholder: "e.g., 1.0.0 (versionCode 1)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device-type
+    attributes:
+      label: "📱 Device Type"
+      description: What kind of device are you using?
+      options:
+        - "📱 Phone"
+        - "📺 Tablet"
+        - "🫱 Foldable"
+        - "🤖 Emulator"
+        - "🔄 Other"
+    validations:
+      required: true
+
+  - type: input
+    id: device-model
+    attributes:
+      label: "📱 Device Model"
+      description: "What is your device model? (e.g., Pixel 9 Pro, Samsung Galaxy S25)"
+      placeholder: "e.g., Pixel 9 Pro"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: android-version
+    attributes:
+      label: "🤖 Android Version"
+      description: What Android version is your device running?
+      options:
+        - Android 14 (API 34)
+        - Android 15 (API 35)
+        - Android 16 (API 36)
+        - Other / Custom ROM
+    validations:
+      required: true
+
+  - type: dropdown
+    id: keyboard-layout
+    attributes:
+      label: "⌨️ Keyboard Layout"
+      description: Which keyboard layout were you using when the bug occurred?
+      options:
+        - "🇬🇧 English QWERTY"
+        - "🇧🇩 Bangla Phonetic (Ridmik-class)"
+        - "🇧🇩 Bangla Jatiyo (National)"
+        - "🇸🇦 Arabic"
+        - "➕ Symbols / Numbers panel"
+        - "🔄 Other"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 Describe the Bug"
+      description: A clear and concise description of what the bug is
+      placeholder: "❓ What happened? What did you expect to happen?"
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: "📋 Steps to Reproduce"
+      description: Numbered steps to reproduce the behavior
+      placeholder: |
+        1. Open NexKey settings
+        2. Switch to Bangla Phonetic layout
+        3. Type "ami"
+        4. See error — output is "অমি" instead of "আমি"
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: "✅ Expected Behavior"
+      description: What did you expect to happen instead?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: "💥 Actual Behavior"
+      description: What actually happened?
+    validations:
+      required: true
+
+  - type: dropdown
+    id: severity
+    attributes:
+      label: "🔥 Severity"
+      description: How severe is this bug for your use case?
+      options:
+        - "🔴 Critical — App is unusable"
+        - "🟠 High — Major feature broken"
+        - "🟡 Medium — Feature partially broken"
+        - "🟢 Low — Minor visual glitch or edge case"
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: "💻 Logs / Error Output"
+      description: If applicable, paste any relevant logs or crash reports
+      placeholder: "adb logcat | grep NexKey ..."
+      render: shell
+    validations:
+      required: false
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "📷 Screenshots / Screen Recording"
+      description: If applicable, drag and drop images or link to a video
+      placeholder: "🖼️ Drag and drop images here or paste a video link"
+    validations:
+      required: false
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: "💡 Additional Context"
+      description: Any other relevant information (e.g., 3rd party apps involved, accessibility tools enabled)
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: "🤝 Code of Conduct"
+      description: By submitting this issue, you agree to follow our Code of Conduct
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

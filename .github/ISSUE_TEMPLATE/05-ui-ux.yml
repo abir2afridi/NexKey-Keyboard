@@ -1,0 +1,122 @@
+name: "🎨 UI/UX Issue"
+description: "🎭 Report visual bugs, layout problems, or usability issues"
+title: "[UI]: "
+labels: [ui]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎨 Report visual or usability issues in **NexKey Keyboard**
+
+        📷 Screenshots are especially helpful for UI issues!
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "✅ Prerequisites"
+      options:
+        - label: "🔍 I have searched existing issues and this is not a duplicate"
+          required: true
+
+  - type: dropdown
+    id: affected-area
+    attributes:
+      label: "🎯 Affected Area"
+      options:
+        - "⌨️ Keyboard keys / key labels"
+        - "🏷️ Toolbar (emoji, clipboard, incognito buttons)"
+        - "🔄 Keyboard layout switching"
+        - "🔎 Prediction / suggestion strip"
+        - "😀 Emoji panel"
+        - "📋 Clipboard manager panel"
+        - "⚙️ App settings screens"
+        - "🚧 Setup wizard"
+        - "🏠 Home screen / dashboard"
+        - "🎨 Theme / color scheme"
+        - "🌙 Dark mode appearance"
+        - "♿ Accessibility / TalkBack"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: "🏷️ Issue Type"
+      options:
+        - "👁️ Visual bug (misaligned, wrong color, missing element)"
+        - "💢 Layout broken (overlapping, truncated, clipped)"
+        - "🚧 Poor usability (hard to tap, confusing flow)"
+        - "🔄 Inconsistent design"
+        - "💤 Missing feedback (no haptic, no animation)"
+        - "🗣️ Text / label issues (wrong font, unreadable)"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: device-type
+    attributes:
+      label: "📱 Device Type"
+      options:
+        - "📱 Phone"
+        - "📺 Tablet"
+        - "🫱 Foldable (unfolded)"
+        - "🫱 Foldable (cover screen)"
+        - "🤖 Emulator"
+        - "🔄 All"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: keyboard-theme
+    attributes:
+      label: "🎨 Keyboard Theme"
+      options:
+        - "☀️ Default Light"
+        - "🌙 Dark"
+        - "🎨 Custom theme"
+        - "🔄 System (follows device)"
+        - "❎ N/A (app UI issue)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: "📝 Description"
+      description: Clear description of the visual or usability issue
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: "✅ Expected Appearance / Behavior"
+      description: What should it look like or how should it behave?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: "📷 Screenshots"
+      description: Required for UI issues. Drag and drop images here.
+      placeholder: "🖼️ Drag and drop images here"
+    validations:
+      required: true
+
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: "💡 Suggested Improvement"
+      description: Optional — how would you fix this?
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: "🤝 Code of Conduct"
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

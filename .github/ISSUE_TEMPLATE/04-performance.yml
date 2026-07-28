@@ -1,0 +1,109 @@
+name: "💨 Performance Issue"
+description: "💥 Report slow typing, high memory usage, or lag in NexKey"
+title: "[PERF]: "
+labels: [performance]
+assignees: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 💨 Report performance issues in **NexKey Keyboard**
+
+        ⚡ Typing lag, high memory usage, slow startup, or battery drain — tell us what's slowing you down.
+
+  - type: checkboxes
+    id: duplicate-check
+    attributes:
+      label: "✅ Prerequisites"
+      options:
+        - label: "🔍 I have searched existing issues and this is not a duplicate"
+          required: true
+
+  - type: dropdown
+    id: area-affected
+    attributes:
+      label: "🎯 Area Affected"
+      options:
+        - "⌨️ Typing responsiveness / key press latency"
+        - "▶️ Keyboard startup / initialization"
+        - "🔄 Layout switching (English ↔ Bangla ↔ Arabic)"
+        - "🔎 Prediction engine / word suggestions"
+        - "📋 Clipboard manager"
+        - "😀 Emoji panel"
+        - "🎙️ Voice typing"
+        - "🎨 Theme switching"
+        - "📱 App navigation / settings"
+        - "💾 Overall memory usage"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: metric
+    attributes:
+      label: "📊 Performance Metric"
+      options:
+        - "⌨️ Typing lag / input latency"
+        - "💾 Memory usage (RAM)"
+        - "💡 CPU usage"
+        - "⏱️ Startup time"
+        - "🔋 Battery drain"
+        - "💫 Frame drops / jank"
+        - "📀 Storage usage"
+    validations:
+      required: true
+
+  - type: input
+    id: current-measurement
+    attributes:
+      label: "📈 Current Measurement"
+      description: Approximate or measured value
+      placeholder: "e.g., 500ms lag, 200MB RAM, 15% CPU"
+    validations:
+      required: false
+
+  - type: input
+    id: expected-measurement
+    attributes:
+      label: "📉 Expected Measurement"
+      description: What value would be acceptable?
+      placeholder: "e.g., under 50ms, under 100MB RAM"
+    validations:
+      required: false
+
+  - type: textarea
+    id: steps
+    attributes:
+      label: "📋 Steps to Reproduce"
+      description: How can we reproduce the performance issue?
+      placeholder: |
+        1. Open any app with a text field
+        2. Switch to Bangla Phonetic layout
+        3. Type rapidly for 30 seconds
+        4. Notice lag after ~20 seconds
+    validations:
+      required: true
+
+  - type: input
+    id: device-model
+    attributes:
+      label: "📱 Device Model & Android Version"
+      placeholder: "e.g., Pixel 6a, Android 15"
+    validations:
+      required: true
+
+  - type: textarea
+    id: profiling-data
+    attributes:
+      label: "💻 Profiling Data / Logs"
+      description: If you have ADB logs, profiler output, or screenshot of Android Studio Profiler
+      render: shell
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: coc
+    attributes:
+      label: "🤝 Code of Conduct"
+      options:
+        - label: I agree to follow this project's Code of Conduct
+          required: true

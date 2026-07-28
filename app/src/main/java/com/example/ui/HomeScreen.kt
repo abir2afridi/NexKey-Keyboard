@@ -33,6 +33,8 @@ import com.example.data.UserPreferences
 
 @Composable
 fun HomeScreen(
+    appTheme: String,
+    onToggleTheme: () -> Unit,
     onNavigateToThemes: () -> Unit,
     onNavigateToHelp: () -> Unit,
     onNavigateToSetup: () -> Unit,
@@ -103,6 +105,21 @@ fun HomeScreen(
                         )
                     }
                 }
+
+            Spacer(modifier = Modifier.width(8.dp))
+
+            IconButton(onClick = onToggleTheme) {
+                Icon(
+                    imageVector = when (appTheme) {
+                        "DARK" -> Icons.Default.DarkMode
+                        "LIGHT" -> Icons.Default.LightMode
+                        else -> Icons.Default.BrightnessAuto
+                    },
+                    contentDescription = "Toggle theme",
+                    tint = Color(0xFF1B5E20),
+                    modifier = Modifier.size(20.dp)
+                )
+            }
 
             Surface(
                 shape = RoundedCornerShape(20.dp),
