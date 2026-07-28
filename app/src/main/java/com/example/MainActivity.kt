@@ -180,7 +180,11 @@ fun NexKeyApp() {
                 AppLanguageScreen(onBack = { navController.popBackStack() })
             }
             composable(Screen.AppSettings.route) {
-                AppSettingsScreen(onBack = { navController.popBackStack() })
+                AppSettingsScreen(
+                    onBack = { navController.popBackStack() },
+                    onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) },
+                    onNavigateToAbout = { navController.navigate(Screen.About.route) }
+                )
             }
             composable(Screen.Themes.route) {
                 ThemesScreen(onBack = { navController.popBackStack() })

@@ -1,7 +1,7 @@
 package com.example.ui
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
@@ -12,6 +12,7 @@ import androidx.compose.material.icons.automirrored.filled.*
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
@@ -252,29 +253,118 @@ fun GifQualitySettingsScreen(onBack: () -> Unit) {
     }
 }
 
+data class AppLanguageOption(val code: String, val displayName: String, val localName: String)
+
+private val appLanguages = listOf(
+    AppLanguageOption("en", "English", "English"),
+    AppLanguageOption("bn", "Bengali", "বাংলা"),
+    AppLanguageOption("hi", "Hindi", "हिन्दी"),
+    AppLanguageOption("ar", "Arabic", "العربية"),
+    AppLanguageOption("es", "Spanish", "Español"),
+    AppLanguageOption("fr", "French", "Français"),
+    AppLanguageOption("de", "German", "Deutsch"),
+    AppLanguageOption("pt", "Portuguese", "Português"),
+    AppLanguageOption("ru", "Russian", "Русский"),
+    AppLanguageOption("ja", "Japanese", "日本語"),
+    AppLanguageOption("ko", "Korean", "한국어"),
+    AppLanguageOption("zh", "Chinese (Simplified)", "简体中文"),
+    AppLanguageOption("zh_TW", "Chinese (Traditional)", "繁體中文"),
+    AppLanguageOption("ur", "Urdu", "اردو"),
+    AppLanguageOption("fa", "Persian", "فارسی"),
+    AppLanguageOption("tr", "Turkish", "Türkçe"),
+    AppLanguageOption("it", "Italian", "Italiano"),
+    AppLanguageOption("nl", "Dutch", "Nederlands"),
+    AppLanguageOption("vi", "Vietnamese", "Tiếng Việt"),
+    AppLanguageOption("th", "Thai", "ไทย"),
+    AppLanguageOption("id", "Indonesian", "Bahasa Indonesia"),
+    AppLanguageOption("ms", "Malay", "Bahasa Melayu"),
+    AppLanguageOption("pl", "Polish", "Polski"),
+    AppLanguageOption("ro", "Romanian", "Română"),
+    AppLanguageOption("el", "Greek", "Ελληνικά"),
+    AppLanguageOption("hu", "Hungarian", "Magyar"),
+    AppLanguageOption("sv", "Swedish", "Svenska"),
+    AppLanguageOption("da", "Danish", "Dansk"),
+    AppLanguageOption("fi", "Finnish", "Suomi"),
+    AppLanguageOption("cs", "Czech", "Čeština"),
+    AppLanguageOption("nb", "Norwegian", "Norsk"),
+    AppLanguageOption("uk", "Ukrainian", "Українська"),
+    AppLanguageOption("he", "Hebrew", "עברית"),
+    AppLanguageOption("ta", "Tamil", "தமிழ்"),
+    AppLanguageOption("te", "Telugu", "తెలుగు"),
+    AppLanguageOption("mr", "Marathi", "मराठी"),
+    AppLanguageOption("gu", "Gujarati", "ગુજરાતી"),
+    AppLanguageOption("kn", "Kannada", "ಕನ್ನಡ"),
+    AppLanguageOption("ml", "Malayalam", "മലയാളം"),
+    AppLanguageOption("pa", "Punjabi", "ਪੰਜਾਬੀ"),
+    AppLanguageOption("si", "Sinhala", "සිංහල"),
+    AppLanguageOption("km", "Khmer", "ភាសាខ្មែរ"),
+    AppLanguageOption("my", "Burmese", "မြန်မာဘာသာ"),
+    AppLanguageOption("ne", "Nepali", "नेपाली"),
+    AppLanguageOption("am", "Amharic", "አማርኛ"),
+    AppLanguageOption("sw", "Swahili", "Kiswahili")
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppLanguageScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val prefs = remember { UserPreferences(context) }
+    val selectedLanguage by prefs.appLanguage.collectAsState(initial = "en")
+    val scope = rememberCoroutineScope()
 
     SettingsSubScaffold(title = "App Language", onBack = onBack) {
         Text(
-            text = "Change between Bangla and English", 
+            text = "Select app UI language", 
             color = Color(0xFF2E7D32), 
             fontWeight = FontWeight.Bold, 
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
         )
-        
-        SettingItem("English", "System Default", Icons.Default.Language) {
-            // Logic to change app locale if implemented
+
+        Surface(
+            shape = RoundedCornerShape(16.dp),
+            color = Color.White,
+            shadowElevation = 1.dp
+        ) {
+            Column {
+                appLanguages.forEachIndexed { index, lang ->
+                    val isSelected = lang.code == selectedLanguage
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable { scope.launch { prefs.setAppLanguage(lang.code) } }
+                            .padding(horizontal = 16.dp, vertical = 14.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        RadioButton(
+                            selected = isSelected,
+                            onClick = { scope.launch { prefs.setAppLanguage(lang.code) } },
+                            colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
+                        )
+                        Spacer(modifier = Modifier.width(12.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = "${lang.displayName} (${lang.localName})",
+                                fontSize = 15.sp,
+                                color = Color(0xFF202124)
+                            )
+                            Text(
+                                text = lang.code,
+                                fontSize = 12.sp,
+                                color = Color(0xFF5F6368)
+                            )
+                        }
+                    }
+                    if (index < appLanguages.lastIndex) {
+                        HorizontalDivider(
+                            modifier = Modifier.padding(horizontal = 16.dp),
+                            color = Color(0xFFF1F3F4)
+                        )
+                    }
+                }
+            }
         }
-        HorizontalDivider(color = Color(0xFFF1F3F4))
-        SettingItem("Bengali (বাংলা)", "Local Language", Icons.Default.Language) {
-            // Logic to change app locale if implemented
-        }
-        
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

@@ -1,5 +1,6 @@
 package com.example.ui
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -22,7 +23,9 @@ import kotlinx.coroutines.launch
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppSettingsScreen(
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onNavigateToAppLanguage: () -> Unit = {},
+    onNavigateToAbout: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val prefs = remember { UserPreferences(context) }
@@ -77,14 +80,13 @@ fun AppSettingsScreen(
                         Row(
                             modifier = Modifier
                                 .fillMaxWidth()
+                                .clickable { scope.launch { prefs.setAppTheme(option) } }
                                 .padding(horizontal = 16.dp, vertical = 14.dp),
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             RadioButton(
                                 selected = appTheme == option,
-                                onClick = {
-                                    scope.launch { prefs.setAppTheme(option) }
-                                },
+                                onClick = { scope.launch { prefs.setAppTheme(option) } },
                                 colors = RadioButtonDefaults.colors(selectedColor = Color(0xFF2E7D32))
                             )
                             Spacer(modifier = Modifier.width(12.dp))
@@ -124,7 +126,7 @@ fun AppSettingsScreen(
                         title = "App Language",
                         subtitle = "Change between Bangla and English",
                         icon = Icons.Default.Translate,
-                        onClick = { /* navigate */ }
+                        onClick = onNavigateToAppLanguage
                     )
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),
@@ -134,7 +136,7 @@ fun AppSettingsScreen(
                         title = "About",
                         subtitle = "About NexKey Keyboard",
                         icon = Icons.Default.Info,
-                        onClick = { /* navigate */ }
+                        onClick = onNavigateToAbout
                     )
                 }
             }
