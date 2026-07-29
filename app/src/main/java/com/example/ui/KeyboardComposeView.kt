@@ -76,6 +76,7 @@ import androidx.compose.ui.unit.sp
 import com.example.clipboard.ClipItem
 import com.example.clipboard.ClipboardManager
 import com.example.theme.KeyboardTheme
+import java.util.Locale
 import kotlin.math.abs
 
 @Composable
@@ -113,6 +114,9 @@ fun KeyboardComposeView(
     autoHideToolbar: Boolean = false,
     backspaceRepeatDelayMs: Long = 400L,
     backspaceRepeatSpeedMs: Long = 50L,
+    liveCps: Float = 0f,
+    maxBurstCps: Float = 0f,
+    isSpeedActive: Boolean = false,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -172,6 +176,9 @@ fun KeyboardComposeView(
                         showVoiceKey = showVoiceKey,
                         showEmojiKey = effectiveShowEmojiKey,
                         showGlobeKey = showGlobeKey,
+                        liveCps = liveCps,
+                        maxBurstCps = maxBurstCps,
+                        isSpeedActive = isSpeedActive,
                         onModeChange = onModeChange,
                         onVoiceClick = onVoiceClick,
                         onThemeToggle = onThemeToggle,
@@ -304,6 +311,9 @@ fun SmartToolbar(
     showVoiceKey: Boolean = true,
     showEmojiKey: Boolean = true,
     showGlobeKey: Boolean = true,
+    liveCps: Float = 0f,
+    maxBurstCps: Float = 0f,
+    isSpeedActive: Boolean = false,
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -321,7 +331,7 @@ fun SmartToolbar(
     ) {
         LazyRow(
             modifier = Modifier.weight(1f),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             item {
@@ -390,8 +400,53 @@ fun SmartToolbar(
             }
         }
 
+        // Digital Speed Meter
+        DigitalSpeedMeter(
+            cps = if (isSpeedActive) liveCps else maxBurstCps,
+            isLive = isSpeedActive,
+            theme = theme
+        )
+
         IconButton(onClick = onOpenSettings) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings", tint = theme.keySpecialTextColor)
+        }
+    }
+}
+
+@Composable
+fun DigitalSpeedMeter(
+    cps: Float,
+    isLive: Boolean,
+    theme: KeyboardTheme
+) {
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 4.dp)
+            .width(54.dp)
+            .height(28.dp),
+        color = Color.Black.copy(alpha = 0.6f),
+        shape = RoundedCornerShape(6.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, theme.accentColor.copy(alpha = 0.4f))
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = String.format(Locale.US, "%.1f", cps),
+                color = theme.accentColor,
+                fontSize = 11.sp,
+                fontWeight = FontWeight.Black,
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+            )
+            Text(
+                text = if (isLive) "LIVE" else "PEAK",
+                color = theme.accentColor.copy(alpha = 0.7f),
+                fontSize = 7.sp,
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.5.sp
+            )
         }
     }
 }
@@ -489,6 +544,9 @@ fun KeyboardKeysGrid(
     splitKeyboardEnabled: Boolean = false,
     backspaceRepeatDelayMs: Long = 400L,
     backspaceRepeatSpeedMs: Long = 50L,
+    liveCps: Float = 0f,
+    maxBurstCps: Float = 0f,
+    isSpeedActive: Boolean = false,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,

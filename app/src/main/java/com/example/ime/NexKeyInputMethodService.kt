@@ -52,6 +52,15 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var isMultilineField by mutableStateOf(false)
     private var lastSpaceTime = 0L
 
+    // Speed Meter States
+    private var currentLiveCps by mutableStateOf(0f)
+    private var maxBurstCps by mutableStateOf(0f)
+    private var isTypingActive by mutableStateOf(false)
+    private var burstStartTime = 0L
+    private var burstKeyCount = 0
+    private var lastKeyPressTime = 0L
+    private var typingStopJob: kotlinx.coroutines.Job? = null
+
     // Live Preferences
     private var hapticsEnabled by mutableStateOf(true)
     private var soundEnabled by mutableStateOf(true)
@@ -250,6 +259,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     autoHideToolbar = autoHideToolbar,
                     backspaceRepeatDelayMs = backspaceRepeatDelayMsState.toLong(),
                     backspaceRepeatSpeedMs = backspaceRepeatSpeedMsState.toLong(),
+                    liveCps = currentLiveCps,
+                    maxBurstCps = maxBurstCps,
+                    isSpeedActive = isTypingActive,
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -391,6 +403,33 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         playFeedback()
         if (!isIncognito && !isSensitiveField) {
             TypingAnalytics.trackKeyPress()
+            
+            // Live Speed Meter Logic
+            val now = System.currentTimeMillis()
+            if (now - lastKeyPressTime > 2000) {
+                burstStartTime = now
+                burstKeyCount = 0
+                isTypingActive = true
+                currentLiveCps = 0f
+                maxBurstCps = 0f
+            }
+            
+            lastKeyPressTime = now
+            burstKeyCount++
+            
+            val elapsedSec = (now - burstStartTime) / 1000f
+            if (elapsedSec > 0.1f) {
+                currentLiveCps = burstKeyCount / elapsedSec
+                if (currentLiveCps > maxBurstCps) {
+                    maxBurstCps = currentLiveCps
+                }
+            }
+            
+            typingStopJob?.cancel()
+            typingStopJob = scope.launch {
+                kotlinx.coroutines.delay(2000)
+                isTypingActive = false
+            }
         }
         val ic = currentInputConnection ?: return
 
