@@ -10,8 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.Lightbulb
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,6 +29,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.clipboard.ClipboardManager
 import com.example.ui.*
 import com.example.ui.navigation.Screen
 import com.example.ui.theme.MyApplicationTheme
@@ -39,6 +41,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+        ClipboardManager.init(applicationContext)
         setContent {
             val context = androidx.compose.ui.platform.LocalContext.current
             val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
@@ -117,11 +120,30 @@ fun NexKeyApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("Profile", fontSize = 12.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.About.route } == true,
+                        icon = { Icon(Icons.Default.Keyboard, contentDescription = null, modifier = Modifier.size(26.dp)) },
+                        label = { Text("Keyboard", fontSize = 12.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
                         onClick = {
-                            navController.navigate(Screen.About.route) {
+                            navController.navigate(Screen.Settings.route) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                    NavigationBarItem(
+                        icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(26.dp)) },
+                        label = { Text("App Settings", fontSize = 12.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
+                        onClick = {
+                            navController.navigate(Screen.AppSettings.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -174,39 +196,58 @@ fun NexKeyApp() {
                         onNavigateToSetup = { navController.navigate(Screen.Setup.route) },
                         onNavigateToSandbox = { navController.navigate(Screen.Sandbox.route) },
                         onNavigateToStats = { navController.navigate(Screen.Stats.route) },
-                        onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) },
-                        onNavigateToPreferences = { navController.navigate(Screen.SettingsPreferences.route) },
-                        onNavigateToAppearance = { navController.navigate(Screen.SettingsAppearance.route) },
+                        onNavigateToSettings = { navController.navigate(Screen.Settings.route) },
+                        onNavigateToClipboard = { navController.navigate(Screen.ClipboardManager.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToAdvanced = { navController.navigate(Screen.SettingsAdvanced.route) },
                         onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
                     SettingsScreen(
                         onBack = { navController.popBackStack() },
-                        onNavigateToPreferences = { navController.navigate(Screen.SettingsPreferences.route) },
-                        onNavigateToAppearance = { navController.navigate(Screen.SettingsAppearance.route) },
+                        onNavigateToTyping = { navController.navigate(Screen.SettingsTyping.route) },
+                        onNavigateToFeedback = { navController.navigate(Screen.SettingsFeedback.route) },
+                        onNavigateToLanguageKeys = { navController.navigate(Screen.SettingsLanguageKeys.route) },
+                        onNavigateToLayout = { navController.navigate(Screen.SettingsLayout.route) },
+                        onNavigateToSize = { navController.navigate(Screen.SettingsSize.route) },
+                        onNavigateToNavigation = { navController.navigate(Screen.SettingsNavigation.route) },
+                        onNavigateToPaste = { navController.navigate(Screen.SettingsPaste.route) },
+                        onNavigateToAdvancedGroup = { navController.navigate(Screen.SettingsAdvancedGroup.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToAdvanced = { navController.navigate(Screen.SettingsAdvanced.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
-                        onNavigateToAbout = { navController.navigate(Screen.About.route) },
-                        onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) }
+                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
                     )
                 }
-                composable(Screen.SettingsPreferences.route) {
-                    PreferencesSettingsScreen(onBack = { navController.popBackStack() })
+                composable(Screen.SettingsTyping.route) {
+                    TypingSettingsScreen(onBack = { navController.popBackStack() })
                 }
-                composable(Screen.SettingsAppearance.route) {
-                    AppearanceSettingsScreen(onBack = { navController.popBackStack() })
+                composable(Screen.SettingsFeedback.route) {
+                    FeedbackSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsLanguageKeys.route) {
+                    LanguageKeysSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsLayout.route) {
+                    LayoutSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsSize.route) {
+                    SizeSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsNavigation.route) {
+                    NavigationSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsPaste.route) {
+                    PasteSettingsScreen(
+                        onBack = { navController.popBackStack() },
+                        onNavigateToClipboardHistory = { navController.navigate(Screen.ClipboardManager.route) }
+                    )
+                }
+                composable(Screen.SettingsAdvancedGroup.route) {
+                    AdvancedGroupSettingsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsTextCorrection.route) {
                     TextCorrectionSettingsScreen(onBack = { navController.popBackStack() })
-                }
-                composable(Screen.SettingsAdvanced.route) {
-                    AdvancedSettingsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsMoreLanguages.route) {
                     MoreLanguagesScreen(onBack = { navController.popBackStack() })
@@ -287,11 +328,23 @@ fun NexKeyApp() {
                         }
                     )
                     FloatingNavigationBarItem(
-                        icon = { Icon(Icons.Default.Person, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("Profile", fontSize = 11.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.About.route } == true,
+                        icon = { Icon(Icons.Default.Keyboard, contentDescription = null, modifier = Modifier.size(24.dp)) },
+                        label = { Text("Keyboard", fontSize = 11.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
                         onClick = {
-                            navController.navigate(Screen.About.route) {
+                            navController.navigate(Screen.Settings.route) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                    FloatingNavigationBarItem(
+                        icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(24.dp)) },
+                        label = { Text("App Settings", fontSize = 11.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
+                        onClick = {
+                            navController.navigate(Screen.AppSettings.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true

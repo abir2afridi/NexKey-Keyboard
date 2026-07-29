@@ -19,69 +19,150 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.clipboard.ClipboardManager
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PreferencesSettingsScreen(onBack: () -> Unit) {
+fun TypingSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
-    
     val autoCap by prefs.autoCapitalize.collectAsState(initial = true)
     val doubleSpacePeriod by prefs.smartPunctuation.collectAsState(initial = true)
     val doubleSpaceTab by prefs.doubleSpaceTab.collectAsState(initial = false)
-    val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
-    val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 120)
-    val clipboardImages by prefs.clipboardImages.collectAsState(initial = true)
+
+    SettingsSubScaffold(title = "Typing", onBack = onBack) {
+        SettingSwitchItem("Auto-capitalization", "Capitalize the first word of each sentence", Icons.Default.TextFormat, autoCap) { scope.launch { prefs.setAutoCapitalize(it) } }
+        SettingSwitchItem("Double-space period", "Double tap on spacebar inserts a period followed by a space", Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
+        SettingSwitchItem("Double-space tab", "Double tap on spacebar inserts a tab", Icons.AutoMirrored.Filled.KeyboardTab, doubleSpaceTab) { scope.launch { prefs.setDoubleSpaceTab(it) } }
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun FeedbackSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
     val haptics by prefs.haptics.collectAsState(initial = true)
     val sound by prefs.sound.collectAsState(initial = true)
     val popupOnKeypress by prefs.popupOnKeypress.collectAsState(initial = true)
+    val hapticIntensity by prefs.hapticIntensity.collectAsState(initial = 50)
+    val soundVol by prefs.soundVolume.collectAsState(initial = 50)
+
+    SettingsSubScaffold(title = "Feedback", onBack = onBack) {
+        SettingSwitchItem("Vibrate on keypress", null, Icons.Default.Vibration, haptics) { scope.launch { prefs.setHaptics(it) } }
+        SettingSwitchItem("Sound on keypress", null, Icons.AutoMirrored.Filled.VolumeUp, sound) { scope.launch { prefs.setSound(it) } }
+        SettingSwitchItem("Popup on keypress", null, Icons.AutoMirrored.Filled.Message, popupOnKeypress) { scope.launch { prefs.setPopupOnKeypress(it) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSliderItem("Keypress vibration intensity", hapticIntensity.toFloat(), 0f..100f) { scope.launch { prefs.setHapticIntensity(it.toInt()) } }
+        SettingSliderItem("Keypress sound volume", soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LanguageKeysSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
     val voiceInputKey by prefs.voiceInputKey.collectAsState(initial = true)
     val showEmojiKey by prefs.showEmojiKey.collectAsState(initial = true)
     val showGlobeKey by prefs.showGlobeKey.collectAsState(initial = true)
     val allowOtherKeyboards by prefs.allowOtherKeyboards.collectAsState(initial = true)
-    val moveCursorSpace by prefs.moveCursorSpace.collectAsState(initial = true)
-    val volumeCursor by prefs.volumeCursor.collectAsState(initial = false)
-    val smartVolumeControl by prefs.smartVolumeControl.collectAsState(initial = true)
 
-    val holdPasteEnabled by prefs.holdPasteEnabled.collectAsState(initial = false)
-    val holdPasteDuration by prefs.holdPasteDuration.collectAsState(initial = 400)
-    val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
-
-    SettingsSubScaffold(title = "Preferences", onBack = onBack) {
-        SettingSwitchItem("Auto-capitalization", "Capitalize the first word of each sentence", Icons.Default.TextFormat, autoCap) { scope.launch { prefs.setAutoCapitalize(it) } }
-        SettingSwitchItem("Double-space period", "Double tap on spacebar inserts a period followed by a space", Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
-        SettingSwitchItem("Double-space tab", "Double tap on spacebar inserts a tab", Icons.AutoMirrored.Filled.KeyboardTab, doubleSpaceTab) { scope.launch { prefs.setDoubleSpaceTab(it) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        
-        SettingSwitchItem("Clipboard Recent Items", "Show recent copied or cut text in clipboard", Icons.Default.ContentPaste, clipboardRecent) { scope.launch { prefs.setClipboardRecent(it) } }
-        SettingSliderItem("Keep copied text on Clipboard", clipboardExpiry.toFloat(), 10f..1440f) { scope.launch { prefs.setClipboardExpiry(it.toInt()) } }
-        SettingSwitchItem("Show copied images on Clipboard", "Show screenshots or copied images", Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        SettingSwitchItem("Vibrate on keypress", null, Icons.Default.Vibration, haptics) { scope.launch { prefs.setHaptics(it) } }
-        SettingSwitchItem("Sound on keypress", null, Icons.AutoMirrored.Filled.VolumeUp, sound) { scope.launch { prefs.setSound(it) } }
-        SettingSwitchItem("Popup on keypress", null, Icons.AutoMirrored.Filled.Message, popupOnKeypress) { scope.launch { prefs.setPopupOnKeypress(it) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
+    SettingsSubScaffold(title = "Language & Keys", onBack = onBack) {
         SettingSwitchItem("Voice input key", null, Icons.Default.Mic, voiceInputKey) { scope.launch { prefs.setVoiceInputKey(it) } }
         SettingSwitchItem("Show Emoji Key", "Switch to Emoji button", Icons.Default.EmojiEmotions, showEmojiKey) { scope.launch { prefs.setShowEmojiKey(it) } }
         SettingSwitchItem("Show Globe Key", "Switch keyboard language", Icons.Default.Language, showGlobeKey) { scope.launch { prefs.setShowGlobeKey(it) } }
         SettingSwitchItem("Allow Other Keyboards", "Globe key switches to others", Icons.Default.Keyboard, allowOtherKeyboards) { scope.launch { prefs.setAllowOtherKeyboards(it) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun LayoutSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val showNumRow by prefs.showNumberRow.collectAsState(initial = false)
+    val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
+    val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)
+    val enableResizing by prefs.enableKbResizing.collectAsState(initial = false)
+    val splitKb by prefs.splitKeyboard.collectAsState(initial = false)
+    val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
+
+    SettingsSubScaffold(title = "Layout", onBack = onBack) {
+        SettingSwitchItem("Enable number row", "Adds an extra row", Icons.Default.LooksOne, showNumRow) { scope.launch { prefs.setShowNumberRow(it) } }
+        SettingSwitchItem("Large number row", null, Icons.Default.ViewStream, largeNumRow) { scope.launch { prefs.setLargeNumberRow(it) } }
+        SettingSwitchItem("Hide long press hints", "Hide small labels from key corners", Icons.Default.VisibilityOff, hideHints) { scope.launch { prefs.setHideLongPressHints(it) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSwitchItem("Enable keyboard resizing", null, Icons.Default.AspectRatio, enableResizing) { scope.launch { prefs.setEnableKbResizing(it) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSwitchItem("Enable split keyboard", "For foldable phones", Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
+        SettingSwitchItem("Forced enter button", "Do not show emoji on enter", Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun SizeSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val heightPortrait by prefs.kbHeightPortrait.collectAsState(initial = 100)
+    val heightLandscape by prefs.kbHeightLandscape.collectAsState(initial = 100)
+    val widthOneHandedPortrait by prefs.oneHandedWidthPortrait.collectAsState(initial = 85)
+    val widthOneHandedLandscape by prefs.oneHandedWidthLandscape.collectAsState(initial = 40)
+
+    SettingsSubScaffold(title = "Size", onBack = onBack) {
+        SettingSliderItem("Keyboard Height (Portrait)", heightPortrait.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightPortrait(it.toInt()) } }
+        SettingSliderItem("Keyboard Height (Landscape)", heightLandscape.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightLandscape(it.toInt()) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSliderItem("One Handed Width (Portrait)", widthOneHandedPortrait.toFloat(), 50f..100f) { scope.launch { prefs.setOneHandedWidthPortrait(it.toInt()) } }
+        SettingSliderItem("One Handed Width (Landscape)", widthOneHandedLandscape.toFloat(), 30f..100f) { scope.launch { prefs.setOneHandedWidthLandscape(it.toInt()) } }
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NavigationSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val moveCursorSpace by prefs.moveCursorSpace.collectAsState(initial = true)
+    val volumeCursor by prefs.volumeCursor.collectAsState(initial = false)
+    val smartVolumeControl by prefs.smartVolumeControl.collectAsState(initial = true)
+
+    SettingsSubScaffold(title = "Navigation", onBack = onBack) {
         SettingSwitchItem("Move Cursor Using Space Key", "Swipe space to move cursor", Icons.Default.SwapHoriz, moveCursorSpace) { scope.launch { prefs.setMoveCursorSpace(it) } }
         SettingSwitchItem("Volume cursor", "Use volume keys to move cursor", Icons.Default.SettingsInputComponent, volumeCursor) { scope.launch { prefs.setVolumeCursor(it) } }
         SettingSwitchItem("Smart volume key", "Disable during audio playback", Icons.Default.AutoMode, smartVolumeControl) { scope.launch { prefs.setSmartVolumeControl(it) } }
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> Unit = {}) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val holdPasteEnabled by prefs.holdPasteEnabled.collectAsState(initial = false)
+    val holdPasteDuration by prefs.holdPasteDuration.collectAsState(initial = 400)
+    val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
+    val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
+    val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 0)
+    val clipboardImages by prefs.clipboardImages.collectAsState(initial = true)
 
+    SettingsSubScaffold(title = "Paste & Clipboard", onBack = onBack) {
         SettingSwitchItem("Hold key to paste", "Long-press a key to paste clipboard text", Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
         if (holdPasteEnabled) {
             SettingDropdownItem(
@@ -94,50 +175,88 @@ fun PreferencesSettingsScreen(onBack: () -> Unit) {
             )
             SettingSliderItem("Hold duration", holdPasteDuration.toFloat(), 200f..800f) { scope.launch { prefs.setHoldPasteDuration(it.toInt()) } }
         }
-
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSwitchItem("Clipboard Recent Items", "Show recent copied or cut text in clipboard", Icons.Default.ContentPaste, clipboardRecent) { scope.launch { prefs.setClipboardRecent(it) } }
+        val expiryOptions = listOf(0, 1, 5, 525600)
+        val expiryLabels = listOf("Never", "1 minute", "5 minutes", "365 days")
+        val selectedIndex = expiryOptions.indexOf(clipboardExpiry).let { if (it < 0) 0 else it }
+        SettingDropdownItem(
+            title = "Auto-delete clipboard items",
+            subtitle = "Remove copies after the selected time",
+            icon = Icons.Default.Timer,
+            selectedOption = expiryLabels[selectedIndex],
+            options = expiryLabels,
+            onOptionSelected = { label ->
+                val idx = expiryLabels.indexOf(label)
+                val mins = expiryOptions[idx]
+                scope.launch { prefs.setClipboardExpiry(mins) }
+                ClipboardManager.setExpiryMinutes(mins)
+            }
+        )
+        SettingSwitchItem("Show copied images on Clipboard", "Show screenshots or copied images", Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 12.dp, horizontal = 4.dp)
+                .clickable { ClipboardManager.clearAllUnpinned() },
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant),
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(Icons.Default.Delete, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
+            }
+            Spacer(modifier = Modifier.width(16.dp))
+            Column(modifier = Modifier.weight(1f)) {
+                Text("Delete All Clipboard Items", color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text("Remove all non-pinned copied texts", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
+            }
+            Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
+        }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingItem("View Clipboard History", "Browse all copied texts", Icons.Default.History, onClick = onNavigateToClipboardHistory)
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppearanceSettingsScreen(onBack: () -> Unit) {
+fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
-    
-    val showNumRow by prefs.showNumberRow.collectAsState(initial = false)
-    val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
-    val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)
-    val enableResizing by prefs.enableKbResizing.collectAsState(initial = false)
-    val heightPortrait by prefs.kbHeightPortrait.collectAsState(initial = 100)
-    val heightLandscape by prefs.kbHeightLandscape.collectAsState(initial = 100)
-    val widthOneHandedPortrait by prefs.oneHandedWidthPortrait.collectAsState(initial = 85)
-    val widthOneHandedLandscape by prefs.oneHandedWidthLandscape.collectAsState(initial = 40)
-    val splitKb by prefs.splitKeyboard.collectAsState(initial = false)
-    val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
+    val longPressDelay by prefs.longPressDelayMs.collectAsState(initial = 300)
+    val popupDismiss by prefs.popupDismissDelay.collectAsState(initial = "Default")
+    val spaceDelay by prefs.spaceCursorDelay.collectAsState(initial = 1000)
+    val spaceSpeed by prefs.spaceCursorSpeed.collectAsState(initial = 150)
+    val physicalKbEmoji by prefs.physicalKbEmoji.collectAsState(initial = true)
+    val typedWordFirst by prefs.showTypedWordFirst.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Appearance & Layouts", onBack = onBack) {
-        SettingSwitchItem("Enable number row", "Adds an extra row", Icons.Default.LooksOne, showNumRow) { scope.launch { prefs.setShowNumberRow(it) } }
-        SettingSwitchItem("Large number row", null, Icons.Default.ViewStream, largeNumRow) { scope.launch { prefs.setLargeNumberRow(it) } }
-        SettingSwitchItem("Hide long press hints", "Hide small labels from key corners", Icons.Default.VisibilityOff, hideHints) { scope.launch { prefs.setHideLongPressHints(it) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        SettingSwitchItem("Enable keyboard resizing", null, Icons.Default.AspectRatio, enableResizing) { scope.launch { prefs.setEnableKbResizing(it) } }
-        SettingSliderItem("Keyboard Height (Portrait)", heightPortrait.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightPortrait(it.toInt()) } }
-        SettingSliderItem("Keyboard Height (Landscape)", heightLandscape.toFloat(), 50f..150f) { scope.launch { prefs.setKbHeightLandscape(it.toInt()) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        
-        SettingSliderItem("One Handed Width (Portrait)", widthOneHandedPortrait.toFloat(), 50f..100f) { scope.launch { prefs.setOneHandedWidthPortrait(it.toInt()) } }
-        SettingSliderItem("One Handed Width (Landscape)", widthOneHandedLandscape.toFloat(), 30f..100f) { scope.launch { prefs.setOneHandedWidthLandscape(it.toInt()) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        SettingSwitchItem("Enable split keyboard", "For foldable phones", Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
-        SettingSwitchItem("Forced enter button", "Do not show emoji on enter", Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }
-        
+    SettingsSubScaffold(title = "Advanced", onBack = onBack) {
+        SettingSliderItem("Key long press delay (ms)", longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
+        val dismissOptions = listOf("Default", "Short", "Long")
+        Text(text = "Popup dismiss delay: $popupDismiss", color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            dismissOptions.forEach { option ->
+                FilterChip(
+                    selected = popupDismiss == option,
+                    onClick = { scope.launch { prefs.setPopupDismissDelay(option) } },
+                    label = { Text(option, fontSize = 12.sp) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSliderItem("Space cursor long press delay (ms)", spaceDelay.toFloat(), 200f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
+        SettingSliderItem("Space cursor speed", spaceSpeed.toFloat(), 50f..500f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
+        SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
+        SettingItem("Voice typing engine", "Default", Icons.Default.Mic) {}
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
@@ -171,51 +290,7 @@ fun TextCorrectionSettingsScreen(onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AdvancedSettingsScreen(onBack: () -> Unit) {
-    val context = LocalContext.current
-    val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
-    
-    val longPressDelay by prefs.longPressDelayMs.collectAsState(initial = 300)
-    val spaceDelay by prefs.spaceCursorDelay.collectAsState(initial = 1000)
-    val spaceSpeed by prefs.spaceCursorSpeed.collectAsState(initial = 150)
-    val typedWordFirst by prefs.showTypedWordFirst.collectAsState(initial = true)
-    val hapticIntensity by prefs.hapticIntensity.collectAsState(initial = 50)
-    val soundVol by prefs.soundVolume.collectAsState(initial = 50)
-    val physicalKbEmoji by prefs.physicalKbEmoji.collectAsState(initial = true)
-    val popupDismiss by prefs.popupDismissDelay.collectAsState(initial = "Default")
-
-    SettingsSubScaffold(title = "Advanced", onBack = onBack) {
-        SettingSliderItem("Key long press delay (ms)", longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
-        SettingSliderItem("Keypress vibration intensity", hapticIntensity.toFloat(), 0f..100f) { scope.launch { prefs.setHapticIntensity(it.toInt()) } }
-        SettingSliderItem("Keypress sound volume", soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        SettingSliderItem("Space cursor long press delay (ms)", spaceDelay.toFloat(), 200f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
-        SettingSliderItem("Space cursor speed", spaceSpeed.toFloat(), 50f..500f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
-        
-        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
-        SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
-        
-        val dismissOptions = listOf("Default", "Short", "Long")
-        Text(text = "Popup dismiss delay: $popupDismiss", color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp))
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            dismissOptions.forEach { option ->
-                FilterChip(
-                    selected = popupDismiss == option,
-                    onClick = { scope.launch { prefs.setPopupDismissDelay(option) } },
-                    label = { Text(option, fontSize = 12.sp) }
-                )
-            }
-        }
-        Spacer(modifier = Modifier.height(8.dp))
-        
-        SettingItem("Voice typing engine", "Default", Icons.Default.Mic) { /* Logic to select engine */ }
-        
-        Spacer(modifier = Modifier.height(32.dp))
-    }
+    AdvancedGroupSettingsScreen(onBack = onBack)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

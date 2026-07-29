@@ -34,13 +34,17 @@
 | Trie-based prediction engine | ✅ |
 | Persistent learned words (Room DB) | ✅ |
 | Voice typing (Android SpeechRecognizer) | ✅ |
-| Clipboard manager (history, pin, Room DB) | ✅ |
+| Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
+| Hold-to-paste (configurable trigger key & duration) | ✅ |
+| Settings group screens (Typing, Feedback, Layout, etc.) | ✅ |
+| Bottom navigation (Home, Learn, Keyboard, App Settings) | ✅ |
 | Emoji panel | ✅ |
 | Theme system (4 presets, DataStore) | ✅ |
 | App theme (System/Light/Dark) | ✅ |
 | Auto-capitalization | ✅ |
 | Caps lock (double-tap shift) | ✅ |
 | Smart punctuation (double-space period) | ✅ |
+| Double-space tab | ✅ |
 | Incognito mode (no learning, no clipboard) | ✅ |
 | Password/sensitive field detection | ✅ |
 | TalkBack accessibility labels (all keys) | ✅ |
@@ -68,7 +72,7 @@
 ```
 app/
 └── src/main/java/com/example/
-    ├── MainActivity.kt                     — Dashboard & live typing sandbox
+    ├── MainActivity.kt                     — Navigation host, bottom nav, route registration
     ├── ime/
     │   ├── NexKeyInputMethodService.kt     — Core IME service (input handling, key events)
     │   └── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
@@ -76,21 +80,25 @@ app/
     │   ├── BanglaPhoneticEngine.kt         — Phonetic transliteration (80+ conjuncts)
     │   └── PredictionEngine.kt             — Trie-based prediction & Room-backed learning
     ├── ui/
+    │   ├── navigation/
+    │   │   └── NavGraph.kt                 — Screen route definitions
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
     │   ├── HomeScreen.kt                   — Dashboard home with status card
     │   ├── AppSettingsScreen.kt            — App theme, language, about
-    │   ├── SettingsSubScreens.kt           — Language picker, settings scaffold
-    │   ├── SettingsScreen.kt               — User preferences UI
+    │   ├── SettingsScreen.kt               — Keyboard Settings hub (groups index)
+    │   ├── SettingsSubScreens.kt           — 8 group screens (Typing, Feedback, Layout, etc.)
     │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
     │   ├── KeyboardLayouts.kt              — Layout data models & key maps
-    │   └── Components.kt                   — Reusable composables (SettingItem, etc.)
+    │   ├── Components.kt                   — Reusable composables (SettingItem, etc.)
+    │   ├── ClipboardScreen.kt              — Full-screen clipboard history manager
+    │   └── ClipboardPanel.kt               — Inline keyboard clipboard panel
     ├── data/
     │   ├── AppDatabase.kt                  — Room database (clips, learned words)
     │   ├── ClipEntity.kt / ClipDao.kt              — Clipboard persistence
     │   ├── LearnedWordEntity.kt / LearnedWordDao.kt — Dictionary persistence
     │   └── UserPreferences.kt              — DataStore (theme, language, incognito, settings)
     ├── clipboard/
-    │   └── ClipboardManager.kt             — Clipboard with Room persistence & incognito
+    │   └── ClipboardManager.kt             — Clipboard with Room persistence, system OnPrimaryClipChangedListener & auto-expiry loop
     └── theme/
         └── KeyboardTheme.kt                — Theme data model & presets
 ```
@@ -136,7 +144,10 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
-- ✅ Hold-to-paste feature
+- ✅ Clipboard history with system listener (auto-save), pin/delete, auto-expiry (Never/1min/5min/365d)
+- ✅ Hold-to-paste with configurable trigger key & duration
+- ✅ 8 dedicated keyboard settings group screens (Typing, Feedback, Layout, etc.)
+- ✅ Bottom navigation: Home, Learn, Keyboard Settings, App Settings
 - ✅ Material 3 theming with custom accent colors
 - ✅ Smart auto-correction with learning
 - ✅ 7 GitHub issue templates
@@ -163,6 +174,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 1. Install the APK and open the NexKey app.
 2. Follow the in-app setup wizard to enable and select NexKey.
 3. Open any app with a text field — NexKey appears automatically.
+4. Use the bottom navigation bar to access **Keyboard Settings** (grouped screens for Typing, Feedback, Layout, Size, etc.) and **App Settings** (theme, language, about).
 
 ### Manually from Settings
 1. Go to **Settings → System → Languages & input → On-screen keyboard**.

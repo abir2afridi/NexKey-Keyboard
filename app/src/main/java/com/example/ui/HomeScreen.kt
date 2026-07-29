@@ -40,13 +40,11 @@ fun HomeScreen(
     onNavigateToSetup: () -> Unit,
     onNavigateToSandbox: () -> Unit,
     onNavigateToStats: () -> Unit,
-    onNavigateToPreferences: () -> Unit = {},
-    onNavigateToAppearance: () -> Unit = {},
+    onNavigateToSettings: () -> Unit = {},
+    onNavigateToClipboard: () -> Unit = {},
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
-    onNavigateToAdvanced: () -> Unit = {},
-    onNavigateToGifQuality: () -> Unit = {},
-    onNavigateToAppSettings: () -> Unit = {}
+    onNavigateToGifQuality: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -396,117 +394,6 @@ fun HomeScreen(
                             )
                         }
                     }
-                }
-            }
-
-            Spacer(modifier = Modifier.height(12.dp))
-
-            // App Settings Card (Wide)
-            BentoCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(84.dp),
-                onClick = onNavigateToAppSettings
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .size(44.dp)
-                            .clip(CircleShape)
-                            .background(Color(0xFFE3F2FD)),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Settings,
-                            contentDescription = null,
-                            tint = Color(0xFF1565C0),
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Column(modifier = Modifier.weight(1f)) {
-                        Text(
-                            text = "App Settings",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
-                        )
-                        Text(
-                            text = "Change language and set preferences",
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                    Icon(
-                        imageVector = Icons.Default.ChevronRight,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
-                        modifier = Modifier.size(20.dp)
-                    )
-                }
-            }
-
-            Spacer(modifier = Modifier.height(32.dp))
-
-            // Keyboard Settings
-            Text(
-                text = "KEYBOARD SETTINGS",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = Color(0xFF1B5E20),
-                modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
-            )
-
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 1.dp
-            ) {
-                Column {
-                    SettingItem(
-                        title = "Preferences",
-                        subtitle = "Feedback, clipboard, and gestures",
-                        icon = Icons.Default.Tune,
-                        onClick = onNavigateToPreferences
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "Appearance & Layouts",
-                        subtitle = "Themes, height, and resizing",
-                        icon = Icons.Default.Palette,
-                        onClick = onNavigateToAppearance
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "Text correction",
-                        subtitle = "Suggestions and dictionaries",
-                        icon = Icons.Default.Spellcheck,
-                        onClick = onNavigateToTextCorrection
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "More Languages",
-                        subtitle = "Arabic, Chakma, Syloti...",
-                        icon = Icons.Default.Language,
-                        onClick = onNavigateToMoreLanguages
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "Advanced",
-                        subtitle = "Delays and typing engine",
-                        icon = Icons.Default.SettingsInputComponent,
-                        onClick = onNavigateToAdvanced
-                    )
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem(
-                        title = "Gif Quality",
-                        subtitle = "Manage data usage for Gifs",
-                        icon = Icons.Default.Gif,
-                        onClick = onNavigateToGifQuality
-                    )
                 }
             }
 

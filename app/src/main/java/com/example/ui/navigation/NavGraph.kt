@@ -23,4 +23,14 @@ sealed class Screen(val route: String) {
     object SettingsAppLanguage : Screen("settings_app_language")
     object AppSettings : Screen("app_settings")
     object Developer : Screen("developer")
+
+    // Settings group screens
+    object SettingsTyping : Screen("settings_typing")
+    object SettingsFeedback : Screen("settings_feedback")
+    object SettingsLanguageKeys : Screen("settings_language_keys")
+    object SettingsLayout : Screen("settings_layout")
+    object SettingsSize : Screen("settings_size")
+    object SettingsNavigation : Screen("settings_navigation")
+    object SettingsPaste : Screen("settings_paste")
+    object SettingsAdvancedGroup : Screen("settings_advanced_group")
 }

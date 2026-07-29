@@ -307,13 +307,13 @@ fun SmartToolbar(
                     active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
                     theme = theme
                 ) {
-                    if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
-                        onModeChange(KeyboardMode.BANGLA_JATIYO)
-                    } else if (currentMode == KeyboardMode.BANGLA_JATIYO) {
-                        onModeChange(KeyboardMode.ENGLISH)
-                    } else {
-                        onModeChange(KeyboardMode.BANGLA_PHONETIC)
-                    }
+                    onModeChange(
+                        when (currentMode) {
+                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_JATIYO
+                            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> KeyboardMode.ARABIC
+                            else -> KeyboardMode.ENGLISH
+                        }
+                    )
                 }
             }
             item {
@@ -484,11 +484,12 @@ fun KeyboardKeysGrid(
         }
 
         val rows = when (mode) {
-            KeyboardMode.BANGLA_JATIYO -> listOf(KeyboardLayouts.BanglaJatiyoRow1, KeyboardLayouts.BanglaJatiyoRow2, KeyboardLayouts.BanglaJatiyoRow3)
-            KeyboardMode.ARABIC -> listOf(KeyboardLayouts.ArabicRow1, KeyboardLayouts.ArabicRow2, KeyboardLayouts.ArabicRow3)
+            KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
+            KeyboardMode.BANGLA_JATIYO -> listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
+            KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
             KeyboardMode.SYMBOLS -> listOf(KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3)
             KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
-            else -> listOf(KeyboardLayouts.EnglishRow1, KeyboardLayouts.EnglishRow2, KeyboardLayouts.EnglishRow3)
+            else -> listOf(EnglishLayout.Row1, EnglishLayout.Row2, EnglishLayout.Row3)
         }
 
         rows.take(2).forEach { rowKeys ->
@@ -624,49 +625,5 @@ fun KeyButton(
         contentAlignment = Alignment.Center
     ) {
         content()
-    }
-}
-
-@Composable
-fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit) {
-    val emojis = remember { listOf("😀", "😃", "😄", "😁", "😆", "😅", "😂", "🤣", "😊", "😇", "🙂", "🙃", "😉", "😌", "😍", "🥰", "😘", "😗", "😙", "😚", "😋", "😛", "😝", "😜", "🤪", "🤨", "🧐", "🤓", "😎", "🤩", "🥳", "😏", "😒", "😞", "😔", "😟", "😕", "🙁", "☹️", "😣", "😖", "😫", "😩", "🥺", "😢", "😭", "😤", "😠", "😡", "🤬", "❤️", "🧡", "💛", "💚", "💙", "💜", "🖤", "🤍", "🤎", "💔", "👍", "👎", "👏", "🙌", "👐", "🤲", "🤝", "🙏", "✌️", "🤟") }
-    Column(modifier = Modifier.fillMaxWidth().height(210.dp).background(theme.backgroundColor).padding(8.dp)) {
-        Text(text = "Frequently Used Emojis", color = theme.keySpecialTextColor, fontSize = 12.sp, modifier = Modifier.padding(bottom = 6.dp))
-        LazyVerticalGrid(columns = GridCells.Fixed(8), verticalArrangement = Arrangement.spacedBy(8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            items(emojis) { emoji ->
-                Box(modifier = Modifier.size(36.dp).clip(RoundedCornerShape(8.dp)).background(theme.keyBackgroundColor).clickable(role = Role.Button, onClick = { onEmojiClick(emoji) }), contentAlignment = Alignment.Center) {
-                    Text(text = emoji, fontSize = 20.sp)
-                }
-            }
-        }
-    }
-}
-
-@Composable
-fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
-    val clips by ClipboardManager.clips.collectAsState()
-    Column(modifier = Modifier.fillMaxWidth().height(210.dp).background(theme.backgroundColor).padding(8.dp)) {
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Clipboard History", color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-            TextButton(onClick = { ClipboardManager.clearAllUnpinned() }) { Text("Clear Unpinned", color = theme.keySpecialTextColor, fontSize = 11.sp) }
-        }
-        if (clips.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No copied clips yet", color = theme.keyTextColor.copy(alpha = 0.5f)) }
-        } else {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(clips) { clip ->
-                    Box(modifier = Modifier.width(160.dp).height(130.dp).clip(RoundedCornerShape(10.dp)).background(theme.keyBackgroundColor).border(width = 1.dp, color = if (clip.isPinned) theme.accentColor else Color.Transparent, shape = RoundedCornerShape(10.dp)).clickable(role = Role.Button, onClick = { onClipClick(clip.text) }).padding(8.dp)) {
-                        Column(modifier = Modifier.fillMaxSize()) {
-                            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Icon(imageVector = Icons.Default.PushPin, contentDescription = null, tint = if (clip.isPinned) theme.accentColor else theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.togglePin(clip.id) })
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = null, tint = theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.deleteClip(clip.id) })
-                            }
-                            Spacer(modifier = Modifier.height(4.dp))
-                            Text(text = clip.text, color = theme.keyTextColor, fontSize = 12.sp, maxLines = 4)
-                        }
-                    }
-                }
-            }
-        }
     }
 }
