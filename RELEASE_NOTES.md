@@ -1,45 +1,57 @@
-# NexKey Keyboard v1.0.0 - Release Notes
+# NexKey Keyboard v1.1.0 - Release Notes
 
 ## Overview
 
-NexKey Keyboard is a modern, full-featured virtual keyboard for Android with support for Bangla Phonetic and English languages. This release introduces the complete keyboard experience with dynamic theming, smart typing, and a beautiful Material 3 interface.
+NexKey Keyboard v1.1.0 brings major new input capabilities: **Avro phonetic layout**, **long-press backspace continuous delete**, **voice typing**, **always-visible suggestion strip**, **auto-hide toolbar**, and a completely overhauled navigation and analytics system.
 
 ## Highlights
 
-- **100% Material 3 Design** - Fully migrated to the latest design system with dynamic colors
-- **Hold-to-Paste** - Long-press any key to paste clipboard text
-- **Bangla + English Support** - Seamless switching between Bangla Phonetic and English keyboards
-- **Smart Auto-Correction** - Context-aware word correction with learning
-- **Theme System** - 5 built-in themes + custom accent color support
-- **Community-Ready** - Full GitHub templates for issues, PRs, code of conduct, and more
+- **Avro Phonetic Layout** — Type Bangla in Avro phonetic mode, cycles alongside Phonetic/Jatiyo/Arabic
+- **Long-Press Backspace Repeat** — Hold backspace to continuously delete; customize initial delay and repeat speed in Advanced settings
+- **Always-Show Suggestion Strip** — Suggestion bar stays visible even when empty (enabled by default)
+- **Auto-Hide Toolbar** — Toolbar hides while typing; tap the ⟨⟨ toggle to show it again
+- **Key Long-Press Hints** — Long-press top-row keys for numbers, letter keys for accented characters
+- **Voice Input** — RECORD_AUDIO permission with smart fallback to App Settings if denied
+- **More Languages Screen** — Dedicated screen to toggle English/Phonetic/Jatiyo/Avro/Arabic
+- **Enhanced Emoji Panel** — 500+ emojis across 8 categories with tab navigation
+- **Enter Key Intelligence** — Multiline fields show ↵, single-line fields show Done/Search/Go
 
-## What's New in v1.0.0
+## What's New in v1.1.0
 
-### Hold-to-Paste Feature
-Long-press any key to quickly paste text from your clipboard. Configure:
-- **Trigger Key** - Choose which key triggers paste (default: V)
-- **Hold Duration** - Adjust sensitivity (default: 400ms)
-- **Toggle** - Enable/disable the feature in settings
+### New Input Modes
+- **Avro phonetic layout** for Bangla — shares the phonetic engine, toggled via More Languages screen
+- **4-way mode cycling**: Phonetic → Jatiyo → Avro → Arabic
 
-### Enhanced Theming
-- Material 3 color tokens for consistent design
-- Custom accent color support
-- Theme library with multiple presets
-- Dark, Light, and Amoled themes
+### Suggestion & Toolbar Improvements
+- **Always-show suggestions** toggle in Layout settings (ON by default)
+- When suggestions are empty, a muted "Suggestions" label keeps the strip visible
+- **Auto-hide toolbar** — toolbar disappears while typing; a small ⟨⟨ button lets you show it again
 
-### Smart Typing
-- Auto-correction with learning
-- Smart punctuation
-- Context-aware word suggestions
-- Bangla Phonetic transliteration
+### Backspace Repeat (Advanced Settings)
+- **Initial delay**: how long to hold before repeat starts (default: 400ms)
+- **Repeat speed**: interval between deletions while holding (default: 50ms)
+- Two new sliders in Settings → Advanced
 
-### Community Infrastructure
-- 📋 7 Issue templates (bug reports, feature requests, docs, performance, UI/UX, security)
-- 📄 Code of conduct and contributing guidelines
-- 🔒 Security policy
-- 📞 Support guidelines
-- 🏷️ Automated PR labels based on size
-- 🗑️ Automated stale issue management
+### Key Popups
+- English letter keys show long-press candidates:
+  - Top row (Q-P): the corresponding number (Q→1, W→2, etc.)
+  - Other letters: accented/special variants (A→áàâäã, N→ñ, etc.)
+
+### Voice Typing
+- RECORD_AUDIO permission request on first use
+- If denied, opens App Settings so the user can grant it manually
+- Clear error messages for permission-denied and recognition-failed states
+
+### Analytics & Navigation
+- Typing analytics dashboard (wpm, accuracy, key counts)
+- Store screen for in-app content
+- Overhauled navigation with expanded screen routing
+- Settings screen redesigned with grid layout
+
+## Fixes
+- Enter key no longer shows "Done"/dismisses keyboard in multiline text fields — now inserts \n and shows ↵
+- Backspace no longer triggers auto-language switch outside Phonetic/Avro modes
+- CI emulator architecture casing corrected
 
 ## Installation
 
@@ -55,18 +67,18 @@ The app will be available on Google Play Store once published.
 
 ## Known Issues
 
-None reported for this initial release.
+- Voice input may not work on emulators without Google services
 
 ## Checksums
 
 | File | SHA256 | MD5 |
 |------|--------|-----|
-| app-release.apk | 3effd8431a4720abbec024cc9a84c0c4a116c2b0650932a2200e5e7453b88c77 | c5c44797375eeeee8b5520a6955a65f7 |
+| app-release.apk | TBD | TBD |
 
 ## Download Links
 
-- **APK**: [app-release.apk](../releases/download/v1.0.0/app-release.apk)
-- **Release URL**: [https://github.com/<owner>/NexKey-Keyboard/releases/tag/v1.0.0](../releases/tag/v1.0.0)
+- **APK**: [app-release.apk](../releases/download/v1.1.0/app-release.apk)
+- **Release URL**: [https://github.com/abir2afridi/NexKey-Keyboard/releases/tag/v1.1.0](../releases/tag/v1.1.0)
 
 ## System Requirements
 
