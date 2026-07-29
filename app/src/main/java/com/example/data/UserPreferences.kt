@@ -87,6 +87,12 @@ class UserPreferences(private val context: Context) {
         private val KEY_HOLD_PASTE_ENABLED = booleanPreferencesKey("hold_paste_enabled")
         private val KEY_HOLD_PASTE_DURATION = intPreferencesKey("hold_paste_duration")
         private val KEY_HOLD_PASTE_TRIGGER_KEY = stringPreferencesKey("hold_paste_trigger_key")
+
+        // Language enable/disable
+        private val KEY_ENABLE_BANGLA_PHONETIC = booleanPreferencesKey("enable_bangla_phonetic")
+        private val KEY_ENABLE_BANGLA_JATIYO = booleanPreferencesKey("enable_bangla_jatiyo")
+        private val KEY_ENABLE_AVRO = booleanPreferencesKey("enable_avro")
+        private val KEY_ENABLE_ARABIC = booleanPreferencesKey("enable_arabic")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -155,6 +161,11 @@ class UserPreferences(private val context: Context) {
     val holdPasteDuration: Flow<Int> = context.dataStore.data.map { it[KEY_HOLD_PASTE_DURATION] ?: 400 }
     val holdPasteTriggerKey: Flow<String> = context.dataStore.data.map { it[KEY_HOLD_PASTE_TRIGGER_KEY] ?: "v" }
 
+    val enableBanglaPhonetic: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_BANGLA_PHONETIC] ?: true }
+    val enableBanglaJatiyo: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_BANGLA_JATIYO] ?: true }
+    val enableAvro: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_AVRO] ?: true }
+    val enableArabic: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_ARABIC] ?: true }
+
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
@@ -201,6 +212,11 @@ class UserPreferences(private val context: Context) {
     suspend fun setHoldPasteEnabled(enabled: Boolean) = context.dataStore.edit { it[KEY_HOLD_PASTE_ENABLED] = enabled }
     suspend fun setHoldPasteDuration(durationMs: Int) = context.dataStore.edit { it[KEY_HOLD_PASTE_DURATION] = durationMs }
     suspend fun setHoldPasteTriggerKey(key: String) = context.dataStore.edit { it[KEY_HOLD_PASTE_TRIGGER_KEY] = key }
+
+    suspend fun setEnableBanglaPhonetic(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_BANGLA_PHONETIC] = enabled }
+    suspend fun setEnableBanglaJatiyo(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_BANGLA_JATIYO] = enabled }
+    suspend fun setEnableAvro(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_AVRO] = enabled }
+    suspend fun setEnableArabic(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_ARABIC] = enabled }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }

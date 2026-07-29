@@ -51,26 +51,27 @@ object BanglaPhoneticEngine {
     // Common Bangla conjunct rules (Juktakkhor)
     private val JUKTAKKHOR_MAP = mapOf(
         "kk" to "ক্ক", "kS" to "ক্ষ", "ksh" to "ক্ষ", "kt" to "ক্ত", "kl" to "ক্ল", "kw" to "ক্ব", "ky" to "ক্য", "kr" to "ক্র",
-        "gdh" to "গ্ধ", "gn" to "গ্ন", "gm" to "গ্ম", "gly" to "গ্ল", "gr" to "গ্র", "gy" to "গ্য",
-        "ngk" to "ঙ্ক", "ngkh" to "ঙ্খ", "ngg" to "ঙ্গ", "nggh" to "ঙ্ঘ",
+        "kkh" to "ক্খ",
+        "gdh" to "গ্ধ", "gn" to "গ্ন", "gm" to "গ্ম", "gly" to "গ্ল", "gr" to "গ্র", "gy" to "গ্য", "ggh" to "গ্ঘ",
+        "ngk" to "ঙ্ক", "ngkh" to "ঙ্খ", "ngg" to "ঙ্গ", "nggh" to "ঙ্ঘ", "ngy" to "ঙ্য",
         "cc" to "চ্চ", "cch" to "চ্ছ", "cw" to "চ্ব", "cy" to "চ্য",
-        "jj" to "জ্জ", "jjh" to "জ্জ্ব", "jn" to "জ্ঞ", "jw" to "জ্ব", "jy" to "জ্য",
-        "njc" to "ঞ্চ", "njch" to "ঞ্ছ", "njj" to "ঞ্জ", "njjh" to "ঞ্ঝ",
+        "jj" to "জ্জ", "jjh" to "জ্ঝ", "jn" to "জ্ঞ", "jw" to "জ্ব", "jy" to "জ্য", "jjw" to "জ্জ্ব",
+        "njc" to "ঞ্চ", "njch" to "ঞ্ছ", "njj" to "ঞ্জ", "njjh" to "ঞ্ঝ", "nj" to "ঞ",
         "TT" to "ট্ট", "Ttw" to "ট্ব", "Ty" to "ট্য", "Tr" to "ট্র",
         "DD" to "ড্ড", "Dy" to "ড্য", "Dr" to "ড্র",
         "NT" to "ণ্ট", "NTh" to "ণ্ঠ", "ND" to "ণ্ড", "NDh" to "ণ্ঢ", "NN" to "ণ্ণ", "Nm" to "ণ্ম", "Ny" to "ণ্য",
         "tt" to "ত্ত", "tth" to "ত্থ", "tn" to "ত্ন", "tm" to "ত্ম", "tw" to "ত্ব", "ty" to "ত্য", "tr" to "ত্র",
-        "dd" to "দ্দ", "ddh" to "দ্ধ", "dw" to "দ্ব", "dy" to "দ্য", "dr" to "দ্র", "dm" to "দ্ম",
+        "dd" to "দ্দ", "ddh" to "দ্ধ", "dw" to "দ্ব", "dy" to "দ্য", "dr" to "দ্র", "dm" to "দ্ম", "ddr" to "দ্দ্র",
         "dhn" to "ধ্ন", "dhm" to "ধ্ম", "dhw" to "ধ্ব", "dhy" to "ধ্য", "dhr" to "ধ্র",
-        "nt" to "ন্ত", "nth" to "ন্থ", "nd" to "ন্দ", "ndh" to "ন্ধ", "nn" to "ন্ন", "nm" to "ন্ম", "ny" to "ন্য", "nw" to "ন্ব",
-        "pt" to "প্ত", "pn" to "প্ন", "pp" to "প্প", "pl" to "প্ল", "ps" to "প্স", "py" to "প্য", "pr" to "প্র", "bd" to "ব্দ",
-        "bdh" to "ব্ধ", "bb" to "ব্ব", "bl" to "ব্ল", "by" to "ব্য", "br" to "ব্র",
+        "nt" to "ন্ত", "nth" to "ন্থ", "nd" to "ন্দ", "ndh" to "ন্ধ", "nn" to "ন্ন", "nm" to "ন্ম", "ny" to "ন্য", "nw" to "ন্ব", "ntr" to "ন্ত্র", "ndr" to "ন্দ্র",
+        "pt" to "প্ত", "pn" to "প্ন", "pp" to "প্প", "pl" to "প্ল", "ps" to "প্স", "py" to "প্য", "pr" to "প্র", "pph" to "ফ্ফ",
+        "bd" to "ব্দ", "bdh" to "ব্ধ", "bb" to "ব্ব", "bl" to "ব্ল", "by" to "ব্য", "br" to "ব্র", "bbr" to "ব্ব্র",
         "bhn" to "ভ্ন", "bhy" to "ভ্য", "bhr" to "ভ্র",
         "mn" to "ম্ন", "mp" to "ম্প", "mph" to "ম্ফ", "mb" to "ম্ব", "mbh" to "ম্ভ", "mm" to "ম্ম", "ml" to "ম্ল", "my" to "ম্য", "mr" to "ম্র",
         "st" to "স্ত", "sth" to "স্থ", "sn" to "স্ন", "sp" to "স্প", "sph" to "স্ফ", "sb" to "স্ব", "sm" to "স্ম", "sl" to "স্ল", "sy" to "স্য", "sr" to "স্র",
         "ShT" to "ষ্ট", "ShTh" to "ষ্ঠ", "ShN" to "ষ্ণ", "Shp" to "ষ্প", "Shph" to "স্ফ", "Shm" to "ষ্ম", "Shy" to "ষ্য",
         "shc" to "শ্চ", "shch" to "শ্ছ", "shn" to "শ্ন", "shm" to "শ্ম", "shl" to "শ্ল", "shy" to "শ্য", "shr" to "শ্র",
-        "hn" to "হ্ন", "hm" to "হ্ম", "hl" to "হ্ল", "hy" to "হ্য", "hr" to "হৃ"
+        "hn" to "হ্ন", "hm" to "হ্ম", "hl" to "হ্ল", "hy" to "হ্য", "hr" to "হৃ", "hN" to "হ্ণ", "hny" to "হ্ন্য"
     )
 
     private val NUMERALS = mapOf(

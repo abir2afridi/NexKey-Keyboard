@@ -4,6 +4,7 @@ enum class KeyboardMode {
     ENGLISH,
     BANGLA_PHONETIC,
     BANGLA_JATIYO,
+    AVRO,
     ARABIC,
     SYMBOLS,
     NUMBERS,

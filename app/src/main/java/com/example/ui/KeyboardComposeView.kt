@@ -300,17 +300,21 @@ fun SmartToolbar(
             item {
                 ToolbarBadge(
                     label = when (currentMode) {
-                        KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                        KeyboardMode.BANGLA_PHONETIC -> "বাংলা"
+                        KeyboardMode.BANGLA_JATIYO -> "জাতীয়"
+                        KeyboardMode.AVRO -> "Avro"
                         KeyboardMode.ARABIC -> "عربي"
                         else -> "EN"
                     },
-                    active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
+                    active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
                     theme = theme
                 ) {
                     onModeChange(
                         when (currentMode) {
-                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_JATIYO
-                            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> KeyboardMode.ARABIC
+                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_PHONETIC
+                            KeyboardMode.BANGLA_PHONETIC -> KeyboardMode.BANGLA_JATIYO
+                            KeyboardMode.BANGLA_JATIYO -> KeyboardMode.AVRO
+                            KeyboardMode.AVRO -> KeyboardMode.ARABIC
                             else -> KeyboardMode.ENGLISH
                         }
                     )
@@ -484,7 +488,7 @@ fun KeyboardKeysGrid(
         }
 
         val rows = when (mode) {
-            KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
+            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.AVRO -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
             KeyboardMode.BANGLA_JATIYO -> listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
             KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
             KeyboardMode.SYMBOLS -> listOf(KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3)
@@ -548,10 +552,10 @@ fun KeyboardKeysGrid(
                 ),
                 theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = onSpaceTap
             ) {
-                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
             }
-            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO) "।" else ".") }) {
-                Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
+                Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
             KeyButton(modifier = Modifier.weight(1.5f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = onEnterTap) {
                 Text(text = actionLabel, color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)

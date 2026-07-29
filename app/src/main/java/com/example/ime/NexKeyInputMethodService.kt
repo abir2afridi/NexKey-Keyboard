@@ -34,7 +34,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlin.system.measureTimeMillis
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.core.content.ContextCompat
 
 class NexKeyInputMethodService : LifecycleInputMethodService() {
 
@@ -47,6 +49,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var isIncognito by mutableStateOf(false)
     private var isPasswordField by mutableStateOf(false)
     private var isSensitiveField by mutableStateOf(false)
+    private var isMultilineField by mutableStateOf(false)
     private var lastSpaceTime = 0L
 
     // Live Preferences
@@ -294,8 +297,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         composingBuffer = ""
         candidates = emptyList()
 
+        detectSensitiveField(info)
+
         val imeAction = info?.imeOptions?.let { it and EditorInfo.IME_MASK_ACTION }
-        actionLabel = when (imeAction) {
+        actionLabel = if (isMultilineField) {
+            "↵"
+        } else when (imeAction) {
             EditorInfo.IME_ACTION_SEARCH -> "Search"
             EditorInfo.IME_ACTION_GO -> "Go"
             EditorInfo.IME_ACTION_SEND -> "Send"
@@ -356,6 +363,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
         isPasswordField = isPassword
         isSensitiveField = isSensitive
+        isMultilineField = inputType and InputType.TYPE_TEXT_FLAG_MULTI_LINE != 0
 
         if (isPassword || isSensitive) {
             candidates = emptyList()
@@ -375,7 +383,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         val isAlphaKey = key.length == 1 && key[0].isLetter()
-        val isBanglaComposing = !isPasswordField && currentMode == KeyboardMode.BANGLA_PHONETIC && isAlphaKey
+        val isBanglaComposing = !isPasswordField && (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) && isAlphaKey
         val isEnglishComposing = !isPasswordField && (currentMode == KeyboardMode.ENGLISH || currentMode == KeyboardMode.ARABIC) && isAlphaKey
 
         if (isBanglaComposing) {
@@ -431,7 +439,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         if (composingBuffer.isNotEmpty()) {
             composingBuffer = composingBuffer.dropLast(1)
             if (composingBuffer.isNotEmpty()) {
-                val parsed = BanglaPhoneticEngine.parse(composingBuffer)
+                val parsed = if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) {
+                    BanglaPhoneticEngine.parse(composingBuffer)
+                } else {
+                    composingBuffer
+                }
                 ic.setComposingText(parsed, 1)
                 updateCandidates(composingBuffer)
             } else {
@@ -448,7 +460,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         if (composingBuffer.isNotEmpty()) {
-            val isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC
+            val isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO
             val rawWord = if (isBangla) BanglaPhoneticEngine.parse(composingBuffer) else composingBuffer
             val correctedWord = if (autoCorrectionEnabled && !isSensitiveField) {
                 val correction = predictionEngine.getCorrection(rawWord, isBangla)
@@ -501,7 +513,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             commitComposingBuffer()
         }
 
-        if (forcedEnterEnabled) {
+        if (forcedEnterEnabled || isMultilineField) {
             ic?.commitText("\n", 1)
             return
         }
@@ -555,7 +567,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
         val predictions = predictionEngine.getPredictions(
             prefix = query,
-            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC),
+            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO),
             showTypedWordFirst = showTypedWordFirstEnabled
         )
         candidates = if (blockOffensiveEnabled) {
@@ -578,7 +590,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private fun commitComposingBuffer() {
         val ic = currentInputConnection ?: return
         if (composingBuffer.isNotEmpty()) {
-            val word = if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
+            val word = if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) {
                 BanglaPhoneticEngine.parse(composingBuffer)
             } else {
                 composingBuffer
@@ -587,7 +599,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             ic.commitText(word, 1)
             ic.endBatchEdit()
             if (!isSensitiveField && !isIncognito) {
-                predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC)
+            predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO)
                 scope.launch { userPreferences.incrementStats(words = 1, chars = word.length) }
             }
             composingBuffer = ""
@@ -628,6 +640,18 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     private fun startVoiceInput() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
+            Toast.makeText(this, "Grant microphone permission in Settings > Apps > NexKey > Permissions to use voice typing.", Toast.LENGTH_LONG).show()
+            try {
+                val intent = android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                    data = android.net.Uri.fromParts("package", packageName, null)
+                    addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                startActivity(intent)
+            } catch (_: Exception) {}
+            return
+        }
+
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
             Toast.makeText(this, "Voice typing is not available", Toast.LENGTH_SHORT).show()
             return
@@ -640,7 +664,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
                 putExtra(
                     RecognizerIntent.EXTRA_LANGUAGE,
-                    if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO) "bn-BD" else "en-US"
+                    if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO) "bn-BD" else "en-US"
                 )
             }
 
@@ -659,7 +683,15 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 }
 
                 override fun onError(error: Int) {
-                    Toast.makeText(this@NexKeyInputMethodService, "Voice input error: $error", Toast.LENGTH_SHORT).show()
+                    val msg = when (error) {
+                        SpeechRecognizer.ERROR_NO_MATCH -> "No speech detected"
+                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "Speech timed out"
+                        SpeechRecognizer.ERROR_NETWORK -> "Network error"
+                        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Recognizer busy"
+                        9 -> "Permission denied"
+                        else -> "Error: $error"
+                    }
+                    Toast.makeText(this@NexKeyInputMethodService, msg, Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onBeginningOfSpeech() {}

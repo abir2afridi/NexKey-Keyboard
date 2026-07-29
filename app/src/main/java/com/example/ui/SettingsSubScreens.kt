@@ -296,51 +296,30 @@ fun AdvancedSettingsScreen(onBack: () -> Unit) {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MoreLanguagesScreen(onBack: () -> Unit) {
-    SettingsSubScaffold(title = "More Languages", onBack = onBack) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val enableBanglaPhonetic by prefs.enableBanglaPhonetic.collectAsState(initial = true)
+    val enableBanglaJatiyo by prefs.enableBanglaJatiyo.collectAsState(initial = true)
+    val enableAvro by prefs.enableAvro.collectAsState(initial = true)
+    val enableArabic by prefs.enableArabic.collectAsState(initial = true)
+
+    SettingsSubScaffold(title = "Keyboard Languages", onBack = onBack) {
         Text(
-            text = "Install additional languages", 
+            text = "Enable or disable keyboard languages",
             color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.Bold, 
+            fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
         )
-        
-        LanguageInstallItem("Arabic", "System layout", Icons.Default.Language)
-        LanguageInstallItem("Chakma", "Phonetic layout", Icons.Default.Language)
-        LanguageInstallItem("Syloti Nagri", "Standard layout", Icons.Default.Language)
-        
-        Spacer(modifier = Modifier.height(32.dp))
-    }
-}
 
-@Composable
-fun LanguageInstallItem(name: String, desc: String, icon: androidx.compose.ui.graphics.vector.ImageVector) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 14.dp, horizontal = 4.dp),
-        verticalAlignment = androidx.compose.ui.Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(modifier = Modifier.weight(1f), verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
-            Box(
-                modifier = Modifier.size(40.dp).clip(CircleShape).background(MaterialTheme.colorScheme.surfaceVariant),
-                contentAlignment = androidx.compose.ui.Alignment.Center
-            ) {
-                Icon(icon, null, tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
-            }
-            Spacer(modifier = Modifier.width(16.dp))
-            Column {
-                Text(name, color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                Text(desc, color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
-            }
-        }
-        Button(
-            onClick = {}, 
-            colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
-            shape = RoundedCornerShape(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 6.dp)
-        ) {
-            Text("Install", fontSize = 12.sp, fontWeight = FontWeight.Bold)
-        }
+        SettingSwitchItem("English", "QWERTY layout, always enabled", Icons.Default.Language, true) {}
+        SettingSwitchItem("Bangla (Phonetic)", "Ridmik-style phonetic typing", Icons.Default.Language, enableBanglaPhonetic) { scope.launch { prefs.setEnableBanglaPhonetic(it) } }
+        SettingSwitchItem("Bangla (Jatiyo)", "Standard national layout", Icons.Default.Language, enableBanglaJatiyo) { scope.launch { prefs.setEnableBanglaJatiyo(it) } }
+        SettingSwitchItem("Avro (Phonetic)", "Avro-style Bengali typing", Icons.Default.Language, enableAvro) { scope.launch { prefs.setEnableAvro(it) } }
+        SettingSwitchItem("Arabic", "Arabic letter layout", Icons.Default.Language, enableArabic) { scope.launch { prefs.setEnableArabic(it) } }
+
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }
 

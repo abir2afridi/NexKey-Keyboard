@@ -41,7 +41,7 @@ fun SettingsScreen(
             SettingCategory("Paste & Clipboard", "Hold key to paste, clipboard settings", Icons.Default.ContentPaste, onNavigateToPaste),
             SettingCategory("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onNavigateToAdvancedGroup),
             SettingCategory("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onNavigateToTextCorrection),
-            SettingCategory("More Languages", "Arabic, Chakma, Syloti...", Icons.Default.Language, onNavigateToMoreLanguages),
+            SettingCategory("More Languages", "English, Bangla, Avro, Arabic...", Icons.Default.Language, onNavigateToMoreLanguages),
             SettingCategory("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onNavigateToGifQuality)
         )
     }
