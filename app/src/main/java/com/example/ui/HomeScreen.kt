@@ -42,6 +42,39 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
+enum class DashboardSection(
+    val title: String,
+    val icon: ImageVector,
+    val description: String
+) {
+    PULSE(
+        "Today's Pulse", 
+        Icons.Default.Speed, 
+        "Real-time analysis of your typing efficiency. RPM (Rate Per Minute) measures your conceptual speed—how fast you turn thoughts into words. Keys/Sec measures your raw physical dexterity and finger speed on the layout."
+    ),
+    TRENDS(
+        "Usage Trends", 
+        Icons.Default.BarChart, 
+        "Tracks your keyboard activity over time. The weekly and monthly views help you identify your most productive days and monitor your 'Digital Stamina' throughout the year."
+    ),
+    DISTRIBUTION(
+        "Yearly Distribution", 
+        Icons.Default.PieChart, 
+        "A seasonal breakdown of your typing volume. This donut chart shows which months you were most active, helping you correlate your typing habits with different periods of work or social activity."
+    ),
+    HEATMAP(
+        "Word Heatmap", 
+        Icons.Default.Keyboard, 
+        "A linguistic fingerprint of your vocabulary. Your top words are mapped onto a miniature layout. The darker the key, the more central that word is to your digital communication."
+    ),
+    EMOJIS(
+        "Emoji Leaderboard", 
+        Icons.Default.Face, 
+        "Visualizes your emotional expression patterns. This ranking shows which emojis you rely on most, providing a fun insight into your digital personality."
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     appTheme: String,
@@ -74,6 +107,9 @@ fun HomeScreen(
     var recentSessions by remember { mutableStateOf<List<TypingSessionEntity>>(emptyList()) }
     
     var selectedChartPeriod by remember { mutableIntStateOf(0) } // 0: Week, 1: Month
+    
+    var showInfoForSection by remember { mutableStateOf<DashboardSection?>(null) }
+    val sheetState = rememberModalBottomSheetState()
     
     LaunchedEffect(db) {
         db?.let { database ->
@@ -286,14 +322,25 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // TODAY'S PULSE (Live Metrics)
-            Text(
-                text = "TODAY'S PULSE",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
-            )
+            // TODAY'S PULSE
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "TODAY'S PULSE",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                IconButton(
+                    onClick = { showInfoForSection = DashboardSection.PULSE },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                }
+            }
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 StatCard("$rpm", "Avg RPM", MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.primary, Icons.Default.Speed, Modifier.weight(1f))
@@ -302,23 +349,32 @@ fun HomeScreen(
             Spacer(modifier = Modifier.height(10.dp))
             StatCard("$activeMinutesToday mins", "Active Typing Time Today", MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.secondary, Icons.Default.HourglassBottom, Modifier.fillMaxWidth())
             
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // USAGE TRENDS (Bar Charts)
+            // USAGE TRENDS
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = "USAGE TRENDS",
-                    fontSize = 11.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(start = 4.dp)
-                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = "USAGE TRENDS",
+                        fontSize = 11.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(start = 4.dp)
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    IconButton(
+                        onClick = { showInfoForSection = DashboardSection.TRENDS },
+                        modifier = Modifier.size(16.dp)
+                    ) {
+                        Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                    }
+                }
                 Row {
                     TextButton(onClick = { selectedChartPeriod = 0 }) {
-                        Text("Week", fontSize = 11.sp, color = if (selectedChartPeriod == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Week", fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 0) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     TextButton(onClick = { selectedChartPeriod = 1 }) {
-                        Text("Month", fontSize = 11.sp, color = if (selectedChartPeriod == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text("Month", fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -340,16 +396,27 @@ fun HomeScreen(
 
             DeepBarChart(data = chartData, color = MaterialTheme.colorScheme.primary)
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
-            // YEARLY DISTRIBUTION (Pie Chart)
-            Text(
-                text = "YEARLY DISTRIBUTION",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
-            )
+            // YEARLY DISTRIBUTION
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "YEARLY DISTRIBUTION",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                IconButton(
+                    onClick = { showInfoForSection = DashboardSection.DISTRIBUTION },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                }
+            }
 
             val monthlyData = remember(dailyStats) {
                 val months = mutableMapOf<String, Int>()
@@ -366,29 +433,51 @@ fun HomeScreen(
 
             DeepPieChart(data = monthlyData)
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             // KEYBOARD WORD HEATMAP
-            Text(
-                text = "WORD HEATMAP",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "WORD HEATMAP",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                IconButton(
+                    onClick = { showInfoForSection = DashboardSection.HEATMAP },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                }
+            }
 
             MiniKeyboardHeatmap(topWords)
 
-            Spacer(modifier = Modifier.height(24.dp))
+            Spacer(modifier = Modifier.height(32.dp))
 
             // EMOJI LEADERBOARD
-            Text(
-                text = "EMOJI LEADERBOARD",
-                fontSize = 11.sp,
-                fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = "EMOJI LEADERBOARD",
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                IconButton(
+                    onClick = { showInfoForSection = DashboardSection.EMOJIS },
+                    modifier = Modifier.size(16.dp)
+                ) {
+                    Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                }
+            }
 
             EmojiUsageChart(topEmojis)
 
@@ -408,6 +497,68 @@ fun HomeScreen(
             }
 
             Spacer(modifier = Modifier.height(100.dp))
+        }
+
+        // Info Bottom Sheet
+        if (showInfoForSection != null) {
+            ModalBottomSheet(
+                onDismissRequest = { showInfoForSection = null },
+                sheetState = sheetState,
+                containerColor = MaterialTheme.colorScheme.surface,
+                dragHandle = { BottomSheetDefaults.DragHandle() }
+            ) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 24.dp)
+                        .padding(bottom = 48.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(64.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.primaryContainer),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = showInfoForSection?.icon ?: Icons.Default.Info,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(32.dp)
+                        )
+                    }
+                    
+                    Spacer(modifier = Modifier.height(16.dp))
+                    
+                    Text(
+                        text = showInfoForSection?.title ?: "",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    
+                    Spacer(modifier = Modifier.height(12.dp))
+                    
+                    Text(
+                        text = showInfoForSection?.description ?: "",
+                        fontSize = 14.sp,
+                        lineHeight = 22.sp,
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    
+                    Spacer(modifier = Modifier.height(24.dp))
+                    
+                    Button(
+                        onClick = { showInfoForSection = null },
+                        modifier = Modifier.fillMaxWidth(),
+                        shape = RoundedCornerShape(12.dp)
+                    ) {
+                        Text("Got it")
+                    }
+                }
+            }
         }
     }
 }
