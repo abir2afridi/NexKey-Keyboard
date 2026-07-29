@@ -297,24 +297,22 @@ fun SmartToolbar(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            if (showGlobeKey) {
-                item {
-                    ToolbarBadge(
-                        label = when (currentMode) {
-                            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> "বাংলা"
-                            KeyboardMode.ARABIC -> "عربي"
-                            else -> "EN"
-                        },
-                        active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
-                        theme = theme
-                    ) {
-                        if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
-                            onModeChange(KeyboardMode.BANGLA_JATIYO)
-                        } else if (currentMode == KeyboardMode.BANGLA_JATIYO) {
-                            onModeChange(KeyboardMode.ENGLISH)
-                        } else {
-                            onModeChange(KeyboardMode.BANGLA_PHONETIC)
-                        }
+            item {
+                ToolbarBadge(
+                    label = when (currentMode) {
+                        KeyboardMode.BANGLA_PHONETIC, KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                        KeyboardMode.ARABIC -> "عربي"
+                        else -> "EN"
+                    },
+                    active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO,
+                    theme = theme
+                ) {
+                    if (currentMode == KeyboardMode.BANGLA_PHONETIC) {
+                        onModeChange(KeyboardMode.BANGLA_JATIYO)
+                    } else if (currentMode == KeyboardMode.BANGLA_JATIYO) {
+                        onModeChange(KeyboardMode.ENGLISH)
+                    } else {
+                        onModeChange(KeyboardMode.BANGLA_PHONETIC)
                     }
                 }
             }
@@ -535,14 +533,8 @@ fun KeyboardKeysGrid(
             KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) KeyboardMode.ENGLISH else KeyboardMode.SYMBOLS) }) {
                 Text(text = if (mode == KeyboardMode.SYMBOLS) "ABC" else "?123", color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
-            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = {
-                when (mode) {
-                    KeyboardMode.BANGLA_PHONETIC -> onModeChange(KeyboardMode.BANGLA_JATIYO)
-                    KeyboardMode.BANGLA_JATIYO -> onModeChange(KeyboardMode.ENGLISH)
-                    else -> onModeChange(KeyboardMode.BANGLA_PHONETIC)
-                }
-            }) {
-                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "Phonetic"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.ARABIC -> "عربي"; else -> "EN" }, color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
+                Text(text = ",", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
             KeyButton(
                 modifier = Modifier.weight(4f).then(
