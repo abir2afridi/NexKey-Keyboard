@@ -174,7 +174,7 @@ class UserPreferences(private val context: Context) {
     val enableAvro: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_AVRO] ?: true }
     val enableArabic: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_ARABIC] ?: true }
 
-    val alwaysShowSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_ALWAYS_SHOW_SUGGESTIONS] ?: false }
+    val alwaysShowSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_ALWAYS_SHOW_SUGGESTIONS] ?: true }
     val autoHideToolbar: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_HIDE_TOOLBAR] ?: false }
 
     val backspaceRepeatDelay: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_DELAY] ?: 400 }
