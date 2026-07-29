@@ -93,6 +93,10 @@ class UserPreferences(private val context: Context) {
         private val KEY_ENABLE_BANGLA_JATIYO = booleanPreferencesKey("enable_bangla_jatiyo")
         private val KEY_ENABLE_AVRO = booleanPreferencesKey("enable_avro")
         private val KEY_ENABLE_ARABIC = booleanPreferencesKey("enable_arabic")
+
+        // Suggestion & Toolbar
+        private val KEY_ALWAYS_SHOW_SUGGESTIONS = booleanPreferencesKey("always_show_suggestions")
+        private val KEY_AUTO_HIDE_TOOLBAR = booleanPreferencesKey("auto_hide_toolbar")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -166,6 +170,9 @@ class UserPreferences(private val context: Context) {
     val enableAvro: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_AVRO] ?: true }
     val enableArabic: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_ARABIC] ?: true }
 
+    val alwaysShowSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_ALWAYS_SHOW_SUGGESTIONS] ?: false }
+    val autoHideToolbar: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_HIDE_TOOLBAR] ?: false }
+
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
@@ -217,6 +224,9 @@ class UserPreferences(private val context: Context) {
     suspend fun setEnableBanglaJatiyo(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_BANGLA_JATIYO] = enabled }
     suspend fun setEnableAvro(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_AVRO] = enabled }
     suspend fun setEnableArabic(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_ARABIC] = enabled }
+
+    suspend fun setAlwaysShowSuggestions(enabled: Boolean) = context.dataStore.edit { it[KEY_ALWAYS_SHOW_SUGGESTIONS] = enabled }
+    suspend fun setAutoHideToolbar(enabled: Boolean) = context.dataStore.edit { it[KEY_AUTO_HIDE_TOOLBAR] = enabled }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }

@@ -104,6 +104,8 @@ fun KeyboardComposeView(
     holdPasteEnabled: Boolean = false,
     holdPasteTriggerKey: String = "v",
     holdPasteDuration: Int = 400,
+    alwaysShowSuggestions: Boolean = false,
+    autoHideToolbar: Boolean = false,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -127,6 +129,11 @@ fun KeyboardComposeView(
     val hasPhysicalKeyboard = config.keyboard == android.content.res.Configuration.KEYBOARD_QWERTY
     val effectiveShowEmojiKey = showEmojiKey || (physicalKbEmojiEnabled && hasPhysicalKeyboard)
     var longPressKey by remember { mutableStateOf<KeyModel?>(null) }
+    var isToolbarVisible by remember { mutableStateOf(true) }
+    val isTyping = composingText.isNotEmpty() || suggestions.isNotEmpty()
+    LaunchedEffect(isTyping) {
+        if (autoHideToolbar && isTyping) isToolbarVisible = false
+    }
     val orientation = config.orientation
     val effectiveHeight = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) keyboardHeightLandscape else keyboardHeightPortrait
     val effectiveOneHanded = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) oneHandedWidthLandscape else oneHandedWidth
@@ -141,19 +148,30 @@ fun KeyboardComposeView(
                     .fillMaxWidth()
                     .padding(vertical = 4.dp)
             ) {
-                SmartToolbar(
-                    currentMode = mode,
-                    theme = theme,
-                    isIncognito = isIncognito,
-                    showVoiceKey = showVoiceKey,
-                    showEmojiKey = effectiveShowEmojiKey,
-                    showGlobeKey = showGlobeKey,
-                    onModeChange = onModeChange,
-                    onVoiceClick = onVoiceClick,
-                    onThemeToggle = onThemeToggle,
-                    onOpenSettings = onOpenSettings,
-                    onIncognitoToggle = onIncognitoToggle
-                )
+                if (autoHideToolbar && !isToolbarVisible) {
+                    Row(
+                        modifier = Modifier.fillMaxWidth().height(42.dp).background(theme.suggestionBgColor).padding(horizontal = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        androidx.compose.material3.TextButton(onClick = { isToolbarVisible = true }) {
+                            Text("⟨⟨", color = theme.keyTextColor, fontSize = 14.sp, fontWeight = FontWeight.Bold)
+                        }
+                    }
+                } else {
+                    SmartToolbar(
+                        currentMode = mode,
+                        theme = theme,
+                        isIncognito = isIncognito,
+                        showVoiceKey = showVoiceKey,
+                        showEmojiKey = effectiveShowEmojiKey,
+                        showGlobeKey = showGlobeKey,
+                        onModeChange = onModeChange,
+                        onVoiceClick = onVoiceClick,
+                        onThemeToggle = onThemeToggle,
+                        onOpenSettings = onOpenSettings,
+                        onIncognitoToggle = onIncognitoToggle
+                    )
+                }
 
                 when (mode) {
                     KeyboardMode.EMOJI -> EmojiPanel(
@@ -165,7 +183,7 @@ fun KeyboardComposeView(
                         onClipClick = { clip -> onKeyTap(clip) }
                     )
                     else -> {
-                        if (suggestions.isNotEmpty() || composingText.isNotEmpty()) {
+                        if (alwaysShowSuggestions || suggestions.isNotEmpty() || composingText.isNotEmpty()) {
                             CandidateStrip(
                                 composingText = composingText,
                                 suggestions = suggestions,

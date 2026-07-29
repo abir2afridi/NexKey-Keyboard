@@ -96,6 +96,8 @@ fun LayoutSettingsScreen(onBack: () -> Unit) {
     val enableResizing by prefs.enableKbResizing.collectAsState(initial = false)
     val splitKb by prefs.splitKeyboard.collectAsState(initial = false)
     val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
+    val alwaysShowSuggestions by prefs.alwaysShowSuggestions.collectAsState(initial = false)
+    val autoHideToolbar by prefs.autoHideToolbar.collectAsState(initial = false)
 
     SettingsSubScaffold(title = "Layout", onBack = onBack) {
         SettingSwitchItem("Enable number row", "Adds an extra row", Icons.Default.LooksOne, showNumRow) { scope.launch { prefs.setShowNumberRow(it) } }
@@ -106,6 +108,9 @@ fun LayoutSettingsScreen(onBack: () -> Unit) {
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingSwitchItem("Enable split keyboard", "For foldable phones", Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
         SettingSwitchItem("Forced enter button", "Do not show emoji on enter", Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSwitchItem("Always show suggestions", "Suggestion bar stays visible even when empty", Icons.Default.TextFields, alwaysShowSuggestions) { scope.launch { prefs.setAlwaysShowSuggestions(it) } }
+        SettingSwitchItem("Auto-hide toolbar while typing", "Only suggestions bar visible; toggle button to show toolbar", Icons.Default.SwapHoriz, autoHideToolbar) { scope.launch { prefs.setAutoHideToolbar(it) } }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
