@@ -198,7 +198,8 @@ fun NexKeyApp() {
                         onNavigateToClipboard = { navController.navigate(Screen.ClipboardManager.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
+                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
+                        onNavigateToTypingAnalysis = { navController.navigate(Screen.TypingAnalysis.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
@@ -289,6 +290,9 @@ fun NexKeyApp() {
                 }
                 composable(Screen.Stats.route) {
                     TypingStatsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.TypingAnalysis.route) {
+                    TypingAnalysisScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.CustomTheme.route) {
                     CustomThemeScreen(onBack = { navController.popBackStack() })

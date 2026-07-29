@@ -42,7 +42,8 @@ fun HomeScreen(
     onNavigateToClipboard: () -> Unit = {},
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
-    onNavigateToGifQuality: () -> Unit = {}
+    onNavigateToGifQuality: () -> Unit = {},
+    onNavigateToTypingAnalysis: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -199,82 +200,41 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            // Discover Tools & Stats (Bento Grid)
+            // Typing Summary Cards
             Text(
-                text = "DISCOVER TOOLS & STATS",
+                text = "TYPING SUMMARY",
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = Color(0xFF1B5E20),
                 modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
             )
 
-            Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            val avgRpm = if (timeSaved > 0) ((totalWords.toFloat() / (timeSaved / 60f))).toInt() else 0
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                StatCard(totalWords.toString(), "Words", Color(0xFFC8E6C9), Color(0xFF1B5E20), Icons.Default.TextFields, Modifier.weight(1f))
+                StatCard("$avgRpm", "Avg RPM", Color(0xFFFFF3E0), Color(0xFFF57C00), Icons.Default.Speed, Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                StatCard(totalChars.toString(), "Characters", Color(0xFFE3F2FD), Color(0xFF1565C0), Icons.Default.Keyboard, Modifier.weight(1f))
+                StatCard("${timeSaved}s", "Time Saved", Color(0xFFF3E5F5), Color(0xFF7B1FA2), Icons.Default.Timer, Modifier.weight(1f))
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            // More Details Button
+            Surface(
+                onClick = onNavigateToTypingAnalysis,
+                shape = RoundedCornerShape(12.dp),
+                color = Color(0xFF1B5E20),
+                modifier = Modifier.fillMaxWidth().height(48.dp)
             ) {
-                Column(
-                    modifier = Modifier.weight(1f),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    // Stats Card (Dynamic)
-                    BentoCard(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(165.dp),
-                        onClick = onNavigateToStats
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.SpaceBetween
-                        ) {
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween,
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Box(
-                                    modifier = Modifier
-                                        .size(36.dp)
-                                        .clip(CircleShape)
-                                        .background(Color(0xFFC8E6C9)),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.BarChart,
-                                        contentDescription = null,
-                                        tint = Color(0xFF1B5E20),
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                                Text(
-                                    text = "Stats",
-                                    fontSize = 11.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            
-                            Column {
-                                Text(
-                                    text = totalWords.toString(),
-                                    fontSize = 24.sp,
-                                    fontWeight = FontWeight.Black,
-                                    color = Color(0xFF1B5E20)
-                                )
-                                Text(
-                                    text = "Words typed",
-                                    fontSize = 11.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                                Spacer(modifier = Modifier.height(4.dp))
-                                Text(
-                                    text = "${timeSaved.toInt()}s saved",
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Bold,
-                                    color = Color(0xFF1976D2)
-                                )
-                            }
-                        }
+                Box(contentAlignment = Alignment.Center) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text("More Details", fontSize = 14.sp, fontWeight = FontWeight.Bold, color = Color.White)
+                        Spacer(modifier = Modifier.width(6.dp))
+                        Icon(Icons.Default.ChevronRight, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
                     }
                 }
             }
@@ -295,6 +255,22 @@ fun HomeScreen(
             }
 
             Spacer(modifier = Modifier.height(80.dp))
+        }
+    }
+}
+
+@Composable
+private fun StatCard(value: String, label: String, bgColor: Color, iconTint: Color, icon: androidx.compose.ui.graphics.vector.ImageVector, modifier: Modifier = Modifier) {
+    Surface(shape = RoundedCornerShape(12.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp, modifier = modifier) {
+        Row(modifier = Modifier.padding(12.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.size(36.dp).clip(CircleShape).background(bgColor), contentAlignment = Alignment.Center) {
+                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(18.dp))
+            }
+            Spacer(modifier = Modifier.width(10.dp))
+            Column {
+                Text(value, fontSize = 18.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                Text(label, fontSize = 11.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            }
         }
     }
 }

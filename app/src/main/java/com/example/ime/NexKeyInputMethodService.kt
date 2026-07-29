@@ -20,6 +20,7 @@ import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.ComposeView
 import com.example.clipboard.ClipboardManager
+import com.example.data.TypingAnalytics
 import com.example.data.UserPreferences
 import com.example.engine.BanglaPhoneticEngine
 import com.example.engine.PredictionEngine
@@ -108,6 +109,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     override fun onCreate() {
         super.onCreate()
         ClipboardManager.init(this)
+        TypingAnalytics.init(this)
         predictionEngine.init(this)
         userPreferences = UserPreferences(this)
         vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -288,6 +290,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        TypingAnalytics.startSession()
         composingBuffer = ""
         candidates = emptyList()
 
@@ -302,6 +305,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
 
         detectSensitiveField(info)
+    }
+
+    override fun onFinishInputView(finishingInput: Boolean) {
+        TypingAnalytics.endSession()
+        super.onFinishInputView(finishingInput)
     }
 
     private fun playFeedback() {
@@ -361,6 +369,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun handleKeyTap(key: String) {
         playFeedback()
+        if (!isIncognito && !isSensitiveField) {
+            TypingAnalytics.trackKeyPress()
+        }
         val ic = currentInputConnection ?: return
 
         val isAlphaKey = key.length == 1 && key[0].isLetter()
