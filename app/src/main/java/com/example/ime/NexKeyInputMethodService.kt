@@ -487,12 +487,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         if (composingBuffer.isNotEmpty()) {
-            val finalWord = BanglaPhoneticEngine.parse(composingBuffer)
-            ic.beginBatchEdit()
-            ic.commitText(finalWord, 1)
-            ic.endBatchEdit()
-            composingBuffer = ""
-            candidates = emptyList()
+            commitComposingBuffer()
         }
 
         if (forcedEnterEnabled) {
