@@ -23,22 +23,23 @@
 ## Features
 
 | Feature | Status |
-|---|---|
+|---|---|---|
 | QWERTY & Bangla Phonetic typing | ✅ |
 | Bangla Jatiyo (National) layout | ✅ |
+| Bangla Avro phonetic layout | ✅ |
 | Arabic layout | ✅ |
 | Symbols & Numbers panels | ✅ |
 | Composing-region state machine | ✅ |
 | EditorInfo.inputType handling | ✅ |
-| IME action labels (Search/Go/Done/Next) | ✅ |
+| IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
 | Trie-based prediction engine | ✅ |
 | Persistent learned words (Room DB) | ✅ |
-| Voice typing (Android SpeechRecognizer) | ✅ |
+| Voice typing (Android SpeechRecognizer) with permission handling | ✅ |
 | Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
 | Hold-to-paste (configurable trigger key & duration) | ✅ |
-| Settings group screens (Typing, Feedback, Layout, etc.) | ✅ |
+| Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
 | Bottom navigation (Home, Learn, Keyboard, App Settings) | ✅ |
-| Emoji panel | ✅ |
+| Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
 | Theme system (4 presets, DataStore) | ✅ |
 | App theme (System/Light/Dark) | ✅ |
 | Auto-capitalization | ✅ |
@@ -52,6 +53,12 @@
 | In-app Setup Wizard (enable + select) | ✅ |
 | Continuous IME state polling for robust detection | ✅ |
 | Gradle wrapper (CI-ready) | ✅ |
+| Long-press backspace continuous delete (customizable speed & delay) | ✅ |
+| Always-show suggestion strip | ✅ |
+| Auto-hide toolbar | ✅ |
+| Key long-press hint popups (numbers for top row, accents for others) | ✅ |
+| 80+ Bangla conjunct (juktakkhor) rules | ✅ |
+| More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
 | Gesture/swipe typing | 🚧 Planned |
 | DAWG dictionary | 🚧 Planned |
 | Autocorrect with undo-on-backspace | 🚧 Planned |
@@ -146,10 +153,20 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 **Highlights:**
 - ✅ Clipboard history with system listener (auto-save), pin/delete, auto-expiry (Never/1min/5min/365d)
 - ✅ Hold-to-paste with configurable trigger key & duration
-- ✅ 8 dedicated keyboard settings group screens (Typing, Feedback, Layout, etc.)
+- ✅ 8 dedicated keyboard settings group screens (Typing, Feedback, Layout, Advanced, etc.)
 - ✅ Bottom navigation: Home, Learn, Keyboard Settings, App Settings
 - ✅ Material 3 theming with custom accent colors
 - ✅ Smart auto-correction with learning
+- ✅ Long-press backspace continuous delete (customizable delay & speed)
+- ✅ Always-show suggestion strip (enabled by default)
+- ✅ Auto-hide toolbar setting
+- ✅ Key long-press hint popups (numbers & accented characters)
+- ✅ Avro phonetic layout support (Bangla)
+- ✅ Voice typing with permission handling
+- ✅ Enter key multiline detection (↵ vs Done/Search/Go)
+- ✅ 80+ Bangla conjunct (juktakkhor) rules
+- ✅ More Languages screen (toggle any layout)
+- ✅ Enhanced emoji panel (500+ emojis, 8 categories)
 - ✅ 7 GitHub issue templates
 - ✅ Code of conduct and security policy
 

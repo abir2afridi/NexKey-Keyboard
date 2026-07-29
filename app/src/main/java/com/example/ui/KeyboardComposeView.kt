@@ -448,16 +448,25 @@ fun CandidateStrip(composingText: String, suggestions: List<String>, theme: Keyb
             Spacer(modifier = Modifier.width(8.dp))
         }
 
-        LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
-            items(suggestions) { candidate ->
-                Box(
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(theme.keyBackgroundColor)
-                        .clickable(role = Role.Button, onClick = { onSuggestionSelect(candidate) })
-                        .padding(horizontal = 12.dp, vertical = 6.dp)
-                ) {
-                    Text(text = candidate, color = theme.keyTextColor, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+        if (suggestions.isEmpty() && composingText.isEmpty()) {
+            Text(
+                text = "Suggestions",
+                color = theme.keyTextColor.copy(alpha = 0.4f),
+                fontSize = 13.sp,
+                fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
+            )
+        } else {
+            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+                items(suggestions) { candidate ->
+                    Box(
+                        modifier = Modifier
+                            .clip(RoundedCornerShape(8.dp))
+                            .background(theme.keyBackgroundColor)
+                            .clickable(role = Role.Button, onClick = { onSuggestionSelect(candidate) })
+                            .padding(horizontal = 12.dp, vertical = 6.dp)
+                    ) {
+                        Text(text = candidate, color = theme.keyTextColor, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                    }
                 }
             }
         }
