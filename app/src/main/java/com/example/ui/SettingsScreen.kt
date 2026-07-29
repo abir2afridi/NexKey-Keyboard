@@ -1,14 +1,15 @@
 package com.example.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -29,6 +30,22 @@ fun SettingsScreen(
     onNavigateToMoreLanguages: () -> Unit = {},
     onNavigateToGifQuality: () -> Unit = {}
 ) {
+    val settingsItems = remember {
+        listOf(
+            SettingCategory("Typing", "Auto-cap, double-space, tab", Icons.Default.TextFormat, onNavigateToTyping),
+            SettingCategory("Feedback", "Vibrations, sound, popups", Icons.Default.Vibration, onNavigateToFeedback),
+            SettingCategory("Language & Keys", "Voice, emoji, globe keys", Icons.Default.Language, onNavigateToLanguageKeys),
+            SettingCategory("Layout", "Number row, split, resize", Icons.Default.Keyboard, onNavigateToLayout),
+            SettingCategory("Size", "Height and width adjustments", Icons.Default.AspectRatio, onNavigateToSize),
+            SettingCategory("Navigation", "Cursor and volume control", Icons.Default.SwapHoriz, onNavigateToNavigation),
+            SettingCategory("Paste & Clipboard", "Hold key to paste, clipboard settings", Icons.Default.ContentPaste, onNavigateToPaste),
+            SettingCategory("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onNavigateToAdvancedGroup),
+            SettingCategory("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onNavigateToTextCorrection),
+            SettingCategory("More Languages", "Arabic, Chakma, Syloti...", Icons.Default.Language, onNavigateToMoreLanguages),
+            SettingCategory("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onNavigateToGifQuality)
+        )
+    }
+
     Scaffold(
         topBar = {
             TopAppBar(
@@ -47,42 +64,45 @@ fun SettingsScreen(
         },
         containerColor = MaterialTheme.colorScheme.background
     ) { paddingValues ->
-        Column(
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
             modifier = Modifier
                 .padding(paddingValues)
-                .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState())
+                .fillMaxSize(),
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
-            Text("Keyboard Settings", color = MaterialTheme.colorScheme.primary, fontSize = 14.sp, fontWeight = FontWeight.Bold, modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp))
-
-            Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp) {
-                Column {
-                    SettingItem("Typing", "Auto-cap, double-space, tab", Icons.Default.TextFormat, onClick = onNavigateToTyping)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Feedback", "Vibrations, sound, popups", Icons.Default.Vibration, onClick = onNavigateToFeedback)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Language & Keys", "Voice, emoji, globe keys", Icons.Default.Language, onClick = onNavigateToLanguageKeys)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Layout", "Number row, split, resize", Icons.Default.Keyboard, onClick = onNavigateToLayout)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Size", "Height and width adjustments", Icons.Default.AspectRatio, onClick = onNavigateToSize)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Navigation", "Cursor and volume control", Icons.Default.SwapHoriz, onClick = onNavigateToNavigation)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Paste & Clipboard", "Hold key to paste, clipboard settings", Icons.Default.ContentPaste, onClick = onNavigateToPaste)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onClick = onNavigateToAdvancedGroup)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onClick = onNavigateToTextCorrection)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("More Languages", "Arabic, Chakma, Syloti...", Icons.Default.Language, onClick = onNavigateToMoreLanguages)
-                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                    SettingItem("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onClick = onNavigateToGifQuality)
-                }
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                Text(
+                    text = "Keyboard Customization", 
+                    color = MaterialTheme.colorScheme.primary, 
+                    fontSize = 11.sp, 
+                    fontWeight = FontWeight.ExtraBold, 
+                    modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
+                )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            items(settingsItems.size) { index ->
+                val item = settingsItems[index]
+                SettingGridItem(
+                    title = item.title,
+                    subtitle = item.description,
+                    icon = item.icon,
+                    onClick = item.onClick
+                )
+            }
+            
+            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                Spacer(modifier = Modifier.height(32.dp))
+            }
         }
     }
 }
+
+private data class SettingCategory(
+    val title: String,
+    val description: String,
+    val icon: ImageVector,
+    val onClick: () -> Unit
+)
