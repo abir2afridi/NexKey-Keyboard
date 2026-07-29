@@ -33,4 +33,5 @@ sealed class Screen(val route: String) {
     object SettingsNavigation : Screen("settings_navigation")
     object SettingsPaste : Screen("settings_paste")
     object SettingsAdvancedGroup : Screen("settings_advanced_group")
+    object Store : Screen("store")
 }

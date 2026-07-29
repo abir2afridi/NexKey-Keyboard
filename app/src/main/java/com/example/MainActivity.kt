@@ -11,7 +11,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Keyboard
-import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -101,11 +101,11 @@ fun NexKeyApp() {
                         )
                     )
                     NavigationBarItem(
-                        icon = { Icon(Icons.Default.Lightbulb, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("Tutorial", fontSize = 12.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Help.route } == true,
+                        icon = { Icon(Icons.Default.Storefront, contentDescription = null, modifier = Modifier.size(26.dp)) },
+                        label = { Text("Store", fontSize = 12.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Store.route } == true,
                         onClick = {
-                            navController.navigate(Screen.Help.route) {
+                            navController.navigate(Screen.Store.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
@@ -191,8 +191,6 @@ fun NexKeyApp() {
                                 )
                             }
                         },
-                        onNavigateToThemes = { navController.navigate(Screen.Themes.route) },
-                        onNavigateToHelp = { navController.navigate(Screen.Help.route) },
                         onNavigateToSetup = { navController.navigate(Screen.Setup.route) },
                         onNavigateToSandbox = { navController.navigate(Screen.Sandbox.route) },
                         onNavigateToStats = { navController.navigate(Screen.Stats.route) },
@@ -295,6 +293,12 @@ fun NexKeyApp() {
                 composable(Screen.CustomTheme.route) {
                     CustomThemeScreen(onBack = { navController.popBackStack() })
                 }
+                composable(Screen.Store.route) {
+                    StoreScreen(
+                        onNavigateToThemes = { navController.navigate(Screen.Themes.route) },
+                        onNavigateToCustomTheme = { navController.navigate(Screen.CustomTheme.route) }
+                    )
+                }
             }
             
             if (navigationStyle == "FLOATING") {
@@ -316,11 +320,11 @@ fun NexKeyApp() {
                         }
                     )
                     FloatingNavigationBarItem(
-                        icon = { Icon(Icons.Default.Lightbulb, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("Tutorial", fontSize = 11.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Help.route } == true,
+                        icon = { Icon(Icons.Default.Storefront, contentDescription = null, modifier = Modifier.size(24.dp)) },
+                        label = { Text("Store", fontSize = 11.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Store.route } == true,
                         onClick = {
-                            navController.navigate(Screen.Help.route) {
+                            navController.navigate(Screen.Store.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
