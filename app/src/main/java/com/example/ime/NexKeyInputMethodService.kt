@@ -102,6 +102,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var holdPasteTriggerKey by mutableStateOf("v")
     private var alwaysShowSuggestions by mutableStateOf(false)
     private var autoHideToolbar by mutableStateOf(false)
+    private var backspaceRepeatDelayMsState by mutableStateOf(400)
+    private var backspaceRepeatSpeedMsState by mutableStateOf(50)
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -200,6 +202,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.holdPasteTriggerKey.collectLatest { holdPasteTriggerKey = it } }
             launch { userPreferences.alwaysShowSuggestions.collectLatest { alwaysShowSuggestions = it } }
             launch { userPreferences.autoHideToolbar.collectLatest { autoHideToolbar = it } }
+            launch { userPreferences.backspaceRepeatDelay.collectLatest { backspaceRepeatDelayMsState = it } }
+            launch { userPreferences.backspaceRepeatSpeed.collectLatest { backspaceRepeatSpeedMsState = it } }
         }
     }
 
@@ -244,6 +248,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     holdPasteDuration = holdPasteDuration,
                     alwaysShowSuggestions = alwaysShowSuggestions,
                     autoHideToolbar = autoHideToolbar,
+                    backspaceRepeatDelayMs = backspaceRepeatDelayMsState.toLong(),
+                    backspaceRepeatSpeedMs = backspaceRepeatSpeedMsState.toLong(),
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },

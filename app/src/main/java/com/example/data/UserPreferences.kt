@@ -97,6 +97,10 @@ class UserPreferences(private val context: Context) {
         // Suggestion & Toolbar
         private val KEY_ALWAYS_SHOW_SUGGESTIONS = booleanPreferencesKey("always_show_suggestions")
         private val KEY_AUTO_HIDE_TOOLBAR = booleanPreferencesKey("auto_hide_toolbar")
+
+        // Backspace repeat
+        private val KEY_BACKSPACE_REPEAT_DELAY = intPreferencesKey("backspace_repeat_delay")
+        private val KEY_BACKSPACE_REPEAT_SPEED = intPreferencesKey("backspace_repeat_speed")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -173,6 +177,9 @@ class UserPreferences(private val context: Context) {
     val alwaysShowSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_ALWAYS_SHOW_SUGGESTIONS] ?: false }
     val autoHideToolbar: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_HIDE_TOOLBAR] ?: false }
 
+    val backspaceRepeatDelay: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_DELAY] ?: 400 }
+    val backspaceRepeatSpeed: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_SPEED] ?: 50 }
+
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
@@ -227,6 +234,9 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setAlwaysShowSuggestions(enabled: Boolean) = context.dataStore.edit { it[KEY_ALWAYS_SHOW_SUGGESTIONS] = enabled }
     suspend fun setAutoHideToolbar(enabled: Boolean) = context.dataStore.edit { it[KEY_AUTO_HIDE_TOOLBAR] = enabled }
+
+    suspend fun setBackspaceRepeatDelay(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_DELAY] = ms }
+    suspend fun setBackspaceRepeatSpeed(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_SPEED] = ms }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }

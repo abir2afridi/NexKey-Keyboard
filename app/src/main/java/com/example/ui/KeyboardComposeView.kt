@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -51,7 +52,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -106,6 +111,8 @@ fun KeyboardComposeView(
     holdPasteDuration: Int = 400,
     alwaysShowSuggestions: Boolean = false,
     autoHideToolbar: Boolean = false,
+    backspaceRepeatDelayMs: Long = 400L,
+    backspaceRepeatSpeedMs: Long = 50L,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -218,6 +225,8 @@ fun KeyboardComposeView(
                             spaceCursorSpeed = spaceCursorSpeed,
                             spaceCursorDelay = spaceCursorDelay,
                             splitKeyboardEnabled = splitKeyboardEnabled,
+                            backspaceRepeatDelayMs = backspaceRepeatDelayMs,
+                            backspaceRepeatSpeedMs = backspaceRepeatSpeedMs,
                             onKeyTap = onKeyTap,
                             onBackspaceTap = onBackspaceTap,
                             onSpaceTap = onSpaceTap,
@@ -469,6 +478,8 @@ fun KeyboardKeysGrid(
     spaceCursorSpeed: Int = 150,
     spaceCursorDelay: Int = 1000,
     splitKeyboardEnabled: Boolean = false,
+    backspaceRepeatDelayMs: Long = 400L,
+    backspaceRepeatSpeedMs: Long = 50L,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -547,7 +558,38 @@ fun KeyboardKeysGrid(
                     onLongPress = { onLongPress(keyModel) }
                 )
             }
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = onBackspaceTap) {
+            Box(
+                modifier = Modifier.weight(1.3f)
+                    .height(theme.keyHeightDp.dp)
+                    .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
+                    .background(theme.keySpecialColor)
+                    .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
+                        while (true) {
+                            awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                            var didRepeat = false
+                            coroutineScope {
+                                val repeatJob = launch {
+                                    delay(backspaceRepeatDelayMs)
+                                    didRepeat = true
+                                    while (isActive) {
+                                        onBackspaceTap()
+                                        delay(backspaceRepeatSpeedMs)
+                                    }
+                                }
+                                awaitPointerEventScope {
+                                    while (true) {
+                                        val event = awaitPointerEvent()
+                                        if (event.changes.all { !it.pressed }) break
+                                    }
+                                }
+                                repeatJob.cancel()
+                            }
+                            if (!didRepeat) onBackspaceTap()
+                        }
+                    }
+                    .semantics { contentDescription = "Delete"; role = Role.Button },
+                contentAlignment = Alignment.Center
+            ) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.Backspace, contentDescription = null, tint = theme.keySpecialTextColor)
             }
         }

@@ -240,6 +240,8 @@ fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
     val spaceSpeed by prefs.spaceCursorSpeed.collectAsState(initial = 150)
     val physicalKbEmoji by prefs.physicalKbEmoji.collectAsState(initial = true)
     val typedWordFirst by prefs.showTypedWordFirst.collectAsState(initial = true)
+    val backspaceDelay by prefs.backspaceRepeatDelay.collectAsState(initial = 400)
+    val backspaceSpeed by prefs.backspaceRepeatSpeed.collectAsState(initial = 50)
 
     SettingsSubScaffold(title = "Advanced", onBack = onBack) {
         SettingSliderItem("Key long press delay (ms)", longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
@@ -261,6 +263,9 @@ fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
         SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+        SettingSliderItem("Backspace repeat initial delay (ms)", backspaceDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
+        SettingSliderItem("Backspace repeat speed (ms)", backspaceSpeed.toFloat(), 20f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
         SettingItem("Voice typing engine", "Default", Icons.Default.Mic) {}
         Spacer(modifier = Modifier.height(32.dp))
     }
