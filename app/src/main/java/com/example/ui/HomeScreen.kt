@@ -13,6 +13,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.animation.*
 import androidx.compose.animation.core.*
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.shadow
@@ -27,6 +28,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -58,6 +60,13 @@ fun HomeScreen(
     val isSelected = checkIsKeyboardSelected(context)
     val isActive = isEnabled && isSelected
 
+    val prefs = remember { UserPreferences(context) }
+    val haptics by prefs.haptics.collectAsState(initial = true)
+    val sound by prefs.sound.collectAsState(initial = true)
+    val autoCorrection by prefs.autoCorrection.collectAsState(initial = true)
+    val showNumberRow by prefs.showNumberRow.collectAsState(initial = false)
+    val scope = rememberCoroutineScope()
+    
     val db = remember { TypingAnalytics.getDatabase() }
     var dailyStats by remember { mutableStateOf<List<DailyStatsEntity>>(emptyList()) }
     var topEmojis by remember { mutableStateOf<List<EmojiUsageEntity>>(emptyList()) }
@@ -96,6 +105,19 @@ fun HomeScreen(
             val totalSeconds = recentSessions.sumOf { (it.endTime - it.startTime) } / 1000f
             if (totalSeconds > 0) totalKeys / totalSeconds else 0f
         }
+    }
+    val activeMinutesToday = remember(dailyStats) {
+        val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
+        dailyStats.find { it.date == today }?.usageMinutes ?: 0
+    }
+
+    // Greeting logic
+    val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
+    val greeting = when (hour) {
+        in 5..11 -> "Good Morning"
+        in 12..16 -> "Good Afternoon"
+        in 17..20 -> "Good Evening"
+        else -> "Good Night"
     }
 
     // Infinite breathing pulsing animation for Active status dot
@@ -139,10 +161,10 @@ fun HomeScreen(
                         color = MaterialTheme.colorScheme.primary
                     )
                     Text(
-                        text = "Vibrant. Fast. Original.",
+                        text = "$greeting!",
                         fontSize = 11.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Bold
                     )
                 }
             }
@@ -203,21 +225,21 @@ fun HomeScreen(
                 onClick = { if (isActive) onNavigateToSandbox() else onNavigateToSetup() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(56.dp)
+                    .height(64.dp)
                     .shadow(
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(16.dp),
-                        ambientColor = Color.Black.copy(alpha = 0.08f),
-                        spotColor = Color.Black.copy(alpha = 0.08f)
+                        elevation = 8.dp,
+                        shape = RoundedCornerShape(20.dp),
+                        ambientColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+                        spotColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
                     ),
-                shape = RoundedCornerShape(16.dp)
+                shape = RoundedCornerShape(20.dp)
             ) {
                 Box(
                     modifier = Modifier
                         .fillMaxSize()
                         .background(
                             Brush.horizontalGradient(
-                                if (isActive) listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primary.copy(alpha = 0.8f))
+                                if (isActive) listOf(MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.primary.copy(alpha = 0.7f))
                                 else listOf(Color(0xFFFF9800), Color(0xFFE65100))
                             )
                         ),
@@ -228,17 +250,38 @@ fun HomeScreen(
                             imageVector = if (isActive) Icons.Default.PlayArrow else Icons.Default.FlashOn,
                             contentDescription = null,
                             tint = Color.White,
-                            modifier = Modifier.size(20.dp)
+                            modifier = Modifier.size(24.dp)
                         )
-                        Spacer(modifier = Modifier.width(10.dp))
+                        Spacer(modifier = Modifier.width(12.dp))
                         Text(
                             text = if (isActive) "Typing Sandbox" else "Complete Setup",
-                            fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold,
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.ExtraBold,
                             color = Color.White
                         )
                     }
                 }
+            }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // QUICK CONTROLS
+            Text(
+                text = "QUICK CONTROLS",
+                fontSize = 11.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(bottom = 12.dp, start = 4.dp)
+            )
+
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                ControlTile("Haptics", Icons.Default.Vibration, haptics, Modifier.weight(1f)) { scope.launch { prefs.setHaptics(!haptics) } }
+                ControlTile("Sound", Icons.Default.VolumeUp, sound, Modifier.weight(1f)) { scope.launch { prefs.setSound(!sound) } }
+                ControlTile("Auto-Fix", Icons.Default.AutoFixHigh, autoCorrection, Modifier.weight(1f)) { scope.launch { prefs.setAutoCorrection(!autoCorrection) } }
+                ControlTile("Numbers", Icons.Default.Numbers, showNumberRow, Modifier.weight(1f)) { scope.launch { prefs.setShowNumberRow(!showNumberRow) } }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -256,6 +299,8 @@ fun HomeScreen(
                 StatCard("$rpm", "Avg RPM", MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.primary, Icons.Default.Speed, Modifier.weight(1f))
                 StatCard(String.format(Locale.getDefault(), "%.1f", cps), "Keys/Sec", MaterialTheme.colorScheme.tertiaryContainer, MaterialTheme.colorScheme.tertiary, Icons.Default.Bolt, Modifier.weight(1f))
             }
+            Spacer(modifier = Modifier.height(10.dp))
+            StatCard("$activeMinutesToday mins", "Active Typing Time Today", MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.secondary, Icons.Default.HourglassBottom, Modifier.fillMaxWidth())
             
             Spacer(modifier = Modifier.height(24.dp))
 
@@ -368,16 +413,40 @@ fun HomeScreen(
 }
 
 @Composable
+private fun ControlTile(label: String, icon: ImageVector, active: Boolean, modifier: Modifier = Modifier, onClick: () -> Unit) {
+    val bgColor by animateColorAsState(if (active) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f), label = "bgColor")
+    val contentColor by animateColorAsState(if (active) Color.White else MaterialTheme.colorScheme.onSurfaceVariant, label = "contentColor")
+    
+    Surface(
+        onClick = onClick,
+        modifier = modifier.height(72.dp),
+        shape = RoundedCornerShape(16.dp),
+        color = bgColor,
+        tonalElevation = 2.dp
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+            modifier = Modifier.padding(4.dp)
+        ) {
+            Icon(icon, contentDescription = null, tint = contentColor, modifier = Modifier.size(20.dp))
+            Spacer(modifier = Modifier.height(6.dp))
+            Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold, color = contentColor, maxLines = 1)
+        }
+    }
+}
+
+@Composable
 private fun StatCard(value: String, label: String, bgColor: Color, iconTint: Color, icon: androidx.compose.ui.graphics.vector.ImageVector, modifier: Modifier = Modifier) {
-    Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 2.dp, modifier = modifier) {
-        Row(modifier = Modifier.padding(16.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.size(40.dp).clip(CircleShape).background(bgColor), contentAlignment = Alignment.Center) {
-                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(20.dp))
+    Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 3.dp, modifier = modifier) {
+        Row(modifier = Modifier.padding(18.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+            Box(modifier = Modifier.size(44.dp).clip(CircleShape).background(bgColor), contentAlignment = Alignment.Center) {
+                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(22.dp))
             }
-            Spacer(modifier = Modifier.width(12.dp))
+            Spacer(modifier = Modifier.width(14.dp))
             Column {
-                Text(value, fontSize = 20.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurface)
-                Text(label, fontSize = 11.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(value, fontSize = 22.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurface)
+                Text(label, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
     }
@@ -386,29 +455,35 @@ private fun StatCard(value: String, label: String, bgColor: Color, iconTint: Col
 @Composable
 private fun DeepBarChart(data: List<Pair<String, Int>>, color: Color) {
     val maxVal = (data.maxOfOrNull { it.second } ?: 1).coerceAtLeast(1)
-    Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Canvas(modifier = Modifier.fillMaxWidth().height(160.dp)) {
-                val barWidth = size.width / data.size * 0.7f
-                val gap = size.width / data.size * 0.3f
+    Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Canvas(modifier = Modifier.fillMaxWidth().height(180.dp)) {
+                val barWidth = size.width / data.size * 0.75f
+                val gap = size.width / data.size * 0.25f
                 data.forEachIndexed { i, (_, value) ->
-                    val barHeight = (value.toFloat() / maxVal) * (size.height - 30f)
+                    val barHeight = (value.toFloat() / maxVal) * (size.height - 40f)
                     val x = i * (barWidth + gap) + gap / 2
                     
-                    // Rounded bar with gradient
+                    // Shadow effect
                     drawRect(
-                        brush = Brush.verticalGradient(listOf(color, color.copy(alpha = 0.4f))),
+                        color = Color.Black.copy(alpha = 0.05f),
+                        topLeft = Offset(x + 4, size.height - barHeight + 4),
+                        size = Size(barWidth, barHeight)
+                    )
+                    // Gradient bar
+                    drawRect(
+                        brush = Brush.verticalGradient(listOf(color, color.copy(alpha = 0.3f))),
                         topLeft = Offset(x, size.height - barHeight),
                         size = Size(barWidth, barHeight)
                     )
                 }
             }
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(12.dp))
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 val labelStep = if (data.size > 7) 5 else 1
                 data.forEachIndexed { i, (label, _) ->
                     if (i % labelStep == 0) {
-                        Text(label, fontSize = 9.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -421,34 +496,40 @@ private fun DeepPieChart(data: List<Pair<String, Int>>) {
     val total = data.sumOf { it.second }.toFloat().coerceAtLeast(1f)
     val colors = listOf(
         MaterialTheme.colorScheme.primary, MaterialTheme.colorScheme.secondary, 
-        MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.primary.copy(alpha = 0.6f),
-        MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f), MaterialTheme.colorScheme.tertiary.copy(alpha = 0.6f)
+        MaterialTheme.colorScheme.tertiary, MaterialTheme.colorScheme.error,
+        MaterialTheme.colorScheme.primary.copy(alpha = 0.5f), MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f)
     )
-    Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
-        Row(modifier = Modifier.padding(20.dp), verticalAlignment = Alignment.CenterVertically) {
-            Canvas(modifier = Modifier.size(120.dp)) {
-                var startAngle = -90f
-                data.forEachIndexed { i, (_, value) ->
-                    val sweepAngle = (value / total) * 360f
-                    drawArc(
-                        color = colors[i % colors.size],
-                        startAngle = startAngle,
-                        sweepAngle = sweepAngle,
-                        useCenter = true,
-                        size = Size(size.width, size.height)
-                    )
-                    startAngle += sweepAngle
+    Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
+        Row(modifier = Modifier.padding(24.dp), verticalAlignment = Alignment.CenterVertically) {
+            Box(contentAlignment = Alignment.Center, modifier = Modifier.size(130.dp)) {
+                Canvas(modifier = Modifier.fillMaxSize()) {
+                    var startAngle = -90f
+                    data.forEachIndexed { i, (_, value) ->
+                        val sweepAngle = (value / total) * 360f
+                        drawArc(
+                            color = colors[i % colors.size],
+                            startAngle = startAngle,
+                            sweepAngle = sweepAngle,
+                            useCenter = true,
+                            size = Size(size.width, size.height)
+                        )
+                        startAngle += sweepAngle
+                    }
+                    // Donut hole
+                    drawCircle(color = Color.White, radius = size.width / 3.2f)
                 }
-                // Donut hole
-                drawCircle(color = Color.White, radius = size.width / 4f)
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text("${total.toInt()}", fontSize = 16.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary)
+                    Text("mins", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
-            Spacer(modifier = Modifier.width(24.dp))
-            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            Spacer(modifier = Modifier.width(28.dp))
+            Column(modifier = Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                 data.forEachIndexed { i, (label, value) ->
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(modifier = Modifier.size(10.dp).clip(CircleShape).background(colors[i % colors.size]))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("$label: ${((value / total) * 100).toInt()}%", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                        Box(modifier = Modifier.size(12.dp).clip(CircleShape).background(colors[i % colors.size]))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text("$label: ${((value / total) * 100).toInt()}%", fontSize = 13.sp, fontWeight = FontWeight.ExtraBold, color = MaterialTheme.colorScheme.onSurface)
                     }
                 }
             }
@@ -458,24 +539,24 @@ private fun DeepPieChart(data: List<Pair<String, Int>>) {
 
 @Composable
 private fun MiniKeyboardHeatmap(words: List<LearnedWordEntity>) {
-    Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            Text("Top words mapped to layout", fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 12.dp))
+    Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            Text("Top words mapped to layout", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
             
             val rows = words.chunked(4).take(3)
             rows.forEach { row ->
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
                     row.forEach { word ->
                         val intensity = (word.frequency.toFloat() / (words.firstOrNull()?.frequency ?: 1)).coerceIn(0.1f, 1f)
                         Surface(
-                            modifier = Modifier.weight(1f).height(45.dp),
-                            shape = RoundedCornerShape(8.dp),
+                            modifier = Modifier.weight(1f).height(48.dp),
+                            shape = RoundedCornerShape(10.dp),
                             color = MaterialTheme.colorScheme.primary.copy(alpha = intensity),
-                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.2f))
+                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.3f))
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
-                                Text(word.word, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = if (intensity > 0.6f) Color.White else MaterialTheme.colorScheme.onSurface, maxLines = 1)
-                                Text("${word.frequency}", fontSize = 9.sp, color = if (intensity > 0.6f) Color.White.copy(alpha = 0.8f) else MaterialTheme.colorScheme.onSurfaceVariant)
+                            Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.padding(2.dp)) {
+                                Text(word.word, fontSize = 11.sp, fontWeight = FontWeight.Black, color = if (intensity > 0.5f) Color.White else MaterialTheme.colorScheme.onSurface, maxLines = 1)
+                                Text("${word.frequency}", fontSize = 9.sp, color = if (intensity > 0.5f) Color.White.copy(alpha = 0.7f) else MaterialTheme.colorScheme.onSurfaceVariant)
                             }
                         }
                     }
@@ -483,23 +564,24 @@ private fun MiniKeyboardHeatmap(words: List<LearnedWordEntity>) {
                         Spacer(modifier = Modifier.weight(1f))
                     }
                 }
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
             }
             
             // Spacebar style word (Top 1)
             words.firstOrNull()?.let { topWord ->
-                Spacer(modifier = Modifier.height(4.dp))
+                Spacer(modifier = Modifier.height(6.dp))
                 Surface(
-                    modifier = Modifier.fillMaxWidth().height(40.dp),
-                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.fillMaxWidth().height(42.dp),
+                    shape = RoundedCornerShape(12.dp),
                     color = MaterialTheme.colorScheme.tertiary,
+                    shadowElevation = 2.dp
                 ) {
                     Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                        Icon(Icons.Default.Star, contentDescription = null, tint = Color.White, modifier = Modifier.size(14.dp))
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(topWord.word, fontSize = 14.sp, fontWeight = FontWeight.Black, color = Color.White)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text("${topWord.frequency}x", fontSize = 11.sp, color = Color.White.copy(alpha = 0.8f))
+                        Icon(Icons.Default.WorkspacePremium, contentDescription = null, tint = Color.White, modifier = Modifier.size(16.dp))
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(topWord.word, fontSize = 15.sp, fontWeight = FontWeight.Black, color = Color.White)
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text("${topWord.frequency} uses", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
                     }
                 }
             }
@@ -510,24 +592,24 @@ private fun MiniKeyboardHeatmap(words: List<LearnedWordEntity>) {
 @Composable
 private fun EmojiUsageChart(emojis: List<EmojiUsageEntity>) {
     val maxFreq = (emojis.maxOfOrNull { it.frequency } ?: 1).coerceAtLeast(1)
-    Surface(shape = RoundedCornerShape(20.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp)) {
-            emojis.forEach { emoji ->
-                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(emoji.emoji, fontSize = 20.sp)
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Box(modifier = Modifier.weight(1f).height(24.dp).clip(RoundedCornerShape(6.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
+    Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(20.dp)) {
+            emojis.take(6).forEach { emoji -> // Top 6 for cleaner view
+                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text(emoji.emoji, fontSize = 24.sp)
+                    Spacer(modifier = Modifier.width(16.dp))
+                    Box(modifier = Modifier.weight(1f).height(28.dp).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
                         val fraction = emoji.frequency.toFloat() / maxFreq
                         Box(
                             modifier = Modifier
                                 .fillMaxHeight()
                                 .fillMaxWidth(fraction)
-                                .clip(RoundedCornerShape(6.dp))
-                                .background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.secondary.copy(alpha = 0.5f))))
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f))))
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
-                    Text("${emoji.frequency}", fontSize = 12.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text("${emoji.frequency}", fontSize = 13.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
