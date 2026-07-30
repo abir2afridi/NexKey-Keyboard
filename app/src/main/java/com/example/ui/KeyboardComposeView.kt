@@ -272,10 +272,10 @@ fun KeyboardComposeView(
                         }
                         Box(
                             modifier = Modifier
-                                .fillMaxSize()
+                                .matchParentSize()
                                 .background(Color.Black.copy(alpha = 0.4f))
                                 .clickable { longPressKey = null },
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.TopCenter
                         ) {
                             Card(
                                 colors = CardDefaults.cardColors(containerColor = theme.keySpecialColor),
