@@ -307,7 +307,7 @@ fun KeyboardComposeView(
                             contentAlignment = Alignment.TopCenter
                         ) {
                             Card(
-                                colors = CardDefaults.cardColors(containerColor = theme.keySpecialColor),
+                                colors = CardDefaults.cardColors(containerColor = theme.popupBackgroundColor),
                                 shape = RoundedCornerShape(12.dp),
                                 elevation = CardDefaults.cardElevation(defaultElevation = 8.dp)
                             ) {
@@ -327,7 +327,7 @@ fun KeyboardComposeView(
                                                 },
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Text(text = candidate, color = theme.keyTextColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
+                                            Text(text = candidate, color = theme.popupTextColor, fontSize = 20.sp, fontWeight = FontWeight.Bold)
                                         }
                                     }
                                 }
@@ -608,7 +608,7 @@ fun CandidateStrip(composingText: String, suggestions: List<String>, theme: Keyb
                             .clickable(role = Role.Button, onClick = { onSuggestionSelect(candidate) })
                             .padding(horizontal = 12.dp, vertical = 6.dp)
                     ) {
-                        Text(text = candidate, color = theme.keyTextColor, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
+                        Text(text = candidate, color = theme.suggestionTextColor, fontSize = 15.sp, fontWeight = FontWeight.SemiBold)
                     }
                 }
             }
@@ -848,7 +848,7 @@ fun KeyItem(
             if (!hideHints && keyModel.popupCandidates.isNotEmpty()) {
                 Text(
                     text = keyModel.popupCandidates.first(),
-                    color = (if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor).copy(alpha = 0.5f),
+                    color = theme.keyHintColor,
                     fontSize = 9.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier

@@ -36,9 +36,12 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.launch
 import android.Manifest
 import android.content.pm.PackageManager
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.core.content.ContextCompat
 
 class NexKeyInputMethodService : LifecycleInputMethodService() {
@@ -149,14 +152,42 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
         scope.launch {
             launch {
-                userPreferences.theme.collectLatest { savedTheme ->
-                    currentTheme = try {
-                        val preset = ThemePreset.valueOf(savedTheme)
+                combine(
+                    userPreferences.theme,
+                    userPreferences.customBgColor,
+                    userPreferences.customKeyBgColor,
+                    userPreferences.customKeySpecialColor,
+                    userPreferences.customKeyTextColor,
+                    userPreferences.customKeySpecialTextColor,
+                    userPreferences.customAccentColor,
+                    userPreferences.customSuggestionBgColor,
+                    userPreferences.customSuggestionTextColor,
+                    userPreferences.customPopupBgColor,
+                    userPreferences.customPopupTextColor,
+                    userPreferences.customKeyHintColor
+                ) { values ->
+                    val savedTheme = values[0] as String
+                    val preset = try { ThemePreset.valueOf(savedTheme) } catch (e: Exception) { ThemePreset.DARK_NEON }
+                    
+                    if (preset == ThemePreset.CUSTOM) {
+                        KeyboardTheme(
+                            preset = ThemePreset.CUSTOM,
+                            backgroundColor = Color(android.graphics.Color.parseColor(values[1] as String)),
+                            keyBackgroundColor = Color(android.graphics.Color.parseColor(values[2] as String)),
+                            keySpecialColor = Color(android.graphics.Color.parseColor(values[3] as String)),
+                            keyTextColor = Color(android.graphics.Color.parseColor(values[4] as String)),
+                            keySpecialTextColor = Color(android.graphics.Color.parseColor(values[5] as String)),
+                            accentColor = Color(android.graphics.Color.parseColor(values[6] as String)),
+                            suggestionBgColor = Color(android.graphics.Color.parseColor(values[7] as String)),
+                            suggestionTextColor = Color(android.graphics.Color.parseColor(values[8] as String)),
+                            popupBackgroundColor = Color(android.graphics.Color.parseColor(values[9] as String)),
+                            popupTextColor = Color(android.graphics.Color.parseColor(values[10] as String)),
+                            keyHintColor = Color(android.graphics.Color.parseColor(values[11] as String))
+                        )
+                    } else {
                         KeyboardTheme.fromPreset(preset)
-                    } catch (e: Exception) {
-                        KeyboardTheme.DarkNeon
                     }
-                }
+                }.collectLatest { currentTheme = it }
             }
             launch {
                 userPreferences.language.collectLatest { savedLanguage ->

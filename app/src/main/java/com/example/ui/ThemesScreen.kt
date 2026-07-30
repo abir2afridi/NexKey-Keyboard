@@ -32,8 +32,38 @@ fun ThemesScreen(
     val prefs = remember { com.example.data.UserPreferences(context) }
     val scope = rememberCoroutineScope()
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
-    
-    val themes = remember { KeyboardTheme.allThemes() }
+
+    // Custom Theme State
+    val customBg by prefs.customBgColor.collectAsState(initial = "#FF12131C")
+    val customKeyBg by prefs.customKeyBgColor.collectAsState(initial = "#FF1E2136")
+    val customKeySpec by prefs.customKeySpecialColor.collectAsState(initial = "#FF2A2E4B")
+    val customKeyText by prefs.customKeyTextColor.collectAsState(initial = "#FFF1F3FB")
+    val customKeySpecText by prefs.customKeySpecialTextColor.collectAsState(initial = "#FF80D8FF")
+    val customAccent by prefs.customAccentColor.collectAsState(initial = "#FF00E5FF")
+    val customSugBg by prefs.customSuggestionBgColor.collectAsState(initial = "#FF1A1C29")
+    val customSugText by prefs.customSuggestionTextColor.collectAsState(initial = "#FFF1F3FB")
+    val customPopBg by prefs.customPopupBgColor.collectAsState(initial = "#FF2A2E4B")
+    val customPopText by prefs.customPopupTextColor.collectAsState(initial = "#FF00E5FF")
+    val customKeyHint by prefs.customKeyHintColor.collectAsState(initial = "#66F1F3FB")
+
+    val customTheme = remember(customBg, customKeyBg, customKeySpec, customKeyText, customKeySpecText, customAccent, customSugBg, customSugText, customPopBg, customPopText, customKeyHint) {
+        KeyboardTheme(
+            preset = ThemePreset.CUSTOM,
+            backgroundColor = Color(android.graphics.Color.parseColor(customBg)),
+            keyBackgroundColor = Color(android.graphics.Color.parseColor(customKeyBg)),
+            keySpecialColor = Color(android.graphics.Color.parseColor(customKeySpec)),
+            keyTextColor = Color(android.graphics.Color.parseColor(customKeyText)),
+            keySpecialTextColor = Color(android.graphics.Color.parseColor(customKeySpecText)),
+            accentColor = Color(android.graphics.Color.parseColor(customAccent)),
+            suggestionBgColor = Color(android.graphics.Color.parseColor(customSugBg)),
+            suggestionTextColor = Color(android.graphics.Color.parseColor(customSugText)),
+            popupBackgroundColor = Color(android.graphics.Color.parseColor(customPopBg)),
+            popupTextColor = Color(android.graphics.Color.parseColor(customPopText)),
+            keyHintColor = Color(android.graphics.Color.parseColor(customKeyHint))
+        )
+    }
+
+    val themes = remember(customTheme) { listOf(customTheme) + KeyboardTheme.allThemes() }
     
     val selectedTheme = remember(savedThemePresetName) {
         try {
@@ -140,7 +170,7 @@ fun ThemePreviewCard(
                             .padding(start = 4.dp)
                             .size(6.dp)
                             .clip(RoundedCornerShape(1.dp))
-                            .background(theme.accentColor.copy(alpha = 0.4f))
+                            .background(theme.suggestionTextColor.copy(alpha = 0.4f))
                     )
                 }
             }
@@ -149,7 +179,7 @@ fun ThemePreviewCard(
             // Row 1
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                 repeat(10) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
                 }
             }
             // Row 2
@@ -158,21 +188,21 @@ fun ThemePreviewCard(
                 horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
                 repeat(9) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
                 }
             }
             // Row 3
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.5f) // Shift
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f) // Shift
                 repeat(7) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
                 }
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.5f) // Backspace
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f) // Backspace
             }
             // Row 4
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.2f) // Mode
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.2f) // Emoji
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f) // Mode
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f) // Emoji
                 Box(
                     modifier = Modifier
                         .weight(4f)
@@ -180,7 +210,7 @@ fun ThemePreviewCard(
                         .clip(RoundedCornerShape(3.dp))
                         .background(theme.accentColor)
                 )
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, weight = 1.6f) // Enter
+                MiniKey(theme.keySpecialColor, theme.accentColor, theme.keyHintColor, weight = 1.6f) // Enter
             }
         }
 
@@ -200,6 +230,7 @@ fun ThemePreviewCard(
 fun RowScope.MiniKey(
     bgColor: Color,
     textColor: Color,
+    hintColor: Color,
     weight: Float = 1f
 ) {
     Box(
@@ -210,12 +241,22 @@ fun RowScope.MiniKey(
             .background(bgColor),
         contentAlignment = Alignment.Center
     ) {
-        // Dot to represent text
+        // Main text dot
         Box(
             modifier = Modifier
                 .size(2.dp)
                 .clip(RoundedCornerShape(0.5.dp))
-                .background(textColor.copy(alpha = 0.5f))
+                .background(textColor.copy(alpha = 0.6f))
+        )
+        
+        // Hint text dot
+        Box(
+            modifier = Modifier
+                .align(Alignment.TopEnd)
+                .padding(top = 1.5.dp, end = 2.dp)
+                .size(1.2.dp)
+                .clip(RoundedCornerShape(0.3.dp))
+                .background(hintColor.copy(alpha = 0.8f))
         )
     }
 }

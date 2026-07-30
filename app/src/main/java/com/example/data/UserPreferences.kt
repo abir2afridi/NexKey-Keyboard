@@ -108,6 +108,19 @@ class UserPreferences(private val context: Context) {
         private val KEY_BACKSPACE_REPEAT_SPEED = intPreferencesKey("backspace_repeat_speed")
         private val KEY_METER_THEME = stringPreferencesKey("meter_theme")
         private val KEY_METER_FONT = stringPreferencesKey("meter_font")
+
+        // Custom Theme Colors
+        private val KEY_CUSTOM_BG_COLOR = stringPreferencesKey("custom_bg_color")
+        private val KEY_CUSTOM_KEY_BG_COLOR = stringPreferencesKey("custom_key_bg_color")
+        private val KEY_CUSTOM_KEY_SPECIAL_COLOR = stringPreferencesKey("custom_key_special_color")
+        private val KEY_CUSTOM_KEY_TEXT_COLOR = stringPreferencesKey("custom_key_text_color")
+        private val KEY_CUSTOM_KEY_SPECIAL_TEXT_COLOR = stringPreferencesKey("custom_key_special_text_color")
+        private val KEY_CUSTOM_ACCENT_COLOR = stringPreferencesKey("custom_accent_color")
+        private val KEY_CUSTOM_SUGGESTION_BG_COLOR = stringPreferencesKey("custom_suggestion_bg_color")
+        private val KEY_CUSTOM_SUGGESTION_TEXT_COLOR = stringPreferencesKey("custom_suggestion_text_color")
+        private val KEY_CUSTOM_POPUP_BG_COLOR = stringPreferencesKey("custom_popup_bg_color")
+        private val KEY_CUSTOM_POPUP_TEXT_COLOR = stringPreferencesKey("custom_popup_text_color")
+        private val KEY_CUSTOM_KEY_HINT_COLOR = stringPreferencesKey("custom_key_hint_color")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -193,6 +206,19 @@ class UserPreferences(private val context: Context) {
     val meterTheme: Flow<String> = context.dataStore.data.map { it[KEY_METER_THEME] ?: "CALCULATOR" }
     val meterFont: Flow<String> = context.dataStore.data.map { it[KEY_METER_FONT] ?: "DIGITAL" }
 
+    // Custom Theme Flows
+    val customBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_BG_COLOR] ?: "#FF12131C" }
+    val customKeyBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_BG_COLOR] ?: "#FF1E2136" }
+    val customKeySpecialColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_SPECIAL_COLOR] ?: "#FF2A2E4B" }
+    val customKeyTextColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_TEXT_COLOR] ?: "#FFF1F3FB" }
+    val customKeySpecialTextColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_SPECIAL_TEXT_COLOR] ?: "#FF80D8FF" }
+    val customAccentColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_ACCENT_COLOR] ?: "#FF00E5FF" }
+    val customSuggestionBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_SUGGESTION_BG_COLOR] ?: "#FF1A1C29" }
+    val customSuggestionTextColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_SUGGESTION_TEXT_COLOR] ?: "#FFF1F3FB" }
+    val customPopupBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_POPUP_BG_COLOR] ?: "#FF2A2E4B" }
+    val customPopupTextColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_POPUP_TEXT_COLOR] ?: "#FF00E5FF" }
+    val customKeyHintColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_HINT_COLOR] ?: "#66F1F3FB" }
+
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
@@ -256,6 +282,34 @@ class UserPreferences(private val context: Context) {
     suspend fun setBackspaceRepeatSpeed(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_SPEED] = ms }
     suspend fun setMeterTheme(themeName: String) = context.dataStore.edit { it[KEY_METER_THEME] = themeName }
     suspend fun setMeterFont(fontName: String) = context.dataStore.edit { it[KEY_METER_FONT] = fontName }
+
+    suspend fun updateCustomTheme(
+        bgColor: String? = null,
+        keyBgColor: String? = null,
+        keySpecialColor: String? = null,
+        keyTextColor: String? = null,
+        keySpecialTextColor: String? = null,
+        accentColor: String? = null,
+        suggestionBgColor: String? = null,
+        suggestionTextColor: String? = null,
+        popupBgColor: String? = null,
+        popupTextColor: String? = null,
+        keyHintColor: String? = null
+    ) {
+        context.dataStore.edit { prefs ->
+            bgColor?.let { prefs[KEY_CUSTOM_BG_COLOR] = it }
+            keyBgColor?.let { prefs[KEY_CUSTOM_KEY_BG_COLOR] = it }
+            keySpecialColor?.let { prefs[KEY_CUSTOM_KEY_SPECIAL_COLOR] = it }
+            keyTextColor?.let { prefs[KEY_CUSTOM_KEY_TEXT_COLOR] = it }
+            keySpecialTextColor?.let { prefs[KEY_CUSTOM_KEY_SPECIAL_TEXT_COLOR] = it }
+            accentColor?.let { prefs[KEY_CUSTOM_ACCENT_COLOR] = it }
+            suggestionBgColor?.let { prefs[KEY_CUSTOM_SUGGESTION_BG_COLOR] = it }
+            suggestionTextColor?.let { prefs[KEY_CUSTOM_SUGGESTION_TEXT_COLOR] = it }
+            popupBgColor?.let { prefs[KEY_CUSTOM_POPUP_BG_COLOR] = it }
+            popupTextColor?.let { prefs[KEY_CUSTOM_POPUP_TEXT_COLOR] = it }
+            keyHintColor?.let { prefs[KEY_CUSTOM_KEY_HINT_COLOR] = it }
+        }
+    }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }
