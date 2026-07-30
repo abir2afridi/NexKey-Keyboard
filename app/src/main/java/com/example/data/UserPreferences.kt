@@ -78,6 +78,10 @@ class UserPreferences(private val context: Context) {
         private val KEY_SHOW_TYPED_WORD_FIRST = booleanPreferencesKey("show_typed_word_first")
         private val KEY_VOICE_TYPING_ENGINE = stringPreferencesKey("voice_typing_engine")
 
+        // Emoji
+        private val KEY_RECENT_EMOJIS = stringPreferencesKey("recent_emojis")
+        private val KEY_RECENT_EMOJI_EXPIRY = intPreferencesKey("recent_emoji_expiry")
+
         // Gif Quality
         private val KEY_HIGH_QUALITY_GIFS = booleanPreferencesKey("high_quality_gifs")
         private val KEY_SEND_HIGH_QUALITY_GIFS = booleanPreferencesKey("send_high_quality_gifs")
@@ -162,6 +166,9 @@ class UserPreferences(private val context: Context) {
     val showTypedWordFirst: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_TYPED_WORD_FIRST] ?: true }
     val voiceTypingEngine: Flow<String> = context.dataStore.data.map { it[KEY_VOICE_TYPING_ENGINE] ?: "Default" }
 
+    val recentEmojis: Flow<String> = context.dataStore.data.map { it[KEY_RECENT_EMOJIS] ?: "[]" }
+    val recentEmojiExpiry: Flow<Int> = context.dataStore.data.map { it[KEY_RECENT_EMOJI_EXPIRY] ?: 30 }
+
     val highQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_HIGH_QUALITY_GIFS] ?: true }
     val sendHighQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_SEND_HIGH_QUALITY_GIFS] ?: true }
 
@@ -220,6 +227,9 @@ class UserPreferences(private val context: Context) {
     suspend fun setPhysicalKbEmoji(enabled: Boolean) = context.dataStore.edit { it[KEY_PHYSICAL_KB_EMOJI] = enabled }
     suspend fun setShowTypedWordFirst(enabled: Boolean) = context.dataStore.edit { it[KEY_SHOW_TYPED_WORD_FIRST] = enabled }
     suspend fun setVoiceTypingEngine(engine: String) = context.dataStore.edit { it[KEY_VOICE_TYPING_ENGINE] = engine }
+
+    suspend fun setRecentEmojis(json: String) = context.dataStore.edit { it[KEY_RECENT_EMOJIS] = json }
+    suspend fun setRecentEmojiExpiry(days: Int) = context.dataStore.edit { it[KEY_RECENT_EMOJI_EXPIRY] = days }
 
     suspend fun setHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_HIGH_QUALITY_GIFS] = enabled }
     suspend fun setSendHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_SEND_HIGH_QUALITY_GIFS] = enabled }

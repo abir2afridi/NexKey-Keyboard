@@ -50,6 +50,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
@@ -122,6 +123,8 @@ fun KeyboardComposeView(
     isSpeedActive: Boolean = false,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
+    recentEmojis: MutableList<String> = remember { mutableStateListOf() },
+    onRecentEmojisChanged: (List<String>) -> Unit = {},
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -198,7 +201,9 @@ fun KeyboardComposeView(
                     KeyboardMode.EMOJI -> EmojiPanel(
                         theme = theme,
                         onEmojiClick = { emoji -> onKeyTap(emoji) },
-                        onBackspace = onBackspaceTap
+                        onBackspace = onBackspaceTap,
+                        recentEmojis = recentEmojis,
+                        onRecentEmojisChanged = onRecentEmojisChanged
                     )
                     KeyboardMode.CLIPBOARD -> ClipboardPanel(
                         theme = theme,

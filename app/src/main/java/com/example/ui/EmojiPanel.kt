@@ -218,10 +218,9 @@ private enum class EmojiPanelTab(val icon: ImageVector, val label: String) {
 }
 
 @Composable
-fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace: () -> Unit) {
+fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace: () -> Unit, recentEmojis: MutableList<String> = remember { mutableStateListOf() }, onRecentEmojisChanged: (List<String>) -> Unit = {}) {
     var selectedCategory by remember { mutableIntStateOf(1) } // default: Smileys
     var selectedTab by remember { mutableIntStateOf(0) } // default: Emoji tab
-    val recentEmojis = remember { mutableStateListOf<String>() }
 
     // Build live category list (inject recent emojis at index 0)
     val liveCategories = remember(recentEmojis.toList()) {
@@ -347,6 +346,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                                         if (recentEmojis.size > 40) {
                                             recentEmojis.removeLastOrNull()
                                         }
+                                        onRecentEmojisChanged(recentEmojis.toList())
                                     }),
                                 contentAlignment = Alignment.Center
                             ) {

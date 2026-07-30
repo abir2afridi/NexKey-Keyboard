@@ -28,7 +28,8 @@ fun SettingsScreen(
     onNavigateToAdvancedGroup: () -> Unit = {},
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
-    onNavigateToGifQuality: () -> Unit = {}
+    onNavigateToGifQuality: () -> Unit = {},
+    onNavigateToEmoji: () -> Unit = {}
 ) {
     val settingsItems = remember {
         listOf(
@@ -39,6 +40,7 @@ fun SettingsScreen(
             SettingCategory("Size", "Height and width adjustments", Icons.Default.AspectRatio, onNavigateToSize),
             SettingCategory("Navigation", "Cursor and volume control", Icons.Default.SwapHoriz, onNavigateToNavigation),
             SettingCategory("Paste & Clipboard", "Hold key to paste, clipboard settings", Icons.Default.ContentPaste, onNavigateToPaste),
+            SettingCategory("Emoji", "Recent emoji retention", Icons.Default.EmojiEmotions, onNavigateToEmoji),
             SettingCategory("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onNavigateToAdvancedGroup),
             SettingCategory("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onNavigateToTextCorrection),
             SettingCategory("More Languages", "English, Bangla, Avro, Arabic...", Icons.Default.Language, onNavigateToMoreLanguages),

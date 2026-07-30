@@ -20,6 +20,7 @@ sealed class Screen(val route: String) {
     object SettingsAdvanced : Screen("settings_advanced")
     object SettingsMoreLanguages : Screen("settings_more_languages")
     object SettingsGifQuality : Screen("settings_gif_quality")
+    object SettingsEmoji : Screen("settings_emoji")
     object SettingsAppLanguage : Screen("settings_app_language")
     object AppSettings : Screen("app_settings")
     object Developer : Screen("developer")

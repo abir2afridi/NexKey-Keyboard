@@ -214,7 +214,8 @@ fun NexKeyApp() {
                         onNavigateToAdvancedGroup = { navController.navigate(Screen.SettingsAdvancedGroup.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
+                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
+                        onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) }
                     )
                 }
                 composable(Screen.SettingsTyping.route) {
@@ -252,6 +253,9 @@ fun NexKeyApp() {
                 }
                 composable(Screen.SettingsGifQuality.route) {
                     GifQualitySettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsEmoji.route) {
+                    EmojiSettingsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsAppLanguage.route) {
                     AppLanguageScreen(onBack = { navController.popBackStack() })

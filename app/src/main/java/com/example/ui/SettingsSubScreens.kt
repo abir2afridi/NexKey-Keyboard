@@ -350,6 +350,34 @@ fun GifQualitySettingsScreen(onBack: () -> Unit) {
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun EmojiSettingsScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val scope = rememberCoroutineScope()
+    val prefs = remember { UserPreferences(context) }
+    val recentEmojiExpiry by prefs.recentEmojiExpiry.collectAsState(initial = 30)
+
+    SettingsSubScaffold(title = "Emoji", onBack = onBack) {
+        val expiryOptions = listOf(1, 7, 30, 90, 0)
+        val expiryLabels = listOf("1 day", "7 days", "30 days", "90 days", "Forever")
+        val selectedIndex = expiryOptions.indexOf(recentEmojiExpiry).let { if (it < 0) 2 else it }
+        SettingDropdownItem(
+            title = "Recent emoji retention",
+            subtitle = "How long to remember recently used emojis",
+            icon = Icons.Default.EmojiEmotions,
+            selectedOption = expiryLabels[selectedIndex],
+            options = expiryLabels,
+            onOptionSelected = { label ->
+                val idx = expiryLabels.indexOf(label)
+                val days = expiryOptions[idx]
+                scope.launch { prefs.setRecentEmojiExpiry(days) }
+            }
+        )
+        Spacer(modifier = Modifier.height(32.dp))
+    }
+}
+
 data class AppLanguageOption(val code: String, val displayName: String, val localName: String)
 
 private val appLanguages = listOf(

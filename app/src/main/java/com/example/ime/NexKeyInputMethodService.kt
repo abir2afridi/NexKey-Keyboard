@@ -118,6 +118,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var backspaceRepeatSpeedMsState by mutableStateOf(50)
     private var currentMeterTheme by mutableStateOf(MeterTheme.Calculator)
     private var currentMeterFont by mutableStateOf("DIGITAL")
+    private var recentEmojis by mutableStateOf<List<String>>(emptyList())
+    private var recentEmojiExpiryDays by mutableStateOf(30)
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -240,6 +242,29 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 } 
             }
             launch { userPreferences.meterFont.collectLatest { currentMeterFont = it } }
+            launch {
+                userPreferences.recentEmojiExpiry.collectLatest { recentEmojiExpiryDays = it }
+            }
+            launch {
+                userPreferences.recentEmojis.collectLatest { json ->
+                    val expiryMs = recentEmojiExpiryDays.toLong() * 24 * 60 * 60 * 1000
+                    val now = System.currentTimeMillis()
+                    recentEmojis = try {
+                        val arr = org.json.JSONArray(json)
+                        val filtered = mutableListOf<String>()
+                        for (i in 0 until arr.length()) {
+                            val obj = arr.getJSONObject(i)
+                            val ts = obj.getLong("ts")
+                            if (expiryMs <= 0 || (now - ts) < expiryMs) {
+                                filtered.add(obj.getString("emoji"))
+                            }
+                        }
+                        filtered
+                    } catch (_: Exception) {
+                        emptyList()
+                    }
+                }
+            }
         }
     }
 
@@ -292,6 +317,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     isSpeedActive = isTypingActive,
                     meterTheme = currentMeterTheme,
                     meterFont = currentMeterFont,
+                    recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
+                    onRecentEmojisChanged = { emojis -> saveRecentEmojis(emojis) },
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -701,6 +728,18 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             composingBuffer = ""
             candidates = emptyList()
         }
+    }
+
+    private fun saveRecentEmojis(emojis: List<String>) {
+        val arr = org.json.JSONArray()
+        val now = System.currentTimeMillis()
+        for (emoji in emojis) {
+            val obj = org.json.JSONObject()
+            obj.put("emoji", emoji)
+            obj.put("ts", now)
+            arr.put(obj)
+        }
+        scope.launch { userPreferences.setRecentEmojis(arr.toString()) }
     }
 
     private fun toggleTheme() {
