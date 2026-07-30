@@ -27,6 +27,7 @@
 | QWERTY & Bangla Phonetic typing | ✅ |
 | Bangla Jatiyo (National) layout | ✅ |
 | Bangla Avro phonetic layout | ✅ |
+| Avro phonetic engine (Avro-style transliteration) | ✅ |
 | Arabic layout | ✅ |
 | Symbols & Numbers panels | ✅ |
 | Composing-region state machine | ✅ |
@@ -153,6 +154,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
+- ✅ Avro phonetic engine (Avro-style transliteration)
 - ✅ Avro phonetic layout support (Bangla)
 - ✅ Long-press backspace continuous delete (customizable delay & speed)
 - ✅ Always-show suggestion strip (enabled by default)
@@ -213,6 +215,19 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 
 ---
 
+## Avro Phonetic Typing
+
+NexKey includes a dedicated Avro phonetic engine that provides a distinct typing experience from the standard Bangla phonetic mode. The Avro engine uses Avro-style transliteration rules for a more familiar experience for Avro users.
+
+| Feature | Description |
+|---|---|
+| Avro phonetic engine | Dedicated `AvroPhoneticEngine` with Avro-specific transliteration rules |
+| Avro-specific layouts | Dedicated `AvroRow` layouts in `BanglaLayout` |
+| Popup candidates | Expanded popup candidates for English and Bangla layouts |
+| Mode switching | Toggle between Phonetic, Jatiyo, Avro, and Arabic via More Languages screen |
+
+---
+
 ## Troubleshooting
 
 ### Keyboard does not appear when tapping a text field
@@ -248,6 +263,10 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 ## Recent Fixes
 
 ### v1.1.0
+- Added Avro phonetic engine (`AvroPhoneticEngine`) for Avro-style transliteration
+- Implemented dedicated AvroRow layouts in BanglaLayout
+- Enhanced EnglishLayout and BanglaLayout with expanded popup candidates
+- Updated KeyboardComposeView to support Avro mode UI and punctuation logic
 - Removed custom debug signing config for CI compatibility (CI uses Android's auto-generated debug keystore)
 - Fixed CI emulator: removed instrumentation test job (GitHub Actions lacks KVM/HVF for hardware-accelerated emulation)
 - Added `MissingGoogleServicesStrategy.WARN` so builds succeed without `google-services.json` in CI
