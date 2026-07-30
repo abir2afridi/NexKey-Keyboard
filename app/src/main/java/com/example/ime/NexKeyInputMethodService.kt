@@ -374,6 +374,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun handleCursorMove(direction: Int) {
         val ic = currentInputConnection ?: return
+        // Commit composing buffer before moving cursor so typing resumes at new position
+        if (composingBuffer.isNotEmpty()) {
+            commitComposingBuffer()
+        }
         ic.beginBatchEdit()
         ic.sendKeyEvent(android.view.KeyEvent(android.view.KeyEvent.ACTION_DOWN, if (direction > 0) android.view.KeyEvent.KEYCODE_DPAD_RIGHT else android.view.KeyEvent.KEYCODE_DPAD_LEFT))
         ic.sendKeyEvent(android.view.KeyEvent(android.view.KeyEvent.ACTION_UP, if (direction > 0) android.view.KeyEvent.KEYCODE_DPAD_RIGHT else android.view.KeyEvent.KEYCODE_DPAD_LEFT))
