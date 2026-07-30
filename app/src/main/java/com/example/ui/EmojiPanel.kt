@@ -17,6 +17,19 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Star
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Pets
+import androidx.compose.material.icons.filled.Restaurant
+import androidx.compose.material.icons.filled.EmojiEvents
+import androidx.compose.material.icons.filled.Flight
+import androidx.compose.material.icons.filled.Lightbulb
+import androidx.compose.material.icons.filled.Category
+import androidx.compose.material.icons.filled.Flag
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -27,6 +40,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,13 +52,13 @@ import com.example.theme.KeyboardTheme
 // All emoji categories — complete Unicode emoji list
 // ─────────────────────────────────────────────────────────────────────────────
 
-private data class EmojiCategory(val icon: String, val name: String, val emojis: List<String>)
+private data class EmojiCategory(val icon: ImageVector, val name: String, val emojis: List<String>)
 
 private val ALL_EMOJI_CATEGORIES = listOf(
 
-    EmojiCategory("🕐", "Recent", emptyList()), // Populated dynamically
+    EmojiCategory(Icons.Filled.DateRange, "Recent", emptyList()),
 
-    EmojiCategory("😀", "Smileys", listOf(
+    EmojiCategory(Icons.Filled.Star, "Smileys", listOf(
         "😀","😃","😄","😁","😆","😅","😂","🤣","🥲","☺️","😊","😇",
         "🙂","🙃","😉","😌","😍","🥰","😘","😗","😙","😚","😋","😛",
         "😝","😜","🤪","🤨","🧐","🤓","😎","🥸","🤩","🥳","😏","😒",
@@ -57,7 +71,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "😼","😽","🙀","😿","😾","🙈","🙉","🙊"
     )),
 
-    EmojiCategory("👋", "People", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.People, "People", listOf(
         "👋","🤚","🖐️","✋","🖖","👌","🤌","🤏","✌️","🤞","🤟","🤘",
         "🤙","👈","👉","👆","🖕","👇","☝️","👍","👎","✊","👊","🤛",
         "🤜","👏","🙌","👐","🤲","🤝","🙏","✍️","💅","🤳","💪","🦾",
@@ -71,13 +85,13 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🏌️","🏇","🧘","🏋️","🤼","🤾","🤹","🧑‍🦯","🧑‍🦼","🧑‍🦽"
     )),
 
-    EmojiCategory("❤️", "Hearts", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Favorite, "Hearts", listOf(
         "❤️","🧡","💛","💚","💙","💜","🖤","🤍","🤎","❤️‍🔥","❤️‍🩹",
         "💔","❣️","💕","💞","💓","💗","💖","💘","💝","💟","♥️","💌",
         "💜","🫶","💝","💖","💗","💓","💞","💕","❤","🩷","🩵","🩶"
     )),
 
-    EmojiCategory("🐾", "Animals", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Pets, "Animals", listOf(
         "🐶","🐱","🐭","🐹","🐰","🦊","🐻","🐼","🐨","🐯","🦁","🐮",
         "🐷","🐽","🐸","🐵","🙈","🙉","🙊","🐒","🐔","🐧","🐦","🐤",
         "🦆","🦅","🦉","🦇","🐺","🐗","🐴","🦄","🐝","🪱","🐛","🦋",
@@ -93,7 +107,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🌈","☀️","⛅","🌤️","🌥️","☁️","🌦️","⛈️","🌩️","🌨️","❄️","🌬️"
     )),
 
-    EmojiCategory("🍎", "Food", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Restaurant, "Food", listOf(
         "🍏","🍎","🍐","🍊","🍋","🍋‍🟩","🍌","🍉","🍇","🍓","🫐","🍈",
         "🍒","🍑","🥭","🍍","🥥","🥝","🍅","🍆","🥑","🥦","🥬","🥒",
         "🌶️","🫑","🌽","🥕","🫛","🧄","🧅","🥔","🍠","🫚","🧆","🥚",
@@ -106,7 +120,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🧊","🥄","🍴","🍽️","🥣","🥗","🧂","🫙"
     )),
 
-    EmojiCategory("⚽", "Activity", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.EmojiEvents, "Activity", listOf(
         "⚽","🏀","🏈","⚾","🥎","🎾","🏐","🏉","🥏","🎱","🪀","🏓",
         "🏸","🏒","🏑","🥍","🏏","🪃","🥅","⛳","🪁","🤿","🎽","🎿",
         "🛷","🥌","🎯","🪃","🎱","🎳","🎰","🎲","♟️","🧩","🪅","🪆",
@@ -117,7 +131,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🤺","🤼","🤸","🏊","🏄","🚣","🧘","🧜","🏂","🪂","🏋️","🤸"
     )),
 
-    EmojiCategory("✈️", "Travel", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Flight, "Travel", listOf(
         "🚗","🚕","🚙","🚌","🚎","🏎️","🚓","🚑","🚒","🚐","🛻","🚚",
         "🚛","🚜","🏍️","🛵","🛺","🚲","🛴","🛹","🛼","🚏","🛣️","🛤️",
         "⛽","🚨","🚥","🚦","🛑","🚧","⚓","🛟","⛵","🚤","🛥️","🛳️",
@@ -132,7 +146,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🚔","🚕","🚖","🚗","🚘","🚙","🛻","🚚","🚛","🚜","🏎️","🏍️"
     )),
 
-    EmojiCategory("💡", "Objects", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Lightbulb, "Objects", listOf(
         "⌚","📱","📲","💻","⌨️","🖥️","🖨️","🖱️","🖲️","💾","💿","📀",
         "🧮","📷","📸","📹","🎥","📽️","🎞️","📞","☎️","📟","📠","📺",
         "📻","🧭","⏱️","⏲️","⏰","🕰️","⌛","⏳","📡","🔋","🪫","🔌",
@@ -148,7 +162,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🕶️","🥽","🌂","☂️","🧵","🧶","🪡","🧣","🧤","🧥","🥻","👘"
     )),
 
-    EmojiCategory("🔣", "Symbols", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Category, "Symbols", listOf(
         "🔴","🟠","🟡","🟢","🔵","🟣","🟤","⚫","⚪","🔶","🔷","🔸",
         "🔹","🔺","🔻","💠","🔘","🔲","🔳","⬛","⬜","▪️","▫️","◾",
         "◽","◼️","◻️","🟥","🟧","🟨","🟩","🟦","🟪","🟫","⏏️","▶️",
@@ -167,7 +181,7 @@ private val ALL_EMOJI_CATEGORIES = listOf(
         "🏧","🔱","⚜️","♿","🚹","🚺","🚼","🚻","🚽","🚿","🛁","🧹"
     )),
 
-    EmojiCategory("🚩", "Flags", listOf(
+    EmojiCategory(androidx.compose.material.icons.Icons.Filled.Flag, "Flags", listOf(
         "🏳️","🏴","🏴‍☠️","🚩","🎌","🏁","🏳️‍🌈","🏳️‍⚧️",
         "🇦🇫","🇦🇱","🇩🇿","🇦🇩","🇦🇴","🇦🇮","🇦🇬","🇦🇷","🇦🇲","🇦🇼","🇦🇺","🇦🇹",
         "🇦🇿","🇧🇸","🇧🇭","🇧🇩","🇧🇧","🇧🇾","🇧🇪","🇧🇿","🇧🇯","🇧🇲","🇧🇹","🇧🇴",
@@ -235,10 +249,11 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit) {
                         .padding(horizontal = 8.dp, vertical = 5.dp),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = category.icon,
-                        fontSize = 18.sp,
-                        textAlign = TextAlign.Center
+                    Icon(
+                        imageVector = category.icon,
+                        contentDescription = category.name,
+                        modifier = Modifier.size(20.dp),
+                        tint = if (isSelected) theme.accentColor else theme.keyTextColor
                     )
                 }
             }
