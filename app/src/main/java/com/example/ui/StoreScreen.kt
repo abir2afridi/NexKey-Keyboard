@@ -106,7 +106,7 @@ private fun MeterTab(
 
         androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
             columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
-            modifier = Modifier.heightIn(max = 1000.dp), // Using Column + Scroll, so limit grid height or use items in a dedicated Lazy list
+            modifier = Modifier.heightIn(max = 1000.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             userScrollEnabled = false
@@ -134,27 +134,53 @@ private fun MeterTab(
                             modifier = Modifier
                                 .width(60.dp)
                                 .height(32.dp)
-                                .clip(RoundedCornerShape(6.dp))
+                                .clip(RoundedCornerShape(4.dp))
                                 .background(theme.backgroundColor.copy(alpha = theme.backgroundAlpha))
-                                .border(theme.borderWidth, theme.borderColor, RoundedCornerShape(6.dp)),
+                                .border(theme.borderWidth, theme.borderColor, RoundedCornerShape(4.dp)),
                             contentAlignment = Alignment.Center
                         ) {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    "0.0", 
-                                    color = theme.textColor, 
-                                    fontSize = 12.sp, 
-                                    fontWeight = FontWeight.Black,
-                                    fontFamily = if (theme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default
-                                )
-                                Text("LIVE", color = theme.labelColor, fontSize = 6.sp, fontWeight = FontWeight.Bold)
+                            Box(modifier = Modifier.fillMaxSize()) {
+                                if (theme.showLcdShadow) {
+                                    Text(
+                                        "88.8", 
+                                        color = theme.textColor.copy(alpha = 0.05f), 
+                                        fontSize = 12.sp, 
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                                        letterSpacing = theme.letterSpacing,
+                                        modifier = Modifier.align(Alignment.Center)
+                                    )
+                                }
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        "0.0", 
+                                        color = theme.textColor, 
+                                        fontSize = 12.sp, 
+                                        fontWeight = FontWeight.Black,
+                                        fontFamily = if (theme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default,
+                                        letterSpacing = theme.letterSpacing,
+                                        style = androidx.compose.ui.text.TextStyle(
+                                            shadow = if (theme.glowRadius > 0f) {
+                                                androidx.compose.ui.graphics.Shadow(
+                                                    color = theme.textColor.copy(alpha = 0.8f),
+                                                    blurRadius = theme.glowRadius
+                                                )
+                                            } else null
+                                        )
+                                    )
+                                    Text("LIVE", color = theme.labelColor, fontSize = 6.sp, fontWeight = FontWeight.Bold)
+                                }
                             }
                         }
                         
                         Spacer(modifier = Modifier.height(12.dp))
                         
                         Text(
-                            text = theme.preset.name.lowercase().capitalize(),
+                            text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface

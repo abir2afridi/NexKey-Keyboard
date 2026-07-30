@@ -426,32 +426,58 @@ fun DigitalSpeedMeter(
 ) {
     Surface(
         modifier = Modifier
-            .padding(horizontal = 4.dp)
-            .width(54.dp)
-            .height(28.dp),
+            .padding(horizontal = 6.dp)
+            .width(58.dp)
+            .height(30.dp),
         color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
-        shape = RoundedCornerShape(6.dp),
-        border = androidx.compose.foundation.BorderStroke(meterTheme.borderWidth, meterTheme.borderColor)
+        shape = RoundedCornerShape(4.dp),
+        border = androidx.compose.foundation.BorderStroke(meterTheme.borderWidth, meterTheme.borderColor),
+        tonalElevation = 4.dp
     ) {
-        Column(
-            modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Text(
-                text = String.format(Locale.US, "%.1f", cps),
-                color = meterTheme.textColor,
-                fontSize = 11.sp,
-                fontWeight = FontWeight.Black,
-                fontFamily = if (meterTheme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default
-            )
-            Text(
-                text = if (isLive) "LIVE" else "PEAK",
-                color = meterTheme.labelColor,
-                fontSize = 7.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = 0.5.sp
-            )
+        Box(modifier = Modifier.fillMaxSize()) {
+            // Background "88.8" shadow effect for LCD/Seven-segment
+            if (meterTheme.showLcdShadow) {
+                Text(
+                    text = "88.8",
+                    color = meterTheme.textColor.copy(alpha = 0.05f),
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                    letterSpacing = meterTheme.letterSpacing,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
+            
+            Column(
+                modifier = Modifier.fillMaxSize(),
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = String.format(Locale.US, "%.1f", cps),
+                    color = meterTheme.textColor,
+                    fontSize = 12.sp,
+                    fontWeight = FontWeight.Black,
+                    fontFamily = if (meterTheme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default,
+                    letterSpacing = meterTheme.letterSpacing,
+                    style = androidx.compose.ui.text.TextStyle(
+                        shadow = if (meterTheme.glowRadius > 0f) {
+                            androidx.compose.ui.graphics.Shadow(
+                                color = meterTheme.textColor.copy(alpha = 0.8f),
+                                blurRadius = meterTheme.glowRadius
+                            )
+                        } else null
+                    )
+                )
+                Text(
+                    text = if (isLive) "LIVE" else "PEAK",
+                    color = meterTheme.labelColor,
+                    fontSize = 6.5.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.4.sp,
+                    modifier = Modifier.padding(top = 1.dp)
+                )
+            }
         }
     }
 }
