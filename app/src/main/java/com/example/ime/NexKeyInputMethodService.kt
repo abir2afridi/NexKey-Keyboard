@@ -23,6 +23,7 @@ import com.example.clipboard.ClipboardManager
 import com.example.data.TypingAnalytics
 import com.example.data.UserPreferences
 import com.example.engine.BanglaPhoneticEngine
+import com.example.engine.AvroPhoneticEngine
 import com.example.engine.PredictionEngine
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
@@ -450,13 +451,19 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         val isAlphaKey = key.length == 1 && key[0].isLetter()
-        val isBanglaComposing = !isPasswordField && (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) && isAlphaKey
+        val isBanglaPhoneticComposing = !isPasswordField && currentMode == KeyboardMode.BANGLA_PHONETIC && isAlphaKey
+        val isAvroComposing = !isPasswordField && currentMode == KeyboardMode.AVRO && isAlphaKey
         val isEnglishComposing = !isPasswordField && (currentMode == KeyboardMode.ENGLISH || currentMode == KeyboardMode.ARABIC) && isAlphaKey
 
-        if (isBanglaComposing) {
+        if (isBanglaPhoneticComposing) {
             composingBuffer += key
             val parsedBangla = BanglaPhoneticEngine.parse(composingBuffer)
             ic.setComposingText(parsedBangla, 1)
+            updateCandidates(composingBuffer)
+        } else if (isAvroComposing) {
+            composingBuffer += key
+            val parsedAvro = AvroPhoneticEngine.parse(composingBuffer)
+            ic.setComposingText(parsedAvro, 1)
             updateCandidates(composingBuffer)
         } else if (isEnglishComposing) {
             composingBuffer += key
@@ -506,10 +513,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         if (composingBuffer.isNotEmpty()) {
             composingBuffer = composingBuffer.dropLast(1)
             if (composingBuffer.isNotEmpty()) {
-                val parsed = if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) {
-                    BanglaPhoneticEngine.parse(composingBuffer)
-                } else {
-                    composingBuffer
+                val parsed = when (currentMode) {
+                    KeyboardMode.BANGLA_PHONETIC -> BanglaPhoneticEngine.parse(composingBuffer)
+                    KeyboardMode.AVRO -> AvroPhoneticEngine.parse(composingBuffer)
+                    else -> composingBuffer
                 }
                 ic.setComposingText(parsed, 1)
                 updateCandidates(composingBuffer)
@@ -527,8 +534,14 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val ic = currentInputConnection ?: return
 
         if (composingBuffer.isNotEmpty()) {
-            val isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO
-            val rawWord = if (isBangla) BanglaPhoneticEngine.parse(composingBuffer) else composingBuffer
+            val isBanglaPhonetic = currentMode == KeyboardMode.BANGLA_PHONETIC
+            val isAvro = currentMode == KeyboardMode.AVRO
+            val rawWord = when {
+                isBanglaPhonetic -> BanglaPhoneticEngine.parse(composingBuffer)
+                isAvro -> AvroPhoneticEngine.parse(composingBuffer)
+                else -> composingBuffer
+            }
+            val isBangla = isBanglaPhonetic || isAvro
             val correctedWord = if (autoCorrectionEnabled && !isSensitiveField) {
                 val correction = predictionEngine.getCorrection(rawWord, isBangla)
                 if (correction != null && rawWord.length > 2) correction else rawWord
@@ -634,7 +647,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
         val predictions = predictionEngine.getPredictions(
             prefix = query,
-            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO),
+            isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO || currentMode == KeyboardMode.BANGLA_JATIYO),
             showTypedWordFirst = showTypedWordFirstEnabled
         )
         candidates = if (blockOffensiveEnabled) {
@@ -657,16 +670,16 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private fun commitComposingBuffer() {
         val ic = currentInputConnection ?: return
         if (composingBuffer.isNotEmpty()) {
-            val word = if (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO) {
-                BanglaPhoneticEngine.parse(composingBuffer)
-            } else {
-                composingBuffer
+            val word = when (currentMode) {
+                KeyboardMode.BANGLA_PHONETIC -> BanglaPhoneticEngine.parse(composingBuffer)
+                KeyboardMode.AVRO -> AvroPhoneticEngine.parse(composingBuffer)
+                else -> composingBuffer
             }
             ic.beginBatchEdit()
             ic.commitText(word, 1)
             ic.endBatchEdit()
             if (!isSensitiveField && !isIncognito) {
-            predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO)
+                predictionEngine.learnWord(word, isBangla = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO || currentMode == KeyboardMode.BANGLA_JATIYO)
                 scope.launch { userPreferences.incrementStats(words = 1, chars = word.length) }
             }
             composingBuffer = ""

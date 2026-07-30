@@ -645,8 +645,13 @@ fun KeyboardKeysGrid(
         }
 
         val rows = when (mode) {
-            KeyboardMode.BANGLA_PHONETIC, KeyboardMode.AVRO -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
-            KeyboardMode.BANGLA_JATIYO -> listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
+            KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
+            KeyboardMode.AVRO -> listOf(BanglaLayout.AvroRow1, BanglaLayout.AvroRow2, BanglaLayout.AvroRow3)
+            KeyboardMode.BANGLA_JATIYO -> if (shiftState != ShiftState.OFF) {
+                listOf(BanglaLayout.JatiyoShiftRow1, BanglaLayout.JatiyoShiftRow2, BanglaLayout.JatiyoShiftRow3)
+            } else {
+                listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
+            }
             KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
             KeyboardMode.SYMBOLS -> listOf(KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3)
             KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
@@ -740,7 +745,7 @@ fun KeyboardKeysGrid(
                 ),
                 theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = onSpaceTap
             ) {
-                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.AVRO -> "Avro"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
             }
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
                 Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
