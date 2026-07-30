@@ -65,11 +65,11 @@ jobs:
         with:
           api-level: 34
           target: google_apis
-          arch: x86_64
+          arch: arm64-v8a
           force-avd-creation: true
           emulator-options: -no-window -noaudio -no-boot-anim -timezone GMT -memory 2048 -cores 2 -gpu host
           disable-animations: true
-          boot-timeout: 300000
+          emulator-boot-timeout: 300
           script: ./gradlew connectedDebugAndroidTest
       - name: Debug emulator on failure
         if: failure()
