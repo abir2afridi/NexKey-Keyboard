@@ -65,7 +65,7 @@ The app will be available on Google Play Store once published.
 
 | File | SHA256 | MD5 |
 |------|--------|-----|
-| NexKey-Keyboard-v1.2.0.apk | TBD | TBD |
+| NexKey-Keyboard-v1.2.0.apk | 55f07b0587cb874c7aaacd597731479cc2db98b6f63e97ea730bf56cff130afb | b55f8a12c6c646dd9a09198585309b80 |
 
 ## Download Links
 
