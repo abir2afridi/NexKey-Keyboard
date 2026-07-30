@@ -588,16 +588,48 @@ private fun ControlTile(label: String, icon: ImageVector, active: Boolean, modif
 }
 
 @Composable
-private fun StatCard(value: String, label: String, bgColor: Color, iconTint: Color, icon: androidx.compose.ui.graphics.vector.ImageVector, modifier: Modifier = Modifier) {
-    Surface(shape = RoundedCornerShape(16.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 3.dp, modifier = modifier) {
-        Row(modifier = Modifier.padding(18.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
-            Box(modifier = Modifier.size(44.dp).clip(CircleShape).background(bgColor), contentAlignment = Alignment.Center) {
-                Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(22.dp))
+private fun StatCard(
+    value: String, 
+    label: String, 
+    bgColor: Color, 
+    iconTint: Color, 
+    icon: ImageVector, 
+    modifier: Modifier = Modifier,
+    onInfoClick: (() -> Unit)? = null
+) {
+    Surface(
+        shape = RoundedCornerShape(16.dp), 
+        color = MaterialTheme.colorScheme.surface, 
+        tonalElevation = 3.dp, 
+        modifier = modifier
+    ) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            if (onInfoClick != null) {
+                IconButton(
+                    onClick = onInfoClick,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(4.dp)
+                        .size(16.dp)
+                ) {
+                    Icon(
+                        Icons.Default.Info, 
+                        contentDescription = null, 
+                        tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.4f),
+                        modifier = Modifier.size(12.dp)
+                    )
+                }
             }
-            Spacer(modifier = Modifier.width(14.dp))
-            Column {
-                Text(value, fontSize = 22.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurface)
-                Text(label, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            
+            Row(modifier = Modifier.padding(18.dp).fillMaxWidth(), verticalAlignment = Alignment.CenterVertically) {
+                Box(modifier = Modifier.size(44.dp).clip(CircleShape).background(bgColor), contentAlignment = Alignment.Center) {
+                    Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(22.dp))
+                }
+                Spacer(modifier = Modifier.width(14.dp))
+                Column {
+                    Text(value, fontSize = 22.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurface)
+                    Text(label, fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
             }
         }
     }

@@ -26,6 +26,8 @@ import com.example.engine.BanglaPhoneticEngine
 import com.example.engine.PredictionEngine
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
+import com.example.theme.MeterTheme
+import com.example.theme.MeterThemePreset
 import com.example.ui.KeyboardComposeView
 import com.example.ui.KeyboardMode
 import com.example.ui.ShiftState
@@ -113,6 +115,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var autoHideToolbar by mutableStateOf(false)
     private var backspaceRepeatDelayMsState by mutableStateOf(400)
     private var backspaceRepeatSpeedMsState by mutableStateOf(50)
+    private var currentMeterTheme by mutableStateOf(MeterTheme.Calculator)
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -213,6 +216,15 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.autoHideToolbar.collectLatest { autoHideToolbar = it } }
             launch { userPreferences.backspaceRepeatDelay.collectLatest { backspaceRepeatDelayMsState = it } }
             launch { userPreferences.backspaceRepeatSpeed.collectLatest { backspaceRepeatSpeedMsState = it } }
+            launch { 
+                userPreferences.meterTheme.collectLatest { themeName ->
+                    currentMeterTheme = try {
+                        MeterTheme.fromPreset(MeterThemePreset.valueOf(themeName))
+                    } catch (_: Exception) {
+                        MeterTheme.Calculator
+                    }
+                } 
+            }
         }
     }
 
@@ -262,6 +274,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     liveCps = currentLiveCps,
                     maxBurstCps = maxBurstCps,
                     isSpeedActive = isTypingActive,
+                    meterTheme = currentMeterTheme,
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },

@@ -101,6 +101,7 @@ class UserPreferences(private val context: Context) {
         // Backspace repeat
         private val KEY_BACKSPACE_REPEAT_DELAY = intPreferencesKey("backspace_repeat_delay")
         private val KEY_BACKSPACE_REPEAT_SPEED = intPreferencesKey("backspace_repeat_speed")
+        private val KEY_METER_THEME = stringPreferencesKey("meter_theme")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -179,6 +180,7 @@ class UserPreferences(private val context: Context) {
 
     val backspaceRepeatDelay: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_DELAY] ?: 400 }
     val backspaceRepeatSpeed: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_SPEED] ?: 50 }
+    val meterTheme: Flow<String> = context.dataStore.data.map { it[KEY_METER_THEME] ?: "CALCULATOR" }
 
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
@@ -237,6 +239,7 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setBackspaceRepeatDelay(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_DELAY] = ms }
     suspend fun setBackspaceRepeatSpeed(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_SPEED] = ms }
+    suspend fun setMeterTheme(themeName: String) = context.dataStore.edit { it[KEY_METER_THEME] = themeName }
 
     suspend fun setTheme(theme: ThemePreset) {
         context.dataStore.edit { it[KEY_THEME] = theme.name }

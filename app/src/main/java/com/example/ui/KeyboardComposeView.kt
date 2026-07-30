@@ -76,6 +76,8 @@ import androidx.compose.ui.unit.sp
 import com.example.clipboard.ClipItem
 import com.example.clipboard.ClipboardManager
 import com.example.theme.KeyboardTheme
+import com.example.theme.MeterTheme
+import com.example.theme.MeterThemePreset
 import java.util.Locale
 import kotlin.math.abs
 
@@ -117,6 +119,7 @@ fun KeyboardComposeView(
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
+    meterTheme: MeterTheme = MeterTheme.Calculator,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -179,6 +182,7 @@ fun KeyboardComposeView(
                         liveCps = liveCps,
                         maxBurstCps = maxBurstCps,
                         isSpeedActive = isSpeedActive,
+                        meterTheme = meterTheme,
                         onModeChange = onModeChange,
                         onVoiceClick = onVoiceClick,
                         onThemeToggle = onThemeToggle,
@@ -314,6 +318,7 @@ fun SmartToolbar(
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
+    meterTheme: MeterTheme = MeterTheme.Calculator,
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -404,7 +409,7 @@ fun SmartToolbar(
         DigitalSpeedMeter(
             cps = if (isSpeedActive) liveCps else maxBurstCps,
             isLive = isSpeedActive,
-            theme = theme
+            meterTheme = meterTheme
         )
 
         IconButton(onClick = onOpenSettings) {
@@ -417,16 +422,16 @@ fun SmartToolbar(
 fun DigitalSpeedMeter(
     cps: Float,
     isLive: Boolean,
-    theme: KeyboardTheme
+    meterTheme: MeterTheme
 ) {
     Surface(
         modifier = Modifier
             .padding(horizontal = 4.dp)
             .width(54.dp)
             .height(28.dp),
-        color = Color.Black.copy(alpha = 0.6f),
+        color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
         shape = RoundedCornerShape(6.dp),
-        border = androidx.compose.foundation.BorderStroke(1.dp, theme.accentColor.copy(alpha = 0.4f))
+        border = androidx.compose.foundation.BorderStroke(meterTheme.borderWidth, meterTheme.borderColor)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -435,14 +440,14 @@ fun DigitalSpeedMeter(
         ) {
             Text(
                 text = String.format(Locale.US, "%.1f", cps),
-                color = theme.accentColor,
+                color = meterTheme.textColor,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.Black,
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace
+                fontFamily = if (meterTheme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default
             )
             Text(
                 text = if (isLive) "LIVE" else "PEAK",
-                color = theme.accentColor.copy(alpha = 0.7f),
+                color = meterTheme.labelColor,
                 fontSize = 7.sp,
                 fontWeight = FontWeight.Bold,
                 letterSpacing = 0.5.sp
@@ -547,6 +552,7 @@ fun KeyboardKeysGrid(
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
+    meterTheme: MeterTheme = MeterTheme.Calculator,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
