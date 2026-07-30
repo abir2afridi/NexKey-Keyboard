@@ -5,6 +5,43 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0] - 2026-07-30
+
+### 🚀 Features
+- **Emoji search** — Keyword-based search inside the emoji panel with 400+ mapped emojis; results shown in horizontal scrollable rows
+- **Emoji search layout settings** — Horizontal scroll toggle, visible rows (1–2), configurable in Emoji settings
+- **Compact keyboard during emoji search** — Keyboard shrinks to 65% height when search is active for more results visibility
+- **Blinking cursor in search bar** — Visual cursor indicator shows text position in the search bar
+- **Recent emoji retention** — Configurable expiry (1/7/30/90 days, forever) for recently used emojis
+- **Emoji settings screen** — Dedicated settings for emoji retention, search layout, and visible rows
+- **GIF/Sticker tabs** — Tab bar in emoji panel with Emoji/GIF/Sticker sections
+- **Delete button in emoji panel** — Backspace button in emoji category label row
+- **Material Icons for emoji categories** — Replaced emoji icons with standard Material Icons
+- **Customizable speed meter fonts** — Multiple font styles (DIGITAL, LCD, SEGMENT, MODERN) for the typing speed meter
+- **Digital speed meter** — Real-time CPS (characters per second) meter in the smart toolbar
+
+### 🐛 Bug Fixes
+- Fixed popup candidates expanding keyboard to full screen
+- Fixed duplicate close/clear buttons in emoji search bar — now single "Close" button
+- Fixed keyboard staying in compact mode after switching modes via toolbar — emoji search now auto-closes on mode change
+- Fixed keyboard mode not restoring after closing emoji search — now returns to previous mode
+- Fixed CI compatibility — default debug signing config
+- Removed offensive word filtering (was deprecated)
+
+### ♻️ Refactors
+- Enhanced keyboard mode switching with `lastTextMode` tracking for seamless transitions
+- Expanded `popupCandidates` for number and symbol keys
+- Gboard/Ridmik-style Bangla Jatiyo and Avro keyboard arrangements
+
+### 📚 Documentation
+- Added Avro phonetic engine documentation to README
+- Updated README for v1.1.0 release
+
+### 🔧 Infrastructure
+- CI: removed instrumentation test job (no KVM/HVF on runners)
+- CI: switched to macOS runner, fixed ARM64 emulator config
+- CI: parallelized builds with Gradle cache
+
 ## [1.1.0] - 2026-07-30
 
 ### 🚀 Features
