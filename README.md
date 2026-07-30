@@ -10,13 +10,13 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.1.0-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.1.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.2.0-ff69b4)](../releases)
 
 ---
 
@@ -41,6 +41,10 @@
 | Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
 | Bottom navigation (Home, Learn, Keyboard, App Settings) | ✅ |
 | Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
+| Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
+| Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
+| Recent emoji retention (configurable expiry) | ✅ |
+| GIF/Sticker tabs (placeholder) | ✅ |
 | Theme system (4 presets, DataStore) | ✅ |
 | App theme (System/Light/Dark) | ✅ |
 | Auto-capitalization | ✅ |
@@ -148,29 +152,26 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.1.0 | **Published:** July 30, 2026
+**Version:** 1.2.0 | **Published:** July 30, 2026
 
-- **APK:** [Download v1.1.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.2.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
-- ✅ Avro phonetic engine (Avro-style transliteration)
-- ✅ Avro phonetic layout support (Bangla)
-- ✅ Long-press backspace continuous delete (customizable delay & speed)
-- ✅ Always-show suggestion strip (enabled by default)
-- ✅ Auto-hide toolbar setting
-- ✅ Key long-press hint popups (numbers & accented characters)
-- ✅ Voice typing with permission handling
-- ✅ Enter key multiline detection (↵ vs Done/Search/Go)
-- ✅ 80+ Bangla conjunct (juktakkhor) rules
-- ✅ More Languages screen (toggle any layout)
-- ✅ Enhanced emoji panel (500+ emojis, 8 categories)
-- ✅ Typing speed meter (WPM, accuracy, key counts)
+- ✅ Emoji search (keyword-based, 400+ mapped emojis)
+- ✅ Horizontal scrollable search results (configurable 1–2 rows)
+- ✅ Compact keyboard during emoji search (65% height)
+- ✅ Blinking cursor in search bar
+- ✅ Recent emoji retention (configurable expiry)
+- ✅ Emoji settings screen (retention, search layout)
+- ✅ GIF/Sticker tabs in emoji panel
+- ✅ Customizable speed meter fonts (DIGITAL, LCD, SEGMENT, MODERN)
+- ✅ Digital speed meter (real-time CPS)
 
 **Checksums:**
 | File | SHA256 | MD5 |
 |------|--------|-----|
-| app-debug.apk | [Download](../releases/download/v1.1.0/app-debug.apk) | — |
+| NexKey-Keyboard-v1.2.0.apk | `55f07b0587cb874c7aaacd597731479cc2db98b6f63e97ea730bf56cff130afb` | `b55f8a12c6c646dd9a09198585309b80` |
 
 [View all releases →](../releases)
 
@@ -261,6 +262,27 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 ---
 
 ## Recent Fixes
+
+### v1.2.0
+- Added emoji search with 400+ keyword mappings across all categories
+- Added horizontal scrollable search results (configurable 1–2 rows)
+- Added compact keyboard during emoji search (65% height)
+- Added blinking cursor indicator in emoji search bar
+- Added recent emoji retention with configurable expiry (1/7/30/90 days, forever)
+- Added emoji settings screen (retention, search layout, visible rows)
+- Added GIF/Sticker tabs in emoji panel (placeholder for future support)
+- Added delete button in emoji category label row
+- Added customizable speed meter fonts (DIGITAL, LCD, SEGMENT, MODERN)
+- Added digital speed meter for real-time typing metrics
+- Fixed popup candidates expanding keyboard to full screen
+- Fixed duplicate close/clear buttons in emoji search bar
+- Fixed keyboard staying in compact mode after switching modes via toolbar
+- Fixed keyboard mode not restoring after closing emoji search
+- Removed offensive word filtering (was deprecated)
+- Enhanced keyboard mode switching with `lastTextMode` tracking
+- Gboard/Ridmik-style Bangla Jatiyo and Avro keyboard arrangements
+- CI: removed instrumentation test job (no KVM/HVF on runners)
+- CI: switched to macOS runner, fixed ARM64 emulator config
 
 ### v1.1.0
 - Added Avro phonetic engine (`AvroPhoneticEngine`) for Avro-style transliteration
