@@ -64,6 +64,7 @@
 | Key long-press hint popups (numbers for top row, accents for others) | ✅ |
 | 80+ Bangla conjunct (juktakkhor) rules | ✅ |
 | More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
+| Space bar cursor move (swipe to position caret) | ✅ |
 | Gesture/swipe typing | 🚧 Planned |
 | DAWG dictionary | 🚧 Planned |
 | Autocorrect with undo-on-backspace | 🚧 Planned |
@@ -278,6 +279,7 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 - Fixed duplicate close/clear buttons in emoji search bar
 - Fixed keyboard staying in compact mode after switching modes via toolbar
 - Fixed keyboard mode not restoring after closing emoji search
+- Fixed cursor position lost when moving cursor mid-word (space bar swipe / volume keys now commit composing text first)
 - Removed offensive word filtering (was deprecated)
 - Enhanced keyboard mode switching with `lastTextMode` tracking
 - Gboard/Ridmik-style Bangla Jatiyo and Avro keyboard arrangements
