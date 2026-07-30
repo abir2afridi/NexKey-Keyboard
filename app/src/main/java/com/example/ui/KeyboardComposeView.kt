@@ -197,7 +197,8 @@ fun KeyboardComposeView(
                 when (mode) {
                     KeyboardMode.EMOJI -> EmojiPanel(
                         theme = theme,
-                        onEmojiClick = { emoji -> onKeyTap(emoji) }
+                        onEmojiClick = { emoji -> onKeyTap(emoji) },
+                        onBackspace = onBackspaceTap
                     )
                     KeyboardMode.CLIPBOARD -> ClipboardPanel(
                         theme = theme,
