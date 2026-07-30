@@ -116,6 +116,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var backspaceRepeatDelayMsState by mutableStateOf(400)
     private var backspaceRepeatSpeedMsState by mutableStateOf(50)
     private var currentMeterTheme by mutableStateOf(MeterTheme.Calculator)
+    private var currentMeterFont by mutableStateOf("DIGITAL")
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -225,6 +226,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     }
                 } 
             }
+            launch { userPreferences.meterFont.collectLatest { currentMeterFont = it } }
         }
     }
 
@@ -275,6 +277,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     maxBurstCps = maxBurstCps,
                     isSpeedActive = isTypingActive,
                     meterTheme = currentMeterTheme,
+                    meterFont = currentMeterFont,
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },

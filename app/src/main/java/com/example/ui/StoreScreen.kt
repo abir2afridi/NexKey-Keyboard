@@ -89,6 +89,9 @@ private fun MeterTab(
 ) {
     val meterThemes = remember { MeterTheme.allPresets() }
     val currentMeterTheme by prefs.meterTheme.collectAsState(initial = "CALCULATOR")
+    val currentMeterFont by prefs.meterFont.collectAsState(initial = "DIGITAL")
+    
+    val fontOptions = listOf("DIGITAL", "LCD", "SEGMENT", "MODERN")
 
     Column(
         modifier = Modifier
@@ -140,14 +143,14 @@ private fun MeterTab(
                             contentAlignment = Alignment.Center
                         ) {
                             Box(modifier = Modifier.fillMaxSize()) {
-                                if (theme.showLcdShadow) {
+                                if (theme.showLcdShadow || currentMeterFont == "LCD" || currentMeterFont == "SEGMENT") {
                                     Text(
                                         "88.8", 
                                         color = theme.textColor.copy(alpha = 0.05f), 
                                         fontSize = 12.sp, 
                                         fontWeight = FontWeight.Black,
-                                        fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                                        letterSpacing = theme.letterSpacing,
+                                        fontFamily = if (currentMeterFont == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                                        letterSpacing = if (currentMeterFont == "LCD") 2.sp else if (currentMeterFont == "SEGMENT") 1.5.sp else theme.letterSpacing,
                                         modifier = Modifier.align(Alignment.Center)
                                     )
                                 }
@@ -160,16 +163,17 @@ private fun MeterTab(
                                         "0.0", 
                                         color = theme.textColor, 
                                         fontSize = 12.sp, 
-                                        fontWeight = FontWeight.Black,
-                                        fontFamily = if (theme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default,
-                                        letterSpacing = theme.letterSpacing,
+                                        fontWeight = if (currentMeterFont == "SEGMENT") FontWeight.Black else if (currentMeterFont == "MODERN") FontWeight.Bold else FontWeight.Black,
+                                        fontFamily = if (currentMeterFont == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                                        letterSpacing = if (currentMeterFont == "LCD") 2.sp else if (currentMeterFont == "SEGMENT") 1.5.sp else theme.letterSpacing,
                                         style = androidx.compose.ui.text.TextStyle(
                                             shadow = if (theme.glowRadius > 0f) {
                                                 androidx.compose.ui.graphics.Shadow(
                                                     color = theme.textColor.copy(alpha = 0.8f),
                                                     blurRadius = theme.glowRadius
                                                 )
-                                            } else null
+                                            } else null,
+                                            fontFeatureSettings = "tnum"
                                         )
                                     )
                                     Text("LIVE", color = theme.labelColor, fontSize = 6.sp, fontWeight = FontWeight.Bold)
@@ -184,6 +188,56 @@ private fun MeterTab(
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(24.dp))
+        
+        Text(
+            "Number Font Style",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+        
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            fontOptions.forEach { font ->
+                val isSelected = currentMeterFont == font
+                Surface(
+                    onClick = { scope.launch { prefs.setMeterFont(font) } },
+                    modifier = Modifier.weight(1f),
+                    shape = RoundedCornerShape(12.dp),
+                    color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                    border = androidx.compose.foundation.BorderStroke(
+                        width = 1.dp,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                    )
+                ) {
+                    Column(
+                        modifier = Modifier.padding(vertical = 12.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "88.8",
+                            fontSize = 14.sp,
+                            fontWeight = if (font == "SEGMENT") FontWeight.Black else if (font == "MODERN") FontWeight.Bold else FontWeight.Black,
+                            fontFamily = if (font == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                            letterSpacing = if (font == "LCD") 2.sp else if (font == "SEGMENT") 1.5.sp else 0.sp,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(4.dp))
+                        Text(
+                            text = font.lowercase().capitalize(),
+                            fontSize = 9.sp,
+                            fontWeight = FontWeight.Bold,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }
                 }

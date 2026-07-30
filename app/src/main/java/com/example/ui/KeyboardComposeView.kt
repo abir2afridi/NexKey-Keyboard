@@ -120,6 +120,7 @@ fun KeyboardComposeView(
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
     meterTheme: MeterTheme = MeterTheme.Calculator,
+    meterFont: String = "DIGITAL",
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -183,6 +184,7 @@ fun KeyboardComposeView(
                         maxBurstCps = maxBurstCps,
                         isSpeedActive = isSpeedActive,
                         meterTheme = meterTheme,
+                        meterFont = meterFont,
                         onModeChange = onModeChange,
                         onVoiceClick = onVoiceClick,
                         onThemeToggle = onThemeToggle,
@@ -319,6 +321,7 @@ fun SmartToolbar(
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
     meterTheme: MeterTheme = MeterTheme.Calculator,
+    meterFont: String = "DIGITAL",
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -409,7 +412,8 @@ fun SmartToolbar(
         DigitalSpeedMeter(
             cps = if (isSpeedActive) liveCps else maxBurstCps,
             isLive = isSpeedActive,
-            meterTheme = meterTheme
+            meterTheme = meterTheme,
+            fontStyle = meterFont
         )
 
         IconButton(onClick = onOpenSettings) {
@@ -422,8 +426,35 @@ fun SmartToolbar(
 fun DigitalSpeedMeter(
     cps: Float,
     isLive: Boolean,
-    meterTheme: MeterTheme
+    meterTheme: MeterTheme,
+    fontStyle: String = "DIGITAL"
 ) {
+    val textStyle = remember(fontStyle, meterTheme) {
+        when (fontStyle) {
+            "LCD" -> androidx.compose.ui.text.TextStyle(
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                letterSpacing = 2.sp,
+                fontFeatureSettings = "tnum"
+            )
+            "SEGMENT" -> androidx.compose.ui.text.TextStyle(
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                fontWeight = FontWeight.Black,
+                letterSpacing = 1.5.sp,
+                fontFeatureSettings = "tnum"
+            )
+            "MODERN" -> androidx.compose.ui.text.TextStyle(
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Default,
+                fontWeight = FontWeight.Bold,
+                fontFeatureSettings = "tnum"
+            )
+            else -> androidx.compose.ui.text.TextStyle( // DIGITAL
+                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                letterSpacing = meterTheme.letterSpacing,
+                fontFeatureSettings = "tnum"
+            )
+        }
+    }
+
     Surface(
         modifier = Modifier
             .padding(horizontal = 6.dp)
@@ -436,14 +467,12 @@ fun DigitalSpeedMeter(
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
             // Background "88.8" shadow effect for LCD/Seven-segment
-            if (meterTheme.showLcdShadow) {
+            if (meterTheme.showLcdShadow || fontStyle == "LCD" || fontStyle == "SEGMENT") {
                 Text(
                     text = "88.8",
                     color = meterTheme.textColor.copy(alpha = 0.05f),
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Black,
-                    fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                    letterSpacing = meterTheme.letterSpacing,
+                    style = textStyle,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -457,16 +486,15 @@ fun DigitalSpeedMeter(
                     text = String.format(Locale.US, "%.1f", cps),
                     color = meterTheme.textColor,
                     fontSize = 12.sp,
-                    fontWeight = FontWeight.Black,
-                    fontFamily = if (meterTheme.useMonospace) androidx.compose.ui.text.font.FontFamily.Monospace else androidx.compose.ui.text.font.FontFamily.Default,
-                    letterSpacing = meterTheme.letterSpacing,
-                    style = androidx.compose.ui.text.TextStyle(
-                        shadow = if (meterTheme.glowRadius > 0f) {
-                            androidx.compose.ui.graphics.Shadow(
-                                color = meterTheme.textColor.copy(alpha = 0.8f),
-                                blurRadius = meterTheme.glowRadius
-                            )
-                        } else null
+                    style = textStyle.merge(
+                        androidx.compose.ui.text.TextStyle(
+                            shadow = if (meterTheme.glowRadius > 0f) {
+                                androidx.compose.ui.graphics.Shadow(
+                                    color = meterTheme.textColor.copy(alpha = 0.8f),
+                                    blurRadius = meterTheme.glowRadius
+                                )
+                            } else null
+                        )
                     )
                 )
                 Text(
@@ -579,6 +607,7 @@ fun KeyboardKeysGrid(
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
     meterTheme: MeterTheme = MeterTheme.Calculator,
+    meterFont: String = "DIGITAL",
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
