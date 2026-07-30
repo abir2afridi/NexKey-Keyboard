@@ -125,6 +125,12 @@ fun KeyboardComposeView(
     meterFont: String = "DIGITAL",
     recentEmojis: MutableList<String> = remember { mutableStateListOf() },
     onRecentEmojisChanged: (List<String>) -> Unit = {},
+    emojiSearchActive: Boolean = false,
+    emojiSearchQuery: String = "",
+    emojiSearchVisibleRows: Int = 2,
+    emojiSearchHorizontal: Boolean = true,
+    onEmojiSearchToggle: () -> Unit = {},
+    onEmojiSearchQueryChange: (String) -> Unit = {},
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onSpaceTap: () -> Unit,
@@ -198,13 +204,29 @@ fun KeyboardComposeView(
                 }
 
                 when (mode) {
-                    KeyboardMode.EMOJI -> EmojiPanel(
-                        theme = theme,
-                        onEmojiClick = { emoji -> onKeyTap(emoji) },
-                        onBackspace = onBackspaceTap,
-                        recentEmojis = recentEmojis,
-                        onRecentEmojisChanged = onRecentEmojisChanged
-                    )
+                    KeyboardMode.EMOJI -> {
+                        if (emojiSearchActive) {
+                            EmojiSearchBar(
+                                theme = theme,
+                                searchQuery = emojiSearchQuery,
+                                onQueryChange = onEmojiSearchQueryChange,
+                                onClose = onEmojiSearchToggle,
+                                recentEmojis = recentEmojis,
+                                onEmojiClick = { emoji -> onKeyTap(emoji) },
+                                visibleRows = emojiSearchVisibleRows,
+                                horizontal = emojiSearchHorizontal
+                            )
+                        } else {
+                            EmojiPanel(
+                                theme = theme,
+                                onEmojiClick = { emoji -> onKeyTap(emoji) },
+                                onBackspace = onBackspaceTap,
+                                recentEmojis = recentEmojis,
+                                onRecentEmojisChanged = onRecentEmojisChanged,
+                                onSearchToggle = onEmojiSearchToggle
+                            )
+                        }
+                    }
                     KeyboardMode.CLIPBOARD -> ClipboardPanel(
                         theme = theme,
                         onClipClick = { clip -> onKeyTap(clip) }
@@ -221,9 +243,10 @@ fun KeyboardComposeView(
                     }
                 }
 
-                if (mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD) {
+                if ((mode != KeyboardMode.EMOJI || emojiSearchActive) && mode != KeyboardMode.CLIPBOARD) {
+                    val isCompact = emojiSearchActive
                     val adjustedTheme = theme.copy(
-                        keyHeightDp = (theme.keyHeightDp * (effectiveHeight / 100f)).toInt()
+                        keyHeightDp = if (isCompact) (theme.keyHeightDp * 0.65f).toInt().coerceAtLeast(28) else (theme.keyHeightDp * (effectiveHeight / 100f)).toInt()
                     )
 
                     Box(

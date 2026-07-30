@@ -357,8 +357,11 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
     val recentEmojiExpiry by prefs.recentEmojiExpiry.collectAsState(initial = 30)
+    val emojiSearchVisibleRows by prefs.emojiSearchVisibleRows.collectAsState(initial = 2)
+    val emojiSearchHorizontal by prefs.emojiSearchHorizontal.collectAsState(initial = true)
 
     SettingsSubScaffold(title = "Emoji", onBack = onBack) {
+        // Recent emoji retention
         val expiryOptions = listOf(1, 7, 30, 90, 0)
         val expiryLabels = listOf("1 day", "7 days", "30 days", "90 days", "Forever")
         val selectedIndex = expiryOptions.indexOf(recentEmojiExpiry).let { if (it < 0) 2 else it }
@@ -374,6 +377,38 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
                 scope.launch { prefs.setRecentEmojiExpiry(days) }
             }
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Search results layout
+        SettingSwitchItem(
+            title = "Horizontal scroll",
+            subtitle = if (emojiSearchHorizontal) "Rows scroll left-right independently" else "Vertical list layout",
+            icon = Icons.Default.ViewModule,
+            checked = emojiSearchHorizontal,
+            onCheckedChange = { scope.launch { prefs.setEmojiSearchHorizontal(it) } }
+        )
+
+        // Visible rows count (only when horizontal is ON)
+        if (emojiSearchHorizontal) {
+            Spacer(modifier = Modifier.height(16.dp))
+            val rowOptions = listOf(1, 2)
+            val rowLabels = rowOptions.map { "$it row${if (it > 1) "s" else ""}" }
+            val rowSelectedIndex = rowOptions.indexOf(emojiSearchVisibleRows).let { if (it < 0) 1 else it }
+            SettingDropdownItem(
+                title = "Visible rows",
+                subtitle = "Number of emoji rows shown in search results",
+                icon = Icons.Default.DensitySmall,
+                selectedOption = rowLabels[rowSelectedIndex],
+                options = rowLabels,
+                onOptionSelected = { label ->
+                    val idx = rowLabels.indexOf(label)
+                    val rows = rowOptions[idx]
+                    scope.launch { prefs.setEmojiSearchVisibleRows(rows) }
+                }
+            )
+        }
+
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

@@ -81,6 +81,8 @@ class UserPreferences(private val context: Context) {
         // Emoji
         private val KEY_RECENT_EMOJIS = stringPreferencesKey("recent_emojis")
         private val KEY_RECENT_EMOJI_EXPIRY = intPreferencesKey("recent_emoji_expiry")
+        private val KEY_EMOJI_SEARCH_VISIBLE_ROWS = intPreferencesKey("emoji_search_visible_rows")
+        private val KEY_EMOJI_SEARCH_HORIZONTAL = booleanPreferencesKey("emoji_search_horizontal")
 
         // Gif Quality
         private val KEY_HIGH_QUALITY_GIFS = booleanPreferencesKey("high_quality_gifs")
@@ -168,6 +170,8 @@ class UserPreferences(private val context: Context) {
 
     val recentEmojis: Flow<String> = context.dataStore.data.map { it[KEY_RECENT_EMOJIS] ?: "[]" }
     val recentEmojiExpiry: Flow<Int> = context.dataStore.data.map { it[KEY_RECENT_EMOJI_EXPIRY] ?: 30 }
+    val emojiSearchVisibleRows: Flow<Int> = context.dataStore.data.map { it[KEY_EMOJI_SEARCH_VISIBLE_ROWS] ?: 2 }
+    val emojiSearchHorizontal: Flow<Boolean> = context.dataStore.data.map { it[KEY_EMOJI_SEARCH_HORIZONTAL] ?: true }
 
     val highQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_HIGH_QUALITY_GIFS] ?: true }
     val sendHighQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_SEND_HIGH_QUALITY_GIFS] ?: true }
@@ -230,6 +234,8 @@ class UserPreferences(private val context: Context) {
 
     suspend fun setRecentEmojis(json: String) = context.dataStore.edit { it[KEY_RECENT_EMOJIS] = json }
     suspend fun setRecentEmojiExpiry(days: Int) = context.dataStore.edit { it[KEY_RECENT_EMOJI_EXPIRY] = days }
+    suspend fun setEmojiSearchVisibleRows(rows: Int) = context.dataStore.edit { it[KEY_EMOJI_SEARCH_VISIBLE_ROWS] = rows }
+    suspend fun setEmojiSearchHorizontal(horizontal: Boolean) = context.dataStore.edit { it[KEY_EMOJI_SEARCH_HORIZONTAL] = horizontal }
 
     suspend fun setHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_HIGH_QUALITY_GIFS] = enabled }
     suspend fun setSendHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_SEND_HIGH_QUALITY_GIFS] = enabled }

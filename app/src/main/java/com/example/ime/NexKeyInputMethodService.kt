@@ -120,6 +120,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var currentMeterFont by mutableStateOf("DIGITAL")
     private var recentEmojis by mutableStateOf<List<String>>(emptyList())
     private var recentEmojiExpiryDays by mutableStateOf(30)
+    private var emojiSearchActive by mutableStateOf(false)
+    private var emojiSearchQuery by mutableStateOf("")
+    private var emojiSearchVisibleRows by mutableStateOf(2)
+    private var emojiSearchHorizontal by mutableStateOf(true)
 
     private val predictionEngine = PredictionEngine()
     private var speechRecognizer: SpeechRecognizer? = null
@@ -245,6 +249,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch {
                 userPreferences.recentEmojiExpiry.collectLatest { recentEmojiExpiryDays = it }
             }
+            launch { userPreferences.emojiSearchVisibleRows.collectLatest { emojiSearchVisibleRows = it } }
+            launch { userPreferences.emojiSearchHorizontal.collectLatest { emojiSearchHorizontal = it } }
             launch {
                 userPreferences.recentEmojis.collectLatest { json ->
                     val expiryMs = recentEmojiExpiryDays.toLong() * 24 * 60 * 60 * 1000
@@ -319,6 +325,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     meterFont = currentMeterFont,
                     recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
                     onRecentEmojisChanged = { emojis -> saveRecentEmojis(emojis) },
+                    emojiSearchActive = emojiSearchActive,
+                    emojiSearchQuery = emojiSearchQuery,
+                    emojiSearchVisibleRows = emojiSearchVisibleRows,
+                    emojiSearchHorizontal = emojiSearchHorizontal,
+                    onEmojiSearchToggle = { toggleEmojiSearch() },
+                    onEmojiSearchQueryChange = { query -> emojiSearchQuery = query },
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
                     onSpaceTap = { handleSpace() },
@@ -458,6 +470,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun handleKeyTap(key: String) {
         playFeedback()
+
+        if (emojiSearchActive) {
+            emojiSearchQuery += key
+            return
+        }
+
         if (!isIncognito && !isSensitiveField) {
             TypingAnalytics.trackKeyPress()
             
@@ -548,6 +566,14 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun handleBackspace() {
         playFeedback()
+
+        if (emojiSearchActive) {
+            if (emojiSearchQuery.isNotEmpty()) {
+                emojiSearchQuery = emojiSearchQuery.dropLast(1)
+            }
+            return
+        }
+
         val ic = currentInputConnection ?: return
 
         if (composingBuffer.isNotEmpty()) {
@@ -655,7 +681,27 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
     }
 
+    fun toggleEmojiSearch() {
+        emojiSearchActive = !emojiSearchActive
+        if (!emojiSearchActive) {
+            emojiSearchQuery = ""
+            // Restore previous mode if we changed it for search
+            if (currentMode == KeyboardMode.EMOJI && lastTextMode != KeyboardMode.EMOJI) {
+                currentMode = lastTextMode
+            }
+        } else if (currentMode != KeyboardMode.EMOJI) {
+            lastTextMode = currentMode
+            currentMode = KeyboardMode.EMOJI
+        }
+    }
+
     private fun handleModeChange(newMode: KeyboardMode) {
+        // Close emoji search if active when switching modes
+        if (emojiSearchActive) {
+            emojiSearchActive = false
+            emojiSearchQuery = ""
+        }
+
         if (newMode == KeyboardMode.SYMBOLS || newMode == KeyboardMode.NUMBERS || newMode == KeyboardMode.EMOJI || newMode == KeyboardMode.CLIPBOARD) {
             currentMode = newMode
             return

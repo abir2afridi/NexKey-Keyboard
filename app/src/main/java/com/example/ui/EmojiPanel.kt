@@ -2,6 +2,8 @@ package com.example.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +47,8 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.LaunchedEffect
+import kotlinx.coroutines.delay
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -862,33 +866,13 @@ private val EMOJI_KEYWORDS: Map<String, List<String>> = mapOf(
 )
 
 @Composable
-fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace: () -> Unit, recentEmojis: MutableList<String> = remember { mutableStateListOf() }, onRecentEmojisChanged: (List<String>) -> Unit = {}) {
+fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace: () -> Unit, recentEmojis: MutableList<String> = remember { mutableStateListOf() }, onRecentEmojisChanged: (List<String>) -> Unit = {}, onSearchToggle: () -> Unit = {}) {
     var selectedCategory by remember { mutableIntStateOf(1) }
     var selectedTab by remember { mutableIntStateOf(0) }
-    var searchQuery by remember { mutableStateOf("") }
-    var searchActive by remember { mutableStateOf(false) }
 
     val liveCategories = remember(recentEmojis.toList()) {
         ALL_EMOJI_CATEGORIES.mapIndexed { idx, cat ->
             if (idx == 0) cat.copy(emojis = recentEmojis.toList()) else cat
-        }
-    }
-
-    val isSearching = searchQuery.isNotBlank()
-    val searchResults = remember(searchQuery) {
-        if (!isSearching) emptyList()
-        else {
-            val query = searchQuery.lowercase().trim()
-            val matched = mutableListOf<String>()
-            for (cat in ALL_EMOJI_CATEGORIES.drop(1)) {
-                for (emoji in cat.emojis) {
-                    val keywords = EMOJI_KEYWORDS[emoji] ?: emptyList()
-                    if (keywords.any { it.contains(query) }) {
-                        if (emoji !in matched) matched.add(emoji)
-                    }
-                }
-            }
-            matched
         }
     }
 
@@ -900,280 +884,49 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
     ) {
         when (selectedTab) {
             0 -> {
-                if (searchActive) {
-                    // ── Search Mode ───────────────────────────────────────
-                    // Search query bar
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                            .height(36.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(theme.suggestionBgColor)
-                            .padding(horizontal = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
+                // ── Search bar (tap to activate search mode) ─────────────
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp, vertical = 4.dp)
+                        .height(32.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(theme.suggestionBgColor)
+                        .clickable { onSearchToggle() }
+                        .padding(horizontal = 8.dp),
+                    contentAlignment = Alignment.CenterStart
+                ) {
+                    Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = null,
+                            contentDescription = "Search emoji",
                             modifier = Modifier.size(16.dp),
-                            tint = theme.keyTextColor.copy(alpha = 0.5f)
+                            tint = theme.keyTextColor.copy(alpha = 0.4f)
                         )
                         Text(
-                            text = searchQuery.ifEmpty { "Search emoji..." },
-                            color = if (searchQuery.isNotEmpty()) theme.keyTextColor else theme.keyTextColor.copy(alpha = 0.4f),
+                            text = "Search emoji...",
+                            color = theme.keyTextColor.copy(alpha = 0.4f),
                             fontSize = 13.sp,
-                            modifier = Modifier
-                                .weight(1f)
-                                .padding(horizontal = 6.dp),
-                            maxLines = 1
+                            modifier = Modifier.padding(start = 6.dp)
                         )
-                        if (searchQuery.isNotEmpty()) {
-                            Box(
-                                modifier = Modifier
-                                    .size(24.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(theme.keyBackgroundColor)
-                                    .clickable { searchQuery = "" },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Clear,
-                                    contentDescription = "Clear",
-                                    modifier = Modifier.size(14.dp),
-                                    tint = theme.keyTextColor
-                                )
-                            }
-                        }
-                        Spacer(modifier = Modifier.width(4.dp))
+                    }
+                }
+
+                // ── Category Tabs ────────────────────────────────────────
+                LazyRow(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(theme.suggestionBgColor),
+                    contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
+                    horizontalArrangement = Arrangement.spacedBy(2.dp)
+                ) {
+                    itemsIndexed(liveCategories) { index, category ->
+                        val isSelected = selectedCategory == index
+                        if (index == 0 && recentEmojis.isEmpty()) return@itemsIndexed
                         Box(
                             modifier = Modifier
-                                .size(24.dp)
-                                .clip(RoundedCornerShape(4.dp))
-                                .background(theme.accentColor)
-                                .clickable {
-                                    searchActive = false
-                                    searchQuery = ""
-                                },
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Clear,
-                                contentDescription = "Close search",
-                                modifier = Modifier.size(14.dp),
-                                tint = Color.White
-                            )
-                        }
-                    }
-
-                    // Search results
-                    if (searchResults.isEmpty()) {
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text(
-                                text = if (isSearching) "No emoji found" else "Type to search...",
-                                color = theme.keyTextColor.copy(alpha = 0.4f),
-                                fontSize = 13.sp
-                            )
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(8),
-                            contentPadding = PaddingValues(horizontal = 6.dp, vertical = 4.dp),
-                            verticalArrangement = Arrangement.spacedBy(2.dp),
-                            horizontalArrangement = Arrangement.spacedBy(2.dp),
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .weight(1f)
-                        ) {
-                            items(searchResults) { emoji ->
-                                Box(
-                                    modifier = Modifier
-                                        .size(34.dp)
-                                        .clip(RoundedCornerShape(6.dp))
-                                        .background(theme.keyBackgroundColor)
-                                        .clickable(role = Role.Button, onClick = {
-                                            onEmojiClick(emoji)
-                                            recentEmojis.remove(emoji)
-                                            recentEmojis.add(0, emoji)
-                                            if (recentEmojis.size > 40) recentEmojis.removeLastOrNull()
-                                            onRecentEmojisChanged(recentEmojis.toList())
-                                        }),
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(text = emoji, fontSize = 20.sp)
-                                }
-                            }
-                        }
-                    }
-
-                    // ── Mini QWERTY Keyboard ──────────────────────────────
-                    val row1 = "qwertyuiop"
-                    val row2 = "asdfghjkl"
-                    val row3 = "zxcvbnm"
-
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 2.dp, vertical = 2.dp),
-                        verticalArrangement = Arrangement.spacedBy(3.dp)
-                    ) {
-                        // Row 1
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
-                        ) {
-                            row1.forEach { ch ->
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(30.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(theme.keyBackgroundColor)
-                                        .clickable { searchQuery += ch },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = ch.toString(),
-                                        color = theme.keyTextColor,
-                                        fontSize = 14.sp
-                                    )
-                                }
-                            }
-                        }
-                        // Row 2
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(2.dp, Alignment.CenterHorizontally)
-                        ) {
-                            row2.forEach { ch ->
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(30.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(theme.keyBackgroundColor)
-                                        .clickable { searchQuery += ch },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = ch.toString(),
-                                        color = theme.keyTextColor,
-                                        fontSize = 14.sp
-                                    )
-                                }
-                            }
-                        }
-                        // Row 3: backspace + letters + space
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            horizontalArrangement = Arrangement.spacedBy(2.dp)
-                        ) {
-                            // Backspace
-                            Box(
-                                modifier = Modifier
-                                    .weight(1.5f)
-                                    .height(30.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(theme.keyBackgroundColor)
-                                    .clickable {
-                                        if (searchQuery.isNotEmpty()) {
-                                            searchQuery = searchQuery.dropLast(1)
-                                        }
-                                    },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.Delete,
-                                    contentDescription = "Backspace",
-                                    modifier = Modifier.size(16.dp),
-                                    tint = theme.keyTextColor
-                                )
-                            }
-                            // Letters
-                            row3.forEach { ch ->
-                                Box(
-                                    modifier = Modifier
-                                        .weight(1f)
-                                        .height(30.dp)
-                                        .clip(RoundedCornerShape(4.dp))
-                                        .background(theme.keyBackgroundColor)
-                                        .clickable { searchQuery += ch },
-                                    contentAlignment = Alignment.Center
-                                ) {
-                                    Text(
-                                        text = ch.toString(),
-                                        color = theme.keyTextColor,
-                                        fontSize = 14.sp
-                                    )
-                                }
-                            }
-                            // Space
-                            Box(
-                                modifier = Modifier
-                                    .weight(2f)
-                                    .height(30.dp)
-                                    .clip(RoundedCornerShape(4.dp))
-                                    .background(theme.keyBackgroundColor)
-                                    .clickable { searchQuery += " " },
-                                contentAlignment = Alignment.Center
-                            ) {
-                                Text(
-                                    text = " ",
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    }
-                } else {
-                    // ── Normal Emoji Mode ────────────────────────────────
-                    // Search bar (tap to activate)
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 8.dp, vertical = 4.dp)
-                            .height(32.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .background(theme.suggestionBgColor)
-                            .clickable { searchActive = true }
-                            .padding(horizontal = 8.dp),
-                        contentAlignment = Alignment.CenterStart
-                    ) {
-                        Row(verticalAlignment = Alignment.CenterVertically) {
-                            Icon(
-                                imageVector = Icons.Default.Search,
-                                contentDescription = "Search",
-                                modifier = Modifier.size(16.dp),
-                                tint = theme.keyTextColor.copy(alpha = 0.4f)
-                            )
-                            Text(
-                                text = "Search emoji...",
-                                color = theme.keyTextColor.copy(alpha = 0.4f),
-                                fontSize = 13.sp,
-                                modifier = Modifier.padding(start = 6.dp)
-                            )
-                        }
-                    }
-
-                    // Category tabs
-                    LazyRow(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .background(theme.suggestionBgColor),
-                        contentPadding = PaddingValues(horizontal = 4.dp, vertical = 4.dp),
-                        horizontalArrangement = Arrangement.spacedBy(2.dp)
-                    ) {
-                        itemsIndexed(liveCategories) { index, category ->
-                            val isSelected = selectedCategory == index
-                            if (index == 0 && recentEmojis.isEmpty()) return@itemsIndexed
-                            Box(
-                                modifier = Modifier
-                                    .clip(RoundedCornerShape(8.dp))
-                                    .background(
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(
                                         if (isSelected) theme.accentColor.copy(alpha = 0.3f)
                                         else theme.backgroundColor
                                     )
@@ -1270,7 +1023,6 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                                     Text(text = emoji, fontSize = 20.sp)
                                 }
                             }
-                        }
                     }
                 }
             }
@@ -1360,6 +1112,211 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
                             modifier = Modifier.padding(start = 4.dp)
                         )
+                    }
+                }
+            }
+        }
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// EmojiSearchBar — shown when emoji search is active (main keyboard stays visible)
+// ─────────────────────────────────────────────────────────────────────────────
+
+@Composable
+fun EmojiSearchBar(
+    theme: KeyboardTheme,
+    searchQuery: String,
+    onQueryChange: (String) -> Unit,
+    onClose: () -> Unit,
+    recentEmojis: List<String>,
+    onEmojiClick: (String) -> Unit,
+    visibleRows: Int = 2,
+    horizontal: Boolean = true
+) {
+    val isSearching = searchQuery.isNotBlank()
+    val searchResults = remember(searchQuery) {
+        if (!isSearching) emptyList()
+        else {
+            val query = searchQuery.lowercase().trim()
+            val matched = mutableListOf<String>()
+            for (cat in ALL_EMOJI_CATEGORIES.drop(1)) {
+                for (emoji in cat.emojis) {
+                    val keywords = EMOJI_KEYWORDS[emoji] ?: emptyList()
+                    if (keywords.any { it.contains(query) }) {
+                        if (emoji !in matched) matched.add(emoji)
+                    }
+                }
+            }
+            matched
+        }
+    }
+
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(140.dp)
+            .background(theme.backgroundColor)
+    ) {
+        // ── Search query bar ────────────────────────────────────────────
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp)
+                .height(32.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(theme.suggestionBgColor)
+                .padding(horizontal = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                imageVector = Icons.Default.Search,
+                contentDescription = null,
+                modifier = Modifier.size(16.dp),
+                tint = theme.keyTextColor.copy(alpha = 0.5f)
+            )
+
+            // Text with blinking cursor
+            Row(
+                modifier = Modifier
+                    .weight(1f)
+                    .padding(horizontal = 6.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                if (searchQuery.isNotEmpty()) {
+                    Text(
+                        text = searchQuery,
+                        color = theme.keyTextColor,
+                        fontSize = 13.sp,
+                        maxLines = 1
+                    )
+                }
+                // Blinking cursor
+                var cursorVisible by remember { mutableStateOf(true) }
+                LaunchedEffect(searchQuery) {
+                    cursorVisible = true
+                    while (true) {
+                        delay(500)
+                        cursorVisible = !cursorVisible
+                    }
+                }
+                Box(
+                    modifier = Modifier
+                        .width(1.5.dp)
+                        .height(16.dp)
+                        .background(
+                            if (cursorVisible) theme.accentColor
+                            else Color.Transparent
+                        )
+                )
+                if (searchQuery.isEmpty()) {
+                    Text(
+                        text = "Type to search...",
+                        color = theme.keyTextColor.copy(alpha = 0.4f),
+                        fontSize = 13.sp,
+                        maxLines = 1,
+                        modifier = Modifier.padding(start = 2.dp)
+                    )
+                }
+            }
+            Box(
+                modifier = Modifier
+                    .size(22.dp)
+                    .clip(RoundedCornerShape(4.dp))
+                    .background(theme.accentColor)
+                    .clickable { onClose() },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Clear,
+                    contentDescription = "Close",
+                    modifier = Modifier.size(12.dp),
+                    tint = Color.White
+                )
+            }
+        }
+
+        // ── Search results ───────────────────────────────────────────────
+        if (searchResults.isEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .weight(1f),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = if (isSearching) "No emoji found" else "Type to search emojis",
+                    color = theme.keyTextColor.copy(alpha = 0.4f),
+                    fontSize = 12.sp
+                )
+            }
+        } else {
+            if (horizontal) {
+                // Distribute ALL results across N visible rows, each scrolls left-right
+                val rowsCount = minOf(visibleRows, searchResults.size)
+                val emojisPerRow = (searchResults.size + rowsCount - 1) / rowsCount
+                val rows = searchResults.chunked(emojisPerRow)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(horizontal = 6.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    rows.forEach { rowEmojis ->
+                        LazyRow(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            items(rowEmojis) { emoji ->
+                                Box(
+                                    modifier = Modifier
+                                        .size(36.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(theme.keyBackgroundColor)
+                                        .clickable { onEmojiClick(emoji) },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = emoji, fontSize = 20.sp)
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                // Vertical scrollable grid
+                val emojisPerRow = 6
+                val rows = searchResults.chunked(emojisPerRow)
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f)
+                        .padding(horizontal = 6.dp)
+                        .verticalScroll(rememberScrollState()),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    rows.forEach { rowEmojis ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(4.dp)
+                        ) {
+                            rowEmojis.forEach { emoji ->
+                                Box(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .height(36.dp)
+                                        .clip(RoundedCornerShape(8.dp))
+                                        .background(theme.keyBackgroundColor)
+                                        .clickable { onEmojiClick(emoji) },
+                                    contentAlignment = Alignment.Center
+                                ) {
+                                    Text(text = emoji, fontSize = 20.sp)
+                                }
+                            }
+                            repeat(emojisPerRow - rowEmojis.size) {
+                                Spacer(modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
             }
