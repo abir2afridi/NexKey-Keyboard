@@ -171,7 +171,7 @@ fun KeyboardComposeView(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 4.dp)
+                    .padding(bottom = 8.dp)
             ) {
                 if (autoHideToolbar && !isToolbarVisible) {
                     Row(
