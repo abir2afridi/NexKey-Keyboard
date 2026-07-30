@@ -3,6 +3,8 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +17,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -148,23 +152,25 @@ fun NavigationSettingsScreen(onBack: () -> Unit) {
 
     SettingsSubScaffold(title = "Navigation", onBack = onBack) {
         SettingSwitchItem("Move Cursor Using Space Key", "Swipe space to move cursor", Icons.Default.SwapHoriz, moveCursorSpace) { scope.launch { prefs.setMoveCursorSpace(it) } }
-        SettingSwitchItem("Volume cursor", "Use volume keys to move cursor", Icons.Default.SettingsInputComponent, volumeCursor) { scope.launch { prefs.setVolumeCursor(it) } }
-        SettingSwitchItem("Smart volume key", "Disable during audio playback", Icons.Default.AutoMode, smartVolumeControl) { scope.launch { prefs.setSmartVolumeControl(it) } }
+        SettingSwitchItem("Volume Key Cursor Control", "Use volume buttons to move cursor", Icons.AutoMirrored.Filled.VolumeUp, volumeCursor) { scope.launch { prefs.setVolumeCursor(it) } }
+        if (volumeCursor) {
+            SettingSwitchItem("Smart Volume Control", "Do not move cursor when audio is playing", Icons.Default.MusicNote, smartVolumeControl) { scope.launch { prefs.setSmartVolumeControl(it) } }
+        }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> Unit = {}) {
+fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
     val holdPasteEnabled by prefs.holdPasteEnabled.collectAsState(initial = false)
     val holdPasteDuration by prefs.holdPasteDuration.collectAsState(initial = 400)
     val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
+    val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 120)
     val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
-    val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 0)
     val clipboardImages by prefs.clipboardImages.collectAsState(initial = true)
 
     SettingsSubScaffold(title = "Paste & Clipboard", onBack = onBack) {
@@ -252,21 +258,19 @@ fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
                 FilterChip(
                     selected = popupDismiss == option,
                     onClick = { scope.launch { prefs.setPopupDismissDelay(option) } },
-                    label = { Text(option, fontSize = 12.sp) }
+                    label = { Text(option) }
                 )
             }
         }
-        Spacer(modifier = Modifier.height(8.dp))
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem("Space cursor long press delay (ms)", spaceDelay.toFloat(), 200f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
-        SettingSliderItem("Space cursor speed", spaceSpeed.toFloat(), 50f..500f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
+        SettingSliderItem("Spacebar cursor move delay", spaceDelay.toFloat(), 500f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
+        SettingSliderItem("Spacebar cursor move speed", spaceSpeed.toFloat(), 50f..300f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSwitchItem("Emoji for physical keyboard", "Alt key shows palette", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
-        SettingSwitchItem("Show typed word", "As first suggestion", Icons.Default.TextFields, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
+        SettingSwitchItem("Physical keyboard emoji key", "Enable emoji key shortcuts on hardware keyboard", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
+        SettingSwitchItem("Show typed word first", "Exact typed word appears as first suggestion", Icons.Default.Title, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem("Backspace repeat initial delay (ms)", backspaceDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
+        SettingSliderItem("Backspace repeat delay (ms)", backspaceDelay.toFloat(), 200f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
         SettingSliderItem("Backspace repeat speed (ms)", backspaceSpeed.toFloat(), 20f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
-        SettingItem("Voice typing engine", "Default", Icons.Default.Mic) {}
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
@@ -277,16 +281,13 @@ fun TextCorrectionSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
-    
-    val blockOffensive by prefs.blockOffensive.collectAsState(initial = true)
     val autoCorrection by prefs.autoCorrection.collectAsState(initial = true)
+    val phoneticAutoCorrect by prefs.phoneticAutoCorrection.collectAsState(initial = true)
     val showSuggestions by prefs.showSuggestions.collectAsState(initial = true)
     val personalized by prefs.personalizedSuggestions.collectAsState(initial = true)
     val nextWord by prefs.nextWordSuggestions.collectAsState(initial = true)
-    val phoneticAutoCorrect by prefs.phoneticAutoCorrection.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Text Correction", onBack = onBack) {
-        SettingSwitchItem("Block offensive words", "Do not suggest", Icons.Default.Block, blockOffensive) { scope.launch { prefs.setBlockOffensive(it) } }
+    SettingsSubScaffold(title = "Text correction", onBack = onBack) {
         SettingSwitchItem("Auto-correction", "Punctuation corrects words", Icons.Default.Spellcheck, autoCorrection) { scope.launch { prefs.setAutoCorrection(it) } }
         SettingSwitchItem("Phonetic auto-correction", "Correct Bangla transliteration", Icons.Default.Translate, phoneticAutoCorrect) { scope.launch { prefs.setPhoneticAutoCorrection(it) } }
         SettingSwitchItem("Show suggestions", "Display words while typing", Icons.Default.Lightbulb, showSuggestions) { scope.launch { prefs.setShowSuggestions(it) } }
@@ -309,25 +310,23 @@ fun MoreLanguagesScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
-    val enableBanglaPhonetic by prefs.enableBanglaPhonetic.collectAsState(initial = true)
     val enableBanglaJatiyo by prefs.enableBanglaJatiyo.collectAsState(initial = true)
     val enableAvro by prefs.enableAvro.collectAsState(initial = true)
     val enableArabic by prefs.enableArabic.collectAsState(initial = true)
 
     SettingsSubScaffold(title = "Keyboard Languages", onBack = onBack) {
         Text(
-            text = "Enable or disable keyboard languages",
+            text = "Enable or disable active keyboard layouts",
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
         )
 
-        SettingSwitchItem("English", "QWERTY layout, always enabled", Icons.Default.Language, true) {}
-        SettingSwitchItem("Bangla (Phonetic)", "Ridmik-style phonetic typing", Icons.Default.Language, enableBanglaPhonetic) { scope.launch { prefs.setEnableBanglaPhonetic(it) } }
-        SettingSwitchItem("Bangla (Jatiyo)", "Standard national layout", Icons.Default.Language, enableBanglaJatiyo) { scope.launch { prefs.setEnableBanglaJatiyo(it) } }
-        SettingSwitchItem("Avro (Phonetic)", "Avro-style Bengali typing", Icons.Default.Language, enableAvro) { scope.launch { prefs.setEnableAvro(it) } }
-        SettingSwitchItem("Arabic", "Arabic letter layout", Icons.Default.Language, enableArabic) { scope.launch { prefs.setEnableArabic(it) } }
+        SettingSwitchItem("English", "QWERTY layout (Always Enabled)", Icons.Default.Language, true) {}
+        SettingSwitchItem("Bangla (বাংলা)", "Bangladesh Standard National Layout", Icons.Default.Language, enableBanglaJatiyo) { scope.launch { prefs.setEnableBanglaJatiyo(it) } }
+        SettingSwitchItem("Avro (অভ্র)", "Official Avro Phonetic Transliteration Engine", Icons.Default.Language, enableAvro) { scope.launch { prefs.setEnableAvro(it) } }
+        SettingSwitchItem("Arabic (عربي)", "Arabic Letter Layout", Icons.Default.Language, enableArabic) { scope.launch { prefs.setEnableArabic(it) } }
 
         Spacer(modifier = Modifier.height(32.dp))
     }
@@ -368,131 +367,100 @@ private val appLanguages = listOf(
     AppLanguageOption("zh", "Chinese (Simplified)", "简体中文"),
     AppLanguageOption("zh_TW", "Chinese (Traditional)", "繁體中文"),
     AppLanguageOption("ur", "Urdu", "اردو"),
-    AppLanguageOption("fa", "Persian", "فارسی"),
-    AppLanguageOption("tr", "Turkish", "Türkçe"),
-    AppLanguageOption("it", "Italian", "Italiano"),
-    AppLanguageOption("nl", "Dutch", "Nederlands"),
-    AppLanguageOption("vi", "Vietnamese", "Tiếng Việt"),
-    AppLanguageOption("th", "Thai", "ไทย"),
-    AppLanguageOption("id", "Indonesian", "Bahasa Indonesia"),
-    AppLanguageOption("ms", "Malay", "Bahasa Melayu"),
-    AppLanguageOption("pl", "Polish", "Polski"),
-    AppLanguageOption("ro", "Romanian", "Română"),
-    AppLanguageOption("el", "Greek", "Ελληνικά"),
-    AppLanguageOption("hu", "Hungarian", "Magyar"),
-    AppLanguageOption("sv", "Swedish", "Svenska"),
-    AppLanguageOption("da", "Danish", "Dansk"),
-    AppLanguageOption("fi", "Finnish", "Suomi"),
-    AppLanguageOption("cs", "Czech", "Čeština"),
-    AppLanguageOption("nb", "Norwegian", "Norsk"),
-    AppLanguageOption("uk", "Ukrainian", "Українська"),
-    AppLanguageOption("he", "Hebrew", "עברית"),
-    AppLanguageOption("ta", "Tamil", "தமிழ்"),
-    AppLanguageOption("te", "Telugu", "తెలుగు"),
-    AppLanguageOption("mr", "Marathi", "मराठी"),
-    AppLanguageOption("gu", "Gujarati", "ગુજરાતી"),
-    AppLanguageOption("kn", "Kannada", "ಕನ್ನಡ"),
-    AppLanguageOption("ml", "Malayalam", "മലയാളം"),
-    AppLanguageOption("pa", "Punjabi", "ਪੰਜਾਬੀ"),
-    AppLanguageOption("si", "Sinhala", "සිංහල"),
-    AppLanguageOption("km", "Khmer", "ភាសាខ្មែរ"),
-    AppLanguageOption("my", "Burmese", "မြန်မာဘာသာ"),
-    AppLanguageOption("ne", "Nepali", "नेपाली"),
-    AppLanguageOption("am", "Amharic", "አማርኛ"),
-    AppLanguageOption("sw", "Swahili", "Kiswahili")
+    AppLanguageOption("fa", "Persian", "فارسی")
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppLanguageScreen(onBack: () -> Unit) {
-    val context = LocalContext.current
-    val prefs = remember { UserPreferences(context) }
-    val selectedLanguage by prefs.appLanguage.collectAsState(initial = "en")
-    val scope = rememberCoroutineScope()
-
-    SettingsSubScaffold(title = "App Language", onBack = onBack) {
-        Text(
-            text = "Select app UI language", 
-            color = MaterialTheme.colorScheme.primary, 
-            fontWeight = FontWeight.Bold, 
-            fontSize = 14.sp,
-            modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
-        )
-
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surface,
-                shadowElevation = 1.dp
-            ) {
-            Column {
-                appLanguages.forEachIndexed { index, lang ->
-                    val isSelected = lang.code == selectedLanguage
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .clickable { scope.launch { prefs.setAppLanguage(lang.code) } }
-                            .padding(horizontal = 16.dp, vertical = 14.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        RadioButton(
-                            selected = isSelected,
-                            onClick = { scope.launch { prefs.setAppLanguage(lang.code) } },
-                            colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary)
-                        )
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Column(modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "${lang.displayName} (${lang.localName})",
-                                fontSize = 15.sp,
-                                color = MaterialTheme.colorScheme.onSurface
-                            )
-                            Text(
-                                text = lang.code,
-                                fontSize = 12.sp,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
-                        }
-                    }
-                    if (index < appLanguages.lastIndex) {
-                        HorizontalDivider(
-                            modifier = Modifier.padding(horizontal = 16.dp),
-                            color = MaterialTheme.colorScheme.outlineVariant
-                        )
-                    }
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(32.dp))
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun SettingsSubScaffold(title: String, onBack: () -> Unit, content: @Composable ColumnScope.() -> Unit) {
-    val bg = MaterialTheme.colorScheme.surface
-    val onBg = MaterialTheme.colorScheme.onSurface
+fun SettingsSubScaffold(
+    title: String,
+    onBack: () -> Unit,
+    content: @Composable ColumnScope.() -> Unit
+) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(title, fontWeight = FontWeight.Bold) },
-                navigationIcon = { IconButton(onClick = onBack) { Icon(Icons.AutoMirrored.Filled.ArrowBack, "Back") } },
+                navigationIcon = {
+                    IconButton(onClick = onBack) {
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                    }
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = bg,
-                    titleContentColor = onBg,
-                    navigationIconContentColor = onBg
+                    containerColor = MaterialTheme.colorScheme.surface,
+                    titleContentColor = MaterialTheme.colorScheme.onSurface,
+                    navigationIconContentColor = MaterialTheme.colorScheme.onSurface
                 )
             )
         },
         containerColor = MaterialTheme.colorScheme.background
-    ) { padding ->
+    ) { paddingValues ->
         Column(
             modifier = Modifier
-                .padding(padding)
+                .padding(paddingValues)
                 .fillMaxSize()
-                .padding(horizontal = 16.dp)
-                .verticalScroll(rememberScrollState()),
+                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = 8.dp),
             content = content
         )
+    }
+}
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AppLanguageScreen(onBack: () -> Unit) {
+    var selectedLanguage by remember { mutableStateOf("en") }
+
+    SettingsSubScaffold(title = "App Language", onBack = onBack) {
+        Text(
+            text = "Choose the display language for the app interface",
+            color = MaterialTheme.colorScheme.primary,
+            fontWeight = FontWeight.Bold,
+            fontSize = 14.sp,
+            modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
+        )
+        appLanguages.forEach { lang ->
+            val isSelected = selectedLanguage == lang.code
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .background(
+                        if (isSelected) MaterialTheme.colorScheme.primaryContainer
+                        else Color.Transparent
+                    )
+                    .clickable { selectedLanguage = lang.code }
+                    .padding(horizontal = 12.dp, vertical = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = lang.localName,
+                        color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface,
+                        fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
+                        fontSize = 16.sp
+                    )
+                    Text(
+                        text = lang.displayName,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 13.sp
+                    )
+                }
+                if (isSelected) {
+                    Icon(
+                        imageVector = Icons.Default.Check,
+                        contentDescription = "Selected",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(22.dp)
+                    )
+                }
+            }
+            HorizontalDivider(
+                modifier = Modifier.padding(horizontal = 4.dp),
+                color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+            )
+        }
+        Spacer(modifier = Modifier.height(32.dp))
     }
 }

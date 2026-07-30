@@ -84,6 +84,7 @@ import kotlin.math.abs
 @Composable
 fun KeyboardComposeView(
     mode: KeyboardMode,
+    lastTextMode: KeyboardMode = KeyboardMode.BANGLA_JATIYO,
     shiftState: ShiftState,
     theme: KeyboardTheme,
     composingText: String,
@@ -227,6 +228,7 @@ fun KeyboardComposeView(
                     ) {
                         KeyboardKeysGrid(
                             mode = mode,
+                            lastTextMode = lastTextMode,
                             shiftState = shiftState,
                             theme = adjustedTheme,
                             actionLabel = actionLabel,
@@ -345,19 +347,17 @@ fun SmartToolbar(
             item {
                 ToolbarBadge(
                     label = when (currentMode) {
-                        KeyboardMode.BANGLA_PHONETIC -> "বাংলা"
-                        KeyboardMode.BANGLA_JATIYO -> "জাতীয়"
+                        KeyboardMode.BANGLA_JATIYO -> "বাংলা"
                         KeyboardMode.AVRO -> "Avro"
                         KeyboardMode.ARABIC -> "عربي"
                         else -> "EN"
                     },
-                    active = currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
+                    active = currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
                     theme = theme
                 ) {
                     onModeChange(
                         when (currentMode) {
-                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_PHONETIC
-                            KeyboardMode.BANGLA_PHONETIC -> KeyboardMode.BANGLA_JATIYO
+                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_JATIYO
                             KeyboardMode.BANGLA_JATIYO -> KeyboardMode.AVRO
                             KeyboardMode.AVRO -> KeyboardMode.ARABIC
                             else -> KeyboardMode.ENGLISH
@@ -590,6 +590,7 @@ fun CandidateStrip(composingText: String, suggestions: List<String>, theme: Keyb
 @Composable
 fun KeyboardKeysGrid(
     mode: KeyboardMode,
+    lastTextMode: KeyboardMode = KeyboardMode.BANGLA_JATIYO,
     shiftState: ShiftState,
     theme: KeyboardTheme,
     actionLabel: String,
@@ -628,8 +629,13 @@ fun KeyboardKeysGrid(
     ) {
         if (showNumberRow && mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS) {
             val numRowHeight = if (largeNumberRowEnabled) 48.dp else 36.dp
+            val activeNumberRow = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) {
+                KeyboardLayouts.BanglaNumbersRow
+            } else {
+                KeyboardLayouts.NumbersRow
+            }
             Row(modifier = Modifier.fillMaxWidth().height(numRowHeight), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                KeyboardLayouts.NumbersRow.forEach { keyModel ->
+                activeNumberRow.forEach { keyModel ->
                     KeyItem(
                         keyModel = keyModel,
                         shiftState = shiftState,
@@ -644,6 +650,8 @@ fun KeyboardKeysGrid(
             }
         }
 
+        val effectiveTextMode = if (mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS || mode == KeyboardMode.EMOJI || mode == KeyboardMode.CLIPBOARD) lastTextMode else mode
+
         val rows = when (mode) {
             KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
             KeyboardMode.AVRO -> listOf(BanglaLayout.AvroRow1, BanglaLayout.AvroRow2, BanglaLayout.AvroRow3)
@@ -653,7 +661,11 @@ fun KeyboardKeysGrid(
                 listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
             }
             KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
-            KeyboardMode.SYMBOLS -> listOf(KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3)
+            KeyboardMode.SYMBOLS -> if (effectiveTextMode == KeyboardMode.BANGLA_JATIYO || effectiveTextMode == KeyboardMode.AVRO || effectiveTextMode == KeyboardMode.BANGLA_PHONETIC) {
+                listOf(KeyboardLayouts.BanglaNumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+            } else {
+                listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+            }
             KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
             else -> listOf(EnglishLayout.Row1, EnglishLayout.Row2, EnglishLayout.Row3)
         }
@@ -728,8 +740,24 @@ fun KeyboardKeysGrid(
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.2f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) KeyboardMode.ENGLISH else KeyboardMode.SYMBOLS) }) {
-                Text(text = if (mode == KeyboardMode.SYMBOLS) "ABC" else "?123", color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            KeyButton(
+                modifier = Modifier.weight(1.2f),
+                theme = theme,
+                isSpecial = true,
+                longPressDelayMs = longPressDelayMs,
+                onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) effectiveTextMode else KeyboardMode.SYMBOLS) }
+            ) {
+                val buttonText = if (mode == KeyboardMode.SYMBOLS) {
+                    when (effectiveTextMode) {
+                        KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                        KeyboardMode.AVRO -> "Avro"
+                        KeyboardMode.ARABIC -> "عربي"
+                        else -> "ABC"
+                    }
+                } else {
+                    "?123"
+                }
+                Text(text = buttonText, color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
                 Text(text = ",", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -745,7 +773,7 @@ fun KeyboardKeysGrid(
                 ),
                 theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = onSpaceTap
             ) {
-                Text(text = when (mode) { KeyboardMode.BANGLA_PHONETIC -> "বাংলা"; KeyboardMode.BANGLA_JATIYO -> "জাতীয়"; KeyboardMode.AVRO -> "Avro"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                Text(text = when (mode) { KeyboardMode.BANGLA_JATIYO -> "বাংলা"; KeyboardMode.BANGLA_PHONETIC -> "Phonetic"; KeyboardMode.AVRO -> "Avro"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
             }
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
                 Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -780,7 +808,7 @@ fun KeyItem(
         onClick = { onTap(charToOutput) },
         onLongClick = onLongPress
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
                 text = charToOutput,
                 color = if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor,
@@ -791,9 +819,12 @@ fun KeyItem(
             if (!hideHints && keyModel.popupCandidates.isNotEmpty()) {
                 Text(
                     text = keyModel.popupCandidates.first(),
-                    color = (if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor).copy(alpha = 0.4f),
-                    fontSize = 10.sp,
-                    modifier = Modifier.align(Alignment.TopEnd).padding(4.dp)
+                    color = (if (keyModel.isSpecial) theme.keySpecialTextColor else theme.keyTextColor).copy(alpha = 0.5f),
+                    fontSize = 9.sp,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(top = 2.dp, end = 3.dp)
                 )
             }
         }

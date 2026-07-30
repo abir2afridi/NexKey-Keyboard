@@ -43,7 +43,8 @@ import androidx.core.content.ContextCompat
 
 class NexKeyInputMethodService : LifecycleInputMethodService() {
 
-    private var currentMode by mutableStateOf(KeyboardMode.BANGLA_PHONETIC)
+    private var currentMode by mutableStateOf(KeyboardMode.BANGLA_JATIYO)
+    private var lastTextMode by mutableStateOf(KeyboardMode.BANGLA_JATIYO)
     private var shiftState by mutableStateOf(ShiftState.OFF)
     private var currentTheme by mutableStateOf(KeyboardTheme.DarkNeon)
     private var composingBuffer by mutableStateOf("")
@@ -154,7 +155,13 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             }
             launch {
                 userPreferences.language.collectLatest { savedLanguage ->
-                    currentMode = try { KeyboardMode.valueOf(savedLanguage) } catch (_: Exception) { KeyboardMode.BANGLA_PHONETIC }
+                    val mode = try { KeyboardMode.valueOf(savedLanguage) } catch (_: Exception) { KeyboardMode.BANGLA_JATIYO }
+                    if (mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS && mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD) {
+                        lastTextMode = mode
+                        currentMode = mode
+                    } else {
+                        currentMode = mode
+                    }
                 }
             }
             launch {
@@ -242,6 +249,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
                 KeyboardComposeView(
                     mode = currentMode,
+                    lastTextMode = lastTextMode,
                     shiftState = shiftState,
                     theme = themeWithPrefs,
                     composingText = composingBuffer,
@@ -616,13 +624,30 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     private fun handleModeChange(newMode: KeyboardMode) {
-        if (newMode == KeyboardMode.ENGLISH && currentMode == KeyboardMode.ENGLISH && allowOtherKeyboardsEnabled) {
+        if (newMode == KeyboardMode.SYMBOLS || newMode == KeyboardMode.NUMBERS || newMode == KeyboardMode.EMOJI || newMode == KeyboardMode.CLIPBOARD) {
+            currentMode = newMode
+            return
+        }
+
+        val targetMode = if (currentMode == KeyboardMode.SYMBOLS || currentMode == KeyboardMode.NUMBERS || currentMode == KeyboardMode.EMOJI || currentMode == KeyboardMode.CLIPBOARD) {
+            if (newMode == KeyboardMode.ENGLISH && lastTextMode != KeyboardMode.ENGLISH) {
+                lastTextMode
+            } else {
+                newMode
+            }
+        } else {
+            newMode
+        }
+
+        if (targetMode == KeyboardMode.ENGLISH && currentMode == KeyboardMode.ENGLISH && allowOtherKeyboardsEnabled) {
             val imm = getSystemService(INPUT_METHOD_SERVICE) as android.view.inputmethod.InputMethodManager
             imm.switchToLastInputMethod(window?.window?.decorView?.windowToken)
             return
         }
-        currentMode = newMode
-        scope.launch { userPreferences.setLanguage(newMode) }
+
+        lastTextMode = targetMode
+        currentMode = targetMode
+        scope.launch { userPreferences.setLanguage(targetMode) }
     }
 
     private fun commitSuggestion(word: String) {
