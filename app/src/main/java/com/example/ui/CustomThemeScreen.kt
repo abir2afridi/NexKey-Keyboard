@@ -12,16 +12,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Check
-import androidx.compose.material.icons.filled.Palette
+import androidx.compose.material.icons.automirrored.filled.Backspace
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -205,28 +207,72 @@ fun ThemeDetailedPreview(theme: KeyboardTheme) {
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .height(200.dp)
-            .shadow(8.dp, RoundedCornerShape(20.dp)),
-        shape = RoundedCornerShape(20.dp),
+            .height(250.dp)
+            .shadow(16.dp, RoundedCornerShape(24.dp), ambientColor = theme.accentColor, spotColor = theme.accentColor),
+        shape = RoundedCornerShape(24.dp),
         color = theme.backgroundColor
     ) {
-        Box(modifier = Modifier.fillMaxSize()) {
+        Column(modifier = Modifier.fillMaxSize()) {
+            // Simulated Smart Toolbar
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(38.dp)
+                    .background(theme.suggestionBgColor.copy(alpha = 0.9f))
+                    .padding(horizontal = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(10.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Surface(
+                        shape = RoundedCornerShape(8.dp),
+                        color = theme.accentColor.copy(alpha = 0.15f),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, theme.accentColor.copy(alpha = 0.3f))
+                    ) {
+                        Text("EN", color = theme.accentColor, fontSize = 10.sp, fontWeight = FontWeight.Black, modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp))
+                    }
+                    Icon(Icons.Default.Palette, null, tint = theme.keySpecialTextColor, modifier = Modifier.size(16.dp))
+                    Icon(Icons.Default.Mic, null, tint = theme.keySpecialTextColor.copy(alpha = 0.5f), modifier = Modifier.size(16.dp))
+                }
+
+                // Mini Speed Meter (Calculator style)
+                Surface(
+                    modifier = Modifier.width(50.dp).height(24.dp),
+                    color = Color.Black.copy(alpha = 0.7f),
+                    shape = RoundedCornerShape(4.dp),
+                    border = androidx.compose.foundation.BorderStroke(1.dp, theme.accentColor.copy(alpha = 0.4f))
+                ) {
+                    Box(modifier = Modifier.fillMaxSize()) {
+                        Text("88.8", color = theme.accentColor.copy(alpha = 0.05f), fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace, modifier = Modifier.align(Alignment.Center))
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center, modifier = Modifier.fillMaxSize()) {
+                            Text("1.2", color = theme.accentColor, fontSize = 10.sp, fontWeight = FontWeight.Black, fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace)
+                            Text("LIVE", color = theme.accentColor.copy(alpha = 0.8f), fontSize = 5.sp, fontWeight = FontWeight.ExtraBold)
+                        }
+                    }
+                }
+
+                Icon(Icons.Default.Settings, null, tint = theme.keySpecialTextColor, modifier = Modifier.size(16.dp))
+            }
+
             Column(
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp),
-                verticalArrangement = Arrangement.spacedBy(4.dp)
+                verticalArrangement = Arrangement.spacedBy(5.dp)
             ) {
                 // Suggestion Strip
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(30.dp)
+                        .height(32.dp)
                         .clip(RoundedCornerShape(6.dp))
                         .background(theme.suggestionBgColor)
-                        .padding(horizontal = 6.dp),
+                        .padding(horizontal = 8.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
                     repeat(3) { i ->
                         Surface(
@@ -238,39 +284,33 @@ fun ThemeDetailedPreview(theme: KeyboardTheme) {
                                 color = theme.suggestionTextColor,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Bold,
-                                modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
                             )
                         }
                     }
                 }
 
-                // Keyboard Rows
+                // Keyboard Rows (QWERTY)
+                val row1 = listOf("Q" to "1", "W" to "2", "E" to "3", "R" to "4", "T" to "5", "Y" to "6", "U" to "7", "I" to "8", "O" to "9", "P" to "0")
+                val row2 = listOf("A" to "@", "S" to "#", "D" to "$", "F" to "%", "G" to "&", "H" to "-", "J" to "+", "K" to "(", "L" to ")")
+                val row3 = listOf("Z" to "!", "X" to "\"", "C" to "'", "V" to "?", "B" to "/", "N" to ";", "M" to ":")
+
                 Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                    repeat(10) { i ->
-                        DetailedMiniKey(
-                            bgColor = theme.keyBackgroundColor,
-                            textColor = theme.keyTextColor,
-                            hintColor = theme.keyHintColor,
-                            label = if (i == 0) "Q" else if (i == 1) "W" else "E",
-                            hint = if (i == 0) "1" else if (i == 1) "2" else if (i == 2) "3" else null
-                        )
+                    row1.forEach { (char, hint) ->
+                        DetailedMiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, char, hint)
                     }
                 }
-                Row(modifier = Modifier.padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                    repeat(9) { i ->
-                        DetailedMiniKey(
-                            bgColor = theme.keyBackgroundColor,
-                            textColor = theme.keyTextColor,
-                            hintColor = theme.keyHintColor,
-                            label = "A",
-                            hint = if (i == 0) "@" else null
-                        )
+                Row(modifier = Modifier.padding(horizontal = 10.dp), horizontalArrangement = Arrangement.spacedBy(3.dp)) {
+                    row2.forEach { (char, hint) ->
+                        DetailedMiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, char, hint)
                     }
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                    DetailedMiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, "↑", weight = 1.3f)
-                    repeat(7) { DetailedMiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, "Z") }
-                    DetailedMiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, "⌫", weight = 1.3f)
+                    DetailedMiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, "", icon = Icons.Default.KeyboardArrowUp, weight = 1.3f)
+                    row3.forEach { (char, hint) ->
+                        DetailedMiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, char, hint)
+                    }
+                    DetailedMiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, "", icon = Icons.AutoMirrored.Filled.Backspace, weight = 1.3f)
                 }
                 Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                     DetailedMiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, "?12", weight = 1.2f)
@@ -278,34 +318,41 @@ fun ThemeDetailedPreview(theme: KeyboardTheme) {
                     Box(
                         modifier = Modifier
                             .weight(4f)
-                            .height(32.dp)
-                            .clip(RoundedCornerShape(4.dp))
-                            .background(theme.accentColor)
-                    )
-                    DetailedMiniKey(theme.keySpecialColor, theme.accentColor, theme.keyHintColor, "↵", weight = 1.3f)
+                            .height(34.dp)
+                            .clip(RoundedCornerShape(6.dp))
+                            .background(
+                                Brush.verticalGradient(
+                                    listOf(theme.accentColor, theme.accentColor.copy(alpha = 0.8f))
+                                )
+                            )
+                            .shadow(2.dp, RoundedCornerShape(6.dp)),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text("English", color = Color.White.copy(alpha = 0.9f), fontSize = 9.sp, fontWeight = FontWeight.Black)
+                    }
+                    DetailedMiniKey(theme.keySpecialColor, theme.accentColor, theme.keyHintColor, "", icon = Icons.Default.Check, weight = 1.3f)
                 }
             }
-
-            // Simulated Popup Overlay
-            Box(
+        }
+        
+        // Simulated Popup Overlay (G key)
+        Box(modifier = Modifier.fillMaxSize()) {
+            Surface(
                 modifier = Modifier
-                    .padding(bottom = 80.dp)
-                    .align(Alignment.BottomCenter)
+                    .align(Alignment.Center)
+                    .offset(y = 20.dp),
+                shape = RoundedCornerShape(6.dp),
+                color = theme.popupBackgroundColor,
+                shadowElevation = 8.dp,
+                border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.accentColor.copy(alpha = 0.3f))
             ) {
-                Surface(
-                    shape = RoundedCornerShape(6.dp),
-                    color = theme.popupBackgroundColor,
-                    shadowElevation = 6.dp,
-                    border = androidx.compose.foundation.BorderStroke(0.5.dp, theme.accentColor.copy(alpha = 0.3f))
-                ) {
-                    Text(
-                        text = "G",
-                        color = theme.popupTextColor,
-                        fontWeight = FontWeight.Black,
-                        fontSize = 14.sp,
-                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
-                    )
-                }
+                Text(
+                    text = "G",
+                    color = theme.popupTextColor,
+                    fontWeight = FontWeight.Black,
+                    fontSize = 14.sp,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
+                )
             }
         }
     }
@@ -318,23 +365,33 @@ fun RowScope.DetailedMiniKey(
     hintColor: Color,
     label: String,
     hint: String? = null,
+    icon: ImageVector? = null,
     weight: Float = 1f
 ) {
     Surface(
         modifier = Modifier
             .weight(weight)
-            .height(32.dp),
+            .height(34.dp),
         shape = RoundedCornerShape(4.dp),
         color = bgColor
     ) {
         Box(modifier = Modifier.fillMaxSize()) {
-            Text(
-                text = label, 
-                color = textColor, 
-                fontSize = 9.sp, 
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.align(Alignment.Center)
-            )
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = textColor,
+                    modifier = Modifier.size(14.dp).align(Alignment.Center)
+                )
+            } else {
+                Text(
+                    text = label, 
+                    color = textColor, 
+                    fontSize = 10.sp, 
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
             
             if (hint != null) {
                 Text(
