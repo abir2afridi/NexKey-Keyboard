@@ -85,6 +85,7 @@ app/
     │   └── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
     ├── engine/
     │   ├── BanglaPhoneticEngine.kt         — Phonetic transliteration (80+ conjuncts)
+    │   ├── AvroPhoneticEngine.kt           — Avro-style transliteration (distinct from phonetic)
     │   └── PredictionEngine.kt             — Trie-based prediction & Room-backed learning
     ├── ui/
     │   ├── navigation/
