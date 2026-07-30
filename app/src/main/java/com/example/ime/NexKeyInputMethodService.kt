@@ -91,7 +91,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private var popupOnKeypressEnabled by mutableStateOf(true)
     private var showSuggestionsEnabled by mutableStateOf(true)
     private var personalizedSuggestionsEnabled by mutableStateOf(true)
-    private var blockOffensiveEnabled by mutableStateOf(true)
     private var enableResizing by mutableStateOf(false)
     private var largeNumberRowEnabled by mutableStateOf(false)
     private var kbHeightLandscape by mutableStateOf(100)
@@ -156,6 +155,13 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch {
                 userPreferences.language.collectLatest { savedLanguage ->
                     val mode = try { KeyboardMode.valueOf(savedLanguage) } catch (_: Exception) { KeyboardMode.BANGLA_JATIYO }
+                    // Don't override transient modes (EMOJI, SYMBOLS, NUMBERS, CLIPBOARD).
+                    // These are managed by handleModeChange and should not be reset by
+                    // stale DataStore emissions from a prior async setLanguage() call.
+                    if (currentMode == KeyboardMode.EMOJI || currentMode == KeyboardMode.SYMBOLS ||
+                        currentMode == KeyboardMode.NUMBERS || currentMode == KeyboardMode.CLIPBOARD) {
+                        return@collectLatest
+                    }
                     if (mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS && mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD) {
                         lastTextMode = mode
                         currentMode = mode
@@ -196,7 +202,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             launch { userPreferences.popupOnKeypress.collectLatest { popupOnKeypressEnabled = it } }
             launch { userPreferences.showSuggestions.collectLatest { showSuggestionsEnabled = it } }
             launch { userPreferences.personalizedSuggestions.collectLatest { personalizedSuggestionsEnabled = it } }
-            launch { userPreferences.blockOffensive.collectLatest { blockOffensiveEnabled = it } }
             launch { userPreferences.enableKbResizing.collectLatest { enableResizing = it } }
             launch { userPreferences.largeNumberRow.collectLatest { largeNumberRowEnabled = it } }
             launch { userPreferences.kbHeightLandscape.collectLatest { kbHeightLandscape = it } }
@@ -675,21 +680,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             isBangla = (currentMode == KeyboardMode.BANGLA_PHONETIC || currentMode == KeyboardMode.AVRO || currentMode == KeyboardMode.BANGLA_JATIYO),
             showTypedWordFirst = showTypedWordFirstEnabled
         )
-        candidates = if (blockOffensiveEnabled) {
-            predictions.filterNot { isOffensive(it) }
-        } else {
-            predictions
-        }
-    }
-
-    private val offensiveWords = setOf(
-        "fuck", "shit", "damn", "ass", "bitch", "bastard", "crap", "dick",
-        "piss", "slut", "whore", "cock", "cunt", "douche", "fag", "nigger",
-        "motherfucker", "bullshit", "asshole", "dumbass", "jackass"
-    )
-
-    private fun isOffensive(word: String): Boolean {
-        return word.lowercase() in offensiveWords
+        candidates = predictions
     }
 
     private fun commitComposingBuffer() {

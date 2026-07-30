@@ -62,7 +62,6 @@ class UserPreferences(private val context: Context) {
         private val KEY_FORCED_ENTER = booleanPreferencesKey("forced_enter")
 
         // Text Correction
-        private val KEY_BLOCK_OFFENSIVE = booleanPreferencesKey("block_offensive")
         private val KEY_AUTO_CORRECTION = booleanPreferencesKey("auto_correction")
         private val KEY_PHONETIC_AUTO_CORRECTION = booleanPreferencesKey("phonetic_auto_correction")
         private val KEY_SHOW_SUGGESTIONS = booleanPreferencesKey("show_suggestions")
@@ -148,7 +147,6 @@ class UserPreferences(private val context: Context) {
     val splitKeyboard: Flow<Boolean> = context.dataStore.data.map { it[KEY_SPLIT_KEYBOARD] ?: false }
     val forcedEnter: Flow<Boolean> = context.dataStore.data.map { it[KEY_FORCED_ENTER] ?: false }
 
-    val blockOffensive: Flow<Boolean> = context.dataStore.data.map { it[KEY_BLOCK_OFFENSIVE] ?: true }
     val autoCorrection: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_CORRECTION] ?: true }
     val phoneticAutoCorrection: Flow<Boolean> = context.dataStore.data.map { it[KEY_PHONETIC_AUTO_CORRECTION] ?: true }
     val showSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_SUGGESTIONS] ?: true }
@@ -208,7 +206,6 @@ class UserPreferences(private val context: Context) {
     suspend fun setSplitKeyboard(enabled: Boolean) = context.dataStore.edit { it[KEY_SPLIT_KEYBOARD] = enabled }
     suspend fun setForcedEnter(enabled: Boolean) = context.dataStore.edit { it[KEY_FORCED_ENTER] = enabled }
 
-    suspend fun setBlockOffensive(enabled: Boolean) = context.dataStore.edit { it[KEY_BLOCK_OFFENSIVE] = enabled }
     suspend fun setAutoCorrection(enabled: Boolean) = context.dataStore.edit { it[KEY_AUTO_CORRECTION] = enabled }
     suspend fun setPhoneticAutoCorrection(enabled: Boolean) = context.dataStore.edit { it[KEY_PHONETIC_AUTO_CORRECTION] = enabled }
     suspend fun setShowSuggestions(enabled: Boolean) = context.dataStore.edit { it[KEY_SHOW_SUGGESTIONS] = enabled }
