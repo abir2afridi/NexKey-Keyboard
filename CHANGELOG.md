@@ -5,6 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.0] - 2026-07-31
+
+### 🚀 Features
+- **Custom theme engine** — Full color customization: background, primary keys, key text, special keys, accent, suggestion strip, key popup, sub-character hints, all with a live high-fidelity preview
+- **Live preview pinned at top** — The keyboard preview stays fixed while color pickers scroll below it
+
+### 🐛 Bug Fixes
+- Fixed cursor jumping to end when moving mid-word — composing buffer is now committed before cursor movement
+- Fixed content hidden behind the floating navigation bar — standardized 120dp bottom safe-area clearance across all screens
+- Fixed scrollable content clipping behind the bottom bar on Settings grid, Clipboard, Dictionary, Themes, Store tabs, and all sub-settings screens
+
+### 🎨 UI/UX
+- Optimized system bar insets and navigation padding across the app
+- Increased bottom spacing on Home, Setup, Sandbox, About, Help, Developer, Typing Stats, Custom Theme, and App Settings screens
+
+### ♻️ Refactors
+- Decoupled live preview from scrollable customization controls in Custom Theme screen
+- Enhanced theme preview visualization with detailed key rendering
+
 ## [1.2.0] - 2026-07-30
 
 ### 🚀 Features
