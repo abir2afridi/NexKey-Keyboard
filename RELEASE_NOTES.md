@@ -1,40 +1,32 @@
-# NexKey Keyboard v1.3.0 - Release Notes
+# NexKey Keyboard v1.3.1 - Release Notes
 
 ## Overview
 
-NexKey Keyboard v1.3.0 introduces the **Custom Theme Engine** — build your own keyboard look with live preview — plus a project-wide **floating navigation overlap fix** and several polish improvements.
+NexKey Keyboard v1.3.1 is a patch release that fixes three editing bugs that made correcting text painful: cursor jumps when editing mid-word, emoji backspace leaving a "?" behind, and the delete key ignoring selected text.
 
 ## Highlights
 
-- **Custom Theme Engine** — Customize background, primary keys, key text, special keys, accent color, suggestion strip, key popup, and sub-character hints from a dedicated design screen
-- **Live Preview Pinned** — The keyboard preview stays fixed at the top while color pickers scroll below, so you always see your changes
-- **No More Hidden Content** — Standardized 120dp bottom clearance on every screen so nothing sits behind the floating bottom navigation bar
-- **Cursor Position Fix** — Moving the cursor mid-word no longer jumps it to the end of the text
-- **Polished Insets** — Optimized system bar insets and bottom spacing across Home, Settings, Setup, Sandbox, About, Help, Developer, Typing Stats, and Store
+- **Edit Mid-Word Without Jumping** — Move the cursor anywhere inside a composed word (e.g. tap between the letters of "aple" to type "apple") and new keys insert exactly where the cursor is — no more being thrown to the end of the sentence
+- **Emoji Deletes Cleanly** — Backspace removes the entire emoji in one press: surrogate-pair emojis, family/flag ZWJ sequences, variation selectors (❤️), and combined marks (é) — no leftover "?" half-characters
+- **Delete Respects Selection** — Select any text (or select-all) and press delete: the whole selection is removed at once
 
 ## What's Changed
 
-- Custom theme engine with 11 adjustable color groups + "Reset to Default Dark Neon"
-- Scroll-safe bottom clearance for all Lazy lists, scrollable columns, and fixed screens
-- Cursor movement now commits composing text before repositioning
+- Composing-region handling rewritten: composing text is committed whenever the cursor moves off the end of the composing region
+- Grapheme-aware backspace deletion with selection detection
+- Input method logic restructured into dedicated handler files (text input, deletion, suggestions, preferences) and settings split into per-screen files
 
 ## Files
 
-- `NexKey-Keyboard-v1.3.0.apk` — installable debug build (23.4 MB)
-- `NexKey-Keyboard-v1.3.0.apk.sha256` / `.md5` — integrity checksums
-
-## Checksums (SHA-256)
-
-```
-cba81605d022b76a1e3089badea72abe02afee5a3075f967035eba732f2e3cc0  NexKey-Keyboard-v1.3.0.apk
-```
+- `NexKey-Keyboard-v1.3.1.apk` — installable debug build
+- `NexKey-Keyboard-v1.3.1.apk.sha256` / `.md5` — integrity checksums
 
 ## Installation
 
 Download the APK and enable "Install unknown apps" for your file manager or browser. Or install via ADB:
 
 ```
-adb install NexKey-Keyboard-v1.3.0.apk
+adb install NexKey-Keyboard-v1.3.1.apk
 ```
 
 Then enable the keyboard in **Settings → System → Languages & input → NexKey Keyboard**.

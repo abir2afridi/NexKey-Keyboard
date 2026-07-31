@@ -5,6 +5,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.3.1] - 2026-08-01
+
+### 🐛 Bug Fixes
+- **Fixed cursor jumping to the end when editing mid-word** — moving the cursor inside a composed word (e.g. tapping between the letters of "aple" to make "apple") now inserts at the cursor instead of replacing the whole word; composing state is properly reset whenever the cursor leaves the end of the composing region
+- **Fixed emoji deletion leaving a "?" character** — backspace now deletes the full grapheme in one press: surrogate-pair emojis, ZWJ sequences (👨👩👧), variation selectors (❤️), and combining marks (é)
+- **Fixed delete key doing nothing when text is selected** — selected text (e.g. select-all) is now fully removed on a single delete press
+
+### ♻️ Refactors
+- Restructured input method logic into dedicated handler files (text input, deletion, suggestions, preferences) with per-mode key handlers, and split the settings screen into per-screen files
+
+### 📚 Documentation
+- Updated README with release workflow and v1.3.1 release notes
+
 ## [1.3.0] - 2026-07-31
 
 ### 🚀 Features
