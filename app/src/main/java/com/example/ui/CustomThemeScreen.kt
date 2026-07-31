@@ -149,20 +149,24 @@ fun CustomThemeScreen(
                 .padding(paddingValues)
                 .fillMaxSize()
                 .padding(horizontal = 20.dp)
-                .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
         ) {
+            // Live Preview — fixed at top, does NOT scroll
             Spacer(modifier = Modifier.height(12.dp))
-            
-            // High Fidelity Preview
             Text(text = "LIVE PREVIEW", color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
-            
             ThemeDetailedPreview(currentTheme)
 
-            // Customization Controls
-            Text(text = "DESIGN ELEMENTS", color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
+            // Scrollable color pickers below
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(20.dp)
+            ) {
+                Spacer(modifier = Modifier.height(24.dp))
 
-            Column(verticalArrangement = Arrangement.spacedBy(20.dp)) {
+                // Customization Controls
+                Text(text = "DESIGN ELEMENTS", color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
+
                 ColorPickerSection(title = "Background", selectedColor = bgColor, options = colorOptions) { bgColor = it }
                 ColorPickerSection(title = "Primary Keys", selectedColor = keyBgColor, options = colorOptions) { keyBgColor = it }
                 ColorPickerSection(title = "Key Text", selectedColor = keyTextColor, options = colorOptions) { keyTextColor = it }
@@ -174,30 +178,30 @@ fun CustomThemeScreen(
                 ColorPickerSection(title = "Key Popup Bg", selectedColor = popupBgColor, options = colorOptions) { popupBgColor = it }
                 ColorPickerSection(title = "Key Popup Text", selectedColor = popupTextColor, options = colorOptions) { popupTextColor = it }
                 ColorPickerSection(title = "Sub-character Hints", selectedColor = keyHintColor, options = colorOptions) { keyHintColor = it }
+
+                Spacer(modifier = Modifier.height(8.dp))
+
+                TextButton(
+                    onClick = {
+                        bgColor = Color(0xFF12131C)
+                        keyBgColor = Color(0xFF1E2136)
+                        keyTextColor = Color(0xFFF1F3FB)
+                        keySpecialColor = Color(0xFF2A2E4B)
+                        keySpecialTextColor = Color(0xFF80D8FF)
+                        accentColor = Color(0xFF00E5FF)
+                        suggestionBgColor = Color(0xFF1A1C29)
+                        suggestionTextColor = Color(0xFFF1F3FB)
+                        popupBgColor = Color(0xFF2A2E4B)
+                        popupTextColor = Color(0xFF00E5FF)
+                        keyHintColor = Color(0xFFF1F3FB).copy(alpha = 0.4f)
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Reset to Default Dark Neon", color = MaterialTheme.colorScheme.error)
+                }
+
+                Spacer(modifier = Modifier.height(32.dp))
             }
-            
-            Spacer(modifier = Modifier.height(16.dp))
-            
-            TextButton(
-                onClick = { 
-                    bgColor = Color(0xFF12131C)
-                    keyBgColor = Color(0xFF1E2136)
-                    keyTextColor = Color(0xFFF1F3FB)
-                    keySpecialColor = Color(0xFF2A2E4B)
-                    keySpecialTextColor = Color(0xFF80D8FF)
-                    accentColor = Color(0xFF00E5FF)
-                    suggestionBgColor = Color(0xFF1A1C29)
-                    suggestionTextColor = Color(0xFFF1F3FB)
-                    popupBgColor = Color(0xFF2A2E4B)
-                    popupTextColor = Color(0xFF00E5FF)
-                    keyHintColor = Color(0xFFF1F3FB).copy(alpha = 0.4f)
-                },
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text("Reset to Default Dark Neon", color = MaterialTheme.colorScheme.error)
-            }
-            
-            Spacer(modifier = Modifier.height(32.dp))
         }
     }
 }
