@@ -112,7 +112,7 @@ fun AboutScreen(
                 Text(text = " by Abir Hasan Siam", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(120.dp))
         }
     }
 }

@@ -140,6 +140,8 @@ fun SetupScreen(
                     Text("Finish Setup", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
+
+            Spacer(modifier = Modifier.height(120.dp))
         }
     }
 }

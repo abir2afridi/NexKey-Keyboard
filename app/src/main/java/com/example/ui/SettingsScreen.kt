@@ -71,7 +71,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .padding(paddingValues)
                 .fillMaxSize(),
-            contentPadding = PaddingValues(16.dp),
+            contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 120.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -95,9 +95,6 @@ fun SettingsScreen(
                 )
             }
             
-            item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
-                Spacer(modifier = Modifier.height(32.dp))
-            }
         }
     }
 }

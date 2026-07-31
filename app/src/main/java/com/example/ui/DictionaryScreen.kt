@@ -88,7 +88,8 @@ fun DictionaryScreen(
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                    .padding(horizontal = 16.dp)
+                    .padding(horizontal = 16.dp),
+                contentPadding = PaddingValues(bottom = 120.dp)
             ) {
                 item {
                     Text(
@@ -111,9 +112,6 @@ fun DictionaryScreen(
                         }
                     )
                     HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, thickness = 1.dp)
-                }
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }

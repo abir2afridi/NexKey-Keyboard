@@ -104,7 +104,7 @@ fun HelpScreen(
                 description = "Tap the microphone icon on the toolbar to speak instead of typing."
             )
             
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(120.dp))
         }
     }
 }

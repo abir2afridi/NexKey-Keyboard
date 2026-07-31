@@ -108,7 +108,8 @@ fun ThemesScreen(
                 columns = GridCells.Fixed(2),
                 horizontalArrangement = Arrangement.spacedBy(20.dp),
                 verticalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.padding(bottom = 24.dp)
+                modifier = Modifier.padding(bottom = 24.dp),
+                contentPadding = PaddingValues(bottom = 120.dp)
             ) {
                 items(themes) { theme ->
                     ThemePreviewCard(

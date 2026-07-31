@@ -496,7 +496,7 @@ fun HomeScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(100.dp))
+            Spacer(modifier = Modifier.height(120.dp))
         }
 
         // Info Bottom Sheet

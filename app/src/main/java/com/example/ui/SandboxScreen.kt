@@ -170,6 +170,8 @@ fun SandboxScreen(
                     onOpenSettings = {}
                 )
             }
+
+            Spacer(modifier = Modifier.height(120.dp))
         }
     }
 }

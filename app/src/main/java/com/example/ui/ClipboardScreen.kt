@@ -76,13 +76,10 @@ fun ClipboardScreen(
                     .fillMaxSize()
                     .padding(horizontal = 16.dp),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(vertical = 16.dp)
+                contentPadding = PaddingValues(start = 16.dp, top = 16.dp, end = 16.dp, bottom = 120.dp)
             ) {
                 items(clips) { clip ->
                     ClipboardItemCard(clip = clip)
-                }
-                item {
-                    Spacer(modifier = Modifier.height(32.dp))
                 }
             }
         }

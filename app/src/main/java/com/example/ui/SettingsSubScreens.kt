@@ -463,9 +463,11 @@ fun SettingsSubScaffold(
                 .padding(paddingValues)
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = 8.dp),
-            content = content
-        )
+                .padding(horizontal = 16.dp, vertical = 8.dp)
+        ) {
+            content()
+            Spacer(modifier = Modifier.height(120.dp))
+        }
     }
 }
 
