@@ -151,15 +151,6 @@ class PredictionEngine {
             list.add(0, query)
         }
 
-        if (!isBangla && query.all { it in 'a'..'z' || it in 'A'..'Z' }) {
-            val banglaTransliterated = BanglaPhoneticEngine.parse(query)
-            if (banglaTransliterated.isNotEmpty() && banglaTransliterated != query) {
-                if (!list.contains(banglaTransliterated)) {
-                    list.add(0, banglaTransliterated)
-                }
-            }
-        }
-
         return list.take(limit)
     }
 
