@@ -275,6 +275,36 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         super.onFinishInputView(finishingInput)
     }
 
+    override fun onUpdateSelection(
+        oldSelStart: Int,
+        oldSelEnd: Int,
+        newSelStart: Int,
+        newSelEnd: Int,
+        candidatesStart: Int,
+        candidatesEnd: Int
+    ) {
+        super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+
+        // While we are composing, the cursor always sits at the END of the composing
+        // region (setComposingText moves it there). If the cursor moved anywhere else —
+        // even INSIDE the region, e.g. the user tapped between letters of a composed
+        // word — the composing text must be committed and the buffer reset. Otherwise
+        // the next keystroke replaces the whole composing word at its old position
+        // and the cursor jumps to the end (e.g. "aple" + cursor after "p" + "p" = "aplep"
+        // instead of "apple").
+        if (composingBuffer.isEmpty()) return
+        val selectionChanged = oldSelStart != newSelStart || oldSelEnd != newSelEnd
+        if (!selectionChanged) return
+        val hasComposingRegion = candidatesStart >= 0 && candidatesEnd > candidatesStart
+        val cursorAtRegionEnd = hasComposingRegion &&
+            newSelStart == candidatesEnd && newSelEnd == candidatesEnd
+        if (!cursorAtRegionEnd) {
+            currentInputConnection?.finishComposingText()
+            composingBuffer = ""
+            candidates = emptyList()
+        }
+    }
+
     internal fun playFeedback() {
         if (hapticsEnabled) {
             if (hapticLevel > 0) {
