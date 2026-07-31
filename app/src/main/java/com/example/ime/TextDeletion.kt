@@ -35,11 +35,54 @@ internal fun NexKeyInputMethodService.handleBackspace() {
 // (e.g. long-press select-all) and presses delete, nothing was removed. A selection must
 // be deleted by replacing it with an empty string via commitText("", 1) — commitText
 // replaces the current selection (or composing region) in every IME client.
+//
+// FIX (emoji "?" bug): emojis are 2 UTF-16 code units (surrogate pair). Deleting only 1
+// unit leaves a broken half that renders as "?" and needs a second press. deleteGrapheme
+// deletes the full grapheme (surrogate pair, ZWJ emoji sequence, variation selectors,
+// combining marks) in a single press.
 private fun deleteGraphemeBackward(ic: InputConnection) {
     val selectedText = ic.getSelectedText(0)
     if (selectedText != null && selectedText.isNotEmpty()) {
         ic.commitText("", 1)
-    } else {
-        ic.deleteSurroundingText(1, 0)
+        return
     }
+    val before = ic.getTextBeforeCursor(32, 0)?.toString() ?: return
+    if (before.isEmpty()) return
+    ic.deleteSurroundingText(graphemeBackwardLength(before), 0)
+}
+
+private fun graphemeBackwardLength(text: String): Int {
+    var i = text.length
+    var consumed = 0
+    // 1. Trailing marks / variation selectors (tail of the cluster, e.g. "a" + U+0301 = é)
+    while (i > 0) {
+        val c = text[i - 1]
+        val t = Character.getType(c)
+        if (c == '\uFE0F' || c == '\uFE0E' || t == Character.NON_SPACING_MARK.toInt() ||
+            t == Character.COMBINING_SPACING_MARK.toInt() || t == Character.ENCLOSING_MARK.toInt()
+        ) {
+            i--
+            consumed++
+        } else {
+            break
+        }
+    }
+    // 2. Base code point, then keep going only if chained by ZWJ (family/keycap emoji)
+    while (i > 0) {
+        val c = text[i - 1]
+        if (Character.isLowSurrogate(c) && i >= 2 && Character.isHighSurrogate(text[i - 2])) {
+            i -= 2
+            consumed += 2
+        } else {
+            i--
+            consumed++
+        }
+        if (i > 0 && text[i - 1] == '\u200D') {
+            i--
+            consumed++
+        } else {
+            break
+        }
+    }
+    return consumed
 }
