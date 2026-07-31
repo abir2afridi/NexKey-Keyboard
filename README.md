@@ -10,13 +10,13 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.2.0-blue)
+![Version](https://img.shields.io/badge/version-1.3.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.2.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.3.0-ff69b4)](../releases)
 
 ---
 
@@ -46,6 +46,7 @@
 | Recent emoji retention (configurable expiry) | ✅ |
 | GIF/Sticker tabs (placeholder) | ✅ |
 | Theme system (4 presets, DataStore) | ✅ |
+| Custom theme engine (11 color groups + live preview) | ✅ |
 | App theme (System/Light/Dark) | ✅ |
 | Auto-capitalization | ✅ |
 | Caps lock (double-tap shift) | ✅ |
@@ -87,8 +88,19 @@ app/
 └── src/main/java/com/example/
     ├── MainActivity.kt                     — Navigation host, bottom nav, route registration
     ├── ime/
-    │   ├── NexKeyInputMethodService.kt     — Core IME service (input handling, key events)
-    │   └── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
+    │   ├── NexKeyInputMethodService.kt     — Core IME service (state, lifecycle, view wiring)
+    │   ├── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
+    │   ├── TextInputHandler.kt             — Key tap, space, enter, shift, mode change, cursor
+    │   ├── TextDeletion.kt                 — Backspace / text deletion logic
+    │   ├── SuggestionHandler.kt            — Candidate updates, suggestion commit, composing commit
+    │   ├── ImePreferenceCollector.kt       — All DataStore preference collection
+    │   └── modes/
+    │       ├── KeyboardModeDispatcher.kt   — Mode-aware compose/parse dispatch
+    │       ├── BanglaPhoneticMode.kt       — Phonetic-mode rules
+    │       ├── AvroMode.kt                 — Avro-mode rules
+    │       ├── EnglishMode.kt              — English-mode rules
+    │       ├── ArabicMode.kt               — Arabic-mode rules
+    │       └── BanglaJatiyoMode.kt         — Jatiyo-mode rules
     ├── engine/
     │   ├── BanglaPhoneticEngine.kt         — Phonetic transliteration (80+ conjuncts)
     │   ├── AvroPhoneticEngine.kt           — Avro-style transliteration (distinct from phonetic)
@@ -96,11 +108,25 @@ app/
     ├── ui/
     │   ├── navigation/
     │   │   └── NavGraph.kt                 — Screen route definitions
+    │   ├── settings/                       — One file per settings screen
+    │   │   ├── SettingsSubScaffold.kt      — Shared settings scaffold (back bar + bottom clearance)
+    │   │   ├── TypingSettingsScreen.kt     — Auto-cap, double-space period/tab
+    │   │   ├── FeedbackSettingsScreen.kt   — Haptics, sound, popup, intensity sliders
+    │   │   ├── LanguageKeysSettingsScreen.kt — Voice/emoji/globe keys
+    │   │   ├── LayoutSettingsScreen.kt     — Number row, split keyboard, suggestions bar
+    │   │   ├── SizeSettingsScreen.kt       — Height/width sliders
+    │   │   ├── NavigationSettingsScreen.kt — Space & volume cursor control
+    │   │   ├── PasteSettingsScreen.kt      — Hold-to-paste, clipboard expiry
+    │   │   ├── AdvancedGroupSettingsScreen.kt — Long-press delay, backspace repeat
+    │   │   ├── TextCorrectionSettingsScreen.kt — Autocorrect, suggestions toggles
+    │   │   ├── MoreLanguagesScreen.kt      — Enable/disable keyboard languages
+    │   │   ├── GifQualitySettingsScreen.kt — GIF quality options
+    │   │   ├── EmojiSettingsScreen.kt      — Recent emoji, search layout
+    │   │   └── AppLanguageScreen.kt        — App interface language selector
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
     │   ├── HomeScreen.kt                   — Dashboard home with status card
     │   ├── AppSettingsScreen.kt            — App theme, language, about
     │   ├── SettingsScreen.kt               — Keyboard Settings hub (groups index)
-    │   ├── SettingsSubScreens.kt           — 8 group screens (Typing, Feedback, Layout, etc.)
     │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
     │   ├── KeyboardLayouts.kt              — Layout data models & key maps
     │   ├── Components.kt                   — Reusable composables (SettingItem, etc.)
@@ -153,26 +179,22 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.2.0 | **Published:** July 30, 2026
+**Version:** 1.3.0 | **Published:** July 31, 2026
 
-- **APK:** [Download v1.2.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.3.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
-- ✅ Emoji search (keyword-based, 400+ mapped emojis)
-- ✅ Horizontal scrollable search results (configurable 1–2 rows)
-- ✅ Compact keyboard during emoji search (65% height)
-- ✅ Blinking cursor in search bar
-- ✅ Recent emoji retention (configurable expiry)
-- ✅ Emoji settings screen (retention, search layout)
-- ✅ GIF/Sticker tabs in emoji panel
-- ✅ Customizable speed meter fonts (DIGITAL, LCD, SEGMENT, MODERN)
-- ✅ Digital speed meter (real-time CPS)
+- ✅ Custom Theme Engine (11 adjustable color groups + live preview)
+- ✅ Live preview pinned at top while color pickers scroll below
+- ✅ Standardized 120dp bottom clearance on every screen (no more content hidden behind floating nav)
+- ✅ Cursor position fix (moving mid-word no longer jumps to end)
+- ✅ Codebase refactored into per-feature modules (per-language modes, per-settings screens)
 
 **Checksums:**
 | File | SHA256 | MD5 |
 |------|--------|-----|
-| NexKey-Keyboard-v1.2.0.apk | `55f07b0587cb874c7aaacd597731479cc2db98b6f63e97ea730bf56cff130afb` | `b55f8a12c6c646dd9a09198585309b80` |
+| NexKey-Keyboard-v1.3.0.apk | `cba81605d022b76a1e3089badea72abe02afee5a3075f967035eba732f2e3cc0` | `18e81450e2d9c11c2c84ca41bb0bbf9e` |
 
 [View all releases →](../releases)
 
@@ -263,6 +285,14 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 ---
 
 ## Recent Fixes
+
+### v1.3.0
+- Added Custom Theme Engine — customize background, primary keys, key text, special keys, accent color, suggestion strip, key popup, and sub-character hints
+- Added live keyboard preview pinned at top of the custom theme screen while pickers scroll below
+- Fixed cursor jumping to end when moving mid-word (composing buffer commits before cursor movement)
+- Fixed content hidden behind the floating navigation bar — standardized 120dp bottom clearance on all screens
+- Refactored the IME service into per-feature modules: `TextInputHandler`, `TextDeletion`, `SuggestionHandler`, `ImePreferenceCollector`, and per-language mode files
+- Split the monolith settings file into one screen per file under `ui/settings/`
 
 ### v1.2.0
 - Added emoji search with 400+ keyword mappings across all categories
