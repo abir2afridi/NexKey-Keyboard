@@ -165,7 +165,7 @@ fun NexKeyApp() {
             NavHost(
                 navController = navController,
                 startDestination = startDestination,
-                modifier = Modifier.padding(innerPadding)
+                modifier = Modifier.padding(bottom = innerPadding.calculateBottomPadding())
             ) {
                 composable(Screen.Setup.route) {
                     SetupScreen(
