@@ -50,6 +50,12 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
     val isAlphaKey = key.length == 1 && key[0].isLetter()
     if (shouldCompose(currentMode, isPasswordField, isAlphaKey)) {
+        // FIX (cursor-jump bug): composingBuffer is ONLY valid while the cursor sits at
+        // the END of the composing region. onUpdateSelection() in NexKeyInputMethodService
+        // clears the buffer whenever the user moves the cursor anywhere else (even inside
+        // the word). Do NOT "protect" that clearing logic or restore the old
+        // "inside-composing" check — without it, editing mid-word (e.g. "aple" + cursor
+        // after "p" + "p") replaces the whole composed word and jumps the cursor to the end.
         composingBuffer += key
         val parsed = parseComposing(currentMode, composingBuffer)
         ic.setComposingText(parsed, 1)
