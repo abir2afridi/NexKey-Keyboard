@@ -27,6 +27,7 @@ import com.example.theme.ThemePreset
 import com.example.theme.MeterTheme
 import com.example.ui.KeyboardComposeView
 import com.example.ui.KeyboardMode
+import com.example.ui.HeaderAnimation
 import com.example.ui.ShiftState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -108,7 +109,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var holdPasteDuration by mutableStateOf(400)
     internal var holdPasteTriggerKey by mutableStateOf("v")
     internal var alwaysShowSuggestions by mutableStateOf(false)
-    internal var autoHideToolbar by mutableStateOf(false)
+    internal var unifiedHeader by mutableStateOf(false)
+    internal var toolbarAutoShowDelay by mutableStateOf(10)
+    internal var headerAnimation by mutableStateOf("FADE")
     internal var backspaceRepeatDelayMsState by mutableStateOf(400)
     internal var backspaceRepeatSpeedMsState by mutableStateOf(50)
     internal var currentMeterTheme by mutableStateOf(MeterTheme.Calculator)
@@ -186,7 +189,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     holdPasteTriggerKey = holdPasteTriggerKey,
                     holdPasteDuration = holdPasteDuration,
                     alwaysShowSuggestions = alwaysShowSuggestions,
-                    autoHideToolbar = autoHideToolbar,
+                    unifiedHeader = unifiedHeader,
+                    toolbarAutoShowDelay = toolbarAutoShowDelay,
+                    headerAnimation = HeaderAnimation.fromName(headerAnimation),
                     backspaceRepeatDelayMs = backspaceRepeatDelayMsState.toLong(),
                     backspaceRepeatSpeedMs = backspaceRepeatSpeedMsState.toLong(),
                     liveCps = currentLiveCps,

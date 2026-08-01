@@ -127,7 +127,9 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.holdPasteDuration.collectLatest { holdPasteDuration = it } }
         launch { userPreferences.holdPasteTriggerKey.collectLatest { holdPasteTriggerKey = it } }
         launch { userPreferences.alwaysShowSuggestions.collectLatest { alwaysShowSuggestions = it } }
-        launch { userPreferences.autoHideToolbar.collectLatest { autoHideToolbar = it } }
+        launch { userPreferences.unifiedHeader.collectLatest { unifiedHeader = it } }
+        launch { userPreferences.toolbarAutoShowDelay.collectLatest { toolbarAutoShowDelay = it } }
+        launch { userPreferences.headerAnimation.collectLatest { headerAnimation = it } }
         launch { userPreferences.backspaceRepeatDelay.collectLatest { backspaceRepeatDelayMsState = it } }
         launch { userPreferences.backspaceRepeatSpeed.collectLatest { backspaceRepeatSpeedMsState = it } }
         launch {

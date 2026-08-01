@@ -101,7 +101,9 @@ class UserPreferences(private val context: Context) {
 
         // Suggestion & Toolbar
         private val KEY_ALWAYS_SHOW_SUGGESTIONS = booleanPreferencesKey("always_show_suggestions")
-        private val KEY_AUTO_HIDE_TOOLBAR = booleanPreferencesKey("auto_hide_toolbar")
+        private val KEY_UNIFIED_HEADER = booleanPreferencesKey("unified_header")
+        private val KEY_TOOLBAR_AUTO_SHOW_DELAY = intPreferencesKey("toolbar_auto_show_delay")
+        private val KEY_HEADER_ANIMATION = stringPreferencesKey("header_animation")
 
         // Backspace repeat
         private val KEY_BACKSPACE_REPEAT_DELAY = intPreferencesKey("backspace_repeat_delay")
@@ -199,7 +201,9 @@ class UserPreferences(private val context: Context) {
     val enableArabic: Flow<Boolean> = context.dataStore.data.map { it[KEY_ENABLE_ARABIC] ?: true }
 
     val alwaysShowSuggestions: Flow<Boolean> = context.dataStore.data.map { it[KEY_ALWAYS_SHOW_SUGGESTIONS] ?: true }
-    val autoHideToolbar: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_HIDE_TOOLBAR] ?: false }
+    val unifiedHeader: Flow<Boolean> = context.dataStore.data.map { it[KEY_UNIFIED_HEADER] ?: false }
+    val toolbarAutoShowDelay: Flow<Int> = context.dataStore.data.map { it[KEY_TOOLBAR_AUTO_SHOW_DELAY] ?: 10 }
+    val headerAnimation: Flow<String> = context.dataStore.data.map { it[KEY_HEADER_ANIMATION] ?: "FADE" }
 
     val backspaceRepeatDelay: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_DELAY] ?: 400 }
     val backspaceRepeatSpeed: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_SPEED] ?: 50 }
@@ -276,7 +280,9 @@ class UserPreferences(private val context: Context) {
     suspend fun setEnableArabic(enabled: Boolean) = context.dataStore.edit { it[KEY_ENABLE_ARABIC] = enabled }
 
     suspend fun setAlwaysShowSuggestions(enabled: Boolean) = context.dataStore.edit { it[KEY_ALWAYS_SHOW_SUGGESTIONS] = enabled }
-    suspend fun setAutoHideToolbar(enabled: Boolean) = context.dataStore.edit { it[KEY_AUTO_HIDE_TOOLBAR] = enabled }
+    suspend fun setUnifiedHeader(enabled: Boolean) = context.dataStore.edit { it[KEY_UNIFIED_HEADER] = enabled }
+    suspend fun setToolbarAutoShowDelay(seconds: Int) = context.dataStore.edit { it[KEY_TOOLBAR_AUTO_SHOW_DELAY] = seconds }
+    suspend fun setHeaderAnimation(name: String) = context.dataStore.edit { it[KEY_HEADER_ANIMATION] = name }
 
     suspend fun setBackspaceRepeatDelay(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_DELAY] = ms }
     suspend fun setBackspaceRepeatSpeed(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_SPEED] = ms }

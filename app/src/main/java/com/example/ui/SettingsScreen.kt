@@ -29,6 +29,7 @@ fun SettingsScreen(
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
     onNavigateToGifQuality: () -> Unit = {},
+    onNavigateToHeaderAnimation: () -> Unit = {},
     onNavigateToEmoji: () -> Unit = {}
 ) {
     val settingsItems = remember {
@@ -44,7 +45,8 @@ fun SettingsScreen(
             SettingCategory("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onNavigateToAdvancedGroup),
             SettingCategory("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onNavigateToTextCorrection),
             SettingCategory("More Languages", "English, Bangla, Avro, Arabic...", Icons.Default.Language, onNavigateToMoreLanguages),
-            SettingCategory("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onNavigateToGifQuality)
+            SettingCategory("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onNavigateToGifQuality),
+            SettingCategory("Header Animation", "Fade, slide, zoom effects", Icons.Default.Animation, onNavigateToHeaderAnimation)
         )
     }
 

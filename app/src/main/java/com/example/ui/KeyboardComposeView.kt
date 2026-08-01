@@ -115,7 +115,9 @@ fun KeyboardComposeView(
     holdPasteTriggerKey: String = "v",
     holdPasteDuration: Int = 400,
     alwaysShowSuggestions: Boolean = false,
-    autoHideToolbar: Boolean = false,
+    unifiedHeader: Boolean = false,
+    toolbarAutoShowDelay: Int = 10,
+    headerAnimation: HeaderAnimation = HeaderAnimation.FADE,
     backspaceRepeatDelayMs: Long = 400L,
     backspaceRepeatSpeedMs: Long = 50L,
     liveCps: Float = 0f,
@@ -154,10 +156,20 @@ fun KeyboardComposeView(
     val hasPhysicalKeyboard = config.keyboard == android.content.res.Configuration.KEYBOARD_QWERTY
     val effectiveShowEmojiKey = showEmojiKey || (physicalKbEmojiEnabled && hasPhysicalKeyboard)
     var longPressKey by remember { mutableStateOf<KeyModel?>(null) }
-    var isToolbarVisible by remember { mutableStateOf(true) }
+    // UNIFIED HEADER state: keyboard opens with the toolbar. While typing the toolbar is
+    // swapped for the suggestion strip and does NOT come back on its own — only the strip's
+    // toggle button brings it back. If the keyboard stays idle for toolbarAutoShowDelay
+    // seconds (no typing), the toolbar auto-appears again. One header at a time.
+    var isToolbarHeaderVisible by remember { mutableStateOf(true) }
     val isTyping = composingText.isNotEmpty() || suggestions.isNotEmpty()
-    LaunchedEffect(isTyping) {
-        if (autoHideToolbar && isTyping) isToolbarVisible = false
+    LaunchedEffect(isTyping, unifiedHeader, toolbarAutoShowDelay) {
+        if (!unifiedHeader) return@LaunchedEffect
+        if (isTyping) {
+            isToolbarHeaderVisible = false
+        } else {
+            delay(toolbarAutoShowDelay * 1000L)
+            isToolbarHeaderVisible = true
+        }
     }
     val orientation = config.orientation
     val effectiveHeight = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) keyboardHeightLandscape else keyboardHeightPortrait
@@ -173,35 +185,50 @@ fun KeyboardComposeView(
                     .fillMaxWidth()
                     .padding(bottom = 8.dp)
             ) {
-                if (autoHideToolbar && !isToolbarVisible) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth().height(42.dp).background(theme.suggestionBgColor).padding(horizontal = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        androidx.compose.material3.TextButton(onClick = { isToolbarVisible = true }) {
-                            Text("⟨⟨", color = theme.keyTextColor, fontSize = 14.sp, fontWeight = FontWeight.Bold)
-                        }
+                val isToolbarCollapsed = unifiedHeader && !isToolbarHeaderVisible
+                val showSuggestionBar = alwaysShowSuggestions && mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD
+                // UNIFIED HEADER: exactly ONE header is drawn at a time.
+                // - Keyboard opens            -> toolbar header
+                // - Typing starts             -> suggestion strip replaces the toolbar
+                // - Strip toggle button       -> toolbar back (suggestions hidden)
+                // - Typing starts again       -> toolbar auto-hides, suggestions return
+                // The swap between the two headers is animated with the user-selected
+                // HeaderAnimation style (see HeaderAnimation.kt).
+                AnimatedHeaderSwitcher(
+                    showToolbar = !(isToolbarCollapsed && showSuggestionBar),
+                    animation = headerAnimation,
+                    toolbar = {
+                        SmartToolbar(
+                            currentMode = mode,
+                            theme = theme,
+                            isIncognito = isIncognito,
+                            showVoiceKey = showVoiceKey,
+                            showEmojiKey = effectiveShowEmojiKey,
+                            showGlobeKey = showGlobeKey,
+                            liveCps = liveCps,
+                            maxBurstCps = maxBurstCps,
+                            isSpeedActive = isSpeedActive,
+                            meterTheme = meterTheme,
+                            meterFont = meterFont,
+                            onModeChange = onModeChange,
+                            onVoiceClick = onVoiceClick,
+                            onThemeToggle = onThemeToggle,
+                            onOpenSettings = onOpenSettings,
+                            onIncognitoToggle = onIncognitoToggle
+                        )
+                    },
+                    suggestions = {
+                        // The suggestion strip IS the header while typing; its trailing button
+                        // brings the full toolbar back.
+                        CandidateStrip(
+                            composingText = composingText,
+                            suggestions = suggestions,
+                            theme = theme,
+                            onSuggestionSelect = onSuggestionSelect,
+                            onShowToolbar = { isToolbarHeaderVisible = true }
+                        )
                     }
-                } else {
-                    SmartToolbar(
-                        currentMode = mode,
-                        theme = theme,
-                        isIncognito = isIncognito,
-                        showVoiceKey = showVoiceKey,
-                        showEmojiKey = effectiveShowEmojiKey,
-                        showGlobeKey = showGlobeKey,
-                        liveCps = liveCps,
-                        maxBurstCps = maxBurstCps,
-                        isSpeedActive = isSpeedActive,
-                        meterTheme = meterTheme,
-                        meterFont = meterFont,
-                        onModeChange = onModeChange,
-                        onVoiceClick = onVoiceClick,
-                        onThemeToggle = onThemeToggle,
-                        onOpenSettings = onOpenSettings,
-                        onIncognitoToggle = onIncognitoToggle
-                    )
-                }
+                )
 
                 when (mode) {
                     KeyboardMode.EMOJI -> {
@@ -232,7 +259,12 @@ fun KeyboardComposeView(
                         onClipClick = { clip -> onKeyTap(clip) }
                     )
                     else -> {
-                        if (alwaysShowSuggestions || suggestions.isNotEmpty() || composingText.isNotEmpty()) {
+                        // Suggestion bar is shown ONLY when "Always show suggestions" is on.
+                        // When the toggle is off, no suggestion bar appears on the keyboard —
+                        // not even while typing (the toggle is the master switch).
+                        // With the unified header on, suggestions are already drawn as the
+                        // header (above), so no separate strip is rendered here.
+                        if (showSuggestionBar && !unifiedHeader) {
                             CandidateStrip(
                                 composingText = composingText,
                                 suggestions = suggestions,
@@ -570,7 +602,15 @@ fun ToolbarBadge(label: String, active: Boolean, theme: KeyboardTheme, onClick: 
 }
 
 @Composable
-fun CandidateStrip(composingText: String, suggestions: List<String>, theme: KeyboardTheme, onSuggestionSelect: (String) -> Unit) {
+fun CandidateStrip(
+    composingText: String,
+    suggestions: List<String>,
+    theme: KeyboardTheme,
+    onSuggestionSelect: (String) -> Unit,
+    // UNIFIED HEADER: when set, a trailing toggle button is drawn that hides the suggestion
+    // strip and shows the full toolbar (tap-to-swap, one header at a time).
+    onShowToolbar: (() -> Unit)? = null
+) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -599,7 +639,11 @@ fun CandidateStrip(composingText: String, suggestions: List<String>, theme: Keyb
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
             )
         } else {
-            LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp), verticalAlignment = Alignment.CenterVertically) {
+            LazyRow(
+                modifier = Modifier.weight(1f),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 items(suggestions) { candidate ->
                     Box(
                         modifier = Modifier
@@ -612,6 +656,17 @@ fun CandidateStrip(composingText: String, suggestions: List<String>, theme: Keyb
                     }
                 }
             }
+        }
+
+        if (onShowToolbar != null) {
+            Spacer(modifier = Modifier.width(4.dp))
+            ToolbarIcon(
+                icon = Icons.Default.KeyboardArrowUp,
+                contentDescription = "Show toolbar",
+                active = false,
+                theme = theme,
+                onClick = onShowToolbar
+            )
         }
     }
 }
