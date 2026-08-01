@@ -3,6 +3,8 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -24,7 +26,10 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,6 +37,7 @@ import com.example.data.UserPreferences
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
 import kotlinx.coroutines.launch
+import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -419,6 +425,7 @@ fun ColorPickerSection(
     options: List<Color>,
     onColorSelected: (Color) -> Unit
 ) {
+    var showPicker by remember { mutableStateOf(false) }
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -446,12 +453,189 @@ fun ColorPickerSection(
                     }
                 }
             }
+            item {
+                Box(
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clip(CircleShape)
+                        .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable { showPicker = true },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Custom color",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
         }
+    }
+    if (showPicker) {
+        ColorPickerDialog(
+            title = title,
+            initialColor = selectedColor,
+            onDismiss = { showPicker = false },
+            onConfirm = { onColorSelected(it) }
+        )
     }
 }
 
+@Composable
+private fun ColorPickerDialog(
+    title: String,
+    initialColor: Color,
+    onDismiss: () -> Unit,
+    onConfirm: (Color) -> Unit
+) {
+    var temp by remember(initialColor) { mutableStateOf(initialColor) }
+    val hsv = remember(temp) { temp.toHsvArr() }
+    val hue = hsv[0]
+    val saturation = hsv[1]
+    val value = hsv[2]
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title, fontWeight = FontWeight.Bold) },
+        text = {
+            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                ) {
+                    Box(
+                        modifier = Modifier
+                            .size(44.dp)
+                            .clip(RoundedCornerShape(10.dp))
+                            .border(1.dp, MaterialTheme.colorScheme.outline, RoundedCornerShape(10.dp))
+                            .background(temp)
+                    )
+                    Text(
+                        text = String.format("#%06X", 0xFFFFFF and temp.toArgb()),
+                        fontFamily = FontFamily.Monospace,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontWeight = FontWeight.SemiBold
+                    )
+                }
+                ColorSliderRow(
+                    label = "Hue",
+                    value = hue,
+                    onValueChange = { temp = hsvColor(it, saturation, value, temp.alpha) },
+                    gradient = hueGradientColors
+                )
+                ColorSliderRow(
+                    label = "Saturation",
+                    value = saturation,
+                    onValueChange = { temp = hsvColor(hue, it, value, temp.alpha) },
+                    gradient = listOf(hsvColor(hue, 0f, value), hsvColor(hue, 1f, value))
+                )
+                ColorSliderRow(
+                    label = "Value",
+                    value = value,
+                    onValueChange = { temp = hsvColor(hue, saturation, it, temp.alpha) },
+                    gradient = listOf(hsvColor(hue, saturation, 0f), hsvColor(hue, saturation, 1f))
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(temp); onDismiss() }) {
+                Text("Done", fontWeight = FontWeight.Bold)
+            }
+        },
+        dismissButton = {
+            TextButton(onClick = onDismiss) { Text("Cancel") }
+        }
+    )
+}
+
+@Composable
+private fun ColorSliderRow(
+    label: String,
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    gradient: List<Color>
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+        Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+        GradientSlider(value = value, onValueChange = onValueChange, gradient = gradient)
+    }
+}
+
+@Composable
+private fun GradientSlider(
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    gradient: List<Color>
+) {
+    val density = LocalDensity.current
+    val currentOnValueChange by rememberUpdatedState(onValueChange)
+    BoxWithConstraints(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(32.dp)
+    ) {
+        val trackHeight = 12.dp
+        val thumbSize = 24.dp
+        val usableWidth = maxWidth - thumbSize
+        val usableWidthPx = with(density) { usableWidth.toPx() }
+        val thumbHalfPx = with(density) { (thumbSize / 2).toPx() }
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(trackHeight)
+                .align(Alignment.CenterStart)
+                .clip(RoundedCornerShape(trackHeight / 2))
+                .background(Brush.horizontalGradient(gradient))
+        )
+        Box(
+            modifier = Modifier
+                .size(thumbSize)
+                .align(Alignment.CenterStart)
+                .offset(x = usableWidth * value)
+                .clip(CircleShape)
+                .background(Color.White)
+                .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
+                .shadow(2.dp, CircleShape)
+        )
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .pointerInput(Unit) {
+                    detectTapGestures { pos ->
+                        val newValue = ((pos.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f)
+                        currentOnValueChange(newValue)
+                    }
+                }
+                .pointerInput(Unit) {
+                    detectDragGestures { change, _ ->
+                        change.consume()
+                        val newValue = ((change.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f)
+                        currentOnValueChange(newValue)
+                    }
+                }
+        )
+    }
+}
+
+private val hueGradientColors = listOf(
+    Color.Red, Color.Yellow, Color.Green, Color.Cyan, Color.Blue, Color.Magenta, Color.Red
+)
+
 private fun colorToHex(color: Color): String {
     return String.format("#%08X", color.toArgb())
+}
+
+private fun Color.toHsvArr(): FloatArray {
+    val hsv = FloatArray(3)
+    android.graphics.Color.colorToHSV(toArgb(), hsv)
+    return hsv
+}
+
+private fun hsvColor(hue: Float, saturation: Float, value: Float, alpha: Float = 1f): Color {
+    return Color(android.graphics.Color.HSVToColor((alpha * 255f).roundToInt(), floatArrayOf(hue, saturation, value)))
 }
 
 private fun hexToColor(hex: String): Color {
