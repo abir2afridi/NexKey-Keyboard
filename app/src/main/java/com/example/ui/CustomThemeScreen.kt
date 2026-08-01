@@ -3,8 +3,8 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.detectDragGestures
-import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.gestures.awaitEachGesture
+import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
@@ -429,6 +430,24 @@ fun ColorPickerSection(
     Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
         Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontWeight = FontWeight.SemiBold, fontSize = 14.sp)
         LazyRow(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            item {
+                Box(
+                    modifier = Modifier
+                        .size(38.dp)
+                        .clip(CircleShape)
+                        .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
+                        .clickable { showPicker = true },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.Add,
+                        contentDescription = "Custom color",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
+            }
             items(options) { color ->
                 Box(
                     modifier = Modifier
@@ -490,11 +509,12 @@ private fun ColorPickerDialog(
     onDismiss: () -> Unit,
     onConfirm: (Color) -> Unit
 ) {
-    var temp by remember(initialColor) { mutableStateOf(initialColor) }
-    val hsv = remember(temp) { temp.toHsvArr() }
-    val hue = hsv[0]
-    val saturation = hsv[1]
-    val value = hsv[2]
+    val initialHsv = remember(initialColor) { initialColor.toHsvArr() }
+    var hue by remember(initialColor) { mutableFloatStateOf(initialHsv[0]) }
+    var saturation by remember(initialColor) { mutableFloatStateOf(initialHsv[1]) }
+    var value by remember(initialColor) { mutableFloatStateOf(initialHsv[2]) }
+    val alpha = initialColor.alpha
+    val temp = hsvColor(hue, saturation, value, alpha)
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -522,20 +542,20 @@ private fun ColorPickerDialog(
                 ColorSliderRow(
                     label = "Hue",
                     value = hue,
-                    onValueChange = { temp = hsvColor(it, saturation, value, temp.alpha) },
+                    onValueChange = { hue = it },
                     gradient = hueGradientColors
                 )
                 ColorSliderRow(
                     label = "Saturation",
                     value = saturation,
-                    onValueChange = { temp = hsvColor(hue, it, value, temp.alpha) },
-                    gradient = listOf(hsvColor(hue, 0f, value), hsvColor(hue, 1f, value))
+                    onValueChange = { saturation = it },
+                    gradient = listOf(hsvColor(hue, 0f, value, alpha), hsvColor(hue, 1f, value, alpha))
                 )
                 ColorSliderRow(
                     label = "Value",
                     value = value,
-                    onValueChange = { temp = hsvColor(hue, saturation, it, temp.alpha) },
-                    gradient = listOf(hsvColor(hue, saturation, 0f), hsvColor(hue, saturation, 1f))
+                    onValueChange = { value = it },
+                    gradient = listOf(hsvColor(hue, saturation, 0f, alpha), hsvColor(hue, saturation, 1f, alpha))
                 )
             }
         },
@@ -604,25 +624,23 @@ private fun GradientSlider(
             modifier = Modifier
                 .matchParentSize()
                 .pointerInput(Unit) {
-                    detectTapGestures { pos ->
-                        val newValue = ((pos.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f)
-                        currentOnValueChange(newValue)
-                    }
-                }
-                .pointerInput(Unit) {
-                    detectDragGestures { change, _ ->
-                        change.consume()
-                        val newValue = ((change.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f)
-                        currentOnValueChange(newValue)
+                    awaitEachGesture {
+                        val down = awaitFirstDown(requireUnconsumed = false)
+                        currentOnValueChange(((down.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f))
+                        while (true) {
+                            val event = awaitPointerEvent()
+                            val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                            if (change.changedToUpIgnoreConsumed()) break
+                            change.consume()
+                            currentOnValueChange(((change.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f))
+                        }
                     }
                 }
         )
     }
 }
 
-private val hueGradientColors = listOf(
-    Color.Red, Color.Yellow, Color.Green, Color.Cyan, Color.Blue, Color.Magenta, Color.Red
-)
+private val hueGradientColors = (0..360 step 10).map { hsvColor(it.toFloat(), 1f, 1f) }
 
 private fun colorToHex(color: Color): String {
     return String.format("#%08X", color.toArgb())
