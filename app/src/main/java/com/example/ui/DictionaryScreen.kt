@@ -16,6 +16,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -42,10 +44,10 @@ fun DictionaryScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Personal Dictionary", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.dict_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
@@ -56,7 +58,7 @@ fun DictionaryScreen(
                                 words = emptyList()
                             }
                         }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Clear All", tint = Color(0xFFD93025))
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.dict_clear), tint = Color(0xFFD93025))
                         }
                     }
                 },
@@ -76,7 +78,7 @@ fun DictionaryScreen(
         } else if (words.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize().padding(32.dp), contentAlignment = Alignment.Center) {
                 Text(
-                    text = "Your dictionary is empty. NexKey learns new words as you type.",
+                    text = stringResource(R.string.dict_empty),
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     fontSize = 15.sp,
                     textAlign = androidx.compose.ui.text.style.TextAlign.Center,
@@ -93,7 +95,7 @@ fun DictionaryScreen(
             ) {
                 item {
                     Text(
-                        text = "Learned Words (${words.size})",
+                        text = stringResource(R.string.dict_learned, words.size),
                         color = MaterialTheme.colorScheme.primary,
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
@@ -134,13 +136,13 @@ fun WordItem(
         Column {
             Text(text = word, color = MaterialTheme.colorScheme.onSurface, fontSize = 17.sp, fontWeight = FontWeight.Medium)
             Text(
-                text = if (isBangla) "Bangla" else "English",
+                text = if (isBangla) stringResource(R.string.dict_bangla) else stringResource(R.string.dict_english),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 13.sp
             )
         }
         IconButton(onClick = onDelete) {
-            Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
+            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.dict_delete), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(22.dp))
         }
     }
 }

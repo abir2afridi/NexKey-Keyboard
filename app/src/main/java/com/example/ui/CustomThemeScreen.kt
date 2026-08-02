@@ -34,6 +34,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import com.example.data.UserPreferences
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
@@ -108,10 +110,10 @@ fun CustomThemeScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Theme Creator Pro", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.theme_creator_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
@@ -139,7 +141,7 @@ fun CustomThemeScreen(
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.padding(end = 8.dp)
                     ) {
-                        Text("Save", color = Color.White, fontWeight = FontWeight.Bold)
+                        Text(stringResource(R.string.save), color = Color.White, fontWeight = FontWeight.Bold)
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -159,7 +161,7 @@ fun CustomThemeScreen(
         ) {
             // Live Preview — fixed at top, does NOT scroll
             Spacer(modifier = Modifier.height(12.dp))
-            Text(text = "LIVE PREVIEW", color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
+            Text(text = stringResource(R.string.live_preview), color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
             ThemeDetailedPreview(currentTheme)
 
             // Scrollable color pickers below
@@ -172,19 +174,18 @@ fun CustomThemeScreen(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Customization Controls
-                Text(text = "DESIGN ELEMENTS", color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
-
-                ColorPickerSection(title = "Background", selectedColor = bgColor, options = colorOptions) { bgColor = it }
-                ColorPickerSection(title = "Primary Keys", selectedColor = keyBgColor, options = colorOptions) { keyBgColor = it }
-                ColorPickerSection(title = "Key Text", selectedColor = keyTextColor, options = colorOptions) { keyTextColor = it }
-                ColorPickerSection(title = "Special Keys (Shift/Enter)", selectedColor = keySpecialColor, options = colorOptions) { keySpecialColor = it }
-                ColorPickerSection(title = "Special Text/Icons", selectedColor = keySpecialTextColor, options = colorOptions) { keySpecialTextColor = it }
-                ColorPickerSection(title = "Accent (Active State)", selectedColor = accentColor, options = colorOptions) { accentColor = it }
-                ColorPickerSection(title = "Suggestion Strip Bg", selectedColor = suggestionBgColor, options = colorOptions) { suggestionBgColor = it }
-                ColorPickerSection(title = "Suggestion Text", selectedColor = suggestionTextColor, options = colorOptions) { suggestionTextColor = it }
-                ColorPickerSection(title = "Key Popup Bg", selectedColor = popupBgColor, options = colorOptions) { popupBgColor = it }
-                ColorPickerSection(title = "Key Popup Text", selectedColor = popupTextColor, options = colorOptions) { popupTextColor = it }
-                ColorPickerSection(title = "Sub-character Hints", selectedColor = keyHintColor, options = colorOptions) { keyHintColor = it }
+                Text(text = stringResource(R.string.design_elements), color = MaterialTheme.colorScheme.primary, fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, letterSpacing = 1.2.sp)
+                ColorPickerSection(title = stringResource(R.string.color_bg), selectedColor = bgColor, options = colorOptions) { bgColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_primary_keys), selectedColor = keyBgColor, options = colorOptions) { keyBgColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_key_text), selectedColor = keyTextColor, options = colorOptions) { keyTextColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_special_keys), selectedColor = keySpecialColor, options = colorOptions) { keySpecialColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_special_text), selectedColor = keySpecialTextColor, options = colorOptions) { keySpecialTextColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_accent), selectedColor = accentColor, options = colorOptions) { accentColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_suggestion_bg), selectedColor = suggestionBgColor, options = colorOptions) { suggestionBgColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_suggestion_text), selectedColor = suggestionTextColor, options = colorOptions) { suggestionTextColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_popup_bg), selectedColor = popupBgColor, options = colorOptions) { popupBgColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_popup_text), selectedColor = popupTextColor, options = colorOptions) { popupTextColor = it }
+                ColorPickerSection(title = stringResource(R.string.color_hints), selectedColor = keyHintColor, options = colorOptions) { keyHintColor = it }
 
                 Spacer(modifier = Modifier.height(8.dp))
 
@@ -204,7 +205,7 @@ fun CustomThemeScreen(
                     },
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Text("Reset to Default Dark Neon", color = MaterialTheme.colorScheme.error)
+                    Text(stringResource(R.string.reset_default), color = MaterialTheme.colorScheme.error)
                 }
 
                 Spacer(modifier = Modifier.height(120.dp))
@@ -442,7 +443,7 @@ fun ColorPickerSection(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Custom color",
+                        contentDescription = stringResource(R.string.custom_color),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(20.dp)
                     )
@@ -484,7 +485,7 @@ fun ColorPickerSection(
                 ) {
                     Icon(
                         imageVector = Icons.Default.Add,
-                        contentDescription = "Custom color",
+                        contentDescription = stringResource(R.string.custom_color),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.size(20.dp)
                     )
@@ -540,19 +541,19 @@ private fun ColorPickerDialog(
                     )
                 }
                 ColorSliderRow(
-                    label = "Hue",
+                    label = stringResource(R.string.hue),
                     value = hue,
                     onValueChange = { hue = it },
                     gradient = hueGradientColors
                 )
                 ColorSliderRow(
-                    label = "Saturation",
+                    label = stringResource(R.string.saturation),
                     value = saturation,
                     onValueChange = { saturation = it },
                     gradient = listOf(hsvColor(hue, 0f, value, alpha), hsvColor(hue, 1f, value, alpha))
                 )
                 ColorSliderRow(
-                    label = "Value",
+                    label = stringResource(R.string.value),
                     value = value,
                     onValueChange = { value = it },
                     gradient = listOf(hsvColor(hue, saturation, 0f, alpha), hsvColor(hue, saturation, 1f, alpha))
@@ -561,11 +562,11 @@ private fun ColorPickerDialog(
         },
         confirmButton = {
             TextButton(onClick = { onConfirm(temp); onDismiss() }) {
-                Text("Done", fontWeight = FontWeight.Bold)
+                Text(stringResource(R.string.done), fontWeight = FontWeight.Bold)
             }
         },
         dismissButton = {
-            TextButton(onClick = onDismiss) { Text("Cancel") }
+            TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) }
         }
     )
 }

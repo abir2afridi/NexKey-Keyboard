@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -90,14 +92,14 @@ fun SetupScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "Welcome to NexKey",
+                text = stringResource(R.string.setup_welcome),
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
 
             Text(
-                text = "Follow these steps to get started",
+                text = stringResource(R.string.setup_subtitle),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 16.sp,
                 modifier = Modifier.padding(top = 8.dp)
@@ -107,10 +109,10 @@ fun SetupScreen(
 
             SetupStepCard(
                 stepNumber = "1",
-                title = "Enable Keyboard",
-                description = "Turn on NexKey in system Settings → Languages & input → On-screen keyboard.",
+                title = stringResource(R.string.setup_enable_title),
+                description = stringResource(R.string.setup_enable_desc),
                 isCompleted = isEnabled,
-                buttonText = if (isEnabled) "Enabled \u2713" else "Open Settings",
+                buttonText = if (isEnabled) stringResource(R.string.setup_enabled) else stringResource(R.string.setup_open_settings),
                 onClick = {
                     context.startActivity(Intent(Settings.ACTION_INPUT_METHOD_SETTINGS))
                 }
@@ -120,10 +122,10 @@ fun SetupScreen(
 
             SetupStepCard(
                 stepNumber = "2",
-                title = "Select as Default",
-                description = "Choose NexKey as your active keyboard from the picker.",
+                title = stringResource(R.string.setup_select_title),
+                description = stringResource(R.string.setup_select_desc),
                 isCompleted = isSelected,
-                buttonText = if (isSelected) "Selected \u2713" else "Open Picker",
+                buttonText = if (isSelected) stringResource(R.string.setup_selected) else stringResource(R.string.setup_open_picker),
                 onClick = {
                     val imm = context.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     imm.showInputMethodPicker()
@@ -138,7 +140,7 @@ fun SetupScreen(
                     colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary),
                     shape = RoundedCornerShape(28.dp)
                 ) {
-                    Text("Finish Setup", color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
+                    Text(stringResource(R.string.setup_finish), color = Color.White, fontWeight = FontWeight.Bold, fontSize = 16.sp)
                 }
             }
 

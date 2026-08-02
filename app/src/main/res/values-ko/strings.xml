@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">홈</string>
+    <string name="nav_keyboard">키보드</string>
+    <string name="ime_action_search">검색</string>
+    <string name="ime_action_go">이동</string>
+    <string name="ime_action_send">보내기</string>
+    <string name="ime_action_next">다음</string>
+    <string name="ime_action_done">완료</string>
+    <string name="ime_incognito_on">시크릿 모드 켜짐</string>
+    <string name="ime_incognito_off">시크릿 모드 꺼짐</string>
+    <string name="ime_mic_permission">음성 입력을 사용하려면 설정 &gt; 앱 &gt; NexKey &gt; 권한에서 마이크 액세스를 허용하세요.</string>
+    <string name="ime_voice_unavailable">음성 입력을 사용할 수 없습니다</string>
+    <string name="ime_listening">듣는 중...</string>
+    <string name="ime_no_speech">음성이 감지되지 않았습니다</string>
+    <string name="ime_speech_timeout">음성 대기 시간 초과</string>
+    <string name="ime_network_error">네트워크 오류</string>
+    <string name="ime_recognizer_busy">인식기가 사용 중입니다</string>
+    <string name="ime_permission_denied">권한이 거부되었습니다</string>
+    <string name="ime_voice_error">오류: %1$s</string>
+    <string name="ime_voice_start_failed">음성 입력을 시작하지 못했습니다: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">오늘의 펄스</string>
+    <string name="home_pulse_desc">입력 효율성의 실시간 분석. RPM(분당 속도)은 생각을 단어로 바꾸는 개념적 속도를, 키/초는 레이아웃에서의 물리적 손가락 속도를 측정합니다.</string>
+    <string name="home_trends_title">사용 추이</string>
+    <string name="home_trends_desc">시간에 따른 키보드 활동을 추적합니다. 주간 및 월간 보기로 가장 생산적인 날을 찾을 수 있습니다.</string>
+    <string name="home_distribution_title">연간 분포</string>
+    <string name="home_distribution_desc">입력량의 계절별 분석. 이 도넛 차트로 가장 활동적인 달을 확인할 수 있습니다.</string>
+    <string name="home_heatmap_title">단어 히트맵</string>
+    <string name="home_heatmap_desc">어휘의 언어적 지문. 상위 단어가 미니 레이아웃에 표시됩니다. 키가 어두울수록 그 단어가 더 중심적입니다.</string>
+    <string name="home_emojis_title">이모지 리더보드</string>
+    <string name="home_emojis_desc">감정 표현 패턴을 시각화합니다. 가장 자주 사용하는 이모지 순위를 보여줍니다.</string>
+    <string name="home_greeting_morning">좋은 아침입니다</string>
+    <string name="home_greeting_afternoon">안녕하세요</string>
+    <string name="home_greeting_evening">좋은 저녁입니다</string>
+    <string name="home_greeting_night">안녕히 주무세요</string>
+    <string name="home_toggle_theme">테마 전환</string>
+    <string name="home_active">활성</string>
+    <string name="home_setup_badge">설정</string>
+    <string name="home_typing_sandbox">타이핑 샌드박스</string>
+    <string name="home_complete_setup">설정 완료</string>
+    <string name="home_quick_controls">빠른 제어</string>
+    <string name="home_haptics">햅틱</string>
+    <string name="home_sound">소리</string>
+    <string name="home_autofix">자동 수정</string>
+    <string name="home_numbers">숫자</string>
+    <string name="home_today_pulse">오늘의 펄스</string>
+    <string name="home_avg_rpm">평균 RPM</string>
+    <string name="home_keys_sec">키/초</string>
+    <string name="home_active_time">오늘 활성 타이핑 시간</string>
+    <string name="home_mins">분</string>
+    <string name="home_usage_trends">사용 추이</string>
+    <string name="home_week">주</string>
+    <string name="home_month">월</string>
+    <string name="home_yearly_distribution">연간 분포</string>
+    <string name="home_word_heatmap">단어 히트맵</string>
+    <string name="home_emoji_leaderboard">이모지 리더보드</string>
+    <string name="home_footer">NexKey Pro • 분석 v2.0</string>
+    <string name="home_got_it">알겠습니다</string>
+    <string name="home_heatmap_caption">상위 단어를 레이아웃에 표시</string>
+    <string name="home_uses">회 사용</string>
+
+    <!-- Common -->
+    <string name="back">뒤로</string>
+    <string name="made_with">만든 사람: </string>
+    <string name="made_by"> Abir Hasan Siam</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">NexKey에 오신 것을 환영합니다</string>
+    <string name="setup_subtitle">시작하려면 다음 단계를 따르세요</string>
+    <string name="setup_enable_title">키보드 사용</string>
+    <string name="setup_enable_desc">시스템 설정 → 언어 및 입력 → 화상 키보드에서 NexKey를 켜세요.</string>
+    <string name="setup_enabled">사용 중 ✓</string>
+    <string name="setup_open_settings">설정 열기</string>
+    <string name="setup_select_title">기본값으로 선택</string>
+    <string name="setup_select_desc">선택기에서 NexKey를 활성 키보드로 선택하세요.</string>
+    <string name="setup_selected">선택됨 ✓</string>
+    <string name="setup_open_picker">선택기 열기</string>
+    <string name="setup_finish">설정 완료</string>
+
+    <!-- Settings -->
+    <string name="settings_title">키보드 설정</string>
+    <string name="settings_back">뒤로</string>
+    <string name="settings_customization">키보드 사용자 지정</string>
+    <string name="settings_typing">입력</string>
+    <string name="settings_typing_desc">자동 대문자, 더블 스페이스, 탭</string>
+    <string name="settings_feedback">피드백</string>
+    <string name="settings_feedback_desc">진동, 소리, 팝업</string>
+    <string name="settings_language_keys">언어 및 키</string>
+    <string name="settings_language_keys_desc">음성, 이모지, 지구본 키</string>
+    <string name="settings_layout">레이아웃</string>
+    <string name="settings_layout_desc">숫자 행, 분할, 크기 조절</string>
+    <string name="settings_size">크기</string>
+    <string name="settings_size_desc">높이 및 너비 조정</string>
+    <string name="settings_navigation">탐색</string>
+    <string name="settings_navigation_desc">커서 및 볼륨 제어</string>
+    <string name="settings_paste">붙여넣기 및 클립보드</string>
+    <string name="settings_paste_desc">키를 길게 눌러 붙여넣기, 클립보드 설정</string>
+    <string name="settings_emoji">이모지</string>
+    <string name="settings_emoji_desc">최근 이모지 보존</string>
+    <string name="settings_advanced">고급</string>
+    <string name="settings_advanced_desc">지연, 커서, 동작</string>
+    <string name="settings_text_correction">텍스트 수정</string>
+    <string name="settings_text_correction_desc">추천 및 사전</string>
+    <string name="settings_more_languages">추가 언어</string>
+    <string name="settings_more_languages_desc">영어, 벵골어, Avro, 아랍어...</string>
+    <string name="settings_gif_quality">GIF 품질</string>
+    <string name="settings_gif_quality_desc">GIF 데이터 사용량 관리</string>
+    <string name="settings_header_animation">헤더 애니메이션</string>
+    <string name="settings_header_animation_desc">페이드, 슬라이드, 줌 효과</string>
+
+    <!-- About -->
+    <string name="about_title">정보</string>
+    <string name="about_name">NexKey Keyboard</string>
+    <string name="about_version">버전 1.0.0 (릴리스)</string>
+    <string name="about_description">NexKey는 속도와 개인정보 보호를 위해 설계된 현대적인 프리미엄 키보드입니다. 업계 최고 수준의 벵골어 음성 전사와 지능형 수정 엔진을 갖추고 있습니다.</string>
+    <string name="about_rate">NexKey 평가</string>
+    <string name="about_website">웹사이트 방문</string>
+    <string name="about_licenses">오픈소스 라이선스</string>
+    <string name="about_privacy">개인정보 처리방침</string>
+    <string name="about_developer">개발자</string>
+
+    <!-- Developer -->
+    <string name="developer_title">개발자</string>
+    <string name="developer_name">Abir Hasan Siam</string>
+    <string name="developer_bio">22세 | 가지푸르, 다카</string>
+    <string name="developer_blood">혈액형: B+</string>
+    <string name="developer_education">학력</string>
+    <string name="developer_edu_bsc">컴퓨터 과학 학사 - 방글라데시 독립대학교 (2021~현재)</string>
+    <string name="developer_edu_hsc">HSC - Misir Ali Khan School &amp; College (2019-2020)</string>
+    <string name="developer_edu_ssc">SSC - Professor MEH Arif Secondary School (2017-2018)</string>
+    <string name="developer_skills">기술 및 역량</string>
+    <string name="developer_skill_dart">Dart (Flutter), React, Python</string>
+    <string name="developer_skill_android">Android APK, Flutter, React.js</string>
+    <string name="developer_skill_ui">앱 UI/UX, 그라데이션 및 카드 레이아웃</string>
+    <string name="developer_skill_tools">Windows, Linux, Git, GitHub</string>
+    <string name="developer_contact">연락처</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">앱 설정</string>
+    <string name="app_settings_look_feel">모양 및 느낌</string>
+    <string name="app_settings_accent_color">강조 색상</string>
+    <string name="app_settings_navigation">탐색</string>
+    <string name="app_settings_other">기타</string>
+    <string name="app_settings_app_language">앱 언어</string>
+    <string name="app_settings_app_language_sub">벵골어와 영어 간 전환</string>
+    <string name="app_language_title">앱 언어</string>
+    <string name="app_language_subtitle">앱 인터페이스 표시 언어 선택</string>
+    <string name="app_language_selected">선택됨</string>
+    <string name="app_settings_about">정보</string>
+    <string name="app_settings_about_sub">NexKey Keyboard 정보</string>
+    <string name="app_settings_theme_system">시스템 기본값</string>
+    <string name="app_settings_theme_light">라이트</string>
+    <string name="app_settings_theme_dark">다크</string>
+    <string name="app_settings_nav_standard">표준 하단 바</string>
+    <string name="app_settings_nav_floating">플로팅 필 바</string>
+    <string name="accent_green">초록</string>
+    <string name="accent_blue">파랑</string>
+    <string name="accent_purple">보라</string>
+    <string name="accent_teal">청록</string>
+    <string name="accent_orange">주황</string>
+    <string name="accent_pink">분홍</string>
+    <string name="accent_red">빨강</string>
+    <string name="accent_indigo">남색</string>
+
+    <!-- Themes -->
+    <string name="themes_title">키보드 테마</string>
+    <string name="themes_subtitle">키보드용 프리셋 선택</string>
+    <string name="theme_dark_neon">다크 네온</string>
+    <string name="theme_midnight_blue">미드나이트 블루</string>
+    <string name="theme_royal_purple">로열 퍼플</string>
+    <string name="theme_sakura_pink">사쿠라 핑크</string>
+    <string name="theme_sunset_orange">선셋 오렌지</string>
+    <string name="theme_emerald_green">에메랄드 그린</string>
+    <string name="theme_crimson_red">크림슨 레드</string>
+    <string name="theme_deep_ocean">딥 오션</string>
+    <string name="theme_forest_moss">포레스트 모스</string>
+    <string name="theme_golden_sand">골든 샌드</string>
+    <string name="theme_lavender_dream">라벤더 드림</string>
+    <string name="theme_light_minimal">라이트 미니멀</string>
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_amoled_black">AMOLED 블랙</string>
+    <string name="theme_retro_grey">레트로 그레이</string>
+    <string name="theme_cyberpunk">사이버펑크</string>
+    <string name="theme_custom">사용자 지정</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">타이핑 샌드박스</string>
+    <string name="sandbox_desc">이 플레이그라운드에서 키보드를 테스트하세요. 여기서의 입력은 저장되지 않습니다.</string>
+    <string name="sandbox_try">여기에 입력해 보세요...</string>
+    <string name="sandbox_placeholder">예: ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">타이핑 분석</string>
+    <string name="stats_productivity">나의 생산성</string>
+    <string name="stats_total_words">총 단어</string>
+    <string name="stats_total_chars">총 문자</string>
+    <string name="stats_milestones">타이핑 이정표</string>
+    <string name="stats_milestone_1_title">NexKey 탐험가</string>
+    <string name="stats_milestone_1_desc">첫 100단어 입력</string>
+    <string name="stats_milestone_2_title">스피드 데몬</string>
+    <string name="stats_milestone_2_desc">1,000자 이상 입력</string>
+    <string name="stats_milestone_3_title">언어 마에스트로</string>
+    <string name="stats_milestone_3_desc">5,000단어 이상 입력</string>
+    <string name="stats_saved">NexKey 예측으로 약 %1$s초를 절약했습니다!</string>
+
+    <!-- Store -->
+    <string name="store_title">스토어</string>
+    <string name="store_tab_shop">쇼핑</string>
+    <string name="store_tab_themes">테마</string>
+    <string name="store_tab_meter">미터</string>
+    <string name="meter_designs">속도 미터 디자인</string>
+    <string name="meter_font_style">숫자 글꼴 스타일</string>
+    <string name="store_coming_soon">곧 출시</string>
+    <string name="store_shop_desc">프리미엄 테마, 스티커 팩 등이 여기에 제공됩니다.</string>
+    <string name="store_browse_themes">테마 둘러보기</string>
+    <string name="store_browse_themes_sub">프리셋 테마에서 선택</string>
+    <string name="store_custom_theme">사용자 지정 테마</string>
+    <string name="store_custom_theme_sub">나만의 테마 만들기</string>
+    <string name="meter_calculator">계산기</string>
+    <string name="meter_minimal_dark">미니멀 다크</string>
+    <string name="meter_neon_cyber">네온 사이버</string>
+    <string name="meter_retro_lcd">레트로 LCD</string>
+    <string name="meter_ghost_white">고스트 화이트</string>
+    <string name="meter_amber_retro">앰버 레트로</string>
+    <string name="meter_cyber_lime">사이버 라임</string>
+    <string name="meter_violet_glow">바이올렛 글로우</string>
+    <string name="meter_font_digital">디지털</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">세그먼트</string>
+    <string name="meter_font_modern">모던</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">클립보드 관리자</string>
+    <string name="clipboard_clear">고정 안 된 항목 지우기</string>
+    <string name="clipboard_empty">기록에 클립이 없습니다</string>
+    <string name="clipboard_pin">고정</string>
+    <string name="clipboard_pinned">고정됨</string>
+    <string name="clipboard_recent">최근</string>
+    <string name="clipboard_delete">삭제</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">개인 사전</string>
+    <string name="dict_clear">모두 지우기</string>
+    <string name="dict_empty">사전이 비어 있습니다. NexKey는 입력하면서 새 단어를 학습합니다.</string>
+    <string name="dict_learned">학습한 단어 (%1$d)</string>
+    <string name="dict_bangla">벵골어</string>
+    <string name="dict_english">영어</string>
+    <string name="dict_delete">삭제</string>
+
+    <!-- Help -->
+    <string name="help_title">도움말 및 가이드</string>
+    <string name="help_cheatsheet">Ridmik 클래스 음성 치트 시트</string>
+    <string name="help_phon_i_me">나</string>
+    <string name="help_phon_bengali">벵골어</string>
+    <string name="help_phon_my_mine">내 것</string>
+    <string name="help_phon_golden">황금</string>
+    <string name="help_phon_work">일</string>
+    <string name="help_phon_juktakkhor">Juktakkhor</string>
+    <string name="help_phon_vowel">모음</string>
+    <string name="help_phon_consonant">자음</string>
+    <string name="help_phon_dari">Dari</string>
+    <string name="help_tips">팁</string>
+    <string name="help_tip_conjuncts">결합 (যুক্তাক্ষর)</string>
+    <string name="help_tip_conjuncts_desc">두 글자를 입력하면 유효한 경우 NexKey가 자동으로 결합합니다. 예: \'kS\' → \'ক্ষ\'</string>
+    <string name="help_tip_modes">모드 전환</string>
+    <string name="help_tip_modes_desc">키보드에서 지구본 아이콘이나 \'ABC/?123\' 키를 눌러 벵골어와 영어를 전환하세요.</string>
+    <string name="help_tip_voice">음성 입력</string>
+    <string name="help_tip_voice_desc">도구 모음의 마이크 아이콘을 눌러 입력 대신 말하세요.</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">자동 대문자화</string>
+    <string name="typing_auto_cap_desc">각 문장의 첫 단어를 대문자로</string>
+    <string name="typing_double_space_period">더블 스페이스 마침표</string>
+    <string name="typing_double_space_period_desc">스페이스바를 두 번 누르면 마침표와 공백이 삽입됩니다</string>
+    <string name="typing_double_space_tab">더블 스페이스 탭</string>
+    <string name="typing_double_space_tab_desc">스페이스바를 두 번 누르면 탭이 삽입됩니다</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">키 입력 시 진동</string>
+    <string name="feedback_sound">키 입력 시 소리</string>
+    <string name="feedback_popup">키 입력 시 팝업</string>
+    <string name="feedback_vibrate_intensity">키 입력 진동 강도</string>
+    <string name="feedback_sound_volume">키 입력 소리 볼륨</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">음성 입력 키</string>
+    <string name="langkeys_emoji">이모지 키 표시</string>
+    <string name="langkeys_emoji_desc">이모지 버튼으로 전환</string>
+    <string name="langkeys_globe">지구본 키 표시</string>
+    <string name="langkeys_globe_desc">키보드 언어 전환</string>
+    <string name="langkeys_other_kb">다른 키보드 허용</string>
+    <string name="langkeys_other_kb_desc">지구본 키로 다른 키보드로 전환</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">숫자 행 사용</string>
+    <string name="layout_number_row_desc">추가 행 추가</string>
+    <string name="layout_large_number_row">큰 숫자 행</string>
+    <string name="layout_hide_hints">길게 누르기 힌트 숨기기</string>
+    <string name="layout_hide_hints_desc">키 모서리의 작은 라벨 숨기기</string>
+    <string name="layout_resizing">키보드 크기 조절 사용</string>
+    <string name="layout_split">분할 키보드 사용</string>
+    <string name="layout_split_desc">폴더블 폰용</string>
+    <string name="layout_forced_enter">강제 엔터 버튼</string>
+    <string name="layout_forced_enter_desc">엔터에 이모지 표시 안 함</string>
+    <string name="layout_always_suggestions">항상 추천 표시</string>
+    <string name="layout_always_suggestions_desc">키보드에 추천 바를 표시합니다. 끄면 추천 바가 표시되지 않습니다</string>
+    <string name="layout_unified_header">통합 헤더</string>
+    <string name="layout_unified_header_desc">도구 모음과 추천이 하나의 헤더를 공유합니다: 도구 모음이 먼저 표시되고 입력 중에는 추천으로 대체됩니다. 스트립 버튼을 눌러 도구 모음으로 돌아갑니다</string>
+    <string name="layout_auto_show_delay">도구 모음 자동 표시 지연(초)</string>
+    <string name="layout_auto_show_delay_desc">도구 모음은 입력 후 자동으로 돌아오지 않습니다. 키보드가 이 시간 동안 유휴 상태일 때만 다시 표시됩니다. 낮을수록 빠릅니다.</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">키보드 높이(세로)</string>
+    <string name="size_height_landscape">키보드 높이(가로)</string>
+    <string name="size_width_portrait">한 손 너비(세로)</string>
+    <string name="size_width_landscape">한 손 너비(가로)</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">스페이스 키로 커서 이동</string>
+    <string name="nav_move_cursor_desc">스페이스를 스와이프하여 커서 이동</string>
+    <string name="nav_volume_cursor">볼륨 키 커서 제어</string>
+    <string name="nav_volume_cursor_desc">볼륨 버튼으로 커서 이동</string>
+    <string name="nav_smart_volume">스마트 볼륨 제어</string>
+    <string name="nav_smart_volume_desc">오디오 재생 중 커서를 이동하지 않음</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">키를 길게 눌러 붙여넣기</string>
+    <string name="paste_hold_paste_desc">키를 길게 눌러 클립보드 텍스트 붙여넣기</string>
+    <string name="paste_trigger_key">트리거 키</string>
+    <string name="paste_trigger_key_desc">붙여넣기를 위해 누르고 있을 키</string>
+    <string name="paste_hold_duration">누르고 있기 시간</string>
+    <string name="paste_recent">클립보드 최근 항목</string>
+    <string name="paste_recent_desc">최근 복사 또는 잘라낸 텍스트를 클립보드에 표시</string>
+    <string name="paste_expiry">클립보드 항목 자동 삭제</string>
+    <string name="paste_expiry_desc">선택한 시간 후 복사본 삭제</string>
+    <string name="paste_expiry_never">안 함</string>
+    <string name="paste_expiry_1m">1분</string>
+    <string name="paste_expiry_5m">5분</string>
+    <string name="paste_expiry_365d">365일</string>
+    <string name="paste_images">복사한 이미지를 클립보드에 표시</string>
+    <string name="paste_images_desc">스크린샷 또는 복사한 이미지 표시</string>
+    <string name="paste_delete_all">모든 클립보드 항목 삭제</string>
+    <string name="paste_delete_all_desc">고정되지 않은 복사 텍스트 모두 삭제</string>
+    <string name="paste_view_history">클립보드 기록 보기</string>
+    <string name="paste_view_history_desc">복사한 모든 텍스트 보기</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">최근 이모지 보존</string>
+    <string name="emoji_retention_desc">최근 사용한 이모지를 기억할 기간</string>
+    <string name="emoji_expiry_1d">1일</string>
+    <string name="emoji_expiry_7d">7일</string>
+    <string name="emoji_expiry_30d">30일</string>
+    <string name="emoji_expiry_90d">90일</string>
+    <string name="emoji_expiry_forever">영구</string>
+    <string name="emoji_horizontal">가로 스크롤</string>
+    <string name="emoji_horizontal_desc_rows">행이 독립적으로 좌우 스크롤</string>
+    <string name="emoji_horizontal_desc_vertical">세로 목록 레이아웃</string>
+    <string name="emoji_visible_rows">표시 행 수</string>
+    <string name="emoji_visible_rows_desc">검색 결과에 표시되는 이모지 행 수</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d개 행</item>
+        <item quantity="other">%1$d개 행</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">키 길게 누르기 지연(ms)</string>
+    <string name="adv_popup_dismiss_label">팝업 닫기 지연: %1$s</string>
+    <string name="adv_dismiss_default">기본값</string>
+    <string name="adv_dismiss_short">짧게</string>
+    <string name="adv_dismiss_long">길게</string>
+    <string name="adv_space_delay">스페이스바 커서 이동 지연</string>
+    <string name="adv_space_speed">스페이스바 커서 이동 속도</string>
+    <string name="adv_physical_emoji">물리 키보드 이모지 키</string>
+    <string name="adv_physical_emoji_desc">하드웨어 키보드에서 이모지 키 단축키 사용</string>
+    <string name="adv_typed_first">입력한 단어를 먼저 표시</string>
+    <string name="adv_typed_first_desc">입력한 정확한 단어가 첫 번째 추천으로 표시</string>
+    <string name="adv_backspace_delay">백스페이스 반복 지연(ms)</string>
+    <string name="adv_backspace_speed">백스페이스 반복 속도(ms)</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">자동 수정</string>
+    <string name="tc_auto_correct_desc">구두점이 단어를 수정</string>
+    <string name="tc_phonetic">음성 자동 수정</string>
+    <string name="tc_phonetic_desc">벵골어 전사 수정</string>
+    <string name="tc_show_suggestions">추천 표시</string>
+    <string name="tc_show_suggestions_desc">입력 중 단어 표시</string>
+    <string name="tc_personalized">개인화된 추천</string>
+    <string name="tc_personalized_desc">대화에서 학습</string>
+    <string name="tc_next_word">다음 단어 추천</string>
+    <string name="tc_next_word_desc">이전 단어 사용</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">키보드 언어</string>
+    <string name="more_lang_desc">활성 키보드 레이아웃 사용 또는 비활성화</string>
+    <string name="more_lang_english">영어</string>
+    <string name="more_lang_english_desc">QWERTY 레이아웃 (항상 사용)</string>
+    <string name="more_lang_bangla">벵골어 (বাংলা)</string>
+    <string name="more_lang_bangla_desc">방글라데시 표준 국가 레이아웃</string>
+    <string name="more_lang_avro">Avro (অভ্র)</string>
+    <string name="more_lang_avro_desc">공식 Avro 음성 전사 엔진</string>
+    <string name="more_lang_arabic">아랍어 (عربي)</string>
+    <string name="more_lang_arabic_desc">아랍어 문자 레이아웃</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">고품질 GIF 표시</string>
+    <string name="gif_show_high_desc">더 많은 데이터 필요</string>
+    <string name="gif_send_high">고품질 GIF 보내기</string>
+    <string name="gif_send_high_desc">보내기 전에 다운로드</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">입력 중 도구 모음과 추천 바가 서로 전환되는 방식을 선택하세요 (통합 헤더).</string>
+    <string name="header_anim_none">없음</string>
+    <string name="header_anim_none_desc">헤더가 즉시 전환, 애니메이션 없음</string>
+    <string name="header_anim_fade">페이드</string>
+    <string name="header_anim_fade_desc">두 헤더 간 부드러운 크로스페이드</string>
+    <string name="header_anim_slide">슬라이드 업</string>
+    <string name="header_anim_slide_desc">새 헤더가 아래에서 위로 슬라이드</string>
+    <string name="header_anim_slide_fade">슬라이드 및 페이드</string>
+    <string name="header_anim_slide_fade_desc">슬라이드 업과 페이드 결합</string>
+    <string name="header_anim_zoom">줌</string>
+    <string name="header_anim_zoom_desc">새 헤더가 중앙에서 확대</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">최근</string>
+    <string name="emoji_cat_smileys">스마일리</string>
+    <string name="emoji_cat_people">사람</string>
+    <string name="emoji_cat_hearts">하트</string>
+    <string name="emoji_cat_animals">동물</string>
+    <string name="emoji_cat_food">음식</string>
+    <string name="emoji_cat_activity">활동</string>
+    <string name="emoji_cat_travel">여행</string>
+    <string name="emoji_cat_objects">사물</string>
+    <string name="emoji_cat_symbols">기호</string>
+    <string name="emoji_cat_flags">깃발</string>
+    <string name="emoji_tab_emoji">이모지</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">스티커</string>
+    <string name="emoji_search_hint">이모지 검색...</string>
+    <string name="emoji_no_recent">최근 이모지가 없습니다\n이모지를 사용해 보세요!</string>
+    <string name="emoji_gif_coming_soon">GIF 지원이 곧 제공됩니다</string>
+    <string name="emoji_sticker_coming_soon">스티커 지원이 곧 제공됩니다</string>
+    <string name="emoji_no_found">이모지를 찾을 수 없습니다</string>
+    <string name="emoji_close">닫기</string>
+    <string name="emoji_delete">삭제</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">테마 크리에이터 Pro</string>
+    <string name="save">저장</string>
+    <string name="live_preview">라이브 미리보기</string>
+    <string name="design_elements">디자인 요소</string>
+    <string name="color_bg">배경</string>
+    <string name="color_primary_keys">기본 키</string>
+    <string name="color_key_text">키 텍스트</string>
+    <string name="color_special_keys">특수 키 (Shift/Enter)</string>
+    <string name="color_special_text">특수 텍스트/아이콘</string>
+    <string name="color_accent">강조 (활성 상태)</string>
+    <string name="color_suggestion_bg">추천 스트립 배경</string>
+    <string name="color_suggestion_text">추천 텍스트</string>
+    <string name="color_popup_bg">키 팝업 배경</string>
+    <string name="color_popup_text">키 팝업 텍스트</string>
+    <string name="color_hints">하위 문자 힌트</string>
+    <string name="reset_default">기본 다크 네온으로 재설정</string>
+    <string name="custom_color">사용자 지정 색상</string>
+    <string name="hue">색상</string>
+    <string name="saturation">채도</string>
+    <string name="value">명도</string>
+    <string name="done">완료</string>
+    <string name="cancel">취소</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">클립보드 기록</string>
+    <string name="clipboard_panel_empty">아직 복사된 클립이 없습니다</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">클립보드</string>
+    <string name="kb_emoji">이모지</string>
+    <string name="kb_voice">음성</string>
+    <string name="kb_theme">테마</string>
+    <string name="kb_incognito">시크릿</string>
+    <string name="kb_settings">설정</string>
+    <string name="kb_live">라이브</string>
+    <string name="kb_peak">피크</string>
+    <string name="kb_suggestions">추천</string>
+    <string name="kb_show_toolbar">도구 모음 표시</string>
+    <string name="kb_delete">삭제</string>
+</resources>

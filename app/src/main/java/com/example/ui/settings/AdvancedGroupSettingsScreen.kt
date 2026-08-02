@@ -8,9 +8,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -29,28 +31,33 @@ fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
     val backspaceDelay by prefs.backspaceRepeatDelay.collectAsState(initial = 400)
     val backspaceSpeed by prefs.backspaceRepeatSpeed.collectAsState(initial = 50)
 
-    SettingsSubScaffold(title = "Advanced", onBack = onBack) {
-        SettingSliderItem("Key long press delay (ms)", longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
-        val dismissOptions = listOf("Default", "Short", "Long")
-        Text(text = "Popup dismiss delay: $popupDismiss", color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp))
+    SettingsSubScaffold(title = stringResource(R.string.settings_advanced), onBack = onBack) {
+        SettingSliderItem(stringResource(R.string.adv_long_press_delay), longPressDelay.toFloat(), 100f..1000f) { scope.launch { prefs.setLongPressDelayMs(it.toInt()) } }
+        val dismissKeys = listOf("Default", "Short", "Long")
+        val dismissLabels = mapOf(
+            "Default" to stringResource(R.string.adv_dismiss_default),
+            "Short" to stringResource(R.string.adv_dismiss_short),
+            "Long" to stringResource(R.string.adv_dismiss_long)
+        )
+        Text(text = stringResource(R.string.adv_popup_dismiss_label, dismissLabels[popupDismiss] ?: popupDismiss), color = MaterialTheme.colorScheme.onSurface, fontSize = 14.sp, modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp))
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            dismissOptions.forEach { option ->
+            dismissKeys.forEach { key ->
                 FilterChip(
-                    selected = popupDismiss == option,
-                    onClick = { scope.launch { prefs.setPopupDismissDelay(option) } },
-                    label = { Text(option) }
+                    selected = popupDismiss == key,
+                    onClick = { scope.launch { prefs.setPopupDismissDelay(key) } },
+                    label = { Text(dismissLabels[key] ?: key) }
                 )
             }
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem("Spacebar cursor move delay", spaceDelay.toFloat(), 500f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
-        SettingSliderItem("Spacebar cursor move speed", spaceSpeed.toFloat(), 50f..300f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.adv_space_delay), spaceDelay.toFloat(), 500f..2000f) { scope.launch { prefs.setSpaceCursorDelay(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.adv_space_speed), spaceSpeed.toFloat(), 50f..300f) { scope.launch { prefs.setSpaceCursorSpeed(it.toInt()) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSwitchItem("Physical keyboard emoji key", "Enable emoji key shortcuts on hardware keyboard", Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
-        SettingSwitchItem("Show typed word first", "Exact typed word appears as first suggestion", Icons.Default.Title, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
+        SettingSwitchItem(stringResource(R.string.adv_physical_emoji), stringResource(R.string.adv_physical_emoji_desc), Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
+        SettingSwitchItem(stringResource(R.string.adv_typed_first), stringResource(R.string.adv_typed_first_desc), Icons.Default.Title, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem("Backspace repeat delay (ms)", backspaceDelay.toFloat(), 200f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
-        SettingSliderItem("Backspace repeat speed (ms)", backspaceSpeed.toFloat(), 20f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.adv_backspace_delay), backspaceDelay.toFloat(), 200f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.adv_backspace_speed), backspaceSpeed.toFloat(), 20f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

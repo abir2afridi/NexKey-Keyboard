@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -27,14 +29,28 @@ import kotlinx.coroutines.launch
 data class AccentColorOption(val name: String, val hex: String)
 
 private val accentColors = listOf(
-    AccentColorOption("Green", "#FF2E7D32"),
-    AccentColorOption("Blue", "#FF1976D2"),
-    AccentColorOption("Purple", "#FF7B1FA2"),
-    AccentColorOption("Teal", "#FF00796B"),
-    AccentColorOption("Orange", "#FFF57C00"),
-    AccentColorOption("Pink", "#FFC2185B"),
-    AccentColorOption("Red", "#FFD32F2F"),
-    AccentColorOption("Indigo", "#FF303F9F")
+    AccentColorOption("GREEN", "#FF2E7D32"),
+    AccentColorOption("BLUE", "#FF1976D2"),
+    AccentColorOption("PURPLE", "#FF7B1FA2"),
+    AccentColorOption("TEAL", "#FF00796B"),
+    AccentColorOption("ORANGE", "#FFF57C00"),
+    AccentColorOption("PINK", "#FFC2185B"),
+    AccentColorOption("RED", "#FFD32F2F"),
+    AccentColorOption("INDIGO", "#FF303F9F")
+)
+
+@Composable
+private fun accentColorLabel(code: String): String = stringResource(
+    when (code) {
+        "GREEN" -> R.string.accent_green
+        "BLUE" -> R.string.accent_blue
+        "PURPLE" -> R.string.accent_purple
+        "TEAL" -> R.string.accent_teal
+        "ORANGE" -> R.string.accent_orange
+        "PINK" -> R.string.accent_pink
+        "RED" -> R.string.accent_red
+        else -> R.string.accent_indigo
+    }
 )
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -52,19 +68,19 @@ fun AppSettingsScreen(
     val scope = rememberCoroutineScope()
 
     val themeOptions = listOf("SYSTEM", "LIGHT", "DARK")
-    val themeLabels = listOf("System Default", "Light", "Dark")
+    val themeLabels = listOf(stringResource(R.string.app_settings_theme_system), stringResource(R.string.app_settings_theme_light), stringResource(R.string.app_settings_theme_dark))
 
     val navOptions = listOf("STANDARD", "FLOATING")
-    val navLabels = listOf("Standard Bottom Bar", "Floating Pill Bar")
+    val navLabels = listOf(stringResource(R.string.app_settings_nav_standard), stringResource(R.string.app_settings_nav_floating))
 
     androidx.compose.runtime.key(appTheme, accentColorHex) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("App Settings", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.app_settings_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -86,7 +102,7 @@ fun AppSettingsScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "LOOK & FEEL",
+                text = stringResource(R.string.app_settings_look_feel),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -136,7 +152,7 @@ fun AppSettingsScreen(
                     // Accent Color
                     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
                         Text(
-                            text = "Accent Color",
+                            text = stringResource(R.string.app_settings_accent_color),
                             fontSize = 14.sp,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface
@@ -168,7 +184,7 @@ fun AppSettingsScreen(
                                     )
                                     Spacer(modifier = Modifier.height(4.dp))
                                     Text(
-                                        text = colorOption.name,
+                                        text = accentColorLabel(colorOption.name),
                                         fontSize = 10.sp,
                                         color = if (isSelected) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
                                         fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal
@@ -183,7 +199,7 @@ fun AppSettingsScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "NAVIGATION",
+                text = stringResource(R.string.app_settings_navigation),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -229,7 +245,7 @@ fun AppSettingsScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "OTHER",
+                text = stringResource(R.string.app_settings_other),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -243,8 +259,8 @@ fun AppSettingsScreen(
             ) {
                 Column {
                     SettingItem(
-                        title = "App Language",
-                        subtitle = "Change between Bangla and English",
+                        title = stringResource(R.string.app_settings_app_language),
+                        subtitle = stringResource(R.string.app_settings_app_language_sub),
                         icon = Icons.Default.Translate,
                         onClick = onNavigateToAppLanguage
                     )
@@ -253,8 +269,8 @@ fun AppSettingsScreen(
                         color = MaterialTheme.colorScheme.outlineVariant
                     )
                     SettingItem(
-                        title = "About",
-                        subtitle = "About NexKey Keyboard",
+                        title = stringResource(R.string.app_settings_about),
+                        subtitle = stringResource(R.string.app_settings_about_sub),
                         icon = Icons.Default.Info,
                         onClick = onNavigateToAbout
                     )

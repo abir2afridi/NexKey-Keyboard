@@ -11,7 +11,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -26,11 +28,11 @@ fun LanguageKeysSettingsScreen(onBack: () -> Unit) {
     val showGlobeKey by prefs.showGlobeKey.collectAsState(initial = true)
     val allowOtherKeyboards by prefs.allowOtherKeyboards.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Language & Keys", onBack = onBack) {
-        SettingSwitchItem("Voice input key", null, Icons.Default.Mic, voiceInputKey) { scope.launch { prefs.setVoiceInputKey(it) } }
-        SettingSwitchItem("Show Emoji Key", "Switch to Emoji button", Icons.Default.EmojiEmotions, showEmojiKey) { scope.launch { prefs.setShowEmojiKey(it) } }
-        SettingSwitchItem("Show Globe Key", "Switch keyboard language", Icons.Default.Language, showGlobeKey) { scope.launch { prefs.setShowGlobeKey(it) } }
-        SettingSwitchItem("Allow Other Keyboards", "Globe key switches to others", Icons.Default.Keyboard, allowOtherKeyboards) { scope.launch { prefs.setAllowOtherKeyboards(it) } }
+    SettingsSubScaffold(title = stringResource(R.string.settings_language_keys), onBack = onBack) {
+        SettingSwitchItem(stringResource(R.string.langkeys_voice), null, Icons.Default.Mic, voiceInputKey) { scope.launch { prefs.setVoiceInputKey(it) } }
+        SettingSwitchItem(stringResource(R.string.langkeys_emoji), stringResource(R.string.langkeys_emoji_desc), Icons.Default.EmojiEmotions, showEmojiKey) { scope.launch { prefs.setShowEmojiKey(it) } }
+        SettingSwitchItem(stringResource(R.string.langkeys_globe), stringResource(R.string.langkeys_globe_desc), Icons.Default.Language, showGlobeKey) { scope.launch { prefs.setShowGlobeKey(it) } }
+        SettingSwitchItem(stringResource(R.string.langkeys_other_kb), stringResource(R.string.langkeys_other_kb_desc), Icons.Default.Keyboard, allowOtherKeyboards) { scope.launch { prefs.setAllowOtherKeyboards(it) } }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

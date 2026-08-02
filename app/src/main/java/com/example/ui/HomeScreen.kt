@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -42,37 +43,35 @@ import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
 import java.util.*
 
-enum class DashboardSection(
-    val title: String,
-    val icon: ImageVector,
-    val description: String
-) {
-    PULSE(
-        "Today's Pulse", 
-        Icons.Default.Speed, 
-        "Real-time analysis of your typing efficiency. RPM (Rate Per Minute) measures your conceptual speed—how fast you turn thoughts into words. Keys/Sec measures your raw physical dexterity and finger speed on the layout."
-    ),
-    TRENDS(
-        "Usage Trends", 
-        Icons.Default.BarChart, 
-        "Tracks your keyboard activity over time. The weekly and monthly views help you identify your most productive days and monitor your 'Digital Stamina' throughout the year."
-    ),
-    DISTRIBUTION(
-        "Yearly Distribution", 
-        Icons.Default.PieChart, 
-        "A seasonal breakdown of your typing volume. This donut chart shows which months you were most active, helping you correlate your typing habits with different periods of work or social activity."
-    ),
-    HEATMAP(
-        "Word Heatmap", 
-        Icons.Default.Keyboard, 
-        "A linguistic fingerprint of your vocabulary. Your top words are mapped onto a miniature layout. The darker the key, the more central that word is to your digital communication."
-    ),
-    EMOJIS(
-        "Emoji Leaderboard", 
-        Icons.Default.Face, 
-        "Visualizes your emotional expression patterns. This ranking shows which emojis you rely on most, providing a fun insight into your digital personality."
-    )
+enum class DashboardSection(val icon: ImageVector) {
+    PULSE(Icons.Default.Speed),
+    TRENDS(Icons.Default.BarChart),
+    DISTRIBUTION(Icons.Default.PieChart),
+    HEATMAP(Icons.Default.Keyboard),
+    EMOJIS(Icons.Default.Face)
 }
+
+@Composable
+fun DashboardSection.title(): String = stringResource(
+    when (this) {
+        DashboardSection.PULSE -> R.string.home_pulse_title
+        DashboardSection.TRENDS -> R.string.home_trends_title
+        DashboardSection.DISTRIBUTION -> R.string.home_distribution_title
+        DashboardSection.HEATMAP -> R.string.home_heatmap_title
+        DashboardSection.EMOJIS -> R.string.home_emojis_title
+    }
+)
+
+@Composable
+fun DashboardSection.description(): String = stringResource(
+    when (this) {
+        DashboardSection.PULSE -> R.string.home_pulse_desc
+        DashboardSection.TRENDS -> R.string.home_trends_desc
+        DashboardSection.DISTRIBUTION -> R.string.home_distribution_desc
+        DashboardSection.HEATMAP -> R.string.home_heatmap_desc
+        DashboardSection.EMOJIS -> R.string.home_emojis_desc
+    }
+)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -150,10 +149,10 @@ fun HomeScreen(
     // Greeting logic
     val hour = Calendar.getInstance().get(Calendar.HOUR_OF_DAY)
     val greeting = when (hour) {
-        in 5..11 -> "Good Morning"
-        in 12..16 -> "Good Afternoon"
-        in 17..20 -> "Good Evening"
-        else -> "Good Night"
+        in 5..11 -> stringResource(R.string.home_greeting_morning)
+        in 12..16 -> stringResource(R.string.home_greeting_afternoon)
+        in 17..20 -> stringResource(R.string.home_greeting_evening)
+        else -> stringResource(R.string.home_greeting_night)
     }
 
     // Infinite breathing pulsing animation for Active status dot
@@ -214,7 +213,7 @@ fun HomeScreen(
                             "LIGHT" -> Icons.Default.LightMode
                             else -> Icons.Default.BrightnessAuto
                         },
-                        contentDescription = "Toggle theme",
+                        contentDescription = stringResource(R.string.home_toggle_theme),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(20.dp)
                     )
@@ -237,7 +236,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = if (isActive) "ACTIVE" else "SETUP",
+                            text = if (isActive) stringResource(R.string.home_active) else stringResource(R.string.home_setup_badge),
                             fontSize = 10.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color.White
@@ -291,7 +290,7 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(
-                            text = if (isActive) "Typing Sandbox" else "Complete Setup",
+                            text = if (isActive) stringResource(R.string.home_typing_sandbox) else stringResource(R.string.home_complete_setup),
                             fontSize = 17.sp,
                             fontWeight = FontWeight.ExtraBold,
                             color = Color.White
@@ -304,7 +303,7 @@ fun HomeScreen(
 
             // QUICK CONTROLS
             Text(
-                text = "QUICK CONTROLS",
+                text = stringResource(R.string.home_quick_controls),
                 fontSize = 11.sp,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.primary,
@@ -315,10 +314,10 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(10.dp)
             ) {
-                ControlTile("Haptics", Icons.Default.Vibration, haptics, Modifier.weight(1f)) { scope.launch { prefs.setHaptics(!haptics) } }
-                ControlTile("Sound", Icons.Default.VolumeUp, sound, Modifier.weight(1f)) { scope.launch { prefs.setSound(!sound) } }
-                ControlTile("Auto-Fix", Icons.Default.AutoFixHigh, autoCorrection, Modifier.weight(1f)) { scope.launch { prefs.setAutoCorrection(!autoCorrection) } }
-                ControlTile("Numbers", Icons.Default.Numbers, showNumberRow, Modifier.weight(1f)) { scope.launch { prefs.setShowNumberRow(!showNumberRow) } }
+                ControlTile(stringResource(R.string.home_haptics), Icons.Default.Vibration, haptics, Modifier.weight(1f)) { scope.launch { prefs.setHaptics(!haptics) } }
+                ControlTile(stringResource(R.string.home_sound), Icons.Default.VolumeUp, sound, Modifier.weight(1f)) { scope.launch { prefs.setSound(!sound) } }
+                ControlTile(stringResource(R.string.home_autofix), Icons.Default.AutoFixHigh, autoCorrection, Modifier.weight(1f)) { scope.launch { prefs.setAutoCorrection(!autoCorrection) } }
+                ControlTile(stringResource(R.string.home_numbers), Icons.Default.Numbers, showNumberRow, Modifier.weight(1f)) { scope.launch { prefs.setShowNumberRow(!showNumberRow) } }
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -330,7 +329,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "TODAY'S PULSE",
+                    text = stringResource(R.string.home_today_pulse),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary
@@ -344,11 +343,11 @@ fun HomeScreen(
             }
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                StatCard("$rpm", "Avg RPM", MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.primary, Icons.Default.Speed, Modifier.weight(1f))
-                StatCard(String.format(Locale.getDefault(), "%.1f", cps), "Keys/Sec", MaterialTheme.colorScheme.tertiaryContainer, MaterialTheme.colorScheme.tertiary, Icons.Default.Bolt, Modifier.weight(1f))
+                StatCard("$rpm", stringResource(R.string.home_avg_rpm), MaterialTheme.colorScheme.primaryContainer, MaterialTheme.colorScheme.primary, Icons.Default.Speed, Modifier.weight(1f))
+                StatCard(String.format(Locale.getDefault(), "%.1f", cps), stringResource(R.string.home_keys_sec), MaterialTheme.colorScheme.tertiaryContainer, MaterialTheme.colorScheme.tertiary, Icons.Default.Bolt, Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(10.dp))
-            StatCard("$activeMinutesToday mins", "Active Typing Time Today", MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.secondary, Icons.Default.HourglassBottom, Modifier.fillMaxWidth())
+            StatCard("$activeMinutesToday ${stringResource(R.string.home_mins)}", stringResource(R.string.home_active_time), MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.secondary, Icons.Default.HourglassBottom, Modifier.fillMaxWidth())
             
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -356,7 +355,7 @@ fun HomeScreen(
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
-                        text = "USAGE TRENDS",
+                        text = stringResource(R.string.home_usage_trends),
                         fontSize = 11.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.primary,
@@ -372,10 +371,10 @@ fun HomeScreen(
                 }
                 Row {
                     TextButton(onClick = { selectedChartPeriod = 0 }) {
-                        Text("Week", fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 0) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.home_week), fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 0) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                     TextButton(onClick = { selectedChartPeriod = 1 }) {
-                        Text("Month", fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                        Text(stringResource(R.string.home_month), fontSize = 11.sp, fontWeight = if (selectedChartPeriod == 1) FontWeight.Bold else FontWeight.Normal, color = if (selectedChartPeriod == 1) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
                     }
                 }
             }
@@ -406,7 +405,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "YEARLY DISTRIBUTION",
+                    text = stringResource(R.string.home_yearly_distribution),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary
@@ -443,7 +442,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "WORD HEATMAP",
+                    text = stringResource(R.string.home_word_heatmap),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary
@@ -467,7 +466,7 @@ fun HomeScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "EMOJI LEADERBOARD",
+                    text = stringResource(R.string.home_emoji_leaderboard),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.primary
@@ -490,7 +489,7 @@ fun HomeScreen(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = "NexKey Pro • Analytics v2.0",
+                    text = stringResource(R.string.home_footer),
                     fontSize = 11.sp,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
@@ -533,7 +532,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(16.dp))
                     
                     Text(
-                        text = showInfoForSection?.title ?: "",
+                        text = showInfoForSection?.title() ?: "",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onSurface
@@ -542,7 +541,7 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.height(12.dp))
                     
                     Text(
-                        text = showInfoForSection?.description ?: "",
+                        text = showInfoForSection?.description() ?: "",
                         fontSize = 14.sp,
                         lineHeight = 22.sp,
                         textAlign = TextAlign.Center,
@@ -556,7 +555,7 @@ fun HomeScreen(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Got it")
+                        Text(stringResource(R.string.home_got_it))
                     }
                 }
             }
@@ -704,7 +703,7 @@ private fun DeepPieChart(data: List<Pair<String, Int>>) {
                 }
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text("${total.toInt()}", fontSize = 16.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.primary)
-                    Text("mins", fontSize = 9.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Text(stringResource(R.string.home_mins), fontSize = 9.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
             Spacer(modifier = Modifier.width(28.dp))
@@ -725,8 +724,8 @@ private fun DeepPieChart(data: List<Pair<String, Int>>) {
 private fun MiniKeyboardHeatmap(words: List<LearnedWordEntity>) {
     Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(20.dp)) {
-            Text("Top words mapped to layout", fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
-            
+            Text(stringResource(R.string.home_heatmap_caption), fontSize = 12.sp, fontWeight = FontWeight.SemiBold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.padding(bottom = 16.dp))
+
             val rows = words.chunked(4).take(3)
             rows.forEach { row ->
                 Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(6.dp)) {
@@ -765,7 +764,7 @@ private fun MiniKeyboardHeatmap(words: List<LearnedWordEntity>) {
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(topWord.word, fontSize = 15.sp, fontWeight = FontWeight.Black, color = Color.White)
                         Spacer(modifier = Modifier.width(10.dp))
-                        Text("${topWord.frequency} uses", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
+                        Text("${topWord.frequency} ${stringResource(R.string.home_uses)}", fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White.copy(alpha = 0.8f))
                     }
                 }
             }

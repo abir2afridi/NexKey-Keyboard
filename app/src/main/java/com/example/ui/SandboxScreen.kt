@@ -17,6 +17,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,10 +45,10 @@ fun SandboxScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Typing Sandbox", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.sandbox_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -67,7 +69,7 @@ fun SandboxScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Test the keyboard in this playground. Your typing here won't be saved.",
+                text = stringResource(R.string.sandbox_desc),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 14.sp
             )
@@ -76,8 +78,8 @@ fun SandboxScreen(
                 value = testInputText,
                 onValueChange = { testInputText = it },
                 modifier = Modifier.fillMaxWidth(),
-                label = { Text("Try typing here...") },
-                placeholder = { Text("e.g. ami bangla valobashi") },
+                label = { Text(stringResource(R.string.sandbox_try)) },
+                placeholder = { Text(stringResource(R.string.sandbox_placeholder)) },
                 shape = RoundedCornerShape(20.dp),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedTextColor = MaterialTheme.colorScheme.onSurface,

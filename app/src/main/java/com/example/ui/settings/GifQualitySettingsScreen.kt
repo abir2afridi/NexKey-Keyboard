@@ -9,7 +9,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -23,9 +25,9 @@ fun GifQualitySettingsScreen(onBack: () -> Unit) {
     val highQual by prefs.highQualityGifs.collectAsState(initial = true)
     val sendHighQual by prefs.sendHighQualityGifs.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Gif Quality", onBack = onBack) {
-        SettingSwitchItem("Show high quality Gifs", "Requires more data", Icons.Default.Gif, highQual) { scope.launch { prefs.setHighQualityGifs(it) } }
-        SettingSwitchItem("Send high quality Gifs", "Download before sending", Icons.AutoMirrored.Filled.Send, sendHighQual) { scope.launch { prefs.setSendHighQualityGifs(it) } }
+    SettingsSubScaffold(title = stringResource(R.string.settings_gif_quality), onBack = onBack) {
+        SettingSwitchItem(stringResource(R.string.gif_show_high), stringResource(R.string.gif_show_high_desc), Icons.Default.Gif, highQual) { scope.launch { prefs.setHighQualityGifs(it) } }
+        SettingSwitchItem(stringResource(R.string.gif_send_high), stringResource(R.string.gif_send_high_desc), Icons.AutoMirrored.Filled.Send, sendHighQual) { scope.launch { prefs.setSendHighQualityGifs(it) } }
 
         Spacer(modifier = Modifier.height(32.dp))
     }

@@ -12,9 +12,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.clipboard.ClipboardManager
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
@@ -32,27 +34,27 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
     val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
     val clipboardImages by prefs.clipboardImages.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Paste & Clipboard", onBack = onBack) {
-        SettingSwitchItem("Hold key to paste", "Long-press a key to paste clipboard text", Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
+    SettingsSubScaffold(title = stringResource(R.string.settings_paste), onBack = onBack) {
+        SettingSwitchItem(stringResource(R.string.paste_hold_paste), stringResource(R.string.paste_hold_paste_desc), Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
         if (holdPasteEnabled) {
             SettingDropdownItem(
-                title = "Trigger key",
-                subtitle = "Key to hold for paste",
+                title = stringResource(R.string.paste_trigger_key),
+                subtitle = stringResource(R.string.paste_trigger_key_desc),
                 icon = Icons.Default.Keyboard,
                 selectedOption = holdPasteTriggerKey.uppercase(),
                 options = listOf("V", "B", "N", "M", "G", "H", "Space", "Enter"),
                 onOptionSelected = { scope.launch { prefs.setHoldPasteTriggerKey(it.lowercase()) } }
             )
-            SettingSliderItem("Hold duration", holdPasteDuration.toFloat(), 200f..800f) { scope.launch { prefs.setHoldPasteDuration(it.toInt()) } }
+            SettingSliderItem(stringResource(R.string.paste_hold_duration), holdPasteDuration.toFloat(), 200f..800f) { scope.launch { prefs.setHoldPasteDuration(it.toInt()) } }
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSwitchItem("Clipboard Recent Items", "Show recent copied or cut text in clipboard", Icons.Default.ContentPaste, clipboardRecent) { scope.launch { prefs.setClipboardRecent(it) } }
+        SettingSwitchItem(stringResource(R.string.paste_recent), stringResource(R.string.paste_recent_desc), Icons.Default.ContentPaste, clipboardRecent) { scope.launch { prefs.setClipboardRecent(it) } }
         val expiryOptions = listOf(0, 1, 5, 525600)
-        val expiryLabels = listOf("Never", "1 minute", "5 minutes", "365 days")
+        val expiryLabels = listOf(stringResource(R.string.paste_expiry_never), stringResource(R.string.paste_expiry_1m), stringResource(R.string.paste_expiry_5m), stringResource(R.string.paste_expiry_365d))
         val selectedIndex = expiryOptions.indexOf(clipboardExpiry).let { if (it < 0) 0 else it }
         SettingDropdownItem(
-            title = "Auto-delete clipboard items",
-            subtitle = "Remove copies after the selected time",
+            title = stringResource(R.string.paste_expiry),
+            subtitle = stringResource(R.string.paste_expiry_desc),
             icon = Icons.Default.Timer,
             selectedOption = expiryLabels[selectedIndex],
             options = expiryLabels,
@@ -63,7 +65,7 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
                 ClipboardManager.setExpiryMinutes(mins)
             }
         )
-        SettingSwitchItem("Show copied images on Clipboard", "Show screenshots or copied images", Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
+        SettingSwitchItem(stringResource(R.string.paste_images), stringResource(R.string.paste_images_desc), Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -82,13 +84,13 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
             }
             Spacer(modifier = Modifier.width(16.dp))
             Column(modifier = Modifier.weight(1f)) {
-                Text("Delete All Clipboard Items", color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
-                Text("Remove all non-pinned copied texts", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
+                Text(stringResource(R.string.paste_delete_all), color = MaterialTheme.colorScheme.onSurface, fontSize = 16.sp, fontWeight = FontWeight.Medium)
+                Text(stringResource(R.string.paste_delete_all_desc), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
             }
             Icon(Icons.Default.ChevronRight, contentDescription = null, tint = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingItem("View Clipboard History", "Browse all copied texts", Icons.Default.History, onClick = onNavigateToClipboardHistory)
+        SettingItem(stringResource(R.string.paste_view_history), stringResource(R.string.paste_view_history_desc), Icons.Default.History, onClick = onNavigateToClipboardHistory)
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

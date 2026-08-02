@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">Início</string>
+    <string name="nav_keyboard">Teclado</string>
+    <string name="ime_action_search">Pesquisar</string>
+    <string name="ime_action_go">Ir</string>
+    <string name="ime_action_send">Enviar</string>
+    <string name="ime_action_next">Próximo</string>
+    <string name="ime_action_done">Concluir</string>
+    <string name="ime_incognito_on">Modo anônimo ativado</string>
+    <string name="ime_incognito_off">Modo anônimo desativado</string>
+    <string name="ime_mic_permission">Conceda a permissão do microfone em Configurações &gt; Aplicativos &gt; NexKey &gt; Permissões para usar a digitação por voz.</string>
+    <string name="ime_voice_unavailable">A digitação por voz não está disponível</string>
+    <string name="ime_listening">Ouvindo...</string>
+    <string name="ime_no_speech">Nenhuma fala detectada</string>
+    <string name="ime_speech_timeout">Tempo de fala esgotado</string>
+    <string name="ime_network_error">Erro de rede</string>
+    <string name="ime_recognizer_busy">Reconhecedor ocupado</string>
+    <string name="ime_permission_denied">Permissão negada</string>
+    <string name="ime_voice_error">Erro: %1$s</string>
+    <string name="ime_voice_start_failed">Falha ao iniciar a entrada de voz: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">Pulso de hoje</string>
+    <string name="home_pulse_desc">Análise em tempo real da sua eficiência de digitação. RPM (taxa por minuto) mede sua velocidade conceitual — a rapidez com que você transforma pensamentos em palavras. Keys/Sec mede sua destreza física bruta e a velocidade dos dedos no layout.</string>
+    <string name="home_trends_title">Tendências de uso</string>
+    <string name="home_trends_desc">Acompanha sua atividade no teclado ao longo do tempo. As visualizações semanal e mensal ajudam você a identificar seus dias mais produtivos e monitorar sua \'resistência digital\' durante o ano.</string>
+    <string name="home_distribution_title">Distribuição anual</string>
+    <string name="home_distribution_desc">Uma análise sazonal do seu volume de digitação. Este gráfico de rosca mostra em quais meses você foi mais ativo, ajudando a correlacionar seus hábitos de digitação com diferentes períodos de trabalho ou atividade social.</string>
+    <string name="home_heatmap_title">Mapa de calor de palavras</string>
+    <string name="home_heatmap_desc">Uma impressão linguística do seu vocabulário. Suas principais palavras são mapeadas em um layout em miniatura. Quanto mais escura a tecla, mais central é essa palavra na sua comunicação digital.</string>
+    <string name="home_emojis_title">Classificação de emojis</string>
+    <string name="home_emojis_desc">Visualiza seus padrões de expressão emocional. Esta classificação mostra em quais emojis você mais confia, oferecendo uma visão divertida da sua personalidade digital.</string>
+    <string name="home_greeting_morning">Bom dia</string>
+    <string name="home_greeting_afternoon">Boa tarde</string>
+    <string name="home_greeting_evening">Boa noite</string>
+    <string name="home_greeting_night">Boa noite</string>
+    <string name="home_toggle_theme">Alternar tema</string>
+    <string name="home_active">ATIVO</string>
+    <string name="home_setup_badge">CONFIGURAÇÃO</string>
+    <string name="home_typing_sandbox">Sandbox de digitação</string>
+    <string name="home_complete_setup">Concluir configuração</string>
+    <string name="home_quick_controls">CONTROLES RÁPIDOS</string>
+    <string name="home_haptics">Vibração</string>
+    <string name="home_sound">Som</string>
+    <string name="home_autofix">Autocorreção</string>
+    <string name="home_numbers">Números</string>
+    <string name="home_today_pulse">PULSO DE HOJE</string>
+    <string name="home_avg_rpm">RPM médio</string>
+    <string name="home_keys_sec">Teclas/Seg</string>
+    <string name="home_active_time">Tempo ativo de digitação hoje</string>
+    <string name="home_mins">min</string>
+    <string name="home_usage_trends">TENDÊNCIAS DE USO</string>
+    <string name="home_week">Semana</string>
+    <string name="home_month">Mês</string>
+    <string name="home_yearly_distribution">DISTRIBUIÇÃO ANUAL</string>
+    <string name="home_word_heatmap">MAPA DE CALOR DE PALAVRAS</string>
+    <string name="home_emoji_leaderboard">CLASSIFICAÇÃO DE EMOJIS</string>
+    <string name="home_footer">NexKey Pro • Análises v2.0</string>
+    <string name="home_got_it">Entendi</string>
+    <string name="home_heatmap_caption">Principais palavras mapeadas no layout</string>
+    <string name="home_uses">usos</string>
+
+    <!-- Common -->
+    <string name="back">Voltar</string>
+    <string name="made_with">Feito com </string>
+    <string name="made_by"> por Abir Hasan Siam</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">Bem-vindo ao NexKey</string>
+    <string name="setup_subtitle">Siga estas etapas para começar</string>
+    <string name="setup_enable_title">Ativar teclado</string>
+    <string name="setup_enable_desc">Ative o NexKey em Configurações do sistema → Idiomas e entrada → Teclado na tela.</string>
+    <string name="setup_enabled">Ativado ✓</string>
+    <string name="setup_open_settings">Abrir configurações</string>
+    <string name="setup_select_title">Selecionar como padrão</string>
+    <string name="setup_select_desc">Escolha o NexKey como seu teclado ativo no seletor.</string>
+    <string name="setup_selected">Selecionado ✓</string>
+    <string name="setup_open_picker">Abrir seletor</string>
+    <string name="setup_finish">Concluir configuração</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Configurações do teclado</string>
+    <string name="settings_back">Voltar</string>
+    <string name="settings_customization">Personalização do teclado</string>
+    <string name="settings_typing">Digitação</string>
+    <string name="settings_typing_desc">Maiúsculas automáticas, espaço duplo, tabulação</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_desc">Vibrações, som, pop-ups</string>
+    <string name="settings_language_keys">Idioma e teclas</string>
+    <string name="settings_language_keys_desc">Teclas de voz, emojis e globo</string>
+    <string name="settings_layout">Layout</string>
+    <string name="settings_layout_desc">Linha numérica, dividir, redimensionar</string>
+    <string name="settings_size">Tamanho</string>
+    <string name="settings_size_desc">Ajustes de altura e largura</string>
+    <string name="settings_navigation">Navegação</string>
+    <string name="settings_navigation_desc">Controle de cursor e volume</string>
+    <string name="settings_paste">Colar e área de transferência</string>
+    <string name="settings_paste_desc">Segurar tecla para colar, configurações da área de transferência</string>
+    <string name="settings_emoji">Emojis</string>
+    <string name="settings_emoji_desc">Retenção de emojis recentes</string>
+    <string name="settings_advanced">Avançado</string>
+    <string name="settings_advanced_desc">Atrasos, cursor, comportamento</string>
+    <string name="settings_text_correction">Correção de texto</string>
+    <string name="settings_text_correction_desc">Sugestões e dicionários</string>
+    <string name="settings_more_languages">Mais idiomas</string>
+    <string name="settings_more_languages_desc">Inglês, bengali, Avro, árabe...</string>
+    <string name="settings_gif_quality">Qualidade de GIF</string>
+    <string name="settings_gif_quality_desc">Gerenciar uso de dados para GIFs</string>
+    <string name="settings_header_animation">Animação do cabeçalho</string>
+    <string name="settings_header_animation_desc">Efeitos de desvanecimento, deslize e zoom</string>
+
+    <!-- About -->
+    <string name="about_title">Sobre</string>
+    <string name="about_name">Teclado NexKey</string>
+    <string name="about_version">Versão 1.0.0 (Lançamento)</string>
+    <string name="about_description">O NexKey é um teclado moderno e premium projetado para velocidade e privacidade. Ele possui transliteração fonética bengali líder do setor e mecanismos inteligentes de correção.</string>
+    <string name="about_rate">Avaliar NexKey</string>
+    <string name="about_website">Visitar site</string>
+    <string name="about_licenses">Licenças de código aberto</string>
+    <string name="about_privacy">Política de privacidade</string>
+    <string name="about_developer">Desenvolvedor</string>
+
+    <!-- Developer -->
+    <string name="developer_title">Desenvolvedor</string>
+    <string name="developer_name">Abir Hasan Siam</string>
+    <string name="developer_bio">22 anos | Gazipur, Daca</string>
+    <string name="developer_blood">Sangue: B+</string>
+    <string name="developer_education">Educação</string>
+    <string name="developer_edu_bsc">BSc em Ciência da Computação - Universidade Independente de Bangladesh (2021-presente)</string>
+    <string name="developer_edu_hsc">HSC - Escola e Colégio Misir Ali Khan (2019-2020)</string>
+    <string name="developer_edu_ssc">SSC - Escola Secundária Professor MEH Arif (2017-2018)</string>
+    <string name="developer_skills">Habilidades e tecnologias</string>
+    <string name="developer_skill_dart">Dart (Flutter), React, Python</string>
+    <string name="developer_skill_android">APK Android, Flutter, React.js</string>
+    <string name="developer_skill_ui">UI/UX de aplicativos, layouts com gradiente e cartões</string>
+    <string name="developer_skill_tools">Windows, Linux, Git, GitHub</string>
+    <string name="developer_contact">Contato</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">Configurações do aplicativo</string>
+    <string name="app_settings_look_feel">APARÊNCIA</string>
+    <string name="app_settings_accent_color">Cor de destaque</string>
+    <string name="app_settings_navigation">NAVEGAÇÃO</string>
+    <string name="app_settings_other">OUTRO</string>
+    <string name="app_settings_app_language">Idioma do aplicativo</string>
+    <string name="app_settings_app_language_sub">Alternar entre bengali e inglês</string>
+    <string name="app_language_title">Idioma do aplicativo</string>
+    <string name="app_language_subtitle">Escolha o idioma de exibição da interface</string>
+    <string name="app_language_selected">Selecionado</string>
+    <string name="app_settings_about">Sobre</string>
+    <string name="app_settings_about_sub">Sobre o teclado NexKey</string>
+    <string name="app_settings_theme_system">Padrão do sistema</string>
+    <string name="app_settings_theme_light">Claro</string>
+    <string name="app_settings_theme_dark">Escuro</string>
+    <string name="app_settings_nav_standard">Barra inferior padrão</string>
+    <string name="app_settings_nav_floating">Barra flutuante</string>
+    <string name="accent_green">Verde</string>
+    <string name="accent_blue">Azul</string>
+    <string name="accent_purple">Roxo</string>
+    <string name="accent_teal">Verde-azulado</string>
+    <string name="accent_orange">Laranja</string>
+    <string name="accent_pink">Rosa</string>
+    <string name="accent_red">Vermelho</string>
+    <string name="accent_indigo">Índigo</string>
+
+    <!-- Themes -->
+    <string name="themes_title">Temas do teclado</string>
+    <string name="themes_subtitle">Selecione um tema predefinido para seu teclado</string>
+    <string name="theme_dark_neon">Neon escuro</string>
+    <string name="theme_midnight_blue">Azul meia-noite</string>
+    <string name="theme_royal_purple">Roxo real</string>
+    <string name="theme_sakura_pink">Rosa sakura</string>
+    <string name="theme_sunset_orange">Laranja pôr do sol</string>
+    <string name="theme_emerald_green">Verde esmeralda</string>
+    <string name="theme_crimson_red">Vermelho carmesim</string>
+    <string name="theme_deep_ocean">Oceano profundo</string>
+    <string name="theme_forest_moss">Musgo de floresta</string>
+    <string name="theme_golden_sand">Areia dourada</string>
+    <string name="theme_lavender_dream">Sonho de lavanda</string>
+    <string name="theme_light_minimal">Claro minimalista</string>
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_amoled_black">Preto amoled</string>
+    <string name="theme_retro_grey">Cinza retrô</string>
+    <string name="theme_cyberpunk">Ciberpunk</string>
+    <string name="theme_custom">Personalizado</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">Sandbox de digitação</string>
+    <string name="sandbox_desc">Teste o teclado neste ambiente. Sua digitação aqui não será salva.</string>
+    <string name="sandbox_try">Tente digitar aqui...</string>
+    <string name="sandbox_placeholder">p. ex. ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">Análises de digitação</string>
+    <string name="stats_productivity">Sua produtividade</string>
+    <string name="stats_total_words">Total de palavras</string>
+    <string name="stats_total_chars">Total de caracteres</string>
+    <string name="stats_milestones">Marcos de digitação</string>
+    <string name="stats_milestone_1_title">Explorador NexKey</string>
+    <string name="stats_milestone_1_desc">Digitou suas primeiras 100 palavras</string>
+    <string name="stats_milestone_2_title">Demônio da velocidade</string>
+    <string name="stats_milestone_2_desc">Digitou mais de 1.000 caracteres</string>
+    <string name="stats_milestone_3_title">Mestre de idiomas</string>
+    <string name="stats_milestone_3_desc">Digitou mais de 5.000 palavras</string>
+    <string name="stats_saved">Você economizou aproximadamente %1$s segundos usando as previsões do NexKey!</string>
+
+    <!-- Store -->
+    <string name="store_title">Loja</string>
+    <string name="store_tab_shop">Loja</string>
+    <string name="store_tab_themes">Temas</string>
+    <string name="store_tab_meter">Medidor</string>
+    <string name="meter_designs">Designs do medidor de velocidade</string>
+    <string name="meter_font_style">Estilo da fonte numérica</string>
+    <string name="store_coming_soon">Em breve</string>
+    <string name="store_shop_desc">Temas premium, pacotes de adesivos e mais estarão disponíveis aqui.</string>
+    <string name="store_browse_themes">Explorar temas</string>
+    <string name="store_browse_themes_sub">Escolher entre temas predefinidos</string>
+    <string name="store_custom_theme">Tema personalizado</string>
+    <string name="store_custom_theme_sub">Crie seu próprio tema</string>
+    <string name="meter_calculator">Calculadora</string>
+    <string name="meter_minimal_dark">Escuro minimalista</string>
+    <string name="meter_neon_cyber">Neon cyber</string>
+    <string name="meter_retro_lcd">LCD retrô</string>
+    <string name="meter_ghost_white">Branco fantasma</string>
+    <string name="meter_amber_retro">Âmbar retrô</string>
+    <string name="meter_cyber_lime">Lima cyber</string>
+    <string name="meter_violet_glow">Brilho violeta</string>
+    <string name="meter_font_digital">Digital</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">Segmento</string>
+    <string name="meter_font_modern">Moderno</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">Gerenciador da área de transferência</string>
+    <string name="clipboard_clear">Limpar não fixados</string>
+    <string name="clipboard_empty">Nenhum item encontrado no histórico</string>
+    <string name="clipboard_pin">Fixar</string>
+    <string name="clipboard_pinned">Fixado</string>
+    <string name="clipboard_recent">Recentes</string>
+    <string name="clipboard_delete">Excluir</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">Dicionário pessoal</string>
+    <string name="dict_clear">Limpar tudo</string>
+    <string name="dict_empty">Seu dicionário está vazio. O NexKey aprende novas palavras enquanto você digita.</string>
+    <string name="dict_learned">Palavras aprendidas (%1$d)</string>
+    <string name="dict_bangla">Bengali</string>
+    <string name="dict_english">Inglês</string>
+    <string name="dict_delete">Excluir</string>
+
+    <!-- Help -->
+    <string name="help_title">Ajuda e guia</string>
+    <string name="help_cheatsheet">Folha de referência fonética classe Ridmik</string>
+    <string name="help_phon_i_me">Eu</string>
+    <string name="help_phon_bengali">Bengali</string>
+    <string name="help_phon_my_mine">Meu</string>
+    <string name="help_phon_golden">Dourado</string>
+    <string name="help_phon_work">Trabalho</string>
+    <string name="help_phon_juktakkhor">Yuktakkhor</string>
+    <string name="help_phon_vowel">Vogal</string>
+    <string name="help_phon_consonant">Consoante</string>
+    <string name="help_phon_dari">Dari</string>
+    <string name="help_tips">Dicas</string>
+    <string name="help_tip_conjuncts">Conjunções</string>
+    <string name="help_tip_conjuncts_desc">Digite duas letras e o NexKey as unirá automaticamente se for válido. P. ex. \'kS\' para \'ক্ষ\'.</string>
+    <string name="help_tip_modes">Alternando modos</string>
+    <string name="help_tip_modes_desc">Toque no ícone do globo ou na tecla \'ABC/?123\' para alternar entre bengali e inglês.</string>
+    <string name="help_tip_voice">Digitação por voz</string>
+    <string name="help_tip_voice_desc">Toque no ícone do microfone na barra de ferramentas para falar em vez de digitar.</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">Maiúsculas automáticas</string>
+    <string name="typing_auto_cap_desc">Colocar em maiúscula a primeira palavra de cada frase</string>
+    <string name="typing_double_space_period">Ponto com espaço duplo</string>
+    <string name="typing_double_space_period_desc">Dois toques na barra de espaço inserem um ponto seguido de espaço</string>
+    <string name="typing_double_space_tab">Tabulação com espaço duplo</string>
+    <string name="typing_double_space_tab_desc">Dois toques na barra de espaço inserem uma tabulação</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">Vibrar ao pressionar tecla</string>
+    <string name="feedback_sound">Som ao pressionar tecla</string>
+    <string name="feedback_popup">Pop-up ao pressionar tecla</string>
+    <string name="feedback_vibrate_intensity">Intensidade da vibração ao pressionar</string>
+    <string name="feedback_sound_volume">Volume do som ao pressionar</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">Tecla de entrada de voz</string>
+    <string name="langkeys_emoji">Mostrar tecla de emojis</string>
+    <string name="langkeys_emoji_desc">Alternar para o botão de emojis</string>
+    <string name="langkeys_globe">Mostrar tecla de globo</string>
+    <string name="langkeys_globe_desc">Alternar idioma do teclado</string>
+    <string name="langkeys_other_kb">Permitir outros teclados</string>
+    <string name="langkeys_other_kb_desc">A tecla de globo alterna para outros</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">Ativar linha numérica</string>
+    <string name="layout_number_row_desc">Adiciona uma linha extra</string>
+    <string name="layout_large_number_row">Linha numérica grande</string>
+    <string name="layout_hide_hints">Ocultar dicas de toque longo</string>
+    <string name="layout_hide_hints_desc">Ocultar pequenos rótulos dos cantos das teclas</string>
+    <string name="layout_resizing">Ativar redimensionamento do teclado</string>
+    <string name="layout_split">Ativar teclado dividido</string>
+    <string name="layout_split_desc">Para celulares dobráveis</string>
+    <string name="layout_forced_enter">Botão de Enter forçado</string>
+    <string name="layout_forced_enter_desc">Não mostrar emojis no Enter</string>
+    <string name="layout_always_suggestions">Sempre mostrar sugestões</string>
+    <string name="layout_always_suggestions_desc">Mostra a barra de sugestões no teclado; quando desativado, nenhuma barra aparece</string>
+    <string name="layout_unified_header">Cabeçalho unificado</string>
+    <string name="layout_unified_header_desc">A barra de ferramentas e as sugestões compartilham UM cabeçalho: a barra aparece primeiro, as sugestões a substituem durante a digitação, toque no botão da faixa para trazê-la de volta</string>
+    <string name="layout_auto_show_delay">Atraso de exibição automática da barra (segundos)</string>
+    <string name="layout_auto_show_delay_desc">A barra de ferramentas não volta sozinha após digitar — ela reaparece somente depois que o teclado fica inativo por esse tempo. Menos = mais cedo.</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">Altura do teclado (retrato)</string>
+    <string name="size_height_landscape">Altura do teclado (paisagem)</string>
+    <string name="size_width_portrait">Largura de uma mão (retrato)</string>
+    <string name="size_width_landscape">Largura de uma mão (paisagem)</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">Mover cursor com a barra de espaço</string>
+    <string name="nav_move_cursor_desc">Deslize no espaço para mover o cursor</string>
+    <string name="nav_volume_cursor">Controle de cursor com teclas de volume</string>
+    <string name="nav_volume_cursor_desc">Use os botões de volume para mover o cursor</string>
+    <string name="nav_smart_volume">Controle inteligente de volume</string>
+    <string name="nav_smart_volume_desc">Não mover o cursor quando houver áudio tocando</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">Segurar tecla para colar</string>
+    <string name="paste_hold_paste_desc">Mantenha uma tecla pressionada para colar o texto da área de transferência</string>
+    <string name="paste_trigger_key">Tecla de ativação</string>
+    <string name="paste_trigger_key_desc">Tecla a segurar para colar</string>
+    <string name="paste_hold_duration">Duração do toque</string>
+    <string name="paste_recent">Itens recentes da área de transferência</string>
+    <string name="paste_recent_desc">Mostrar texto copiado ou recortado recentemente na área de transferência</string>
+    <string name="paste_expiry">Excluir itens da área de transferência automaticamente</string>
+    <string name="paste_expiry_desc">Remover cópias após o tempo selecionado</string>
+    <string name="paste_expiry_never">Nunca</string>
+    <string name="paste_expiry_1m">1 minuto</string>
+    <string name="paste_expiry_5m">5 minutos</string>
+    <string name="paste_expiry_365d">365 dias</string>
+    <string name="paste_images">Mostrar imagens copiadas na área de transferência</string>
+    <string name="paste_images_desc">Mostrar capturas de tela ou imagens copiadas</string>
+    <string name="paste_delete_all">Excluir todos os itens da área de transferência</string>
+    <string name="paste_delete_all_desc">Remover todos os textos copiados não fixados</string>
+    <string name="paste_view_history">Ver histórico da área de transferência</string>
+    <string name="paste_view_history_desc">Navegar por todos os textos copiados</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">Retenção de emojis recentes</string>
+    <string name="emoji_retention_desc">Por quanto tempo lembrar dos emojis usados recentemente</string>
+    <string name="emoji_expiry_1d">1 dia</string>
+    <string name="emoji_expiry_7d">7 dias</string>
+    <string name="emoji_expiry_30d">30 dias</string>
+    <string name="emoji_expiry_90d">90 dias</string>
+    <string name="emoji_expiry_forever">Para sempre</string>
+    <string name="emoji_horizontal">Rolagem horizontal</string>
+    <string name="emoji_horizontal_desc_rows">As linhas rolam independentemente da esquerda para a direita</string>
+    <string name="emoji_horizontal_desc_vertical">Layout de lista vertical</string>
+    <string name="emoji_visible_rows">Linhas visíveis</string>
+    <string name="emoji_visible_rows_desc">Número de linhas de emojis mostradas nos resultados da pesquisa</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d linha</item>
+        <item quantity="other">%1$d linhas</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">Atraso de toque longo (ms)</string>
+    <string name="adv_popup_dismiss_label">Atraso de fechamento do pop-up: %1$s</string>
+    <string name="adv_dismiss_default">Padrão</string>
+    <string name="adv_dismiss_short">Curto</string>
+    <string name="adv_dismiss_long">Longo</string>
+    <string name="adv_space_delay">Atraso de movimento do cursor com a barra de espaço</string>
+    <string name="adv_space_speed">Velocidade de movimento do cursor com a barra de espaço</string>
+    <string name="adv_physical_emoji">Tecla de emojis do teclado físico</string>
+    <string name="adv_physical_emoji_desc">Ativar atalhos da tecla de emojis no teclado físico</string>
+    <string name="adv_typed_first">Mostrar palavra digitada primeiro</string>
+    <string name="adv_typed_first_desc">A palavra exata digitada aparece como primeira sugestão</string>
+    <string name="adv_backspace_delay">Atraso de repetição do backspace (ms)</string>
+    <string name="adv_backspace_speed">Velocidade de repetição do backspace (ms)</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">Autocorreção</string>
+    <string name="tc_auto_correct_desc">Pontuação corrige palavras</string>
+    <string name="tc_phonetic">Autocorreção fonética</string>
+    <string name="tc_phonetic_desc">Corrigir transliteração bengali</string>
+    <string name="tc_show_suggestions">Mostrar sugestões</string>
+    <string name="tc_show_suggestions_desc">Exibir palavras enquanto digita</string>
+    <string name="tc_personalized">Sugestões personalizadas</string>
+    <string name="tc_personalized_desc">Aprender com a comunicação</string>
+    <string name="tc_next_word">Sugestões da próxima palavra</string>
+    <string name="tc_next_word_desc">Usar a palavra anterior</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">Idiomas do teclado</string>
+    <string name="more_lang_desc">Ativar ou desativar layouts de teclado ativos</string>
+    <string name="more_lang_english">Inglês</string>
+    <string name="more_lang_english_desc">Layout QWERTY (sempre ativado)</string>
+    <string name="more_lang_bangla">Bengali (বাংলা)</string>
+    <string name="more_lang_bangla_desc">Layout nacional padrão de Bangladesh</string>
+    <string name="more_lang_avro">Avro (অভ্র)</string>
+    <string name="more_lang_avro_desc">Mecanismo oficial de transliteração fonética Avro</string>
+    <string name="more_lang_arabic">Árabe (عربي)</string>
+    <string name="more_lang_arabic_desc">Layout de letras árabes</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">Mostrar GIFs de alta qualidade</string>
+    <string name="gif_show_high_desc">Requer mais dados</string>
+    <string name="gif_send_high">Enviar GIFs de alta qualidade</string>
+    <string name="gif_send_high_desc">Baixar antes de enviar</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">Escolha como a barra de ferramentas e a barra de sugestões trocam entre si durante a digitação (cabeçalho unificado).</string>
+    <string name="header_anim_none">Nenhuma</string>
+    <string name="header_anim_none_desc">Os cabeçalhos trocam instantaneamente, sem animação</string>
+    <string name="header_anim_fade">Desvanecer</string>
+    <string name="header_anim_fade_desc">Transição cruzada suave entre os dois cabeçalhos</string>
+    <string name="header_anim_slide">Deslizar para cima</string>
+    <string name="header_anim_slide_desc">O novo cabeçalho desliza de baixo para cima</string>
+    <string name="header_anim_slide_fade">Deslizar e desvanecer</string>
+    <string name="header_anim_slide_fade_desc">Deslizar para cima combinado com desvanecimento</string>
+    <string name="header_anim_zoom">Zoom</string>
+    <string name="header_anim_zoom_desc">O novo cabeçalho escala a partir do centro</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">Recentes</string>
+    <string name="emoji_cat_smileys">Sorrisos</string>
+    <string name="emoji_cat_people">Pessoas</string>
+    <string name="emoji_cat_hearts">Corações</string>
+    <string name="emoji_cat_animals">Animais</string>
+    <string name="emoji_cat_food">Comida</string>
+    <string name="emoji_cat_activity">Atividade</string>
+    <string name="emoji_cat_travel">Viagem</string>
+    <string name="emoji_cat_objects">Objetos</string>
+    <string name="emoji_cat_symbols">Símbolos</string>
+    <string name="emoji_cat_flags">Bandeiras</string>
+    <string name="emoji_tab_emoji">Emojis</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">Adesivos</string>
+    <string name="emoji_search_hint">Pesquisar emoji...</string>
+    <string name="emoji_no_recent">Ainda não há emojis recentes\nComece a usar emojis!</string>
+    <string name="emoji_gif_coming_soon">Suporte a GIF em breve</string>
+    <string name="emoji_sticker_coming_soon">Suporte a adesivos em breve</string>
+    <string name="emoji_no_found">Nenhum emoji encontrado</string>
+    <string name="emoji_close">Fechar</string>
+    <string name="emoji_delete">Excluir</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">Criador de temas Pro</string>
+    <string name="save">Salvar</string>
+    <string name="live_preview">PRÉVIA AO VIVO</string>
+    <string name="design_elements">ELEMENTOS DE DESIGN</string>
+    <string name="color_bg">Fundo</string>
+    <string name="color_primary_keys">Teclas principais</string>
+    <string name="color_key_text">Texto das teclas</string>
+    <string name="color_special_keys">Teclas especiais (Shift/Enter)</string>
+    <string name="color_special_text">Texto/ícones especiais</string>
+    <string name="color_accent">Destaque (estado ativo)</string>
+    <string name="color_suggestion_bg">Fundo da faixa de sugestões</string>
+    <string name="color_suggestion_text">Texto de sugestões</string>
+    <string name="color_popup_bg">Fundo do pop-up de teclas</string>
+    <string name="color_popup_text">Texto do pop-up de teclas</string>
+    <string name="color_hints">Dicas de subcaracteres</string>
+    <string name="reset_default">Redefinir para Neon escuro padrão</string>
+    <string name="custom_color">Cor personalizada</string>
+    <string name="hue">Matiz</string>
+    <string name="saturation">Saturação</string>
+    <string name="value">Valor</string>
+    <string name="done">Concluir</string>
+    <string name="cancel">Cancelar</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">Histórico da área de transferência</string>
+    <string name="clipboard_panel_empty">Nenhum item copiado ainda</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">Área de transferência</string>
+    <string name="kb_emoji">Emojis</string>
+    <string name="kb_voice">Voz</string>
+    <string name="kb_theme">Tema</string>
+    <string name="kb_incognito">Anônimo</string>
+    <string name="kb_settings">Configurações</string>
+    <string name="kb_live">AO VIVO</string>
+    <string name="kb_peak">PICO</string>
+    <string name="kb_suggestions">Sugestões</string>
+    <string name="kb_show_toolbar">Mostrar barra de ferramentas</string>
+    <string name="kb_delete">Excluir</string>
+</resources>

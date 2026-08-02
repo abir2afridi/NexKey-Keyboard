@@ -20,6 +20,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -38,10 +40,10 @@ fun TypingStatsScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Typing Analytics", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.stats_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -62,7 +64,7 @@ fun TypingStatsScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
-                text = "Your Productivity",
+                text = stringResource(R.string.stats_productivity),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
@@ -71,13 +73,13 @@ fun TypingStatsScreen(
 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 StatCard(
-                    title = "Total Words",
+                    title = stringResource(R.string.stats_total_words),
                     value = totalWords.toString(),
                     icon = Icons.Default.TextFormat,
                     modifier = Modifier.weight(1f)
                 )
                 StatCard(
-                    title = "Total Characters",
+                    title = stringResource(R.string.stats_total_chars),
                     value = totalChars.toString(),
                     icon = Icons.Default.QueryStats,
                     modifier = Modifier.weight(1f)
@@ -87,25 +89,25 @@ fun TypingStatsScreen(
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Typing Milestones",
+                text = stringResource(R.string.stats_milestones),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold
             )
 
             MilestoneItem(
-                title = "NexKey Explorer",
-                desc = "Typed your first 100 words",
+                title = stringResource(R.string.stats_milestone_1_title),
+                desc = stringResource(R.string.stats_milestone_1_desc),
                 isAchieved = totalWords >= 100
             )
             MilestoneItem(
-                title = "Speed Demon",
-                desc = "Typed over 1,000 characters",
+                title = stringResource(R.string.stats_milestone_2_title),
+                desc = stringResource(R.string.stats_milestone_2_desc),
                 isAchieved = totalChars >= 1000
             )
             MilestoneItem(
-                title = "Language Maestro",
-                desc = "Typed over 5,000 words",
+                title = stringResource(R.string.stats_milestone_3_title),
+                desc = stringResource(R.string.stats_milestone_3_desc),
                 isAchieved = totalWords >= 5000
             )
 
@@ -123,7 +125,7 @@ fun TypingStatsScreen(
                     Icon(Icons.Default.AutoAwesome, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(36.dp))
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "You've saved roughly ${(totalChars / 5) * 0.5} seconds using NexKey predictions!",
+                        text = stringResource(R.string.stats_saved, (totalChars / 5) * 0.5),
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 14.sp,
                         textAlign = androidx.compose.ui.text.style.TextAlign.Center,

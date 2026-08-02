@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,10 +26,10 @@ fun HelpScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Help & Guide", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.help_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -50,7 +52,7 @@ fun HelpScreen(
             Spacer(modifier = Modifier.height(8.dp))
             
             Text(
-                text = "Ridmik-Class Phonetic Cheat Sheet",
+                text = stringResource(R.string.help_cheatsheet),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
@@ -67,22 +69,22 @@ fun HelpScreen(
                     modifier = Modifier.padding(16.dp),
                     verticalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    PhoneticRow("ami", "আমি", "I / Me")
-                    PhoneticRow("bangla", "বাংলা", "Bengali")
-                    PhoneticRow("amar", "আমার", "My / Mine")
-                    PhoneticRow("shonar", "সোনার", "Golden")
-                    PhoneticRow("kormo", "কর্ম", "Work")
-                    PhoneticRow("kS", "ক্ষ", "Juktakkhor")
-                    PhoneticRow("rri", "ঋ", "Vowel")
-                    PhoneticRow("NG", "ঙ", "Consonant")
-                    PhoneticRow("..", "।", "Dari")
+                    PhoneticRow("ami", "আমি", stringResource(R.string.help_phon_i_me))
+                    PhoneticRow("bangla", "বাংলা", stringResource(R.string.help_phon_bengali))
+                    PhoneticRow("amar", "আমার", stringResource(R.string.help_phon_my_mine))
+                    PhoneticRow("shonar", "সোনার", stringResource(R.string.help_phon_golden))
+                    PhoneticRow("kormo", "কর্ম", stringResource(R.string.help_phon_work))
+                    PhoneticRow("kS", "ক্ষ", stringResource(R.string.help_phon_juktakkhor))
+                    PhoneticRow("rri", "ঋ", stringResource(R.string.help_phon_vowel))
+                    PhoneticRow("NG", "ঙ", stringResource(R.string.help_phon_consonant))
+                    PhoneticRow("..", "।", stringResource(R.string.help_phon_dari))
                 }
             }
 
             Spacer(modifier = Modifier.height(8.dp))
 
             Text(
-                text = "Tips",
+                text = stringResource(R.string.help_tips),
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.Bold,
@@ -90,18 +92,18 @@ fun HelpScreen(
             )
 
             TipCard(
-                title = "Conjuncts (যুক্তাক্ষর)",
-                description = "Type two letters and NexKey will automatically join them if valid. E.g. 'kS' for 'ক্ষ'."
+                title = stringResource(R.string.help_tip_conjuncts),
+                description = stringResource(R.string.help_tip_conjuncts_desc)
             )
 
             TipCard(
-                title = "Switching Modes",
-                description = "Tap the globe icon or 'ABC/?123' key on the keyboard to switch between Bangla and English."
+                title = stringResource(R.string.help_tip_modes),
+                description = stringResource(R.string.help_tip_modes_desc)
             )
 
             TipCard(
-                title = "Voice Typing",
-                description = "Tap the microphone icon on the toolbar to speak instead of typing."
+                title = stringResource(R.string.help_tip_voice),
+                description = stringResource(R.string.help_tip_voice_desc)
             )
             
             Spacer(modifier = Modifier.height(120.dp))

@@ -16,6 +16,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,10 +78,10 @@ fun ThemesScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Keyboard Themes", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.themes_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -98,7 +100,7 @@ fun ThemesScreen(
                 .padding(horizontal = 24.dp)
         ) {
             Text(
-                text = "Select a preset for your keyboard",
+                text = stringResource(R.string.themes_subtitle),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(vertical = 24.dp)
@@ -218,7 +220,7 @@ fun ThemePreviewCard(
         Spacer(modifier = Modifier.height(12.dp))
 
         Text(
-            text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
+            text = themePresetLabel(theme.preset),
             color = MaterialTheme.colorScheme.onSurface,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
@@ -264,3 +266,26 @@ fun RowScope.MiniKey(
 
 // Extension to avoid compilation error if capitalize() is deprecated in some Kotlin versions
 private fun String.capitalize() = this.replaceFirstChar { it.uppercase() }
+
+@Composable
+fun themePresetLabel(preset: ThemePreset): String = stringResource(
+    when (preset) {
+        ThemePreset.DARK_NEON -> R.string.theme_dark_neon
+        ThemePreset.LIGHT_MINIMAL -> R.string.theme_light_minimal
+        ThemePreset.AMOLED_BLACK -> R.string.theme_amoled_black
+        ThemePreset.EMERALD_GREEN -> R.string.theme_emerald_green
+        ThemePreset.MIDNIGHT_BLUE -> R.string.theme_midnight_blue
+        ThemePreset.SUNSET_ORANGE -> R.string.theme_sunset_orange
+        ThemePreset.ROYAL_PURPLE -> R.string.theme_royal_purple
+        ThemePreset.RETRO_GREY -> R.string.theme_retro_grey
+        ThemePreset.CYBERPUNK -> R.string.theme_cyberpunk
+        ThemePreset.SAKURA_PINK -> R.string.theme_sakura_pink
+        ThemePreset.DEEP_OCEAN -> R.string.theme_deep_ocean
+        ThemePreset.CRIMSON_RED -> R.string.theme_crimson_red
+        ThemePreset.LAVENDER_DREAM -> R.string.theme_lavender_dream
+        ThemePreset.FOREST_MOSS -> R.string.theme_forest_moss
+        ThemePreset.GOLDEN_SAND -> R.string.theme_golden_sand
+        ThemePreset.MATERIAL_YOU -> R.string.theme_material_you
+        ThemePreset.CUSTOM -> R.string.theme_custom
+    }
+)

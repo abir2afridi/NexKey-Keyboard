@@ -1,5 +1,6 @@
 package com.example.ui
 
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -12,9 +13,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.os.LocaleListCompat
+import com.example.R
+import com.example.data.UserPreferences
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 data class AppLanguageOption(val code: String, val displayName: String, val localName: String)
 
@@ -39,11 +47,20 @@ private val appLanguages = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppLanguageScreen(onBack: () -> Unit) {
+    val context = LocalContext.current
+    val prefs = remember { UserPreferences(context.applicationContext) }
+    val scope = rememberCoroutineScope()
     var selectedLanguage by remember { mutableStateOf("en") }
+    var loaded by remember { mutableStateOf(false) }
 
-    SettingsSubScaffold(title = "App Language", onBack = onBack) {
+    LaunchedEffect(Unit) {
+        selectedLanguage = prefs.appLanguage.first()
+        loaded = true
+    }
+
+    SettingsSubScaffold(title = stringResource(R.string.app_language_title), onBack = onBack) {
         Text(
-            text = "Choose the display language for the app interface",
+            text = stringResource(R.string.app_language_subtitle),
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
@@ -59,7 +76,13 @@ fun AppLanguageScreen(onBack: () -> Unit) {
                         if (isSelected) MaterialTheme.colorScheme.primaryContainer
                         else Color.Transparent
                     )
-                    .clickable { selectedLanguage = lang.code }
+                    .clickable {
+                        selectedLanguage = lang.code
+                        scope.launch { prefs.setAppLanguage(lang.code) }
+                        AppCompatDelegate.setApplicationLocales(
+                            LocaleListCompat.forLanguageTags(lang.code.replace('_', '-'))
+                        )
+                    }
                     .padding(horizontal = 12.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -79,7 +102,7 @@ fun AppLanguageScreen(onBack: () -> Unit) {
                 if (isSelected) {
                     Icon(
                         imageVector = Icons.Default.Check,
-                        contentDescription = "Selected",
+                        contentDescription = stringResource(R.string.app_language_selected),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(22.dp)
                     )

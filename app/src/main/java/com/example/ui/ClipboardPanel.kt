@@ -34,6 +34,8 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import com.example.clipboard.ClipboardManager
 import com.example.theme.KeyboardTheme
 
@@ -42,11 +44,11 @@ fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
     val clips by ClipboardManager.clips.collectAsState()
     Column(modifier = Modifier.fillMaxWidth().height(210.dp).background(theme.backgroundColor).padding(8.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text(text = "Clipboard History", color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
-            TextButton(onClick = { ClipboardManager.clearAllUnpinned() }) { Text("Clear Unpinned", color = theme.keySpecialTextColor, fontSize = 11.sp) }
+            Text(text = stringResource(R.string.clipboard_panel_title), color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+            TextButton(onClick = { ClipboardManager.clearAllUnpinned() }) { Text(stringResource(R.string.clipboard_clear), color = theme.keySpecialTextColor, fontSize = 11.sp) }
         }
         if (clips.isEmpty()) {
-            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text("No copied clips yet", color = theme.keyTextColor.copy(alpha = 0.5f)) }
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.clipboard_panel_empty), color = theme.keyTextColor.copy(alpha = 0.5f)) }
         } else {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 items(clips) { clip ->

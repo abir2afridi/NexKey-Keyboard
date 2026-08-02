@@ -1,9 +1,11 @@
 package com.example
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.os.LocaleListCompat
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -21,6 +23,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -29,16 +32,26 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.R
 import com.example.clipboard.ClipboardManager
+import com.example.data.UserPreferences
 import com.example.ui.*
 import com.example.ui.navigation.Screen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.checkIsKeyboardEnabled
 import com.example.ui.checkIsKeyboardSelected
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.runBlocking
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val savedLanguage = runBlocking {
+            UserPreferences(applicationContext).appLanguage.first()
+        }
+        AppCompatDelegate.setApplicationLocales(
+            LocaleListCompat.forLanguageTags(savedLanguage.replace('_', '-'))
+        )
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         ClipboardManager.init(applicationContext)
@@ -83,7 +96,7 @@ fun NexKeyApp() {
                 ) {
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Home, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("Home", fontSize = 12.sp) },
+                        label = { Text(stringResource(R.string.nav_home), fontSize = 12.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Home.route } == true,
                         onClick = {
                             navController.navigate(Screen.Home.route) {
@@ -102,7 +115,7 @@ fun NexKeyApp() {
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Storefront, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("Store", fontSize = 12.sp) },
+                        label = { Text(stringResource(R.string.store_title), fontSize = 12.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Store.route } == true,
                         onClick = {
                             navController.navigate(Screen.Store.route) {
@@ -121,7 +134,7 @@ fun NexKeyApp() {
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Keyboard, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("Keyboard", fontSize = 12.sp) },
+                        label = { Text(stringResource(R.string.nav_keyboard), fontSize = 12.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
                         onClick = {
                             navController.navigate(Screen.Settings.route) {
@@ -140,7 +153,7 @@ fun NexKeyApp() {
                     )
                     NavigationBarItem(
                         icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text("App Settings", fontSize = 12.sp) },
+                        label = { Text(stringResource(R.string.app_settings_title), fontSize = 12.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
                         onClick = {
                             navController.navigate(Screen.AppSettings.route) {
@@ -317,7 +330,7 @@ fun NexKeyApp() {
                 ) {
                     FloatingNavigationBarItem(
                         icon = { Icon(Icons.Default.Home, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("Home", fontSize = 11.sp) },
+                        label = { Text(stringResource(R.string.nav_home), fontSize = 11.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Home.route } == true,
                         onClick = {
                             navController.navigate(Screen.Home.route) {
@@ -329,7 +342,7 @@ fun NexKeyApp() {
                     )
                     FloatingNavigationBarItem(
                         icon = { Icon(Icons.Default.Storefront, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("Store", fontSize = 11.sp) },
+                        label = { Text(stringResource(R.string.store_title), fontSize = 11.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Store.route } == true,
                         onClick = {
                             navController.navigate(Screen.Store.route) {
@@ -341,7 +354,7 @@ fun NexKeyApp() {
                     )
                     FloatingNavigationBarItem(
                         icon = { Icon(Icons.Default.Keyboard, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("Keyboard", fontSize = 11.sp) },
+                        label = { Text(stringResource(R.string.nav_keyboard), fontSize = 11.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
                         onClick = {
                             navController.navigate(Screen.Settings.route) {
@@ -353,7 +366,7 @@ fun NexKeyApp() {
                     )
                     FloatingNavigationBarItem(
                         icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text("App Settings", fontSize = 11.sp) },
+                        label = { Text(stringResource(R.string.app_settings_title), fontSize = 11.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
                         onClick = {
                             navController.navigate(Screen.AppSettings.route) {

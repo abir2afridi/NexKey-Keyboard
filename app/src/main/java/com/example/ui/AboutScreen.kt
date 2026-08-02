@@ -15,6 +15,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -29,10 +31,10 @@ fun AboutScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("About", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.about_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -72,13 +74,13 @@ fun AboutScreen(
             Spacer(modifier = Modifier.height(24.dp))
 
             Text(
-                text = "NexKey Keyboard",
+                text = stringResource(R.string.about_name),
                 color = MaterialTheme.colorScheme.onSurface,
                 fontSize = 26.sp,
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Version 1.0.0 (Release)",
+                text = stringResource(R.string.about_version),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 modifier = Modifier.padding(top = 4.dp)
@@ -87,7 +89,7 @@ fun AboutScreen(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                text = "NexKey is a modern, premium keyboard designed for speed and privacy. It features industry-leading Bangla phonetic transliteration and intelligent correction engines.",
+                text = stringResource(R.string.about_description),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
                 textAlign = TextAlign.Center,
@@ -96,20 +98,20 @@ fun AboutScreen(
 
             Spacer(modifier = Modifier.height(48.dp))
 
-            AboutLinkItem(icon = Icons.Default.StarOutline, title = "Rate NexKey") {}
-            AboutLinkItem(icon = Icons.Default.Language, title = "Visit Website") {}
-            AboutLinkItem(icon = Icons.Default.Code, title = "Open Source Licenses") {}
-            AboutLinkItem(icon = Icons.Default.Policy, title = "Privacy Policy") {}
+            AboutLinkItem(icon = Icons.Default.StarOutline, title = stringResource(R.string.about_rate)) {}
+            AboutLinkItem(icon = Icons.Default.Language, title = stringResource(R.string.about_website)) {}
+            AboutLinkItem(icon = Icons.Default.Code, title = stringResource(R.string.about_licenses)) {}
+            AboutLinkItem(icon = Icons.Default.Policy, title = stringResource(R.string.about_privacy)) {}
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-            AboutLinkItem(icon = Icons.Default.Person, title = "Developer", onClick = onNavigateToDeveloper)
+            AboutLinkItem(icon = Icons.Default.Person, title = stringResource(R.string.about_developer), onClick = onNavigateToDeveloper)
 
             Spacer(modifier = Modifier.weight(1f))
             Spacer(modifier = Modifier.height(48.dp))
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(text = "Made with ", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
+                Text(text = stringResource(R.string.made_with), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
                 Icon(Icons.Default.Favorite, contentDescription = null, tint = Color(0xFFD93025), modifier = Modifier.size(16.dp))
-                Text(text = " by Abir Hasan Siam", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
+                Text(text = stringResource(R.string.made_by), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 13.sp)
             }
 
             Spacer(modifier = Modifier.height(120.dp))

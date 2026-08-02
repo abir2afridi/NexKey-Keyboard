@@ -11,7 +11,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -27,13 +29,13 @@ fun FeedbackSettingsScreen(onBack: () -> Unit) {
     val hapticIntensity by prefs.hapticIntensity.collectAsState(initial = 50)
     val soundVol by prefs.soundVolume.collectAsState(initial = 50)
 
-    SettingsSubScaffold(title = "Feedback", onBack = onBack) {
-        SettingSwitchItem("Vibrate on keypress", null, Icons.Default.Vibration, haptics) { scope.launch { prefs.setHaptics(it) } }
-        SettingSwitchItem("Sound on keypress", null, Icons.AutoMirrored.Filled.VolumeUp, sound) { scope.launch { prefs.setSound(it) } }
-        SettingSwitchItem("Popup on keypress", null, Icons.AutoMirrored.Filled.Message, popupOnKeypress) { scope.launch { prefs.setPopupOnKeypress(it) } }
+    SettingsSubScaffold(title = stringResource(R.string.settings_feedback), onBack = onBack) {
+        SettingSwitchItem(stringResource(R.string.feedback_vibrate), null, Icons.Default.Vibration, haptics) { scope.launch { prefs.setHaptics(it) } }
+        SettingSwitchItem(stringResource(R.string.feedback_sound), null, Icons.AutoMirrored.Filled.VolumeUp, sound) { scope.launch { prefs.setSound(it) } }
+        SettingSwitchItem(stringResource(R.string.feedback_popup), null, Icons.AutoMirrored.Filled.Message, popupOnKeypress) { scope.launch { prefs.setPopupOnKeypress(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem("Keypress vibration intensity", hapticIntensity.toFloat(), 0f..100f) { scope.launch { prefs.setHapticIntensity(it.toInt()) } }
-        SettingSliderItem("Keypress sound volume", soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.feedback_vibrate_intensity), hapticIntensity.toFloat(), 0f..100f) { scope.launch { prefs.setHapticIntensity(it.toInt()) } }
+        SettingSliderItem(stringResource(R.string.feedback_sound_volume), soundVol.toFloat(), 0f..100f) { scope.launch { prefs.setSoundVolume(it.toInt()) } }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }

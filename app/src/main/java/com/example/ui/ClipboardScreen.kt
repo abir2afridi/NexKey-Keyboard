@@ -19,6 +19,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -43,16 +45,16 @@ fun ClipboardScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Clipboard Manager", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.clipboard_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
                 actions = {
                     if (clips.isNotEmpty()) {
                         IconButton(onClick = { ClipboardManager.clearAllUnpinned() }) {
-                            Icon(Icons.Default.Delete, contentDescription = "Clear Unpinned", tint = MaterialTheme.colorScheme.onSurfaceVariant)
+                            Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.clipboard_clear), tint = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                     }
                 },
@@ -67,7 +69,7 @@ fun ClipboardScreen(
     ) { paddingValues ->
         if (clips.isEmpty()) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                Text("No clips found in history", color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
+                Text(stringResource(R.string.clipboard_empty), color = MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp)
             }
         } else {
             LazyColumn(
@@ -112,14 +114,14 @@ fun ClipboardItemCard(clip: ClipItem) {
                     ) {
                         Icon(
                             imageVector = Icons.Default.PushPin,
-                            contentDescription = "Pin",
+                            contentDescription = stringResource(R.string.clipboard_pin),
                             tint = if (clip.isPinned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.size(18.dp)
                         )
                     }
                     Spacer(modifier = Modifier.width(12.dp))
                     Text(
-                        text = if (clip.isPinned) "Pinned" else "Recent",
+                        text = if (clip.isPinned) stringResource(R.string.clipboard_pinned) else stringResource(R.string.clipboard_recent),
                         color = if (clip.isPinned) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Bold
@@ -129,7 +131,7 @@ fun ClipboardItemCard(clip: ClipItem) {
                     onClick = { ClipboardManager.deleteClip(clip.id) },
                     modifier = Modifier.size(32.dp)
                 ) {
-                    Icon(Icons.Default.Delete, contentDescription = "Delete", tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
+                    Icon(Icons.Default.Delete, contentDescription = stringResource(R.string.clipboard_delete), tint = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.size(18.dp))
                 }
             }
             

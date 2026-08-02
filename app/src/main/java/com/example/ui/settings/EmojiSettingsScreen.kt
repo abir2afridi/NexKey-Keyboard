@@ -10,7 +10,10 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -24,14 +27,14 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
     val emojiSearchVisibleRows by prefs.emojiSearchVisibleRows.collectAsState(initial = 2)
     val emojiSearchHorizontal by prefs.emojiSearchHorizontal.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Emoji", onBack = onBack) {
+    SettingsSubScaffold(title = stringResource(R.string.settings_emoji), onBack = onBack) {
         // Recent emoji retention
         val expiryOptions = listOf(1, 7, 30, 90, 0)
-        val expiryLabels = listOf("1 day", "7 days", "30 days", "90 days", "Forever")
+        val expiryLabels = listOf(stringResource(R.string.emoji_expiry_1d), stringResource(R.string.emoji_expiry_7d), stringResource(R.string.emoji_expiry_30d), stringResource(R.string.emoji_expiry_90d), stringResource(R.string.emoji_expiry_forever))
         val selectedIndex = expiryOptions.indexOf(recentEmojiExpiry).let { if (it < 0) 2 else it }
         SettingDropdownItem(
-            title = "Recent emoji retention",
-            subtitle = "How long to remember recently used emojis",
+            title = stringResource(R.string.emoji_retention),
+            subtitle = stringResource(R.string.emoji_retention_desc),
             icon = Icons.Default.EmojiEmotions,
             selectedOption = expiryLabels[selectedIndex],
             options = expiryLabels,
@@ -46,8 +49,8 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
 
         // Search results layout
         SettingSwitchItem(
-            title = "Horizontal scroll",
-            subtitle = if (emojiSearchHorizontal) "Rows scroll left-right independently" else "Vertical list layout",
+            title = stringResource(R.string.emoji_horizontal),
+            subtitle = if (emojiSearchHorizontal) stringResource(R.string.emoji_horizontal_desc_rows) else stringResource(R.string.emoji_horizontal_desc_vertical),
             icon = Icons.Default.ViewModule,
             checked = emojiSearchHorizontal,
             onCheckedChange = { scope.launch { prefs.setEmojiSearchHorizontal(it) } }
@@ -57,11 +60,11 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
         if (emojiSearchHorizontal) {
             Spacer(modifier = Modifier.height(16.dp))
             val rowOptions = listOf(1, 2)
-            val rowLabels = rowOptions.map { "$it row${if (it > 1) "s" else ""}" }
+            val rowLabels = rowOptions.map { pluralStringResource(R.plurals.emoji_rows, it, it) }
             val rowSelectedIndex = rowOptions.indexOf(emojiSearchVisibleRows).let { if (it < 0) 1 else it }
             SettingDropdownItem(
-                title = "Visible rows",
-                subtitle = "Number of emoji rows shown in search results",
+                title = stringResource(R.string.emoji_visible_rows),
+                subtitle = stringResource(R.string.emoji_visible_rows_desc),
                 icon = Icons.Default.DensitySmall,
                 selectedOption = rowLabels[rowSelectedIndex],
                 options = rowLabels,

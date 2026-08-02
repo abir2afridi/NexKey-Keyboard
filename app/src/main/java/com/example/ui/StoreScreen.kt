@@ -13,10 +13,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.theme.MeterTheme
+import com.example.theme.MeterThemePreset
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,7 +37,7 @@ fun StoreScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Store", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.store_title), fontWeight = FontWeight.Bold) },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface
@@ -56,19 +59,19 @@ fun StoreScreen(
                 Tab(
                     selected = selectedTab == 0,
                     onClick = { selectedTab = 0 },
-                    text = { Text("Shop", fontWeight = if (selectedTab == 0) FontWeight.Bold else FontWeight.Normal) },
+                    text = { Text(stringResource(R.string.store_tab_shop), fontWeight = if (selectedTab == 0) FontWeight.Bold else FontWeight.Normal) },
                     icon = { Icon(Icons.Default.ShoppingCart, contentDescription = null, modifier = Modifier.size(18.dp)) }
                 )
                 Tab(
                     selected = selectedTab == 1,
                     onClick = { selectedTab = 1 },
-                    text = { Text("Themes", fontWeight = if (selectedTab == 1) FontWeight.Bold else FontWeight.Normal) },
+                    text = { Text(stringResource(R.string.store_tab_themes), fontWeight = if (selectedTab == 1) FontWeight.Bold else FontWeight.Normal) },
                     icon = { Icon(Icons.Default.Palette, contentDescription = null, modifier = Modifier.size(18.dp)) }
                 )
                 Tab(
                     selected = selectedTab == 2,
                     onClick = { selectedTab = 2 },
-                    text = { Text("Meter", fontWeight = if (selectedTab == 2) FontWeight.Bold else FontWeight.Normal) },
+                    text = { Text(stringResource(R.string.store_tab_meter), fontWeight = if (selectedTab == 2) FontWeight.Bold else FontWeight.Normal) },
                     icon = { Icon(Icons.Default.Speed, contentDescription = null, modifier = Modifier.size(18.dp)) }
                 )
             }
@@ -100,7 +103,7 @@ private fun MeterTab(
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            "Speed Meter Designs",
+            stringResource(R.string.meter_designs),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -176,7 +179,7 @@ private fun MeterTab(
                                             fontFeatureSettings = "tnum"
                                         )
                                     )
-                                    Text("LIVE", color = theme.labelColor, fontSize = 6.sp, fontWeight = FontWeight.Bold)
+                                    Text(stringResource(R.string.kb_live), color = theme.labelColor, fontSize = 6.sp, fontWeight = FontWeight.Bold)
                                 }
                             }
                         }
@@ -184,7 +187,7 @@ private fun MeterTab(
                         Spacer(modifier = Modifier.height(12.dp))
                         
                         Text(
-                            text = theme.preset.name.replace("_", " ").lowercase().capitalize(),
+                            text = meterThemeLabel(theme.preset),
                             fontSize = 12.sp,
                             fontWeight = FontWeight.Bold,
                             color = MaterialTheme.colorScheme.onSurface
@@ -197,7 +200,7 @@ private fun MeterTab(
         Spacer(modifier = Modifier.height(24.dp))
         
         Text(
-            "Number Font Style",
+            stringResource(R.string.meter_font_style),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -234,7 +237,7 @@ private fun MeterTab(
                         )
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = font.lowercase().capitalize(),
+                            text = meterFontLabel(font),
                             fontSize = 9.sp,
                             fontWeight = FontWeight.Bold,
                             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
@@ -252,6 +255,30 @@ private fun MeterTab(
 private fun String.capitalize() = this.replaceFirstChar { it.uppercase() }
 
 @Composable
+private fun meterThemeLabel(preset: MeterThemePreset): String = stringResource(
+    when (preset) {
+        MeterThemePreset.CALCULATOR -> R.string.meter_calculator
+        MeterThemePreset.NEON_CYBER -> R.string.meter_neon_cyber
+        MeterThemePreset.RETRO_LCD -> R.string.meter_retro_lcd
+        MeterThemePreset.MINIMAL_DARK -> R.string.meter_minimal_dark
+        MeterThemePreset.GHOST_WHITE -> R.string.meter_ghost_white
+        MeterThemePreset.CYBER_LIME -> R.string.meter_cyber_lime
+        MeterThemePreset.AMBER_RETRO -> R.string.meter_amber_retro
+        MeterThemePreset.VIOLET_GLOW -> R.string.meter_violet_glow
+    }
+)
+
+@Composable
+private fun meterFontLabel(font: String): String = stringResource(
+    when (font) {
+        "DIGITAL" -> R.string.meter_font_digital
+        "LCD" -> R.string.meter_font_lcd
+        "SEGMENT" -> R.string.meter_font_segment
+        else -> R.string.meter_font_modern
+    }
+)
+
+@Composable
 private fun ShopTab() {
     Column(
         modifier = Modifier
@@ -260,14 +287,14 @@ private fun ShopTab() {
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            "Coming Soon",
+            stringResource(R.string.store_coming_soon),
             fontSize = 20.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSurface,
             modifier = Modifier.padding(vertical = 24.dp)
         )
         Text(
-            "Premium themes, sticker packs, and more will be available here.",
+            stringResource(R.string.store_shop_desc),
             fontSize = 14.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
@@ -283,7 +310,7 @@ private fun ThemesTab(onNavigateToThemes: () -> Unit, onNavigateToCustomTheme: (
             .verticalScroll(rememberScrollState())
     ) {
         Text(
-            "Themes",
+            stringResource(R.string.store_tab_themes),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -292,9 +319,9 @@ private fun ThemesTab(onNavigateToThemes: () -> Unit, onNavigateToCustomTheme: (
 
         Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp) {
             Column {
-                SettingItem("Browse Themes", "Choose from preset themes", Icons.Default.Palette, onClick = onNavigateToThemes)
+                SettingItem(stringResource(R.string.store_browse_themes), stringResource(R.string.store_browse_themes_sub), Icons.Default.Palette, onClick = onNavigateToThemes)
                 HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                SettingItem("Custom Theme", "Create your own theme", Icons.Default.Colorize, onClick = onNavigateToCustomTheme)
+                SettingItem(stringResource(R.string.store_custom_theme), stringResource(R.string.store_custom_theme_sub), Icons.Default.Colorize, onClick = onNavigateToCustomTheme)
             }
         }
 

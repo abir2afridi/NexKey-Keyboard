@@ -12,6 +12,8 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.res.stringResource
+import com.example.R
 
 // UNIFIED HEADER ANIMATION ENGINE
 // ------------------------------------------------------------------------------------------
@@ -21,18 +23,40 @@ import androidx.compose.runtime.Composable
 // To add a new animation: add an entry to the enum and one `when` branch in toTransition().
 // ------------------------------------------------------------------------------------------
 
-enum class HeaderAnimation(val label: String, val description: String) {
-    NONE("None", "Headers switch instantly, no animation"),
-    FADE("Fade", "Smooth crossfade between the two headers"),
-    SLIDE("Slide Up", "New header slides up from below"),
-    SLIDE_FADE("Slide & Fade", "Slide up combined with a fade"),
-    ZOOM("Zoom", "New header scales in from the center");
+enum class HeaderAnimation {
+    NONE,
+    FADE,
+    SLIDE,
+    SLIDE_FADE,
+    ZOOM;
 
     companion object {
         fun fromName(name: String?): HeaderAnimation =
             entries.firstOrNull { it.name == name } ?: FADE
     }
 }
+
+@Composable
+fun HeaderAnimation.labelText(): String = stringResource(
+    when (this) {
+        HeaderAnimation.NONE -> R.string.header_anim_none
+        HeaderAnimation.FADE -> R.string.header_anim_fade
+        HeaderAnimation.SLIDE -> R.string.header_anim_slide
+        HeaderAnimation.SLIDE_FADE -> R.string.header_anim_slide_fade
+        HeaderAnimation.ZOOM -> R.string.header_anim_zoom
+    }
+)
+
+@Composable
+fun HeaderAnimation.descriptionText(): String = stringResource(
+    when (this) {
+        HeaderAnimation.NONE -> R.string.header_anim_none_desc
+        HeaderAnimation.FADE -> R.string.header_anim_fade_desc
+        HeaderAnimation.SLIDE -> R.string.header_anim_slide_desc
+        HeaderAnimation.SLIDE_FADE -> R.string.header_anim_slide_fade_desc
+        HeaderAnimation.ZOOM -> R.string.header_anim_zoom_desc
+    }
+)
 
 @Composable
 fun AnimatedHeaderSwitcher(

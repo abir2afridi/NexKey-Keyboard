@@ -74,6 +74,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import com.example.clipboard.ClipItem
 import com.example.clipboard.ClipboardManager
 import com.example.theme.KeyboardTheme
@@ -81,7 +83,6 @@ import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
 import java.util.Locale
 import kotlin.math.abs
-
 @Composable
 fun KeyboardComposeView(
     mode: KeyboardMode,
@@ -429,7 +430,7 @@ fun SmartToolbar(
             item {
                 ToolbarIcon(
                     icon = Icons.Default.ContentCopy,
-                    contentDescription = "Clipboard",
+                    contentDescription = stringResource(R.string.kb_clipboard),
                     active = currentMode == KeyboardMode.CLIPBOARD,
                     theme = theme
                 ) {
@@ -440,7 +441,7 @@ fun SmartToolbar(
                 item {
                     ToolbarIcon(
                         icon = Icons.Default.SentimentSatisfiedAlt,
-                        contentDescription = "Emoji",
+                        contentDescription = stringResource(R.string.kb_emoji),
                         active = currentMode == KeyboardMode.EMOJI,
                         theme = theme
                     ) {
@@ -450,17 +451,17 @@ fun SmartToolbar(
             }
             if (showVoiceKey) {
                 item {
-                    ToolbarIcon(icon = Icons.Default.Mic, contentDescription = "Voice", active = false, theme = theme, onClick = onVoiceClick)
+                    ToolbarIcon(icon = Icons.Default.Mic, contentDescription = stringResource(R.string.kb_voice), active = false, theme = theme, onClick = onVoiceClick)
                 }
             }
             item {
-                ToolbarIcon(icon = Icons.Default.Palette, contentDescription = "Theme", active = false, theme = theme, onClick = onThemeToggle)
+                ToolbarIcon(icon = Icons.Default.Palette, contentDescription = stringResource(R.string.kb_theme), active = false, theme = theme, onClick = onThemeToggle)
             }
             if (onIncognitoToggle != null) {
                 item {
                     ToolbarIcon(
                         icon = Icons.Default.Security,
-                        contentDescription = "Incognito",
+                        contentDescription = stringResource(R.string.kb_incognito),
                         active = isIncognito,
                         theme = theme,
                         onClick = onIncognitoToggle
@@ -478,7 +479,7 @@ fun SmartToolbar(
         )
 
         IconButton(onClick = onOpenSettings) {
-            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings", tint = theme.keySpecialTextColor)
+            Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(R.string.kb_settings), tint = theme.keySpecialTextColor)
         }
     }
 }
@@ -559,7 +560,7 @@ fun DigitalSpeedMeter(
                     )
                 )
                 Text(
-                    text = if (isLive) "LIVE" else "PEAK",
+                    text = if (isLive) stringResource(R.string.kb_live) else stringResource(R.string.kb_peak),
                     color = meterTheme.labelColor,
                     fontSize = 6.5.sp,
                     fontWeight = FontWeight.ExtraBold,
@@ -633,7 +634,7 @@ fun CandidateStrip(
 
         if (suggestions.isEmpty() && composingText.isEmpty()) {
             Text(
-                text = "Suggestions",
+                text = stringResource(R.string.kb_suggestions),
                 color = theme.keyTextColor.copy(alpha = 0.4f),
                 fontSize = 13.sp,
                 fontStyle = androidx.compose.ui.text.font.FontStyle.Italic
@@ -662,7 +663,7 @@ fun CandidateStrip(
             Spacer(modifier = Modifier.width(4.dp))
             ToolbarIcon(
                 icon = Icons.Default.KeyboardArrowUp,
-                contentDescription = "Show toolbar",
+                contentDescription = stringResource(R.string.kb_show_toolbar),
                 active = false,
                 theme = theme,
                 onClick = onShowToolbar
@@ -787,6 +788,7 @@ fun KeyboardKeysGrid(
                     onLongPress = { onLongPress(keyModel) }
                 )
             }
+            val deleteLabel = stringResource(R.string.kb_delete)
             Box(
                 modifier = Modifier.weight(1.3f)
                     .height(theme.keyHeightDp.dp)
@@ -816,7 +818,7 @@ fun KeyboardKeysGrid(
                             if (!didRepeat) onBackspaceTap()
                         }
                     }
-                    .semantics { contentDescription = "Delete"; role = Role.Button },
+                    .semantics { contentDescription = deleteLabel; role = Role.Button },
                 contentAlignment = Alignment.Center
             ) {
                 Icon(imageVector = Icons.AutoMirrored.Filled.Backspace, contentDescription = null, tint = theme.keySpecialTextColor)

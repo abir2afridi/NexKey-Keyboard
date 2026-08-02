@@ -10,6 +10,8 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -32,31 +34,30 @@ fun SettingsScreen(
     onNavigateToHeaderAnimation: () -> Unit = {},
     onNavigateToEmoji: () -> Unit = {}
 ) {
-    val settingsItems = remember {
+    val settingsItems =
         listOf(
-            SettingCategory("Typing", "Auto-cap, double-space, tab", Icons.Default.TextFormat, onNavigateToTyping),
-            SettingCategory("Feedback", "Vibrations, sound, popups", Icons.Default.Vibration, onNavigateToFeedback),
-            SettingCategory("Language & Keys", "Voice, emoji, globe keys", Icons.Default.Language, onNavigateToLanguageKeys),
-            SettingCategory("Layout", "Number row, split, resize", Icons.Default.Keyboard, onNavigateToLayout),
-            SettingCategory("Size", "Height and width adjustments", Icons.Default.AspectRatio, onNavigateToSize),
-            SettingCategory("Navigation", "Cursor and volume control", Icons.Default.SwapHoriz, onNavigateToNavigation),
-            SettingCategory("Paste & Clipboard", "Hold key to paste, clipboard settings", Icons.Default.ContentPaste, onNavigateToPaste),
-            SettingCategory("Emoji", "Recent emoji retention", Icons.Default.EmojiEmotions, onNavigateToEmoji),
-            SettingCategory("Advanced", "Delays, cursor, behaviour", Icons.Default.Tune, onNavigateToAdvancedGroup),
-            SettingCategory("Text correction", "Suggestions and dictionaries", Icons.Default.Spellcheck, onNavigateToTextCorrection),
-            SettingCategory("More Languages", "English, Bangla, Avro, Arabic...", Icons.Default.Language, onNavigateToMoreLanguages),
-            SettingCategory("Gif Quality", "Manage data usage for Gifs", Icons.Default.Gif, onNavigateToGifQuality),
-            SettingCategory("Header Animation", "Fade, slide, zoom effects", Icons.Default.Animation, onNavigateToHeaderAnimation)
+            SettingCategory(stringResource(R.string.settings_typing), stringResource(R.string.settings_typing_desc), Icons.Default.TextFormat, onNavigateToTyping),
+            SettingCategory(stringResource(R.string.settings_feedback), stringResource(R.string.settings_feedback_desc), Icons.Default.Vibration, onNavigateToFeedback),
+            SettingCategory(stringResource(R.string.settings_language_keys), stringResource(R.string.settings_language_keys_desc), Icons.Default.Language, onNavigateToLanguageKeys),
+            SettingCategory(stringResource(R.string.settings_layout), stringResource(R.string.settings_layout_desc), Icons.Default.Keyboard, onNavigateToLayout),
+            SettingCategory(stringResource(R.string.settings_size), stringResource(R.string.settings_size_desc), Icons.Default.AspectRatio, onNavigateToSize),
+            SettingCategory(stringResource(R.string.settings_navigation), stringResource(R.string.settings_navigation_desc), Icons.Default.SwapHoriz, onNavigateToNavigation),
+            SettingCategory(stringResource(R.string.settings_paste), stringResource(R.string.settings_paste_desc), Icons.Default.ContentPaste, onNavigateToPaste),
+            SettingCategory(stringResource(R.string.settings_emoji), stringResource(R.string.settings_emoji_desc), Icons.Default.EmojiEmotions, onNavigateToEmoji),
+            SettingCategory(stringResource(R.string.settings_advanced), stringResource(R.string.settings_advanced_desc), Icons.Default.Tune, onNavigateToAdvancedGroup),
+            SettingCategory(stringResource(R.string.settings_text_correction), stringResource(R.string.settings_text_correction_desc), Icons.Default.Spellcheck, onNavigateToTextCorrection),
+            SettingCategory(stringResource(R.string.settings_more_languages), stringResource(R.string.settings_more_languages_desc), Icons.Default.Language, onNavigateToMoreLanguages),
+            SettingCategory(stringResource(R.string.settings_gif_quality), stringResource(R.string.settings_gif_quality_desc), Icons.Default.Gif, onNavigateToGifQuality),
+            SettingCategory(stringResource(R.string.settings_header_animation), stringResource(R.string.settings_header_animation_desc), Icons.Default.Animation, onNavigateToHeaderAnimation)
         )
-    }
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Keyboard Settings", fontWeight = FontWeight.Bold) },
+                title = { Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Bold) },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
-                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -79,7 +80,7 @@ fun SettingsScreen(
         ) {
             item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
                 Text(
-                    text = "Keyboard Customization", 
+                    text = stringResource(R.string.settings_customization), 
                     color = MaterialTheme.colorScheme.primary, 
                     fontSize = 11.sp, 
                     fontWeight = FontWeight.ExtraBold, 

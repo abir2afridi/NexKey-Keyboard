@@ -18,6 +18,7 @@ import android.view.inputmethod.EditorInfo
 import android.widget.Toast
 import androidx.compose.runtime.*
 import androidx.compose.ui.platform.ComposeView
+import com.example.R
 import com.example.clipboard.ClipboardManager
 import com.example.data.TypingAnalytics
 import com.example.data.UserPreferences
@@ -264,11 +265,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         actionLabel = if (isMultilineField) {
             "↵"
         } else when (imeAction) {
-            EditorInfo.IME_ACTION_SEARCH -> "Search"
-            EditorInfo.IME_ACTION_GO -> "Go"
-            EditorInfo.IME_ACTION_SEND -> "Send"
-            EditorInfo.IME_ACTION_NEXT -> "Next"
-            EditorInfo.IME_ACTION_DONE -> "Done"
+            EditorInfo.IME_ACTION_SEARCH -> getString(R.string.ime_action_search)
+            EditorInfo.IME_ACTION_GO -> getString(R.string.ime_action_go)
+            EditorInfo.IME_ACTION_SEND -> getString(R.string.ime_action_send)
+            EditorInfo.IME_ACTION_NEXT -> getString(R.string.ime_action_next)
+            EditorInfo.IME_ACTION_DONE -> getString(R.string.ime_action_done)
             else -> "↵"
         }
 
@@ -392,9 +393,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         predictionEngine.setIncognito(isIncognito)
         scope.launch { userPreferences.setIncognito(isIncognito) }
         if (isIncognito) {
-            Toast.makeText(this, "Incognito mode ON", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ime_incognito_on), Toast.LENGTH_SHORT).show()
         } else {
-            Toast.makeText(this, "Incognito mode OFF", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ime_incognito_off), Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -413,7 +414,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     private fun startVoiceInput() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this, "Grant microphone permission in Settings > Apps > NexKey > Permissions to use voice typing.", Toast.LENGTH_LONG).show()
+            Toast.makeText(this, getString(R.string.ime_mic_permission), Toast.LENGTH_LONG).show()
             try {
                 val intent = android.content.Intent(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
                     data = android.net.Uri.fromParts("package", packageName, null)
@@ -425,7 +426,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
 
         if (!SpeechRecognizer.isRecognitionAvailable(this)) {
-            Toast.makeText(this, "Voice typing is not available", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ime_voice_unavailable), Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -442,7 +443,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
             speechRecognizer?.setRecognitionListener(object : RecognitionListener {
                 override fun onReadyForSpeech(params: Bundle?) {
-                    Toast.makeText(this@NexKeyInputMethodService, "Listening...", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@NexKeyInputMethodService, getString(R.string.ime_listening), Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onResults(results: Bundle?) {
@@ -456,12 +457,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
                 override fun onError(error: Int) {
                     val msg = when (error) {
-                        SpeechRecognizer.ERROR_NO_MATCH -> "No speech detected"
-                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> "Speech timed out"
-                        SpeechRecognizer.ERROR_NETWORK -> "Network error"
-                        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> "Recognizer busy"
-                        9 -> "Permission denied"
-                        else -> "Error: $error"
+                        SpeechRecognizer.ERROR_NO_MATCH -> getString(R.string.ime_no_speech)
+                        SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> getString(R.string.ime_speech_timeout)
+                        SpeechRecognizer.ERROR_NETWORK -> getString(R.string.ime_network_error)
+                        SpeechRecognizer.ERROR_RECOGNIZER_BUSY -> getString(R.string.ime_recognizer_busy)
+                        9 -> getString(R.string.ime_permission_denied)
+                        else -> getString(R.string.ime_voice_error, error)
                     }
                     Toast.makeText(this@NexKeyInputMethodService, msg, Toast.LENGTH_SHORT).show()
                 }
@@ -476,7 +477,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
             speechRecognizer?.startListening(intent)
         } catch (e: Exception) {
-            Toast.makeText(this, "Failed to start voice input: ${e.message}", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, getString(R.string.ime_voice_start_failed, e.message ?: ""), Toast.LENGTH_SHORT).show()
         }
     }
 

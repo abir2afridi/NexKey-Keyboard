@@ -1,0 +1,497 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">Главная</string>
+    <string name="nav_keyboard">Клавиатура</string>
+    <string name="ime_action_search">Поиск</string>
+    <string name="ime_action_go">Перейти</string>
+    <string name="ime_action_send">Отправить</string>
+    <string name="ime_action_next">Далее</string>
+    <string name="ime_action_done">Готово</string>
+    <string name="ime_incognito_on">Инкогнито включён</string>
+    <string name="ime_incognito_off">Инкогнито выключен</string>
+    <string name="ime_mic_permission">Предоставьте доступ к микрофону: Настройки &gt; Приложения &gt; NexKey &gt; Разрешения, чтобы использовать голосовой ввод.</string>
+    <string name="ime_voice_unavailable">Голосовой ввод недоступен</string>
+    <string name="ime_listening">Слушаю...</string>
+    <string name="ime_no_speech">Речь не обнаружена</string>
+    <string name="ime_speech_timeout">Превышено время ожидания речи</string>
+    <string name="ime_network_error">Ошибка сети</string>
+    <string name="ime_recognizer_busy">Распознаватель занят</string>
+    <string name="ime_permission_denied">В доступе отказано</string>
+    <string name="ime_voice_error">Ошибка: %1$s</string>
+    <string name="ime_voice_start_failed">Не удалось запустить голосовой ввод: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">Пульс дня</string>
+    <string name="home_pulse_desc">Анализ эффективности набора в реальном времени. RPM (знаков в минуту) измеряет вашу концептуальную скорость — как быстро вы превращаете мысли в слова. Клавиш/сек измеряет вашу физическую скорость печати.</string>
+    <string name="home_trends_title">Тенденции использования</string>
+    <string name="home_trends_desc">Отслеживает активность клавиатуры с течением времени. Недельные и месячные представления помогут определить ваши самые продуктивные дни.</string>
+    <string name="home_distribution_title">Годовое распределение</string>
+    <string name="home_distribution_desc">Сезонная разбивка объёма набора. Эта кольцевая диаграмма показывает месяцы вашей наибольшей активности.</string>
+    <string name="home_heatmap_title">Тепловая карта слов</string>
+    <string name="home_heatmap_desc">Лингвистический отпечаток вашего словарного запаса. Ваши топ-слова отображаются на миниатюрной раскладке. Чем темнее клавиша, тем важнее слово.</string>
+    <string name="home_emojis_title">Рейтинг эмодзи</string>
+    <string name="home_emojis_desc">Визуализирует ваши эмоциональные паттерны. Этот рейтинг показывает, какие эмодзи вы используете чаще всего.</string>
+    <string name="home_greeting_morning">Доброе утро</string>
+    <string name="home_greeting_afternoon">Добрый день</string>
+    <string name="home_greeting_evening">Добрый вечер</string>
+    <string name="home_greeting_night">Доброй ночи</string>
+    <string name="home_toggle_theme">Переключить тему</string>
+    <string name="home_active">АКТИВНА</string>
+    <string name="home_setup_badge">НАСТРОЙКА</string>
+    <string name="home_typing_sandbox">Песочница набора</string>
+    <string name="home_complete_setup">Завершить настройку</string>
+    <string name="home_quick_controls">БЫСТРОЕ УПРАВЛЕНИЕ</string>
+    <string name="home_haptics">Вибрация</string>
+    <string name="home_sound">Звук</string>
+    <string name="home_autofix">Автоисправление</string>
+    <string name="home_numbers">Цифры</string>
+    <string name="home_today_pulse">ПУЛЬС СЕГОДНЯ</string>
+    <string name="home_avg_rpm">Ср. RPM</string>
+    <string name="home_keys_sec">Клавиш/сек</string>
+    <string name="home_active_time">Время активной печати сегодня</string>
+    <string name="home_mins">мин</string>
+    <string name="home_usage_trends">ТЕНДЕНЦИИ ИСПОЛЬЗОВАНИЯ</string>
+    <string name="home_week">Неделя</string>
+    <string name="home_month">Месяц</string>
+    <string name="home_yearly_distribution">ГОДОВОЕ РАСПРЕДЕЛЕНИЕ</string>
+    <string name="home_word_heatmap">ТЕПЛОВАЯ КАРТА СЛОВ</string>
+    <string name="home_emoji_leaderboard">РЕЙТИНГ ЭМОДЗИ</string>
+    <string name="home_footer">NexKey Pro • Аналитика v2.0</string>
+    <string name="home_got_it">Понятно</string>
+    <string name="home_heatmap_caption">Топ-слова на раскладке</string>
+    <string name="home_uses">использований</string>
+
+    <!-- Common -->
+    <string name="back">Назад</string>
+    <string name="made_with">Создано с </string>
+    <string name="made_by"> Абиром Хасаном Сиамом</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">Добро пожаловать в NexKey</string>
+    <string name="setup_subtitle">Следуйте этим шагам, чтобы начать</string>
+    <string name="setup_enable_title">Включить клавиатуру</string>
+    <string name="setup_enable_desc">Включите NexKey в системных настройках: Настройки → Язык и ввод → Экранная клавиатура.</string>
+    <string name="setup_enabled">Включено ✓</string>
+    <string name="setup_open_settings">Открыть настройки</string>
+    <string name="setup_select_title">Выбрать по умолчанию</string>
+    <string name="setup_select_desc">Выберите NexKey как активную клавиатуру в переключателе.</string>
+    <string name="setup_selected">Выбрано ✓</string>
+    <string name="setup_open_picker">Открыть переключатель</string>
+    <string name="setup_finish">Завершить настройку</string>
+
+    <!-- Settings -->
+    <string name="settings_title">Настройки клавиатуры</string>
+    <string name="settings_back">Назад</string>
+    <string name="settings_customization">Настройка клавиатуры</string>
+    <string name="settings_typing">Ввод</string>
+    <string name="settings_typing_desc">Автозаглавные, двойной пробел, таб</string>
+    <string name="settings_feedback">Обратная связь</string>
+    <string name="settings_feedback_desc">Вибрация, звук, всплывающие окна</string>
+    <string name="settings_language_keys">Язык и клавиши</string>
+    <string name="settings_language_keys_desc">Голос, эмодзи, клавиша глобуса</string>
+    <string name="settings_layout">Раскладка</string>
+    <string name="settings_layout_desc">Ряд цифр, разделение, изменение размера</string>
+    <string name="settings_size">Размер</string>
+    <string name="settings_size_desc">Настройки высоты и ширины</string>
+    <string name="settings_navigation">Навигация</string>
+    <string name="settings_navigation_desc">Курсор и управление громкостью</string>
+    <string name="settings_paste">Вставка и буфер обмена</string>
+    <string name="settings_paste_desc">Удержание клавиши для вставки, настройки буфера</string>
+    <string name="settings_emoji">Эмодзи</string>
+    <string name="settings_emoji_desc">Хранение недавних эмодзи</string>
+    <string name="settings_advanced">Дополнительно</string>
+    <string name="settings_advanced_desc">Задержки, курсор, поведение</string>
+    <string name="settings_text_correction">Исправление текста</string>
+    <string name="settings_text_correction_desc">Подсказки и словари</string>
+    <string name="settings_more_languages">Другие языки</string>
+    <string name="settings_more_languages_desc">Английский, бенгальский, Avro, арабский...</string>
+    <string name="settings_gif_quality">Качество GIF</string>
+    <string name="settings_gif_quality_desc">Управление расходом данных для GIF</string>
+    <string name="settings_header_animation">Анимация шапки</string>
+    <string name="settings_header_animation_desc">Эффекты: затухание, скольжение, масштаб</string>
+
+    <!-- About -->
+    <string name="about_title">О приложении</string>
+    <string name="about_name">NexKey Keyboard</string>
+    <string name="about_version">Версия 1.0.0 (Релиз)</string>
+    <string name="about_description">NexKey — современная премиальная клавиатура, созданная для скорости и конфиденциальности. Она включает лидирующую бенгальскую фонетическую транслитерацию и интеллектуальные движки исправления.</string>
+    <string name="about_rate">Оценить NexKey</string>
+    <string name="about_website">Посетить сайт</string>
+    <string name="about_licenses">Открытые лицензии</string>
+    <string name="about_privacy">Политика конфиденциальности</string>
+    <string name="about_developer">Разработчик</string>
+
+    <!-- Developer -->
+    <string name="developer_title">Разработчик</string>
+    <string name="developer_name">Abir Hasan Siam</string>
+    <string name="developer_bio">22 года | Газипур, Дакка</string>
+    <string name="developer_blood">Группа крови: B+</string>
+    <string name="developer_education">Образование</string>
+    <string name="developer_edu_bsc">Бакалавр компьютерных наук — Независимый университет Бангладеш (2021–н.в.)</string>
+    <string name="developer_edu_hsc">HSC — Misir Ali Khan School &amp; College (2019–2020)</string>
+    <string name="developer_edu_ssc">SSC — Professor MEH Arif Secondary School (2017–2018)</string>
+    <string name="developer_skills">Навыки и технологии</string>
+    <string name="developer_skill_dart">Dart (Flutter), React, Python</string>
+    <string name="developer_skill_android">Android APK, Flutter, React.js</string>
+    <string name="developer_skill_ui">UI/UX приложений, градиенты и карточные макеты</string>
+    <string name="developer_skill_tools">Windows, Linux, Git, GitHub</string>
+    <string name="developer_contact">Контакты</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">Настройки приложения</string>
+    <string name="app_settings_look_feel">ВИД И ОЩУЩЕНИЕ</string>
+    <string name="app_settings_accent_color">Акцентный цвет</string>
+    <string name="app_settings_navigation">НАВИГАЦИЯ</string>
+    <string name="app_settings_other">ДРУГОЕ</string>
+    <string name="app_settings_app_language">Язык приложения</string>
+    <string name="app_settings_app_language_sub">Переключение между бенгальским и английским</string>
+    <string name="app_language_title">Язык приложения</string>
+    <string name="app_language_subtitle">Выберите язык интерфейса приложения</string>
+    <string name="app_language_selected">Выбрано</string>
+    <string name="app_settings_about">О приложении</string>
+    <string name="app_settings_about_sub">О NexKey Keyboard</string>
+    <string name="app_settings_theme_system">Системный по умолчанию</string>
+    <string name="app_settings_theme_light">Светлая</string>
+    <string name="app_settings_theme_dark">Тёмная</string>
+    <string name="app_settings_nav_standard">Стандартная нижняя панель</string>
+    <string name="app_settings_nav_floating">Плавающая панель</string>
+    <string name="accent_green">Зелёный</string>
+    <string name="accent_blue">Синий</string>
+    <string name="accent_purple">Фиолетовый</string>
+    <string name="accent_teal">Бирюзовый</string>
+    <string name="accent_orange">Оранжевый</string>
+    <string name="accent_pink">Розовый</string>
+    <string name="accent_red">Красный</string>
+    <string name="accent_indigo">Индиго</string>
+
+    <!-- Themes -->
+    <string name="themes_title">Темы клавиатуры</string>
+    <string name="themes_subtitle">Выберите пресет для клавиатуры</string>
+    <string name="theme_dark_neon">Тёмный неон</string>
+    <string name="theme_midnight_blue">Полуночная синева</string>
+    <string name="theme_royal_purple">Королевский фиолетовый</string>
+    <string name="theme_sakura_pink">Сакура-розовый</string>
+    <string name="theme_sunset_orange">Закатный оранжевый</string>
+    <string name="theme_emerald_green">Изумрудный зелёный</string>
+    <string name="theme_crimson_red">Багровый красный</string>
+    <string name="theme_deep_ocean">Глубокий океан</string>
+    <string name="theme_forest_moss">Лесной мох</string>
+    <string name="theme_golden_sand">Золотой песок</string>
+    <string name="theme_lavender_dream">Лавандовая мечта</string>
+    <string name="theme_light_minimal">Светлый минимализм</string>
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_amoled_black">AMOLED чёрный</string>
+    <string name="theme_retro_grey">Ретро-серый</string>
+    <string name="theme_cyberpunk">Киберпанк</string>
+    <string name="theme_custom">Пользовательская</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">Песочница набора</string>
+    <string name="sandbox_desc">Протестируйте клавиатуру на этой площадке. Ваш ввод здесь не будет сохранён.</string>
+    <string name="sandbox_try">Попробуйте печатать здесь...</string>
+    <string name="sandbox_placeholder">напр. ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">Аналитика набора</string>
+    <string name="stats_productivity">Ваша продуктивность</string>
+    <string name="stats_total_words">Всего слов</string>
+    <string name="stats_total_chars">Всего символов</string>
+    <string name="stats_milestones">Вехи набора</string>
+    <string name="stats_milestone_1_title">Исследователь NexKey</string>
+    <string name="stats_milestone_1_desc">Набрано первых 100 слов</string>
+    <string name="stats_milestone_2_title">Спидстер</string>
+    <string name="stats_milestone_2_desc">Набрано более 1000 символов</string>
+    <string name="stats_milestone_3_title">Маэстро языков</string>
+    <string name="stats_milestone_3_desc">Набрано более 5000 слов</string>
+    <string name="stats_saved">Вы сэкономили примерно %1$s секунд благодаря предсказаниям NexKey!</string>
+
+    <!-- Store -->
+    <string name="store_title">Магазин</string>
+    <string name="store_tab_shop">Магазин</string>
+    <string name="store_tab_themes">Темы</string>
+    <string name="store_tab_meter">Счётчик</string>
+    <string name="meter_designs">Дизайны счётчика скорости</string>
+    <string name="meter_font_style">Стиль шрифта цифр</string>
+    <string name="store_coming_soon">Скоро</string>
+    <string name="store_shop_desc">Премиальные темы, наборы стикеров и другое появятся здесь.</string>
+    <string name="store_browse_themes">Просмотр тем</string>
+    <string name="store_browse_themes_sub">Выберите из готовых тем</string>
+    <string name="store_custom_theme">Пользовательская тема</string>
+    <string name="store_custom_theme_sub">Создайте свою тему</string>
+    <string name="meter_calculator">Калькулятор</string>
+    <string name="meter_minimal_dark">Минимальная тёмная</string>
+    <string name="meter_neon_cyber">Неоновый кибер</string>
+    <string name="meter_retro_lcd">Ретро-LCD</string>
+    <string name="meter_ghost_white">Призрачно-белая</string>
+    <string name="meter_amber_retro">Янтарное ретро</string>
+    <string name="meter_cyber_lime">Кибер-лайм</string>
+    <string name="meter_violet_glow">Фиолетовое свечение</string>
+    <string name="meter_font_digital">Цифровой</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">Сегментный</string>
+    <string name="meter_font_modern">Современный</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">Менеджер буфера обмена</string>
+    <string name="clipboard_clear">Очистить незакреплённые</string>
+    <string name="clipboard_empty">В истории нет записей</string>
+    <string name="clipboard_pin">Закрепить</string>
+    <string name="clipboard_pinned">Закреплено</string>
+    <string name="clipboard_recent">Недавние</string>
+    <string name="clipboard_delete">Удалить</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">Личный словарь</string>
+    <string name="dict_clear">Очистить всё</string>
+    <string name="dict_empty">Ваш словарь пуст. NexKey изучает новые слова по мере ввода.</string>
+    <string name="dict_learned">Выученные слова (%1$d)</string>
+    <string name="dict_bangla">Бенгальский</string>
+    <string name="dict_english">Английский</string>
+    <string name="dict_delete">Удалить</string>
+
+    <!-- Help -->
+    <string name="help_title">Справка и руководство</string>
+    <string name="help_cheatsheet">Фонетическая шпаргалка класса Ridmik</string>
+    <string name="help_phon_i_me">Я</string>
+    <string name="help_phon_bengali">Бенгальский</string>
+    <string name="help_phon_my_mine">Мой / Моё</string>
+    <string name="help_phon_golden">Золотой</string>
+    <string name="help_phon_work">Работа</string>
+    <string name="help_phon_juktakkhor">Джакта́кхор</string>
+    <string name="help_phon_vowel">Гласная</string>
+    <string name="help_phon_consonant">Согласная</string>
+    <string name="help_phon_dari">Дари</string>
+    <string name="help_tips">Советы</string>
+    <string name="help_tip_conjuncts">Соединения (যুক্তাক্ষর)</string>
+    <string name="help_tip_conjuncts_desc">Введите две буквы, и NexKey автоматически соединит их, если это возможно. Например: \'kS\' для \'ক্ষ\'.</string>
+    <string name="help_tip_modes">Переключение режимов</string>
+    <string name="help_tip_modes_desc">Коснитесь значка глобуса или клавиши \'ABC/?123\', чтобы переключиться между бенгальским и английским.</string>
+    <string name="help_tip_voice">Голосовой ввод</string>
+    <string name="help_tip_voice_desc">Коснитесь значка микрофона на панели инструментов, чтобы говорить вместо набора.</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">Автозаглавные</string>
+    <string name="typing_auto_cap_desc">Заглавная буква первого слова каждого предложения</string>
+    <string name="typing_double_space_period">Точка двойным пробелом</string>
+    <string name="typing_double_space_period_desc">Двойное нажатие пробела вставляет точку и пробел</string>
+    <string name="typing_double_space_tab">Таб двойным пробелом</string>
+    <string name="typing_double_space_tab_desc">Двойное нажатие пробела вставляет таб</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">Вибрация при нажатии</string>
+    <string name="feedback_sound">Звук при нажатии</string>
+    <string name="feedback_popup">Всплывающее окно при нажатии</string>
+    <string name="feedback_vibrate_intensity">Интенсивность вибрации клавиш</string>
+    <string name="feedback_sound_volume">Громкость звука клавиш</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">Клавиша голосового ввода</string>
+    <string name="langkeys_emoji">Показать клавишу эмодзи</string>
+    <string name="langkeys_emoji_desc">Кнопка переключения на эмодзи</string>
+    <string name="langkeys_globe">Показать клавишу глобуса</string>
+    <string name="langkeys_globe_desc">Переключение языка клавиатуры</string>
+    <string name="langkeys_other_kb">Разрешить другие клавиатуры</string>
+    <string name="langkeys_other_kb_desc">Клавиша глобуса переключает на другие</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">Включить ряд цифр</string>
+    <string name="layout_number_row_desc">Добавляет дополнительный ряд</string>
+    <string name="layout_large_number_row">Большой ряд цифр</string>
+    <string name="layout_hide_hints">Скрыть подсказки долгого нажатия</string>
+    <string name="layout_hide_hints_desc">Скрыть маленькие метки в углах клавиш</string>
+    <string name="layout_resizing">Включить изменение размера клавиатуры</string>
+    <string name="layout_split">Включить разделённую клавиатуру</string>
+    <string name="layout_split_desc">Для складных телефонов</string>
+    <string name="layout_forced_enter">Принудительная клавиша ввода</string>
+    <string name="layout_forced_enter_desc">Не показывать эмодзи на клавише ввода</string>
+    <string name="layout_always_suggestions">Всегда показывать подсказки</string>
+    <string name="layout_always_suggestions_desc">Показывает панель подсказок на клавиатуре; когда выключено, панель подсказок не отображается</string>
+    <string name="layout_unified_header">Объединённая шапка</string>
+    <string name="layout_unified_header_desc">Панель инструментов и подсказки используют ОДНУ шапку: сначала панель инструментов, при вводе её заменяют подсказки; нажмите полосу, чтобы вернуть панель</string>
+    <string name="layout_auto_show_delay">Задержка автопоказа панели (секунды)</string>
+    <string name="layout_auto_show_delay_desc">Панель не возвращается сама после ввода — она появляется только после простоя клавиатуры в течение этого времени. Меньше = раньше.</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">Высота клавиатуры (портрет)</string>
+    <string name="size_height_landscape">Высота клавиатуры (ландшафт)</string>
+    <string name="size_width_portrait">Ширина одной рукой (портрет)</string>
+    <string name="size_width_landscape">Ширина одной рукой (ландшафт)</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">Перемещение курсора пробелом</string>
+    <string name="nav_move_cursor_desc">Свайп по пробелу перемещает курсор</string>
+    <string name="nav_volume_cursor">Управление курсором клавишами громкости</string>
+    <string name="nav_volume_cursor_desc">Кнопки громкости перемещают курсор</string>
+    <string name="nav_smart_volume">Умное управление громкостью</string>
+    <string name="nav_smart_volume_desc">Не перемещать курсор при воспроизведении звука</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">Удержание клавиши для вставки</string>
+    <string name="paste_hold_paste_desc">Долгое нажатие клавиши вставляет текст из буфера</string>
+    <string name="paste_trigger_key">Клавиша запуска</string>
+    <string name="paste_trigger_key_desc">Клавиша для удержания при вставке</string>
+    <string name="paste_hold_duration">Длительность удержания</string>
+    <string name="paste_recent">Недавние элементы буфера</string>
+    <string name="paste_recent_desc">Показывать недавно скопированный или вырезанный текст</string>
+    <string name="paste_expiry">Автоудаление элементов буфера</string>
+    <string name="paste_expiry_desc">Удалять копии после выбранного времени</string>
+    <string name="paste_expiry_never">Никогда</string>
+    <string name="paste_expiry_1m">1 минута</string>
+    <string name="paste_expiry_5m">5 минут</string>
+    <string name="paste_expiry_365d">365 дней</string>
+    <string name="paste_images">Показывать скопированные изображения</string>
+    <string name="paste_images_desc">Показывать скриншоты или скопированные изображения</string>
+    <string name="paste_delete_all">Удалить все элементы буфера</string>
+    <string name="paste_delete_all_desc">Удалить все незакреплённые скопированные тексты</string>
+    <string name="paste_view_history">История буфера обмена</string>
+    <string name="paste_view_history_desc">Просмотр всех скопированных текстов</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">Хранение недавних эмодзи</string>
+    <string name="emoji_retention_desc">Как долго помнить недавно использованные эмодзи</string>
+    <string name="emoji_expiry_1d">1 день</string>
+    <string name="emoji_expiry_7d">7 дней</string>
+    <string name="emoji_expiry_30d">30 дней</string>
+    <string name="emoji_expiry_90d">90 дней</string>
+    <string name="emoji_expiry_forever">Навсегда</string>
+    <string name="emoji_horizontal">Горизонтальная прокрутка</string>
+    <string name="emoji_horizontal_desc_rows">Ряды прокручиваются независимо</string>
+    <string name="emoji_horizontal_desc_vertical">Вертикальная раскладка списка</string>
+    <string name="emoji_visible_rows">Видимые ряды</string>
+    <string name="emoji_visible_rows_desc">Число рядов эмодзи в результатах поиска</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d ряд</item>
+        <item quantity="few">%1$d ряда</item>
+        <item quantity="many">%1$d рядов</item>
+        <item quantity="other">%1$d ряда</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">Задержка долгого нажатия (мс)</string>
+    <string name="adv_popup_dismiss_label">Задержка закрытия всплывающего окна: %1$s</string>
+    <string name="adv_dismiss_default">По умолчанию</string>
+    <string name="adv_dismiss_short">Короткая</string>
+    <string name="adv_dismiss_long">Длинная</string>
+    <string name="adv_space_delay">Задержка перемещения курсора пробелом</string>
+    <string name="adv_space_speed">Скорость перемещения курсора пробелом</string>
+    <string name="adv_physical_emoji">Клавиша эмодзи на физической клавиатуре</string>
+    <string name="adv_physical_emoji_desc">Включить сочетания клавиш эмодзи на аппаратной клавиатуре</string>
+    <string name="adv_typed_first">Сначала показывать введённое слово</string>
+    <string name="adv_typed_first_desc">Точно введённое слово появляется первой подсказкой</string>
+    <string name="adv_backspace_delay">Задержка повтора backspace (мс)</string>
+    <string name="adv_backspace_speed">Скорость повтора backspace (мс)</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">Автоисправление</string>
+    <string name="tc_auto_correct_desc">Пунктуация исправляет слова</string>
+    <string name="tc_phonetic">Фонетическое автоисправление</string>
+    <string name="tc_phonetic_desc">Исправление бенгальской транслитерации</string>
+    <string name="tc_show_suggestions">Показывать подсказки</string>
+    <string name="tc_show_suggestions_desc">Показывать слова при вводе</string>
+    <string name="tc_personalized">Персонализированные подсказки</string>
+    <string name="tc_personalized_desc">Учится на вашем общении</string>
+    <string name="tc_next_word">Подсказки следующего слова</string>
+    <string name="tc_next_word_desc">Использует предыдущее слово</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">Языки клавиатуры</string>
+    <string name="more_lang_desc">Включите или отключите раскладки клавиатуры</string>
+    <string name="more_lang_english">Английский</string>
+    <string name="more_lang_english_desc">Раскладка QWERTY (всегда включена)</string>
+    <string name="more_lang_bangla">Бенгальский (বাংলা)</string>
+    <string name="more_lang_bangla_desc">Национальная стандартная раскладка Бангладеш</string>
+    <string name="more_lang_avro">Avro (অভ্র)</string>
+    <string name="more_lang_avro_desc">Официальный фонетический движок транслитерации Avro</string>
+    <string name="more_lang_arabic">Арабский (عربي)</string>
+    <string name="more_lang_arabic_desc">Арабская буквенная раскладка</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">Показывать GIF высокого качества</string>
+    <string name="gif_show_high_desc">Требует больше данных</string>
+    <string name="gif_send_high">Отправлять GIF высокого качества</string>
+    <string name="gif_send_high_desc">Скачивать перед отправкой</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">Выберите, как панель инструментов и панель подсказок меняются друг с другом при вводе (Объединённая шапка).</string>
+    <string name="header_anim_none">Нет</string>
+    <string name="header_anim_none_desc">Шапки переключаются мгновенно, без анимации</string>
+    <string name="header_anim_fade">Затухание</string>
+    <string name="header_anim_fade_desc">Плавное перекрёстное затухание между шапками</string>
+    <string name="header_anim_slide">Скольжение вверх</string>
+    <string name="header_anim_slide_desc">Новая шапка выезжает снизу</string>
+    <string name="header_anim_slide_fade">Скольжение и затухание</string>
+    <string name="header_anim_slide_fade_desc">Скольжение вверх с затуханием</string>
+    <string name="header_anim_zoom">Масштаб</string>
+    <string name="header_anim_zoom_desc">Новая шапка увеличивается из центра</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">Недавние</string>
+    <string name="emoji_cat_smileys">Смайлы</string>
+    <string name="emoji_cat_people">Люди</string>
+    <string name="emoji_cat_hearts">Сердца</string>
+    <string name="emoji_cat_animals">Животные</string>
+    <string name="emoji_cat_food">Еда</string>
+    <string name="emoji_cat_activity">Активность</string>
+    <string name="emoji_cat_travel">Путешествия</string>
+    <string name="emoji_cat_objects">Предметы</string>
+    <string name="emoji_cat_symbols">Символы</string>
+    <string name="emoji_cat_flags">Флаги</string>
+    <string name="emoji_tab_emoji">Эмодзи</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">Стикеры</string>
+    <string name="emoji_search_hint">Поиск эмодзи...</string>
+    <string name="emoji_no_recent">Пока нет недавних эмодзи\nНачните использовать эмодзи!</string>
+    <string name="emoji_gif_coming_soon">Поддержка GIF скоро появится</string>
+    <string name="emoji_sticker_coming_soon">Поддержка стикеров скоро появится</string>
+    <string name="emoji_no_found">Эмодзи не найдены</string>
+    <string name="emoji_close">Закрыть</string>
+    <string name="emoji_delete">Удалить</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">Создатель тем Pro</string>
+    <string name="save">Сохранить</string>
+    <string name="live_preview">ЖИВОЙ ПРЕДПРОСМОТР</string>
+    <string name="design_elements">ЭЛЕМЕНТЫ ДИЗАЙНА</string>
+    <string name="color_bg">Фон</string>
+    <string name="color_primary_keys">Основные клавиши</string>
+    <string name="color_key_text">Текст клавиш</string>
+    <string name="color_special_keys">Специальные клавиши (Shift/Enter)</string>
+    <string name="color_special_text">Специальный текст/иконки</string>
+    <string name="color_accent">Акцент (активное состояние)</string>
+    <string name="color_suggestion_bg">Фон полосы подсказок</string>
+    <string name="color_suggestion_text">Текст подсказок</string>
+    <string name="color_popup_bg">Фон всплывающего окна</string>
+    <string name="color_popup_text">Текст всплывающего окна</string>
+    <string name="color_hints">Подсказки подсимволов</string>
+    <string name="reset_default">Сбросить к тёмному неону</string>
+    <string name="custom_color">Пользовательский цвет</string>
+    <string name="hue">Тон</string>
+    <string name="saturation">Насыщенность</string>
+    <string name="value">Значение</string>
+    <string name="done">Готово</string>
+    <string name="cancel">Отмена</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">История буфера обмена</string>
+    <string name="clipboard_panel_empty">Пока нет скопированных записей</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">Буфер обмена</string>
+    <string name="kb_emoji">Эмодзи</string>
+    <string name="kb_voice">Голос</string>
+    <string name="kb_theme">Тема</string>
+    <string name="kb_incognito">Инкогнито</string>
+    <string name="kb_settings">Настройки</string>
+    <string name="kb_live">LIVE</string>
+    <string name="kb_peak">ПИК</string>
+    <string name="kb_suggestions">Подсказки</string>
+    <string name="kb_show_toolbar">Показать панель</string>
+    <string name="kb_delete">Удалить</string>
+</resources>

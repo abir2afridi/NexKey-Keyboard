@@ -9,9 +9,11 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -25,19 +27,19 @@ fun MoreLanguagesScreen(onBack: () -> Unit) {
     val enableAvro by prefs.enableAvro.collectAsState(initial = true)
     val enableArabic by prefs.enableArabic.collectAsState(initial = true)
 
-    SettingsSubScaffold(title = "Keyboard Languages", onBack = onBack) {
+    SettingsSubScaffold(title = stringResource(R.string.more_lang_title), onBack = onBack) {
         Text(
-            text = "Enable or disable active keyboard layouts",
+            text = stringResource(R.string.more_lang_desc),
             color = MaterialTheme.colorScheme.primary,
             fontWeight = FontWeight.Bold,
             fontSize = 14.sp,
             modifier = Modifier.padding(vertical = 16.dp, horizontal = 4.dp)
         )
 
-        SettingSwitchItem("English", "QWERTY layout (Always Enabled)", Icons.Default.Language, true) {}
-        SettingSwitchItem("Bangla (বাংলা)", "Bangladesh Standard National Layout", Icons.Default.Language, enableBanglaJatiyo) { scope.launch { prefs.setEnableBanglaJatiyo(it) } }
-        SettingSwitchItem("Avro (অভ্র)", "Official Avro Phonetic Transliteration Engine", Icons.Default.Language, enableAvro) { scope.launch { prefs.setEnableAvro(it) } }
-        SettingSwitchItem("Arabic (عربي)", "Arabic Letter Layout", Icons.Default.Language, enableArabic) { scope.launch { prefs.setEnableArabic(it) } }
+        SettingSwitchItem(stringResource(R.string.more_lang_english), stringResource(R.string.more_lang_english_desc), Icons.Default.Language, true) {}
+        SettingSwitchItem(stringResource(R.string.more_lang_bangla), stringResource(R.string.more_lang_bangla_desc), Icons.Default.Language, enableBanglaJatiyo) { scope.launch { prefs.setEnableBanglaJatiyo(it) } }
+        SettingSwitchItem(stringResource(R.string.more_lang_avro), stringResource(R.string.more_lang_avro_desc), Icons.Default.Language, enableAvro) { scope.launch { prefs.setEnableAvro(it) } }
+        SettingSwitchItem(stringResource(R.string.more_lang_arabic), stringResource(R.string.more_lang_arabic_desc), Icons.Default.Language, enableArabic) { scope.launch { prefs.setEnableArabic(it) } }
 
         Spacer(modifier = Modifier.height(32.dp))
     }

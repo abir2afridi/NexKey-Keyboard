@@ -23,9 +23,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 import com.example.data.UserPreferences
 import com.example.ui.HeaderAnimation
 import kotlinx.coroutines.launch
@@ -37,9 +39,9 @@ fun HeaderAnimationSettingsScreen(onBack: () -> Unit) {
     val prefs = remember { UserPreferences(context) }
     val headerAnimation by prefs.headerAnimation.collectAsState(initial = HeaderAnimation.FADE.name)
 
-    SettingsSubScaffold(title = "Header Animation", onBack = onBack) {
+    SettingsSubScaffold(title = stringResource(R.string.settings_header_animation), onBack = onBack) {
         Text(
-            text = "Choose how the toolbar and the suggestion bar swap into each other while typing (Unified header).",
+            text = stringResource(R.string.header_animation_desc),
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             fontSize = 13.sp,
             modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp)
@@ -67,13 +69,13 @@ fun HeaderAnimationSettingsScreen(onBack: () -> Unit) {
                     Spacer(modifier = Modifier.width(12.dp))
                     Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = animation.label,
+                            text = animation.labelText(),
                             fontSize = 16.sp,
                             fontWeight = FontWeight.Medium,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                         Text(
-                            text = animation.description,
+                            text = animation.descriptionText(),
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )

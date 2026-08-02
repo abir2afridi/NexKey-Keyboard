@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">الرئيسية</string>
+    <string name="nav_keyboard">لوحة المفاتيح</string>
+    <string name="ime_action_search">بحث</string>
+    <string name="ime_action_go">انتقال</string>
+    <string name="ime_action_send">إرسال</string>
+    <string name="ime_action_next">التالي</string>
+    <string name="ime_action_done">تم</string>
+    <string name="ime_incognito_on">الوضع الخفي مفعل</string>
+    <string name="ime_incognito_off">الوضع الخفي معطل</string>
+    <string name="ime_mic_permission">امنح إذن الميكروفون من الإعدادات &gt; التطبيقات &gt; NexKey &gt; الأذونات لاستخدام الكتابة الصوتية.</string>
+    <string name="ime_voice_unavailable">الكتابة الصوتية غير متوفرة</string>
+    <string name="ime_listening">جارٍ الاستماع...</string>
+    <string name="ime_no_speech">لم يتم اكتشاف أي كلام</string>
+    <string name="ime_speech_timeout">انتهت مهلة الكلام</string>
+    <string name="ime_network_error">خطأ في الشبكة</string>
+    <string name="ime_recognizer_busy">المُعرّف مشغول</string>
+    <string name="ime_permission_denied">تم رفض الإذن</string>
+    <string name="ime_voice_error">خطأ: %1$s</string>
+    <string name="ime_voice_start_failed">فشل بدء الإدخال الصوتي: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">نبض اليوم</string>
+    <string name="home_pulse_desc">تحليل فوري لكفاءة كتابتك. يقيس RPM (معدل الدقة في الدقيقة) سرعتك المفاهيمية — مدى سرعة تحويل أفكارك إلى كلمات. يقيس Keys/Sec براعتك البدنية الخام وسرعة أصابعك على التخطيط.</string>
+    <string name="home_trends_title">اتجاهات الاستخدام</string>
+    <string name="home_trends_desc">يتتبع نشاط لوحة المفاتيح بمرور الوقت. تساعدك العروض الأسبوعية والشهرية على تحديد أيامك الأكثر إنتاجية ومراقبة \'قدرتك الرقمية\' على مدار العام.</string>
+    <string name="home_distribution_title">التوزيع السنوي</string>
+    <string name="home_distribution_desc">تحليل موسمي لحجم كتابتك. يُظهر هذا المخطط الدائري الأشهر التي كنت فيها أكثر نشاطًا، مما يساعدك على ربط عادات كتابتك بفترات العمل أو النشاط الاجتماعي المختلفة.</string>
+    <string name="home_heatmap_title">خريطة الكلمات الحرارية</string>
+    <string name="home_heatmap_desc">بصمة لغوية لمفرداتك. تُرسم كلماتك الأكثر استخدامًا على تخطيط مصغر. كلما كان المفتاح أغمق، كانت الكلمة أكثر مركزية في تواصلك الرقمي.</string>
+    <string name="home_emojis_title">لوحة صدارة الرموز التعبيرية</string>
+    <string name="home_emojis_desc">يعرض أنماط تعبيرك العاطفي. يُظهر هذا الترتيب الرموز التعبيرية التي تعتمد عليها أكثر، مما يوفر نظرة ممتعة إلى شخصيتك الرقمية.</string>
+    <string name="home_greeting_morning">صباح الخير</string>
+    <string name="home_greeting_afternoon">مساء الخير</string>
+    <string name="home_greeting_evening">مساء الخير</string>
+    <string name="home_greeting_night">تصبح على خير</string>
+    <string name="home_toggle_theme">تبديل السمة</string>
+    <string name="home_active">نشط</string>
+    <string name="home_setup_badge">إعداد</string>
+    <string name="home_typing_sandbox">صندوق الكتابة التجريبي</string>
+    <string name="home_complete_setup">إكمال الإعداد</string>
+    <string name="home_quick_controls">عناصر تحكم سريعة</string>
+    <string name="home_haptics">الاهتزاز</string>
+    <string name="home_sound">الصوت</string>
+    <string name="home_autofix">التصحيح التلقائي</string>
+    <string name="home_numbers">الأرقام</string>
+    <string name="home_today_pulse">نبض اليوم</string>
+    <string name="home_avg_rpm">متوسط RPM</string>
+    <string name="home_keys_sec">مفاتيح/ثانية</string>
+    <string name="home_active_time">وقت الكتابة النشط اليوم</string>
+    <string name="home_mins">دقيقة</string>
+    <string name="home_usage_trends">اتجاهات الاستخدام</string>
+    <string name="home_week">أسبوع</string>
+    <string name="home_month">شهر</string>
+    <string name="home_yearly_distribution">التوزيع السنوي</string>
+    <string name="home_word_heatmap">خريطة الكلمات الحرارية</string>
+    <string name="home_emoji_leaderboard">لوحة صدارة الرموز التعبيرية</string>
+    <string name="home_footer">NexKey Pro • تحليلات v2.0</string>
+    <string name="home_got_it">فهمت</string>
+    <string name="home_heatmap_caption">الكلمات الأكثر استخدامًا مرسومة على التخطيط</string>
+    <string name="home_uses">استخدام</string>
+
+    <!-- Common -->
+    <string name="back">رجوع</string>
+    <string name="made_with">صُنع بـ</string>
+    <string name="made_by">بواسطة عبير حسن سيام</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">مرحبًا بك في NexKey</string>
+    <string name="setup_subtitle">اتبع هذه الخطوات للبدء</string>
+    <string name="setup_enable_title">تفعيل لوحة المفاتيح</string>
+    <string name="setup_enable_desc">فعّل NexKey من الإعدادات → اللغات والإدخال → لوحة المفاتيح على الشاشة.</string>
+    <string name="setup_enabled">مفعّلة ✓</string>
+    <string name="setup_open_settings">فتح الإعدادات</string>
+    <string name="setup_select_title">تحديد كافتراضي</string>
+    <string name="setup_select_desc">اختر NexKey كلوحة مفاتيح نشطة من المنتقي.</string>
+    <string name="setup_selected">محددة ✓</string>
+    <string name="setup_open_picker">فتح المنتقي</string>
+    <string name="setup_finish">إنهاء الإعداد</string>
+
+    <!-- Settings -->
+    <string name="settings_title">إعدادات لوحة المفاتيح</string>
+    <string name="settings_back">رجوع</string>
+    <string name="settings_customization">تخصيص لوحة المفاتيح</string>
+    <string name="settings_typing">الكتابة</string>
+    <string name="settings_typing_desc">أحرف كبيرة تلقائية، مسافة مزدوجة، تبويب</string>
+    <string name="settings_feedback">الملاحظات</string>
+    <string name="settings_feedback_desc">اهتزاز، صوت، نوافذ منبثقة</string>
+    <string name="settings_language_keys">اللغة والمفاتيح</string>
+    <string name="settings_language_keys_desc">مفاتيح الصوت والرموز التعبيرية والكوكب</string>
+    <string name="settings_layout">التخطيط</string>
+    <string name="settings_layout_desc">صف الأرقام، تقسيم، تغيير الحجم</string>
+    <string name="settings_size">الحجم</string>
+    <string name="settings_size_desc">تعديلات الارتفاع والعرض</string>
+    <string name="settings_navigation">التنقل</string>
+    <string name="settings_navigation_desc">التحكم بالمؤشر ومستوى الصوت</string>
+    <string name="settings_paste">اللصق والحافظة</string>
+    <string name="settings_paste_desc">الضغط مع الاستمرار للصق، إعدادات الحافظة</string>
+    <string name="settings_emoji">الرموز التعبيرية</string>
+    <string name="settings_emoji_desc">الاحتفاظ بالرموز التعبيرية الحديثة</string>
+    <string name="settings_advanced">متقدم</string>
+    <string name="settings_advanced_desc">تأخيرات، مؤشر، سلوك</string>
+    <string name="settings_text_correction">تصحيح النص</string>
+    <string name="settings_text_correction_desc">اقتراحات وقواميس</string>
+    <string name="settings_more_languages">المزيد من اللغات</string>
+    <string name="settings_more_languages_desc">الإنجليزية، البنغالية، أفرو، العربية...</string>
+    <string name="settings_gif_quality">جودة GIF</string>
+    <string name="settings_gif_quality_desc">إدارة استخدام البيانات لملفات GIF</string>
+    <string name="settings_header_animation">حركة الرأس</string>
+    <string name="settings_header_animation_desc">تأثيرات التلاشي والانزلاق والتكبير</string>
+
+    <!-- About -->
+    <string name="about_title">حول</string>
+    <string name="about_name">لوحة مفاتيح NexKey</string>
+    <string name="about_version">الإصدار 1.0.0 (إصدار رسمي)</string>
+    <string name="about_description">NexKey لوحة مفاتيح حديثة وفاخرة مصممة للسرعة والخصوصية. تتميز بمحركات النقل الصوتي البنغالي الرائدة ومحركات التصحيح الذكية.</string>
+    <string name="about_rate">قيّم NexKey</string>
+    <string name="about_website">زيارة الموقع</string>
+    <string name="about_licenses">تراخيص المصدر المفتوح</string>
+    <string name="about_privacy">سياسة الخصوصية</string>
+    <string name="about_developer">المطور</string>
+
+    <!-- Developer -->
+    <string name="developer_title">المطور</string>
+    <string name="developer_name">عبير حسن سيام</string>
+    <string name="developer_bio">22 عامًا | غازيبور، دكا</string>
+    <string name="developer_blood">فصيلة الدم: B+</string>
+    <string name="developer_education">التعليم</string>
+    <string name="developer_edu_bsc">بكالوريوس علوم الحاسوب - الجامعة المستقلة بنغلاديش (2021-حتى الآن)</string>
+    <string name="developer_edu_hsc">HSC - مدرسة وكليات ميسير علي خان (2019-2020)</string>
+    <string name="developer_edu_ssc">SSC - مدرسة البروفيسور م.إ.ح. عارف الثانوية (2017-2018)</string>
+    <string name="developer_skills">المهارات والتقنيات</string>
+    <string name="developer_skill_dart">دارت (فلاتر)، رياكت، بايثون</string>
+    <string name="developer_skill_android">أندرويد APK، فلاتر، رياكت.جيه إس</string>
+    <string name="developer_skill_ui">تصميم واجهات التطبيقات، تخطيطات متدرجة وقائمة على البطاقات</string>
+    <string name="developer_skill_tools">ويندوز، لينكس، جيت، جيت هاب</string>
+    <string name="developer_contact">التواصل</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">إعدادات التطبيق</string>
+    <string name="app_settings_look_feel">المظهر</string>
+    <string name="app_settings_accent_color">اللون المميز</string>
+    <string name="app_settings_navigation">التنقل</string>
+    <string name="app_settings_other">أخرى</string>
+    <string name="app_settings_app_language">لغة التطبيق</string>
+    <string name="app_settings_app_language_sub">التبديل بين البنغالية والإنجليزية</string>
+    <string name="app_language_title">لغة التطبيق</string>
+    <string name="app_language_subtitle">اختر لغة العرض لواجهة التطبيق</string>
+    <string name="app_language_selected">محدد</string>
+    <string name="app_settings_about">حول</string>
+    <string name="app_settings_about_sub">حول لوحة مفاتيح NexKey</string>
+    <string name="app_settings_theme_system">إعدادات النظام</string>
+    <string name="app_settings_theme_light">فاتح</string>
+    <string name="app_settings_theme_dark">داكن</string>
+    <string name="app_settings_nav_standard">شريط سفلي قياسي</string>
+    <string name="app_settings_nav_floating">شريط عائم</string>
+    <string name="accent_green">أخضر</string>
+    <string name="accent_blue">أزرق</string>
+    <string name="accent_purple">بنفسجي</string>
+    <string name="accent_teal">تركوازي</string>
+    <string name="accent_orange">برتقالي</string>
+    <string name="accent_pink">وردي</string>
+    <string name="accent_red">أحمر</string>
+    <string name="accent_indigo">نيلي</string>
+
+    <!-- Themes -->
+    <string name="themes_title">سمات لوحة المفاتيح</string>
+    <string name="themes_subtitle">اختر سمة جاهزة للوحة المفاتيح</string>
+    <string name="theme_dark_neon">نيون داكن</string>
+    <string name="theme_midnight_blue">أزرق منتصف الليل</string>
+    <string name="theme_royal_purple">بنفسجي ملكي</string>
+    <string name="theme_sakura_pink">وردي ساكورا</string>
+    <string name="theme_sunset_orange">برتقالي الغروب</string>
+    <string name="theme_emerald_green">أخضر زمردي</string>
+    <string name="theme_crimson_red">أحمر قرمزي</string>
+    <string name="theme_deep_ocean">محيط عميق</string>
+    <string name="theme_forest_moss">طحلب الغابة</string>
+    <string name="theme_golden_sand">رمال ذهبية</string>
+    <string name="theme_lavender_dream">حلم الخزامى</string>
+    <string name="theme_light_minimal">فاتح بسيط</string>
+    <string name="theme_material_you">ماتيريال يو</string>
+    <string name="theme_amoled_black">أسود أموليد</string>
+    <string name="theme_retro_grey">رمادي رجعي</string>
+    <string name="theme_cyberpunk">سايبربانك</string>
+    <string name="theme_custom">مخصص</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">صندوق الكتابة التجريبي</string>
+    <string name="sandbox_desc">اختبر لوحة المفاتيح في هذه الساحة. لن يتم حفظ كتابتك هنا.</string>
+    <string name="sandbox_try">جرّب الكتابة هنا...</string>
+    <string name="sandbox_placeholder">مثل: ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">تحليلات الكتابة</string>
+    <string name="stats_productivity">إنتاجيتك</string>
+    <string name="stats_total_words">إجمالي الكلمات</string>
+    <string name="stats_total_chars">إجمالي الأحرف</string>
+    <string name="stats_milestones">إنجازات الكتابة</string>
+    <string name="stats_milestone_1_title">مستكشف NexKey</string>
+    <string name="stats_milestone_1_desc">كتبت أول 100 كلمة</string>
+    <string name="stats_milestone_2_title">شيطان السرعة</string>
+    <string name="stats_milestone_2_desc">كتبت أكثر من 1,000 حرف</string>
+    <string name="stats_milestone_3_title">مبدع اللغة</string>
+    <string name="stats_milestone_3_desc">كتبت أكثر من 5,000 كلمة</string>
+    <string name="stats_saved">وفّرت حوالي %1$s ثانية باستخدام توقعات NexKey!</string>
+
+    <!-- Store -->
+    <string name="store_title">المتجر</string>
+    <string name="store_tab_shop">تسوق</string>
+    <string name="store_tab_themes">سمات</string>
+    <string name="store_tab_meter">العداد</string>
+    <string name="meter_designs">تصاميم عداد السرعة</string>
+    <string name="meter_font_style">نمط خط الأرقام</string>
+    <string name="store_coming_soon">قريبًا</string>
+    <string name="store_shop_desc">ستتوفر هنا سمات فاخرة وحزم ملصقات والمزيد.</string>
+    <string name="store_browse_themes">تصفح السمات</string>
+    <string name="store_browse_themes_sub">اختر من السمات الجاهزة</string>
+    <string name="store_custom_theme">سمة مخصصة</string>
+    <string name="store_custom_theme_sub">أنشئ سمتك الخاصة</string>
+    <string name="meter_calculator">حاسبة</string>
+    <string name="meter_minimal_dark">داكن بسيط</string>
+    <string name="meter_neon_cyber">نيون سايبر</string>
+    <string name="meter_retro_lcd">LCD رجعي</string>
+    <string name="meter_ghost_white">أبيض شبح</string>
+    <string name="meter_amber_retro">كهرماني رجعي</string>
+    <string name="meter_cyber_lime">ليموني سايبر</string>
+    <string name="meter_violet_glow">توهج بنفسجي</string>
+    <string name="meter_font_digital">رقمي</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">مقطع</string>
+    <string name="meter_font_modern">حديث</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">مدير الحافظة</string>
+    <string name="clipboard_clear">مسح غير المثبتة</string>
+    <string name="clipboard_empty">لا توجد عناصر في السجل</string>
+    <string name="clipboard_pin">تثبيت</string>
+    <string name="clipboard_pinned">مثبت</string>
+    <string name="clipboard_recent">الأحدث</string>
+    <string name="clipboard_delete">حذف</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">القاموس الشخصي</string>
+    <string name="dict_clear">مسح الكل</string>
+    <string name="dict_empty">قاموسك فارغ. يتعلم NexKey كلمات جديدة أثناء كتابتك.</string>
+    <string name="dict_learned">الكلمات المتعلمة (%1$d)</string>
+    <string name="dict_bangla">البنغالية</string>
+    <string name="dict_english">الإنجليزية</string>
+    <string name="dict_delete">حذف</string>
+
+    <!-- Help -->
+    <string name="help_title">المساعدة والدليل</string>
+    <string name="help_cheatsheet">ورقة النقل الصوتي فئة ريدميك</string>
+    <string name="help_phon_i_me">أنا</string>
+    <string name="help_phon_bengali">البنغالية</string>
+    <string name="help_phon_my_mine">لي</string>
+    <string name="help_phon_golden">ذهبي</string>
+    <string name="help_phon_work">عمل</string>
+    <string name="help_phon_juktakkhor">يوكتاكخور</string>
+    <string name="help_phon_vowel">حرف علة</string>
+    <string name="help_phon_consonant">حرف ساكن</string>
+    <string name="help_phon_dari">داري</string>
+    <string name="help_tips">نصائح</string>
+    <string name="help_tip_conjuncts">الحروف المركبة</string>
+    <string name="help_tip_conjuncts_desc">اكتب حرفين وسيقوم NexKey بربطهما تلقائيًا إذا كان صالحًا. مثال: \'kS\' لـ \'ক্ষ\'.</string>
+    <string name="help_tip_modes">تبديل الأوضاع</string>
+    <string name="help_tip_modes_desc">انقر على أيقونة الكوكب أو مفتاح \'ABC/?123\' للتبديل بين البنغالية والإنجليزية.</string>
+    <string name="help_tip_voice">الكتابة الصوتية</string>
+    <string name="help_tip_voice_desc">انقر على أيقونة الميكروفون في شريط الأدوات للتحدث بدلاً من الكتابة.</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">الأحرف الكبيرة التلقائية</string>
+    <string name="typing_auto_cap_desc">تكبير الحرف الأول من كل جملة</string>
+    <string name="typing_double_space_period">نقطة بالمسافة المزدوجة</string>
+    <string name="typing_double_space_period_desc">النقر المزدوج على شريط المسافة يضيف نقطة متبوعة بمسافة</string>
+    <string name="typing_double_space_tab">تبويب بالمسافة المزدوجة</string>
+    <string name="typing_double_space_tab_desc">النقر المزدوج على شريط المسافة يضيف تبويبًا</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">اهتزاز عند الضغط على المفتاح</string>
+    <string name="feedback_sound">صوت عند الضغط على المفتاح</string>
+    <string name="feedback_popup">نافذة منبثقة عند الضغط على المفتاح</string>
+    <string name="feedback_vibrate_intensity">شدة اهتزاز الضغط على المفتاح</string>
+    <string name="feedback_sound_volume">مستوى صوت الضغط على المفتاح</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">مفتاح الإدخال الصوتي</string>
+    <string name="langkeys_emoji">إظهار مفتاح الرموز التعبيرية</string>
+    <string name="langkeys_emoji_desc">التبديل إلى زر الرموز التعبيرية</string>
+    <string name="langkeys_globe">إظهار مفتاح الكوكب</string>
+    <string name="langkeys_globe_desc">تبديل لغة لوحة المفاتيح</string>
+    <string name="langkeys_other_kb">السماح بلوحات مفاتيح أخرى</string>
+    <string name="langkeys_other_kb_desc">مفتاح الكوكب يبدل إلى الأخرى</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">تفعيل صف الأرقام</string>
+    <string name="layout_number_row_desc">يضيف صفًا إضافيًا</string>
+    <string name="layout_large_number_row">صف أرقام كبير</string>
+    <string name="layout_hide_hints">إخفاء تلميحات الضغط المطول</string>
+    <string name="layout_hide_hints_desc">إخفاء التسميات الصغيرة من زوايا المفاتيح</string>
+    <string name="layout_resizing">تفعيل تغيير حجم لوحة المفاتيح</string>
+    <string name="layout_split">تفعيل لوحة المفاتيح المنقسمة</string>
+    <string name="layout_split_desc">للهواتف القابلة للطي</string>
+    <string name="layout_forced_enter">زر إدخال إجباري</string>
+    <string name="layout_forced_enter_desc">عدم إظهار الرموز التعبيرية على زر الإدخال</string>
+    <string name="layout_always_suggestions">إظهار الاقتراحات دائمًا</string>
+    <string name="layout_always_suggestions_desc">يعرض شريط الاقتراحات على لوحة المفاتيح؛ عند إيقافه لا يظهر أي شريط اقتراحات</string>
+    <string name="layout_unified_header">رأس موحد</string>
+    <string name="layout_unified_header_desc">شريط الأدوات والاقتراحات يشتركان في رأس واحد: يظهر شريط الأدوات أولاً، تحل الاقتراحات محله أثناء الكتابة، انقر على زر الشريط لإرجاع شريط الأدوات</string>
+    <string name="layout_auto_show_delay">تأخير الإظهار التلقائي لشريط الأدوات (ثوانٍ)</string>
+    <string name="layout_auto_show_delay_desc">لا يعود شريط الأدوات من تلقاء نفسه بعد الكتابة — يظهر مجددًا فقط بعد بقاء لوحة المفاتيح خاملة لهذه المدة. أقل = أسرع.</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">ارتفاع لوحة المفاتيح (عمودي)</string>
+    <string name="size_height_landscape">ارتفاع لوحة المفاتيح (أفقي)</string>
+    <string name="size_width_portrait">عرض اليد الواحدة (عمودي)</string>
+    <string name="size_width_landscape">عرض اليد الواحدة (أفقي)</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">تحريك المؤشر بمفتاح المسافة</string>
+    <string name="nav_move_cursor_desc">مرر على المسافة لتحريك المؤشر</string>
+    <string name="nav_volume_cursor">التحكم بالمؤشر عبر مفتاحي الصوت</string>
+    <string name="nav_volume_cursor_desc">استخدم زري الصوت لتحريك المؤشر</string>
+    <string name="nav_smart_volume">تحكم ذكي بمستوى الصوت</string>
+    <string name="nav_smart_volume_desc">لا تحرك المؤشر أثناء تشغيل الصوت</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">الضغط مع الاستمرار للصق</string>
+    <string name="paste_hold_paste_desc">اضغط مطولاً على مفتاح للصق نص الحافظة</string>
+    <string name="paste_trigger_key">مفتاح التشغيل</string>
+    <string name="paste_trigger_key_desc">المفتاح الذي يُضغط مع الاستمرار للصق</string>
+    <string name="paste_hold_duration">مدة الضغط</string>
+    <string name="paste_recent">عناصر الحافظة الحديثة</string>
+    <string name="paste_recent_desc">إظهار النصوص المنسوخة أو المقتطعة حديثًا في الحافظة</string>
+    <string name="paste_expiry">حذف عناصر الحافظة تلقائيًا</string>
+    <string name="paste_expiry_desc">إزالة النسخ بعد الوقت المحدد</string>
+    <string name="paste_expiry_never">أبدًا</string>
+    <string name="paste_expiry_1m">دقيقة واحدة</string>
+    <string name="paste_expiry_5m">5 دقائق</string>
+    <string name="paste_expiry_365d">365 يومًا</string>
+    <string name="paste_images">إظهار الصور المنسوخة في الحافظة</string>
+    <string name="paste_images_desc">إظهار لقطات الشاشة أو الصور المنسوخة</string>
+    <string name="paste_delete_all">حذف جميع عناصر الحافظة</string>
+    <string name="paste_delete_all_desc">إزالة جميع النصوص المنسوخة غير المثبتة</string>
+    <string name="paste_view_history">عرض سجل الحافظة</string>
+    <string name="paste_view_history_desc">تصفح جميع النصوص المنسوخة</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">الاحتفاظ بالرموز التعبيرية الحديثة</string>
+    <string name="emoji_retention_desc">مدة تذكر الرموز التعبيرية المستخدمة حديثًا</string>
+    <string name="emoji_expiry_1d">يوم واحد</string>
+    <string name="emoji_expiry_7d">7 أيام</string>
+    <string name="emoji_expiry_30d">30 يومًا</string>
+    <string name="emoji_expiry_90d">90 يومًا</string>
+    <string name="emoji_expiry_forever">للأبد</string>
+    <string name="emoji_horizontal">تمرير أفقي</string>
+    <string name="emoji_horizontal_desc_rows">الصفوف تتمرر يسارًا-يمينًا بشكل مستقل</string>
+    <string name="emoji_horizontal_desc_vertical">تخطيط قائمة عمودية</string>
+    <string name="emoji_visible_rows">الصفوف المرئية</string>
+    <string name="emoji_visible_rows_desc">عدد صفوف الرموز التعبيرية المعروضة في نتائج البحث</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d صف</item>
+        <item quantity="two">%1$d صفين</item>
+        <item quantity="few">%1$d صفوف</item>
+        <item quantity="many">%1$d صفًا</item>
+        <item quantity="other">%1$d صف</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">تأخير الضغط المطول على المفتاح (ملي ثانية)</string>
+    <string name="adv_popup_dismiss_label">تأخير إغلاق النافذة المنبثقة: %1$s</string>
+    <string name="adv_dismiss_default">افتراضي</string>
+    <string name="adv_dismiss_short">قصير</string>
+    <string name="adv_dismiss_long">طويل</string>
+    <string name="adv_space_delay">تأخير تحريك المؤشر بشريط المسافة</string>
+    <string name="adv_space_speed">سرعة تحريك المؤشر بشريط المسافة</string>
+    <string name="adv_physical_emoji">مفتاح الرموز التعبيرية للوحة المفاتيح الفعلية</string>
+    <string name="adv_physical_emoji_desc">تفعيل اختصارات مفتاح الرموز التعبيرية على لوحة المفاتيح الفعلية</string>
+    <string name="adv_typed_first">إظهار الكلمة المكتوبة أولاً</string>
+    <string name="adv_typed_first_desc">الكلمة المكتوبة بالضبط تظهر كأول اقتراح</string>
+    <string name="adv_backspace_delay">تأخير تكرار مسافة الحذف (ملي ثانية)</string>
+    <string name="adv_backspace_speed">سرعة تكرار مسافة الحذف (ملي ثانية)</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">التصحيح التلقائي</string>
+    <string name="tc_auto_correct_desc">علامات الترقيم تصحح الكلمات</string>
+    <string name="tc_phonetic">التصحيح الصوتي التلقائي</string>
+    <string name="tc_phonetic_desc">تصحيح النقل الصوتي البنغالي</string>
+    <string name="tc_show_suggestions">إظهار الاقتراحات</string>
+    <string name="tc_show_suggestions_desc">عرض الكلمات أثناء الكتابة</string>
+    <string name="tc_personalized">اقتراحات مخصصة</string>
+    <string name="tc_personalized_desc">التعلم من التواصل</string>
+    <string name="tc_next_word">اقتراحات الكلمة التالية</string>
+    <string name="tc_next_word_desc">استخدام الكلمة السابقة</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">لغات لوحة المفاتيح</string>
+    <string name="more_lang_desc">تفعيل أو تعطيل تخطيطات لوحة المفاتيح النشطة</string>
+    <string name="more_lang_english">الإنجليزية</string>
+    <string name="more_lang_english_desc">تخطيط QWERTY (مفعّل دائمًا)</string>
+    <string name="more_lang_bangla">البنغالية (বাংলা)</string>
+    <string name="more_lang_bangla_desc">التخطيط الوطني القياسي بنغلاديش</string>
+    <string name="more_lang_avro">أفرو (অভ্র)</string>
+    <string name="more_lang_avro_desc">محرك النقل الصوتي الرسمي أفرو</string>
+    <string name="more_lang_arabic">العربية (عربي)</string>
+    <string name="more_lang_arabic_desc">تخطيط الحروف العربية</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">إظهار ملفات GIF عالية الجودة</string>
+    <string name="gif_show_high_desc">يتطلب بيانات أكثر</string>
+    <string name="gif_send_high">إرسال ملفات GIF عالية الجودة</string>
+    <string name="gif_send_high_desc">تنزيل قبل الإرسال</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">اختر كيف يتبادل شريط الأدوات وشريط الاقتراحات أثناء الكتابة (رأس موحد).</string>
+    <string name="header_anim_none">بدون</string>
+    <string name="header_anim_none_desc">تبديل فوري بدون حركة</string>
+    <string name="header_anim_fade">تلاشي</string>
+    <string name="header_anim_fade_desc">تبادل متقاطع سلس بين الرأسين</string>
+    <string name="header_anim_slide">انزلاق لأعلى</string>
+    <string name="header_anim_slide_desc">الرأس الجديد ينزلق من الأسفل</string>
+    <string name="header_anim_slide_fade">انزلاق وتلاشي</string>
+    <string name="header_anim_slide_fade_desc">انزلاق لأعلى مع تلاشي</string>
+    <string name="header_anim_zoom">تكبير</string>
+    <string name="header_anim_zoom_desc">الرأس الجديد يتدرج من المركز</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">الأحدث</string>
+    <string name="emoji_cat_smileys">ابتسامات</string>
+    <string name="emoji_cat_people">أشخاص</string>
+    <string name="emoji_cat_hearts">قلوب</string>
+    <string name="emoji_cat_animals">حيوانات</string>
+    <string name="emoji_cat_food">طعام</string>
+    <string name="emoji_cat_activity">نشاط</string>
+    <string name="emoji_cat_travel">سفر</string>
+    <string name="emoji_cat_objects">أشياء</string>
+    <string name="emoji_cat_symbols">رموز</string>
+    <string name="emoji_cat_flags">أعلام</string>
+    <string name="emoji_tab_emoji">رموز تعبيرية</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">ملصقات</string>
+    <string name="emoji_search_hint">ابحث عن رمز تعبيري...</string>
+    <string name="emoji_no_recent">لا توجد رموز تعبيرية حديثة بعد\nابدأ باستخدام الرموز التعبيرية!</string>
+    <string name="emoji_gif_coming_soon">دعم GIF قريبًا</string>
+    <string name="emoji_sticker_coming_soon">دعم الملصقات قريبًا</string>
+    <string name="emoji_no_found">لم يتم العثور على رمز تعبيري</string>
+    <string name="emoji_close">إغلاق</string>
+    <string name="emoji_delete">حذف</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">منشئ السمات برو</string>
+    <string name="save">حفظ</string>
+    <string name="live_preview">معاينة حية</string>
+    <string name="design_elements">عناصر التصميم</string>
+    <string name="color_bg">الخلفية</string>
+    <string name="color_primary_keys">المفاتيح الأساسية</string>
+    <string name="color_key_text">نص المفاتيح</string>
+    <string name="color_special_keys">المفاتيح الخاصة (Shift/Enter)</string>
+    <string name="color_special_text">النصوص/الأيقونات الخاصة</string>
+    <string name="color_accent">اللون المميز (الحالة النشطة)</string>
+    <string name="color_suggestion_bg">خلفية شريط الاقتراحات</string>
+    <string name="color_suggestion_text">نص الاقتراحات</string>
+    <string name="color_popup_bg">خلفية النافذة المنبثقة</string>
+    <string name="color_popup_text">نص النافذة المنبثقة</string>
+    <string name="color_hints">تلميحات الأحرف الفرعية</string>
+    <string name="reset_default">إعادة تعيين إلى نيون داكن افتراضي</string>
+    <string name="custom_color">لون مخصص</string>
+    <string name="hue">درجة اللون</string>
+    <string name="saturation">التشبع</string>
+    <string name="value">القيمة</string>
+    <string name="done">تم</string>
+    <string name="cancel">إلغاء</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">سجل الحافظة</string>
+    <string name="clipboard_panel_empty">لم يتم نسخ أي عنصر بعد</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">الحافظة</string>
+    <string name="kb_emoji">رموز تعبيرية</string>
+    <string name="kb_voice">صوت</string>
+    <string name="kb_theme">السمة</string>
+    <string name="kb_incognito">الوضع الخفي</string>
+    <string name="kb_settings">الإعدادات</string>
+    <string name="kb_live">مباشر</string>
+    <string name="kb_peak">الذروة</string>
+    <string name="kb_suggestions">اقتراحات</string>
+    <string name="kb_show_toolbar">إظهار شريط الأدوات</string>
+    <string name="kb_delete">حذف</string>
+</resources>

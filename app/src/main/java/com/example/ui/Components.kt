@@ -32,9 +32,11 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
 
 @Composable
 fun PremiumCard(
@@ -255,7 +257,7 @@ fun PremiumScenicHeader(isActive: Boolean) {
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "NexKey Pro",
+                text = stringResource(R.string.components_pro),
                 color = Color.White,
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold

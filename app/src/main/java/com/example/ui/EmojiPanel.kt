@@ -59,6 +59,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.res.stringResource
+import com.example.R
 import com.example.theme.KeyboardTheme
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -225,6 +227,33 @@ private enum class EmojiPanelTab(val icon: ImageVector, val label: String) {
     GIF(Icons.Default.Gif, "GIF"),
     STICKER(Icons.Default.Category, "Sticker")
 }
+
+@Composable
+private fun emojiCategoryLabel(name: String): String = stringResource(
+    when (name) {
+        "Recent" -> R.string.emoji_cat_recent
+        "Smileys" -> R.string.emoji_cat_smileys
+        "People" -> R.string.emoji_cat_people
+        "Hearts" -> R.string.emoji_cat_hearts
+        "Animals" -> R.string.emoji_cat_animals
+        "Food" -> R.string.emoji_cat_food
+        "Activity" -> R.string.emoji_cat_activity
+        "Travel" -> R.string.emoji_cat_travel
+        "Objects" -> R.string.emoji_cat_objects
+        "Symbols" -> R.string.emoji_cat_symbols
+        "Flags" -> R.string.emoji_cat_flags
+        else -> R.string.emoji_cat_recent
+    }
+)
+
+@Composable
+private fun EmojiPanelTab.labelText(): String = stringResource(
+    when (this) {
+        EmojiPanelTab.EMOJI -> R.string.emoji_tab_emoji
+        EmojiPanelTab.GIF -> R.string.emoji_tab_gif
+        EmojiPanelTab.STICKER -> R.string.emoji_tab_sticker
+    }
+)
 
 private val EMOJI_KEYWORDS: Map<String, List<String>> = mapOf(
     "😀" to listOf("smile", "happy", "grin"),
@@ -899,12 +928,12 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "Search emoji",
+                            contentDescription = stringResource(R.string.emoji_search_hint),
                             modifier = Modifier.size(16.dp),
                             tint = theme.keyTextColor.copy(alpha = 0.4f)
                         )
                         Text(
-                            text = "Search emoji...",
+                            text = stringResource(R.string.emoji_search_hint),
                             color = theme.keyTextColor.copy(alpha = 0.4f),
                             fontSize = 13.sp,
                             modifier = Modifier.padding(start = 6.dp)
@@ -936,7 +965,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                             ) {
                                 Icon(
                                     imageVector = category.icon,
-                                    contentDescription = category.name,
+                                    contentDescription = emojiCategoryLabel(category.name),
                                     modifier = Modifier.size(20.dp),
                                     tint = if (isSelected) theme.accentColor else theme.keyTextColor
                                 )
@@ -955,7 +984,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                         val currentCat = liveCategories.getOrNull(selectedCategory)
                         if (currentCat != null) {
                             Text(
-                                text = currentCat.name,
+                                text = emojiCategoryLabel(currentCat.name),
                                 color = theme.keyTextColor.copy(alpha = 0.5f),
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.Medium,
@@ -972,7 +1001,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Delete,
-                                contentDescription = "Delete",
+                                contentDescription = stringResource(R.string.emoji_delete),
                                 modifier = Modifier.size(18.dp),
                                 tint = theme.keyTextColor
                             )
@@ -989,7 +1018,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "No recent emoji yet\nStart using emojis!",
+                                text = stringResource(R.string.emoji_no_recent),
                                 color = theme.keyTextColor.copy(alpha = 0.4f),
                                 fontSize = 13.sp,
                                 textAlign = TextAlign.Center
@@ -1037,12 +1066,12 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
                             imageVector = Icons.Default.Gif,
-                            contentDescription = "GIF",
+                            contentDescription = stringResource(R.string.emoji_tab_gif),
                             modifier = Modifier.size(48.dp),
                             tint = theme.keyTextColor.copy(alpha = 0.3f)
                         )
                         Text(
-                            text = "GIF support coming soon",
+                            text = stringResource(R.string.emoji_gif_coming_soon),
                             color = theme.keyTextColor.copy(alpha = 0.4f),
                             fontSize = 13.sp,
                             modifier = Modifier.padding(top = 8.dp)
@@ -1061,12 +1090,12 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Icon(
                             imageVector = Icons.Default.Category,
-                            contentDescription = "Sticker",
+                            contentDescription = stringResource(R.string.emoji_tab_sticker),
                             modifier = Modifier.size(48.dp),
                             tint = theme.keyTextColor.copy(alpha = 0.3f)
                         )
                         Text(
-                            text = "Sticker support coming soon",
+                            text = stringResource(R.string.emoji_sticker_coming_soon),
                             color = theme.keyTextColor.copy(alpha = 0.4f),
                             fontSize = 13.sp,
                             modifier = Modifier.padding(top = 8.dp)
@@ -1101,12 +1130,12 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Icon(
                             imageVector = tab.icon,
-                            contentDescription = tab.label,
+                            contentDescription = tab.labelText(),
                             modifier = Modifier.size(18.dp),
                             tint = if (isSelected) theme.accentColor else theme.keyTextColor
                         )
                         Text(
-                            text = tab.label,
+                            text = tab.labelText(),
                             color = if (isSelected) theme.accentColor else theme.keyTextColor,
                             fontSize = 12.sp,
                             fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
@@ -1211,7 +1240,7 @@ fun EmojiSearchBar(
                 )
                 if (searchQuery.isEmpty()) {
                     Text(
-                        text = "Type to search...",
+                        text = stringResource(R.string.emoji_search_hint),
                         color = theme.keyTextColor.copy(alpha = 0.4f),
                         fontSize = 13.sp,
                         maxLines = 1,
@@ -1229,7 +1258,7 @@ fun EmojiSearchBar(
             ) {
                 Icon(
                     imageVector = Icons.Default.Clear,
-                    contentDescription = "Close",
+                    contentDescription = stringResource(R.string.emoji_close),
                     modifier = Modifier.size(12.dp),
                     tint = Color.White
                 )
@@ -1245,7 +1274,7 @@ fun EmojiSearchBar(
                 contentAlignment = Alignment.Center
             ) {
                 Text(
-                    text = if (isSearching) "No emoji found" else "Type to search emojis",
+                    text = if (isSearching) stringResource(R.string.emoji_no_found) else stringResource(R.string.emoji_search_hint),
                     color = theme.keyTextColor.copy(alpha = 0.4f),
                     fontSize = 12.sp
                 )

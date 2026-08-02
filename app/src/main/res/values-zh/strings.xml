@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">首页</string>
+    <string name="nav_keyboard">键盘</string>
+    <string name="ime_action_search">搜索</string>
+    <string name="ime_action_go">前往</string>
+    <string name="ime_action_send">发送</string>
+    <string name="ime_action_next">下一步</string>
+    <string name="ime_action_done">完成</string>
+    <string name="ime_incognito_on">隐私模式已开启</string>
+    <string name="ime_incognito_off">隐私模式已关闭</string>
+    <string name="ime_mic_permission">请前往设置 &gt; 应用 &gt; NexKey &gt; 权限，授予麦克风权限以使用语音输入。</string>
+    <string name="ime_voice_unavailable">语音输入不可用</string>
+    <string name="ime_listening">正在聆听...</string>
+    <string name="ime_no_speech">未检测到语音</string>
+    <string name="ime_speech_timeout">语音输入超时</string>
+    <string name="ime_network_error">网络错误</string>
+    <string name="ime_recognizer_busy">识别器繁忙</string>
+    <string name="ime_permission_denied">权限被拒绝</string>
+    <string name="ime_voice_error">错误：%1$s</string>
+    <string name="ime_voice_start_failed">无法启动语音输入：%1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">今日脉搏</string>
+    <string name="home_pulse_desc">实时分析您的输入效率。RPM（每分钟速率）衡量您的概念速度——将想法转化为文字的速度。键/秒衡量您的物理手指速度。</string>
+    <string name="home_trends_title">使用趋势</string>
+    <string name="home_trends_desc">跟踪您的键盘活动。周视图和月视图帮助您识别最高效的日子。</string>
+    <string name="home_distribution_title">年度分布</string>
+    <string name="home_distribution_desc">输入量的季节性分析。此环形图显示您最活跃的月份。</string>
+    <string name="home_heatmap_title">词语热力图</string>
+    <string name="home_heatmap_desc">您词汇量的语言指纹。您的常用词映射到迷你键盘上。按键颜色越深，该词越重要。</string>
+    <string name="home_emojis_title">表情符号排行榜</string>
+    <string name="home_emojis_desc">可视化您的情绪表达模式。此排行榜显示您最常用的表情符号。</string>
+    <string name="home_greeting_morning">早上好</string>
+    <string name="home_greeting_afternoon">下午好</string>
+    <string name="home_greeting_evening">晚上好</string>
+    <string name="home_greeting_night">晚安</string>
+    <string name="home_toggle_theme">切换主题</string>
+    <string name="home_active">已激活</string>
+    <string name="home_setup_badge">设置</string>
+    <string name="home_typing_sandbox">打字沙盒</string>
+    <string name="home_complete_setup">完成设置</string>
+    <string name="home_quick_controls">快捷控制</string>
+    <string name="home_haptics">触感反馈</string>
+    <string name="home_sound">声音</string>
+    <string name="home_autofix">自动修复</string>
+    <string name="home_numbers">数字</string>
+    <string name="home_today_pulse">今日脉搏</string>
+    <string name="home_avg_rpm">平均RPM</string>
+    <string name="home_keys_sec">键/秒</string>
+    <string name="home_active_time">今日活跃打字时间</string>
+    <string name="home_mins">分钟</string>
+    <string name="home_usage_trends">使用趋势</string>
+    <string name="home_week">周</string>
+    <string name="home_month">月</string>
+    <string name="home_yearly_distribution">年度分布</string>
+    <string name="home_word_heatmap">词语热力图</string>
+    <string name="home_emoji_leaderboard">表情符号排行榜</string>
+    <string name="home_footer">NexKey Pro • 分析 v2.0</string>
+    <string name="home_got_it">知道了</string>
+    <string name="home_heatmap_caption">常用词映射到键盘</string>
+    <string name="home_uses">次使用</string>
+
+    <!-- Common -->
+    <string name="back">返回</string>
+    <string name="made_with">使用 </string>
+    <string name="made_by"> 制作：Abir Hasan Siam</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">欢迎使用 NexKey</string>
+    <string name="setup_subtitle">按照以下步骤开始使用</string>
+    <string name="setup_enable_title">启用键盘</string>
+    <string name="setup_enable_desc">在系统设置 → 语言和输入 → 屏幕键盘中开启 NexKey。</string>
+    <string name="setup_enabled">已启用 ✓</string>
+    <string name="setup_open_settings">打开设置</string>
+    <string name="setup_select_title">设为默认</string>
+    <string name="setup_select_desc">从选择器中选择 NexKey 作为您的输入法。</string>
+    <string name="setup_selected">已选择 ✓</string>
+    <string name="setup_open_picker">打开选择器</string>
+    <string name="setup_finish">完成设置</string>
+
+    <!-- Settings -->
+    <string name="settings_title">键盘设置</string>
+    <string name="settings_back">返回</string>
+    <string name="settings_customization">键盘自定义</string>
+    <string name="settings_typing">输入</string>
+    <string name="settings_typing_desc">自动大写、双击空格、制表符</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_feedback_desc">振动、声音、按键气泡</string>
+    <string name="settings_language_keys">语言与按键</string>
+    <string name="settings_language_keys_desc">语音、表情符号、地球键</string>
+    <string name="settings_layout">布局</string>
+    <string name="settings_layout_desc">数字行、分体、调整大小</string>
+    <string name="settings_size">尺寸</string>
+    <string name="settings_size_desc">高度和宽度调整</string>
+    <string name="settings_navigation">导航</string>
+    <string name="settings_navigation_desc">光标和音量控制</string>
+    <string name="settings_paste">粘贴与剪贴板</string>
+    <string name="settings_paste_desc">长按按键粘贴、剪贴板设置</string>
+    <string name="settings_emoji">表情符号</string>
+    <string name="settings_emoji_desc">最近表情符号保留</string>
+    <string name="settings_advanced">高级</string>
+    <string name="settings_advanced_desc">延迟、光标、行为</string>
+    <string name="settings_text_correction">文本更正</string>
+    <string name="settings_text_correction_desc">建议和词典</string>
+    <string name="settings_more_languages">更多语言</string>
+    <string name="settings_more_languages_desc">英语、孟加拉语、Avro、阿拉伯语...</string>
+    <string name="settings_gif_quality">GIF 质量</string>
+    <string name="settings_gif_quality_desc">管理 GIF 的数据使用</string>
+    <string name="settings_header_animation">标题栏动画</string>
+    <string name="settings_header_animation_desc">淡入淡出、滑动、缩放效果</string>
+
+    <!-- About -->
+    <string name="about_title">关于</string>
+    <string name="about_name">NexKey 键盘</string>
+    <string name="about_version">版本 1.0.0（发布版）</string>
+    <string name="about_description">NexKey 是一款专为速度和隐私设计的现代高级键盘。它拥有业界领先的孟加拉语注音音译和智能更正引擎。</string>
+    <string name="about_rate">评价 NexKey</string>
+    <string name="about_website">访问网站</string>
+    <string name="about_licenses">开源许可证</string>
+    <string name="about_privacy">隐私政策</string>
+    <string name="about_developer">开发者</string>
+
+    <!-- Developer -->
+    <string name="developer_title">开发者</string>
+    <string name="developer_name">Abir Hasan Siam</string>
+    <string name="developer_bio">22岁 | 孟加拉国加济布尔，达卡</string>
+    <string name="developer_blood">血型：B+</string>
+    <string name="developer_education">教育背景</string>
+    <string name="developer_edu_bsc">计算机科学学士 - 孟加拉国独立大学（2021年至今）</string>
+    <string name="developer_edu_hsc">HSC - Misir Ali Khan School &amp; College（2019-2020）</string>
+    <string name="developer_edu_ssc">SSC - Professor MEH Arif Secondary School（2017-2018）</string>
+    <string name="developer_skills">技能与技术</string>
+    <string name="developer_skill_dart">Dart（Flutter）、React、Python</string>
+    <string name="developer_skill_android">Android APK、Flutter、React.js</string>
+    <string name="developer_skill_ui">应用 UI/UX、渐变和卡片式布局</string>
+    <string name="developer_skill_tools">Windows、Linux、Git、GitHub</string>
+    <string name="developer_contact">联系方式</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">应用设置</string>
+    <string name="app_settings_look_feel">外观</string>
+    <string name="app_settings_accent_color">强调色</string>
+    <string name="app_settings_navigation">导航</string>
+    <string name="app_settings_other">其他</string>
+    <string name="app_settings_app_language">应用语言</string>
+    <string name="app_settings_app_language_sub">在孟加拉语和英语之间切换</string>
+    <string name="app_language_title">应用语言</string>
+    <string name="app_language_subtitle">选择应用界面的显示语言</string>
+    <string name="app_language_selected">已选择</string>
+    <string name="app_settings_about">关于</string>
+    <string name="app_settings_about_sub">关于 NexKey 键盘</string>
+    <string name="app_settings_theme_system">系统默认</string>
+    <string name="app_settings_theme_light">浅色</string>
+    <string name="app_settings_theme_dark">深色</string>
+    <string name="app_settings_nav_standard">标准底部栏</string>
+    <string name="app_settings_nav_floating">悬浮胶囊栏</string>
+    <string name="accent_green">绿色</string>
+    <string name="accent_blue">蓝色</string>
+    <string name="accent_purple">紫色</string>
+    <string name="accent_teal">蓝绿色</string>
+    <string name="accent_orange">橙色</string>
+    <string name="accent_pink">粉色</string>
+    <string name="accent_red">红色</string>
+    <string name="accent_indigo">靛蓝</string>
+
+    <!-- Themes -->
+    <string name="themes_title">键盘主题</string>
+    <string name="themes_subtitle">为键盘选择预设</string>
+    <string name="theme_dark_neon">暗色霓虹</string>
+    <string name="theme_midnight_blue">午夜蓝</string>
+    <string name="theme_royal_purple">皇家紫</string>
+    <string name="theme_sakura_pink">樱花粉</string>
+    <string name="theme_sunset_orange">落日橙</string>
+    <string name="theme_emerald_green">翡翠绿</string>
+    <string name="theme_crimson_red">绯红</string>
+    <string name="theme_deep_ocean">深海蓝</string>
+    <string name="theme_forest_moss">森林苔藓</string>
+    <string name="theme_golden_sand">金沙</string>
+    <string name="theme_lavender_dream">薰衣草之梦</string>
+    <string name="theme_light_minimal">浅色极简</string>
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_amoled_black">AMOLED 黑</string>
+    <string name="theme_retro_grey">复古灰</string>
+    <string name="theme_cyberpunk">赛博朋克</string>
+    <string name="theme_custom">自定义</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">打字沙盒</string>
+    <string name="sandbox_desc">在此试玩键盘。此处的输入不会被保存。</string>
+    <string name="sandbox_try">在此输入试试...</string>
+    <string name="sandbox_placeholder">例如：ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">打字分析</string>
+    <string name="stats_productivity">您的生产力</string>
+    <string name="stats_total_words">总字数</string>
+    <string name="stats_total_chars">总字符数</string>
+    <string name="stats_milestones">打字里程碑</string>
+    <string name="stats_milestone_1_title">NexKey 探索者</string>
+    <string name="stats_milestone_1_desc">输入了前 100 个单词</string>
+    <string name="stats_milestone_2_title">速度达人</string>
+    <string name="stats_milestone_2_desc">输入了超过 1,000 个字符</string>
+    <string name="stats_milestone_3_title">语言大师</string>
+    <string name="stats_milestone_3_desc">输入了超过 5,000 个单词</string>
+    <string name="stats_saved">使用 NexKey 预测，您已节省约 %1$s 秒！</string>
+
+    <!-- Store -->
+    <string name="store_title">商店</string>
+    <string name="store_tab_shop">商店</string>
+    <string name="store_tab_themes">主题</string>
+    <string name="store_tab_meter">仪表</string>
+    <string name="meter_designs">速度仪表设计</string>
+    <string name="meter_font_style">数字字体样式</string>
+    <string name="store_coming_soon">即将推出</string>
+    <string name="store_shop_desc">高级主题、贴纸包等将在此提供。</string>
+    <string name="store_browse_themes">浏览主题</string>
+    <string name="store_browse_themes_sub">从预设主题中选择</string>
+    <string name="store_custom_theme">自定义主题</string>
+    <string name="store_custom_theme_sub">创建您自己的主题</string>
+    <string name="meter_calculator">计算器</string>
+    <string name="meter_minimal_dark">极简深色</string>
+    <string name="meter_neon_cyber">霓虹赛博</string>
+    <string name="meter_retro_lcd">复古 LCD</string>
+    <string name="meter_ghost_white">幽灵白</string>
+    <string name="meter_amber_retro">琥珀复古</string>
+    <string name="meter_cyber_lime">赛博青柠</string>
+    <string name="meter_violet_glow">紫罗兰光晕</string>
+    <string name="meter_font_digital">数字</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">段码</string>
+    <string name="meter_font_modern">现代</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">剪贴板管理器</string>
+    <string name="clipboard_clear">清除未固定</string>
+    <string name="clipboard_empty">历史记录中没有内容</string>
+    <string name="clipboard_pin">固定</string>
+    <string name="clipboard_pinned">已固定</string>
+    <string name="clipboard_recent">最近</string>
+    <string name="clipboard_delete">删除</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">个人词典</string>
+    <string name="dict_clear">全部清除</string>
+    <string name="dict_empty">您的词典为空。NexKey 会在您打字时学习新词。</string>
+    <string name="dict_learned">已学习单词（%1$d）</string>
+    <string name="dict_bangla">孟加拉语</string>
+    <string name="dict_english">英语</string>
+    <string name="dict_delete">删除</string>
+
+    <!-- Help -->
+    <string name="help_title">帮助与指南</string>
+    <string name="help_cheatsheet">Ridmik 类注音音译速查表</string>
+    <string name="help_phon_i_me">我</string>
+    <string name="help_phon_bengali">孟加拉语</string>
+    <string name="help_phon_my_mine">我的</string>
+    <string name="help_phon_golden">金色</string>
+    <string name="help_phon_work">工作</string>
+    <string name="help_phon_juktakkhor">联合字符</string>
+    <string name="help_phon_vowel">元音</string>
+    <string name="help_phon_consonant">辅音</string>
+    <string name="help_phon_dari">Dari</string>
+    <string name="help_tips">提示</string>
+    <string name="help_tip_conjuncts">连字（যুক্তাক্ষর）</string>
+    <string name="help_tip_conjuncts_desc">输入两个字母，如果有效，NexKey 会自动将它们连接。例如：\'kS\' 得到 \'ক্ষ\'。</string>
+    <string name="help_tip_modes">切换模式</string>
+    <string name="help_tip_modes_desc">点击键盘上的地球图标或 \'ABC/?123\' 键，可在孟加拉语和英语之间切换。</string>
+    <string name="help_tip_voice">语音输入</string>
+    <string name="help_tip_voice_desc">点击工具栏上的麦克风图标，即可说话代替打字。</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">自动大写</string>
+    <string name="typing_auto_cap_desc">每个句子的第一个单词首字母大写</string>
+    <string name="typing_double_space_period">双击空格出句号</string>
+    <string name="typing_double_space_period_desc">双击空格键插入句号和空格</string>
+    <string name="typing_double_space_tab">双击空格出制表符</string>
+    <string name="typing_double_space_tab_desc">双击空格键插入制表符</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">按键时振动</string>
+    <string name="feedback_sound">按键时发声</string>
+    <string name="feedback_popup">按键时显示气泡</string>
+    <string name="feedback_vibrate_intensity">按键振动强度</string>
+    <string name="feedback_sound_volume">按键声音音量</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">语音输入键</string>
+    <string name="langkeys_emoji">显示表情符号键</string>
+    <string name="langkeys_emoji_desc">切换到表情符号按钮</string>
+    <string name="langkeys_globe">显示地球键</string>
+    <string name="langkeys_globe_desc">切换键盘语言</string>
+    <string name="langkeys_other_kb">允许其他键盘</string>
+    <string name="langkeys_other_kb_desc">地球键切换到其他键盘</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">启用数字行</string>
+    <string name="layout_number_row_desc">增加一行</string>
+    <string name="layout_large_number_row">大号数字行</string>
+    <string name="layout_hide_hints">隐藏长按提示</string>
+    <string name="layout_hide_hints_desc">隐藏按键角落的小标签</string>
+    <string name="layout_resizing">启用键盘调整大小</string>
+    <string name="layout_split">启用分体键盘</string>
+    <string name="layout_split_desc">适用于折叠屏手机</string>
+    <string name="layout_forced_enter">强制回车键</string>
+    <string name="layout_forced_enter_desc">回车键不显示表情符号</string>
+    <string name="layout_always_suggestions">始终显示建议</string>
+    <string name="layout_always_suggestions_desc">在键盘上显示建议栏；关闭时不显示建议栏</string>
+    <string name="layout_unified_header">统一标题栏</string>
+    <string name="layout_unified_header_desc">工具栏和建议共用同一个标题栏：先显示工具栏，输入时被建议替换，点击条形按钮恢复工具栏</string>
+    <string name="layout_auto_show_delay">工具栏自动显示延迟（秒）</string>
+    <string name="layout_auto_show_delay_desc">工具栏在输入后不会自动恢复——只有键盘空闲这段时间后才会重新出现。数值越小越早。</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">键盘高度（竖屏）</string>
+    <string name="size_height_landscape">键盘高度（横屏）</string>
+    <string name="size_width_portrait">单手宽度（竖屏）</string>
+    <string name="size_width_landscape">单手宽度（横屏）</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">使用空格键移动光标</string>
+    <string name="nav_move_cursor_desc">滑动空格键移动光标</string>
+    <string name="nav_volume_cursor">音量键光标控制</string>
+    <string name="nav_volume_cursor_desc">使用音量按钮移动光标</string>
+    <string name="nav_smart_volume">智能音量控制</string>
+    <string name="nav_smart_volume_desc">播放音频时不移动光标</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">长按按键粘贴</string>
+    <string name="paste_hold_paste_desc">长按按键粘贴剪贴板文本</string>
+    <string name="paste_trigger_key">触发键</string>
+    <string name="paste_trigger_key_desc">用于长按粘贴的按键</string>
+    <string name="paste_hold_duration">按住时长</string>
+    <string name="paste_recent">剪贴板最近项目</string>
+    <string name="paste_recent_desc">在剪贴板中显示最近复制或剪切的内容</string>
+    <string name="paste_expiry">自动删除剪贴板项目</string>
+    <string name="paste_expiry_desc">在选定时间后删除副本</string>
+    <string name="paste_expiry_never">从不</string>
+    <string name="paste_expiry_1m">1 分钟</string>
+    <string name="paste_expiry_5m">5 分钟</string>
+    <string name="paste_expiry_365d">365 天</string>
+    <string name="paste_images">在剪贴板中显示复制的图片</string>
+    <string name="paste_images_desc">显示截图或复制的图片</string>
+    <string name="paste_delete_all">删除所有剪贴板项目</string>
+    <string name="paste_delete_all_desc">删除所有未固定的复制文本</string>
+    <string name="paste_view_history">查看剪贴板历史</string>
+    <string name="paste_view_history_desc">浏览所有复制的文本</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">最近表情符号保留</string>
+    <string name="emoji_retention_desc">记住最近使用的表情符号的时长</string>
+    <string name="emoji_expiry_1d">1 天</string>
+    <string name="emoji_expiry_7d">7 天</string>
+    <string name="emoji_expiry_30d">30 天</string>
+    <string name="emoji_expiry_90d">90 天</string>
+    <string name="emoji_expiry_forever">永久</string>
+    <string name="emoji_horizontal">水平滚动</string>
+    <string name="emoji_horizontal_desc_rows">各行独立左右滚动</string>
+    <string name="emoji_horizontal_desc_vertical">垂直列表布局</string>
+    <string name="emoji_visible_rows">可见行数</string>
+    <string name="emoji_visible_rows_desc">搜索结果中显示的表情符号行数</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d 行</item>
+        <item quantity="other">%1$d 行</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">按键长按延迟（毫秒）</string>
+    <string name="adv_popup_dismiss_label">气泡关闭延迟：%1$s</string>
+    <string name="adv_dismiss_default">默认</string>
+    <string name="adv_dismiss_short">短</string>
+    <string name="adv_dismiss_long">长</string>
+    <string name="adv_space_delay">空格键光标移动延迟</string>
+    <string name="adv_space_speed">空格键光标移动速度</string>
+    <string name="adv_physical_emoji">实体键盘表情符号键</string>
+    <string name="adv_physical_emoji_desc">在硬件键盘上启用表情符号键快捷方式</string>
+    <string name="adv_typed_first">先显示输入的单词</string>
+    <string name="adv_typed_first_desc">输入的准确单词显示为第一个建议</string>
+    <string name="adv_backspace_delay">退格重复延迟（毫秒）</string>
+    <string name="adv_backspace_speed">退格重复速度（毫秒）</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">自动更正</string>
+    <string name="tc_auto_correct_desc">标点更正单词</string>
+    <string name="tc_phonetic">注音自动更正</string>
+    <string name="tc_phonetic_desc">更正孟加拉语音译</string>
+    <string name="tc_show_suggestions">显示建议</string>
+    <string name="tc_show_suggestions_desc">输入时显示单词</string>
+    <string name="tc_personalized">个性化建议</string>
+    <string name="tc_personalized_desc">从交流中学习</string>
+    <string name="tc_next_word">下词建议</string>
+    <string name="tc_next_word_desc">使用上一个词</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">键盘语言</string>
+    <string name="more_lang_desc">启用或禁用键盘布局</string>
+    <string name="more_lang_english">英语</string>
+    <string name="more_lang_english_desc">QWERTY 布局（始终启用）</string>
+    <string name="more_lang_bangla">孟加拉语（বাংলা）</string>
+    <string name="more_lang_bangla_desc">孟加拉国标准国家布局</string>
+    <string name="more_lang_avro">Avro（অভ্র）</string>
+    <string name="more_lang_avro_desc">官方 Avro 注音音译引擎</string>
+    <string name="more_lang_arabic">阿拉伯语（عربي）</string>
+    <string name="more_lang_arabic_desc">阿拉伯字母布局</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">显示高质量 GIF</string>
+    <string name="gif_show_high_desc">需要更多数据</string>
+    <string name="gif_send_high">发送高质量 GIF</string>
+    <string name="gif_send_high_desc">发送前下载</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">选择输入时工具栏和建议栏的切换方式（统一标题栏）。</string>
+    <string name="header_anim_none">无</string>
+    <string name="header_anim_none_desc">标题栏立即切换，无动画</string>
+    <string name="header_anim_fade">淡入淡出</string>
+    <string name="header_anim_fade_desc">两个标题栏之间平滑交叉淡化</string>
+    <string name="header_anim_slide">上滑</string>
+    <string name="header_anim_slide_desc">新标题栏从下方滑入</string>
+    <string name="header_anim_slide_fade">滑动并淡化</string>
+    <string name="header_anim_slide_fade_desc">上滑与淡化结合</string>
+    <string name="header_anim_zoom">缩放</string>
+    <string name="header_anim_zoom_desc">新标题栏从中心放大</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">最近</string>
+    <string name="emoji_cat_smileys">笑脸</string>
+    <string name="emoji_cat_people">人物</string>
+    <string name="emoji_cat_hearts">爱心</string>
+    <string name="emoji_cat_animals">动物</string>
+    <string name="emoji_cat_food">食物</string>
+    <string name="emoji_cat_activity">活动</string>
+    <string name="emoji_cat_travel">旅行</string>
+    <string name="emoji_cat_objects">物品</string>
+    <string name="emoji_cat_symbols">符号</string>
+    <string name="emoji_cat_flags">旗帜</string>
+    <string name="emoji_tab_emoji">表情符号</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">贴纸</string>
+    <string name="emoji_search_hint">搜索表情符号...</string>
+    <string name="emoji_no_recent">暂无最近表情符号\n开始使用表情符号吧！</string>
+    <string name="emoji_gif_coming_soon">GIF 支持即将推出</string>
+    <string name="emoji_sticker_coming_soon">贴纸支持即将推出</string>
+    <string name="emoji_no_found">未找到表情符号</string>
+    <string name="emoji_close">关闭</string>
+    <string name="emoji_delete">删除</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">主题创建器 Pro</string>
+    <string name="save">保存</string>
+    <string name="live_preview">实时预览</string>
+    <string name="design_elements">设计元素</string>
+    <string name="color_bg">背景</string>
+    <string name="color_primary_keys">主按键</string>
+    <string name="color_key_text">按键文本</string>
+    <string name="color_special_keys">特殊按键（Shift/Enter）</string>
+    <string name="color_special_text">特殊文本/图标</string>
+    <string name="color_accent">强调色（激活状态）</string>
+    <string name="color_suggestion_bg">建议栏背景</string>
+    <string name="color_suggestion_text">建议文本</string>
+    <string name="color_popup_bg">按键气泡背景</string>
+    <string name="color_popup_text">按键气泡文本</string>
+    <string name="color_hints">子字符提示</string>
+    <string name="reset_default">重置为默认暗色霓虹</string>
+    <string name="custom_color">自定义颜色</string>
+    <string name="hue">色相</string>
+    <string name="saturation">饱和度</string>
+    <string name="value">明度</string>
+    <string name="done">完成</string>
+    <string name="cancel">取消</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">剪贴板历史</string>
+    <string name="clipboard_panel_empty">尚无复制的条目</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">剪贴板</string>
+    <string name="kb_emoji">表情符号</string>
+    <string name="kb_voice">语音</string>
+    <string name="kb_theme">主题</string>
+    <string name="kb_incognito">隐私模式</string>
+    <string name="kb_settings">设置</string>
+    <string name="kb_live">实时</string>
+    <string name="kb_peak">峰值</string>
+    <string name="kb_suggestions">建议</string>
+    <string name="kb_show_toolbar">显示工具栏</string>
+    <string name="kb_delete">删除</string>
+</resources>

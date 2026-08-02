@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">NexKey</string>
+    <string name="nav_home">হোম</string>
+    <string name="nav_keyboard">কীবোর্ড</string>
+    <string name="ime_action_search">খুঁজুন</string>
+    <string name="ime_action_go">যান</string>
+    <string name="ime_action_send">পাঠান</string>
+    <string name="ime_action_next">পরবর্তী</string>
+    <string name="ime_action_done">সম্পন্ন</string>
+    <string name="ime_incognito_on">গোপন মোড চালু</string>
+    <string name="ime_incognito_off">গোপন মোড বন্ধ</string>
+    <string name="ime_mic_permission">ভয়েস টাইপিং ব্যবহার করতে সেটিংস &gt; অ্যাপস &gt; NexKey &gt; অনুমতিতে গিয়ে মাইক্রোফোন অনুমতি দিন।</string>
+    <string name="ime_voice_unavailable">ভয়েস টাইপিং উপলব্ধ নয়</string>
+    <string name="ime_listening">শুনছি...</string>
+    <string name="ime_no_speech">কোনো বক্তব্য শনাক্ত হয়নি</string>
+    <string name="ime_speech_timeout">বক্তব্যের সময় শেষ</string>
+    <string name="ime_network_error">নেটওয়ার্ক ত্রুটি</string>
+    <string name="ime_recognizer_busy">রিকগনাইজার ব্যস্ত</string>
+    <string name="ime_permission_denied">অনুমতি অস্বীকৃত</string>
+    <string name="ime_voice_error">ত্রুটি: %1$s</string>
+    <string name="ime_voice_start_failed">ভয়েস ইনপুট শুরু করা যায়নি: %1$s</string>
+
+    <!-- Home -->
+    <string name="home_pulse_title">আজকের পালস</string>
+    <string name="home_pulse_desc">আপনার টাইপিং দক্ষতার রিয়েল-টাইম বিশ্লেষণ। RPM (প্রতি মিনিটে হার) আপনার ধারণাগত গতি পরিমাপ করে—কত দ্রুত আপনি চিন্তাকে শব্দে রূপান্তর করেন। Keys/Sec কীবোর্ডে আপনার কাঁচা শারীরিক দক্ষতা ও আঙুলের গতি পরিমাপ করে।</string>
+    <string name="home_trends_title">ব্যবহারের প্রবণতা</string>
+    <string name="home_trends_desc">সময়ের সাথে আপনার কীবোর্ড কার্যকলাপ ট্র্যাক করে। সাপ্তাহিক ও মাসিক ভিউ আপনাকে সবচেয়ে উৎপাদনশীল দিনগুলো চিহ্নিত করতে এবং সারা বছর \'ডিজিটাল স্ট্যামিনা\' পর্যবেক্ষণ করতে সহায়তা করে।</string>
+    <string name="home_distribution_title">বার্ষিক বণ্টন</string>
+    <string name="home_distribution_desc">আপনার টাইপিং ভলিউমের মৌসুমি বিশ্লেষণ। এই ডোনাট চার্ট দেখায় কোন মাসগুলোতে আপনি সবচেয়ে সক্রিয় ছিলেন, যা আপনার টাইপিং অভ্যাসকে কাজ বা সামাজিক কার্যকলাপের বিভিন্ন সময়ের সাথে সম্পর্কিত করতে সাহায্য করে।</string>
+    <string name="home_heatmap_title">শব্দ হিটম্যাপ</string>
+    <string name="home_heatmap_desc">আপনার শব্দভান্ডারের ভাষাগত ফিঙ্গারপ্রিন্ট। আপনার শীর্ষ শব্দগুলো একটি ক্ষুদ্র লেআউটে ম্যাপ করা হয়। কী যত গাঢ়, আপনার ডিজিটাল যোগাযোগে শব্দটি তত কেন্দ্রীয়।</string>
+    <string name="home_emojis_title">ইমোজি লিডারবোর্ড</string>
+    <string name="home_emojis_desc">আপনার আবেগ প্রকাশের ধরণগুলো প্রদর্শন করে। এই র্যাঙ্কিং দেখায় কোন ইমোজিগুলোর উপর আপনি সবচেয়ে বেশি নির্ভর করেন, যা আপনার ডিজিটাল ব্যক্তিত্ব সম্পর্কে মজার অন্তর্দৃষ্টি দেয়।</string>
+    <string name="home_greeting_morning">শুভ সকাল</string>
+    <string name="home_greeting_afternoon">শুভ বিকাল</string>
+    <string name="home_greeting_evening">শুভ সন্ধ্যা</string>
+    <string name="home_greeting_night">শুভ রাত্রি</string>
+    <string name="home_toggle_theme">থিম পরিবর্তন</string>
+    <string name="home_active">সক্রিয়</string>
+    <string name="home_setup_badge">সেটআপ</string>
+    <string name="home_typing_sandbox">টাইপিং স্যান্ডবক্স</string>
+    <string name="home_complete_setup">সেটআপ সম্পূর্ণ করুন</string>
+    <string name="home_quick_controls">দ্রুত নিয়ন্ত্রণ</string>
+    <string name="home_haptics">হ্যাপটিক্স</string>
+    <string name="home_sound">শব্দ</string>
+    <string name="home_autofix">অটো-ফিক্স</string>
+    <string name="home_numbers">সংখ্যা</string>
+    <string name="home_today_pulse">আজকের পালস</string>
+    <string name="home_avg_rpm">গড় RPM</string>
+    <string name="home_keys_sec">কি/সেকেন্ড</string>
+    <string name="home_active_time">আজকের সক্রিয় টাইপিং সময়</string>
+    <string name="home_mins">মিনিট</string>
+    <string name="home_usage_trends">ব্যবহারের প্রবণতা</string>
+    <string name="home_week">সপ্তাহ</string>
+    <string name="home_month">মাস</string>
+    <string name="home_yearly_distribution">বার্ষিক বণ্টন</string>
+    <string name="home_word_heatmap">শব্দ হিটম্যাপ</string>
+    <string name="home_emoji_leaderboard">ইমোজি লিডারবোর্ড</string>
+    <string name="home_footer">NexKey Pro • অ্যানালিটিক্স v2.0</string>
+    <string name="home_got_it">বুঝেছি</string>
+    <string name="home_heatmap_caption">শীর্ষ শব্দ লেআউটে ম্যাপ করা</string>
+    <string name="home_uses">বার ব্যবহৃত</string>
+
+    <!-- Common -->
+    <string name="back">ফিরে যান</string>
+    <string name="made_with">তৈরি করা হয়েছে</string>
+    <string name="made_by">আবির হাসান সিয়ামের মাধ্যমে</string>
+
+    <!-- Setup -->
+    <string name="setup_welcome">NexKey-এ স্বাগতম</string>
+    <string name="setup_subtitle">শুরু করতে এই ধাপগুলো অনুসরণ করুন</string>
+    <string name="setup_enable_title">কীবোর্ড সক্রিয় করুন</string>
+    <string name="setup_enable_desc">সিস্টেম সেটিংস → ভাষা ও ইনপুট → অন-স্ক্রিন কীবোর্ড-এ NexKey চালু করুন।</string>
+    <string name="setup_enabled">সক্রিয় ✓</string>
+    <string name="setup_open_settings">সেটিংস খুলুন</string>
+    <string name="setup_select_title">ডিফল্ট হিসেবে নির্বাচন করুন</string>
+    <string name="setup_select_desc">পিকার থেকে আপনার সক্রিয় কীবোর্ড হিসেবে NexKey বেছে নিন।</string>
+    <string name="setup_selected">নির্বাচিত ✓</string>
+    <string name="setup_open_picker">পিকার খুলুন</string>
+    <string name="setup_finish">সেটআপ শেষ করুন</string>
+
+    <!-- Settings -->
+    <string name="settings_title">কীবোর্ড সেটিংস</string>
+    <string name="settings_back">ফিরে যান</string>
+    <string name="settings_customization">কীবোর্ড কাস্টমাইজেশন</string>
+    <string name="settings_typing">টাইপিং</string>
+    <string name="settings_typing_desc">অটো-ক্যাপ, ডাবল-স্পেস, ট্যাব</string>
+    <string name="settings_feedback">ফিডব্যাক</string>
+    <string name="settings_feedback_desc">কম্পন, শব্দ, পপআপ</string>
+    <string name="settings_language_keys">ভাষা ও কী</string>
+    <string name="settings_language_keys_desc">ভয়েস, ইমোজি, গ্লোব কী</string>
+    <string name="settings_layout">লেআউট</string>
+    <string name="settings_layout_desc">নাম্বার রো, স্প্লিট, রিসাইজ</string>
+    <string name="settings_size">আকার</string>
+    <string name="settings_size_desc">উচ্চতা ও প্রস্থ সমন্বয়</string>
+    <string name="settings_navigation">নেভিগেশন</string>
+    <string name="settings_navigation_desc">কার্সর ও ভলিউম নিয়ন্ত্রণ</string>
+    <string name="settings_paste">পেস্ট ও ক্লিপবোর্ড</string>
+    <string name="settings_paste_desc">কী ধরে পেস্ট, ক্লিপবোর্ড সেটিংস</string>
+    <string name="settings_emoji">ইমোজি</string>
+    <string name="settings_emoji_desc">সাম্প্রতিক ইমোজি সংরক্ষণ</string>
+    <string name="settings_advanced">উন্নত</string>
+    <string name="settings_advanced_desc">বিলম্ব, কার্সর, আচরণ</string>
+    <string name="settings_text_correction">টেক্সট সংশোধন</string>
+    <string name="settings_text_correction_desc">সাজেশন ও অভিধান</string>
+    <string name="settings_more_languages">আরও ভাষা</string>
+    <string name="settings_more_languages_desc">ইংরেজি, বাংলা, অভ্র, আরবি...</string>
+    <string name="settings_gif_quality">GIF গুণমান</string>
+    <string name="settings_gif_quality_desc">GIF-এর জন্য ডেটা ব্যবহার পরিচালনা</string>
+    <string name="settings_header_animation">হেডার অ্যানিমেশন</string>
+    <string name="settings_header_animation_desc">ফেড, স্লাইড, জুম ইফেক্ট</string>
+
+    <!-- About -->
+    <string name="about_title">সম্পর্কে</string>
+    <string name="about_name">NexKey কীবোর্ড</string>
+    <string name="about_version">সংস্করণ 1.0.0 (রিলিজ)</string>
+    <string name="about_description">NexKey একটি আধুনিক, প্রিমিয়াম কীবোর্ড যা গতি ও গোপনীয়তার জন্য ডিজাইন করা হয়েছে। এতে শিল্পমানের বাংলা ফোনেটিক ট্রান্সলিটারেশন এবং বুদ্ধিমান সংশোধন ইঞ্জিন রয়েছে।</string>
+    <string name="about_rate">NexKey রেট দিন</string>
+    <string name="about_website">ওয়েবসাইট দেখুন</string>
+    <string name="about_licenses">ওপেন সোর্স লাইসেন্স</string>
+    <string name="about_privacy">গোপনীয়তা নীতি</string>
+    <string name="about_developer">ডেভেলপার</string>
+
+    <!-- Developer -->
+    <string name="developer_title">ডেভেলপার</string>
+    <string name="developer_name">আবির হাসান সিয়াম</string>
+    <string name="developer_bio">২২ বছর | গাজীপুর, ঢাকা</string>
+    <string name="developer_blood">রক্ত: B+</string>
+    <string name="developer_education">শিক্ষা</string>
+    <string name="developer_edu_bsc">কম্পিউটার সায়েন্সে বিএসসি - ইনডিপেনডেন্ট ইউনিভার্সিটি অব বাংলাদেশ (২০২১-বর্তমান)</string>
+    <string name="developer_edu_hsc">এইচএসসি - মিসির আলী খান স্কুল অ্যান্ড কলেজ (২০১৯-২০২০)</string>
+    <string name="developer_edu_ssc">এসএসসি - অধ্যাপক মো. ই. এইচ. আরিফ মাধ্যমিক বিদ্যালয় (২০১৭-২০১৮)</string>
+    <string name="developer_skills">দক্ষতা ও প্রযুক্তি</string>
+    <string name="developer_skill_dart">ডার্ট (ফ্লাটার), রিঅ্যাক্ট, পাইথন</string>
+    <string name="developer_skill_android">অ্যান্ড্রয়েড এপিকে, ফ্লাটার, রিঅ্যাক্ট.জেএস</string>
+    <string name="developer_skill_ui">অ্যাপ UI/UX, গ্রেডিয়েন্ট ও কার্ড-ভিত্তিক লেআউট</string>
+    <string name="developer_skill_tools">উইন্ডোজ, লিনাক্স, গিট, গিটহাব</string>
+    <string name="developer_contact">যোগাযোগ</string>
+    <string name="developer_email">abir2afridi@gmail.com</string>
+    <string name="developer_github">github.com/abir2afridi</string>
+    <string name="developer_web">abir2afridi.vercel.app</string>
+
+    <!-- App Settings -->
+    <string name="app_settings_title">অ্যাপ সেটিংস</string>
+    <string name="app_settings_look_feel">লুক ও ফিল</string>
+    <string name="app_settings_accent_color">অ্যাকসেন্ট রঙ</string>
+    <string name="app_settings_navigation">নেভিগেশন</string>
+    <string name="app_settings_other">অন্যান্য</string>
+    <string name="app_settings_app_language">অ্যাপ ভাষা</string>
+    <string name="app_settings_app_language_sub">বাংলা ও ইংরেজির মধ্যে পরিবর্তন করুন</string>
+    <string name="app_language_title">অ্যাপ ভাষা</string>
+    <string name="app_language_subtitle">অ্যাপ ইন্টারফেসের জন্য প্রদর্শন ভাষা বেছে নিন</string>
+    <string name="app_language_selected">নির্বাচিত</string>
+    <string name="app_settings_about">সম্পর্কে</string>
+    <string name="app_settings_about_sub">NexKey কীবোর্ড সম্পর্কে</string>
+    <string name="app_settings_theme_system">সিস্টেম ডিফল্ট</string>
+    <string name="app_settings_theme_light">লাইট</string>
+    <string name="app_settings_theme_dark">ডার্ক</string>
+    <string name="app_settings_nav_standard">স্ট্যান্ডার্ড বটম বার</string>
+    <string name="app_settings_nav_floating">ফ্লোটিং পিল বার</string>
+    <string name="accent_green">সবুজ</string>
+    <string name="accent_blue">নীল</string>
+    <string name="accent_purple">বেগুনি</string>
+    <string name="accent_teal">টিল</string>
+    <string name="accent_orange">কমলা</string>
+    <string name="accent_pink">গোলাপি</string>
+    <string name="accent_red">লাল</string>
+    <string name="accent_indigo">ইন্ডিগো</string>
+
+    <!-- Themes -->
+    <string name="themes_title">কীবোর্ড থিম</string>
+    <string name="themes_subtitle">আপনার কীবোর্ডের জন্য একটি প্রিসেট নির্বাচন করুন</string>
+    <string name="theme_dark_neon">ডার্ক নিয়ন</string>
+    <string name="theme_midnight_blue">মিডনাইট ব্লু</string>
+    <string name="theme_royal_purple">রয়্যাল পার্পল</string>
+    <string name="theme_sakura_pink">সাকুরা পিংক</string>
+    <string name="theme_sunset_orange">সানসেট অরেঞ্জ</string>
+    <string name="theme_emerald_green">এমারেল্ড গ্রিন</string>
+    <string name="theme_crimson_red">ক্রিমসন রেড</string>
+    <string name="theme_deep_ocean">ডিপ ওশান</string>
+    <string name="theme_forest_moss">ফরেস্ট মস</string>
+    <string name="theme_golden_sand">গোল্ডেন স্যান্ড</string>
+    <string name="theme_lavender_dream">ল্যাভেন্ডার ড্রিম</string>
+    <string name="theme_light_minimal">লাইট মিনিমাল</string>
+    <string name="theme_material_you">ম্যাটেরিয়াল ইউ</string>
+    <string name="theme_amoled_black">অ্যামোলেড ব্ল্যাক</string>
+    <string name="theme_retro_grey">রেট্রো গ্রে</string>
+    <string name="theme_cyberpunk">সাইবারপাংক</string>
+    <string name="theme_custom">কাস্টম</string>
+
+    <!-- Sandbox -->
+    <string name="sandbox_title">টাইপিং স্যান্ডবক্স</string>
+    <string name="sandbox_desc">এই প্লেগ্রাউন্ডে কীবোর্ড পরীক্ষা করুন। এখানে আপনার টাইপিং সংরক্ষিত হবে না।</string>
+    <string name="sandbox_try">এখানে টাইপ করার চেষ্টা করুন...</string>
+    <string name="sandbox_placeholder">যেমন: ami bangla valobashi</string>
+
+    <!-- Typing Stats -->
+    <string name="stats_title">টাইপিং অ্যানালিটিক্স</string>
+    <string name="stats_productivity">আপনার উৎপাদনশীলতা</string>
+    <string name="stats_total_words">মোট শব্দ</string>
+    <string name="stats_total_chars">মোট অক্ষর</string>
+    <string name="stats_milestones">টাইপিং মাইলস্টোন</string>
+    <string name="stats_milestone_1_title">NexKey এক্সপ্লোরার</string>
+    <string name="stats_milestone_1_desc">আপনার প্রথম ১০০ শব্দ টাইপ করেছেন</string>
+    <string name="stats_milestone_2_title">স্পিড ডেমন</string>
+    <string name="stats_milestone_2_desc">১,০০০+ অক্ষর টাইপ করেছেন</string>
+    <string name="stats_milestone_3_title">ভাষা মায়েস্ট্রো</string>
+    <string name="stats_milestone_3_desc">৫,০০০+ শব্দ টাইপ করেছেন</string>
+    <string name="stats_saved">আপনি NexKey পূর্বাভাস ব্যবহার করে প্রায় %1$s সেকেন্ড সাশ্রয় করেছেন!</string>
+
+    <!-- Store -->
+    <string name="store_title">স্টোর</string>
+    <string name="store_tab_shop">শপ</string>
+    <string name="store_tab_themes">থিম</string>
+    <string name="store_tab_meter">মিটার</string>
+    <string name="meter_designs">স্পিড মিটার ডিজাইন</string>
+    <string name="meter_font_style">নাম্বার ফন্ট স্টাইল</string>
+    <string name="store_coming_soon">শীঘ্রই আসছে</string>
+    <string name="store_shop_desc">প্রিমিয়াম থিম, স্টিকার প্যাক এবং আরও অনেক কিছু এখানে পাওয়া যাবে।</string>
+    <string name="store_browse_themes">থিম ব্রাউজ করুন</string>
+    <string name="store_browse_themes_sub">প্রিসেট থিম থেকে বেছে নিন</string>
+    <string name="store_custom_theme">কাস্টম থিম</string>
+    <string name="store_custom_theme_sub">আপনার নিজের থিম তৈরি করুন</string>
+    <string name="meter_calculator">ক্যালকুলেটর</string>
+    <string name="meter_minimal_dark">মিনিমাল ডার্ক</string>
+    <string name="meter_neon_cyber">নিয়ন সাইবার</string>
+    <string name="meter_retro_lcd">রেট্রো এলসিডি</string>
+    <string name="meter_ghost_white">ঘোস্ট হোয়াইট</string>
+    <string name="meter_amber_retro">অ্যাম্বার রেট্রো</string>
+    <string name="meter_cyber_lime">সাইবার লাইম</string>
+    <string name="meter_violet_glow">ভায়োলেট গ্লো</string>
+    <string name="meter_font_digital">ডিজিটাল</string>
+    <string name="meter_font_lcd">LCD</string>
+    <string name="meter_font_segment">সেগমেন্ট</string>
+    <string name="meter_font_modern">মডার্ন</string>
+
+    <!-- Clipboard -->
+    <string name="clipboard_title">ক্লিপবোর্ড ম্যানেজার</string>
+    <string name="clipboard_clear">আনপিন করা মুছুন</string>
+    <string name="clipboard_empty">ইতিহাসে কোনো ক্লিপ পাওয়া যায়নি</string>
+    <string name="clipboard_pin">পিন</string>
+    <string name="clipboard_pinned">পিন করা</string>
+    <string name="clipboard_recent">সাম্প্রতিক</string>
+    <string name="clipboard_delete">মুছুন</string>
+
+    <!-- Dictionary -->
+    <string name="dict_title">ব্যক্তিগত অভিধান</string>
+    <string name="dict_clear">সব মুছুন</string>
+    <string name="dict_empty">আপনার অভিধান খালি। আপনি টাইপ করার সাথে সাথে NexKey নতুন শব্দ শেখে।</string>
+    <string name="dict_learned">শেখা শব্দ (%1$d)</string>
+    <string name="dict_bangla">বাংলা</string>
+    <string name="dict_english">ইংরেজি</string>
+    <string name="dict_delete">মুছুন</string>
+
+    <!-- Help -->
+    <string name="help_title">সহায়তা ও গাইড</string>
+    <string name="help_cheatsheet">রিদমিক-শ্রেণির ফোনেটিক চিট শিট</string>
+    <string name="help_phon_i_me">আমি</string>
+    <string name="help_phon_bengali">বাংলা</string>
+    <string name="help_phon_my_mine">আমার</string>
+    <string name="help_phon_golden">সোনালি</string>
+    <string name="help_phon_work">কাজ</string>
+    <string name="help_phon_juktakkhor">যুক্তাক্ষর</string>
+    <string name="help_phon_vowel">স্বরবর্ণ</string>
+    <string name="help_phon_consonant">ব্যঞ্জনবর্ণ</string>
+    <string name="help_phon_dari">দারি</string>
+    <string name="help_tips">টিপস</string>
+    <string name="help_tip_conjuncts">যুক্তাক্ষর</string>
+    <string name="help_tip_conjuncts_desc">দুটি অক্ষর টাইপ করুন এবং NexKey সেগুলো বৈধ হলে স্বয়ংক্রিয়ভাবে যুক্ত করবে। যেমন: \'ক্ষ\' এর জন্য \'kS\'।</string>
+    <string name="help_tip_modes">মোড পরিবর্তন</string>
+    <string name="help_tip_modes_desc">বাংলা ও ইংরেজির মধ্যে পরিবর্তন করতে কীবোর্ডের গ্লোব আইকন বা \'ABC/?123\' কী ট্যাপ করুন।</string>
+    <string name="help_tip_voice">ভয়েস টাইপিং</string>
+    <string name="help_tip_voice_desc">টাইপ করার পরিবর্তে কথা বলতে টুলবারের মাইক্রোফোন আইকন ট্যাপ করুন।</string>
+
+    <!-- Typing -->
+    <string name="typing_auto_cap">অটো-ক্যাপিটালাইজেশন</string>
+    <string name="typing_auto_cap_desc">প্রতিটি বাক্যের প্রথম শব্দ বড় হাতের করে</string>
+    <string name="typing_double_space_period">ডাবল-স্পেস পিরিয়ড</string>
+    <string name="typing_double_space_period_desc">স্পেসবারে ডাবল ট্যাপ করলে পিরিয়ড ও পরে একটি স্পেস যোগ হয়</string>
+    <string name="typing_double_space_tab">ডাবল-স্পেস ট্যাব</string>
+    <string name="typing_double_space_tab_desc">স্পেসবারে ডাবল ট্যাপ করলে একটি ট্যাব যোগ হয়</string>
+
+    <!-- Feedback -->
+    <string name="feedback_vibrate">কিপ্রেসে কম্পন</string>
+    <string name="feedback_sound">কিপ্রেসে শব্দ</string>
+    <string name="feedback_popup">কিপ্রেসে পপআপ</string>
+    <string name="feedback_vibrate_intensity">কিপ্রেস কম্পনের তীব্রতা</string>
+    <string name="feedback_sound_volume">কিপ্রেস শব্দের ভলিউম</string>
+
+    <!-- Language & Keys -->
+    <string name="langkeys_voice">ভয়েস ইনপুট কী</string>
+    <string name="langkeys_emoji">ইমোজি কী দেখান</string>
+    <string name="langkeys_emoji_desc">ইমোজি বোতামে স্যুইচ করুন</string>
+    <string name="langkeys_globe">গ্লোব কী দেখান</string>
+    <string name="langkeys_globe_desc">কীবোর্ডের ভাষা পরিবর্তন করুন</string>
+    <string name="langkeys_other_kb">অন্য কীবোর্ড অনুমতি দিন</string>
+    <string name="langkeys_other_kb_desc">গ্লোব কী অন্যগুলোতে স্যুইচ করে</string>
+
+    <!-- Layout -->
+    <string name="layout_number_row">নাম্বার রো সক্রিয় করুন</string>
+    <string name="layout_number_row_desc">অতিরিক্ত একটি রো যোগ করে</string>
+    <string name="layout_large_number_row">বড় নাম্বার রো</string>
+    <string name="layout_hide_hints">লং প্রেস হিন্ট লুকান</string>
+    <string name="layout_hide_hints_desc">কী-এর কোণে থাকা ছোট লেবেলগুলো লুকান</string>
+    <string name="layout_resizing">কীবোর্ড রিসাইজিং সক্রিয় করুন</string>
+    <string name="layout_split">স্প্লিট কীবোর্ড সক্রিয় করুন</string>
+    <string name="layout_split_desc">ফোল্ডেবল ফোনের জন্য</string>
+    <string name="layout_forced_enter">ফোর্সড এন্টার বোতাম</string>
+    <string name="layout_forced_enter_desc">এন্টারে ইমোজি দেখাবেন না</string>
+    <string name="layout_always_suggestions">সবসময় সাজেশন দেখান</string>
+    <string name="layout_always_suggestions_desc">কীবোর্ডে সাজেশন বার দেখায়; বন্ধ থাকলে কোনো সাজেশন বার দেখা যায় না</string>
+    <string name="layout_unified_header">ইউনিফাইড হেডার</string>
+    <string name="layout_unified_header_desc">টুলবার ও সাজেশন একটি হেডার শেয়ার করে: টাইপ করার সময় টুলবার প্রথমে দেখায়, সাজেশন এটি প্রতিস্থাপন করে, টুলবার ফিরিয়ে আনতে স্ট্রিপ বোতাম ট্যাপ করুন</string>
+    <string name="layout_auto_show_delay">টুলবার অটো-শো বিলম্ব (সেকেন্ড)</string>
+    <string name="layout_auto_show_delay_desc">টাইপ করার পর টুলবার নিজে থেকে ফিরে আসে না — কীবোর্ড এতক্ষণ নিষ্ক্রিয় থাকলে এটি আবার দেখা যায়। কম = তাড়াতাড়ি।</string>
+
+    <!-- Size -->
+    <string name="size_height_portrait">কীবোর্ডের উচ্চতা (পোর্ট্রেট)</string>
+    <string name="size_height_landscape">কীবোর্ডের উচ্চতা (ল্যান্ডস্কেপ)</string>
+    <string name="size_width_portrait">ওয়ান হ্যান্ডেড প্রস্থ (পোর্ট্রেট)</string>
+    <string name="size_width_landscape">ওয়ান হ্যান্ডেড প্রস্থ (ল্যান্ডস্কেপ)</string>
+
+    <!-- Navigation -->
+    <string name="nav_move_cursor">স্পেস কী দিয়ে কার্সর সরান</string>
+    <string name="nav_move_cursor_desc">কার্সর সরাতে স্পেসে সোয়াইপ করুন</string>
+    <string name="nav_volume_cursor">ভলিউম কী কার্সর নিয়ন্ত্রণ</string>
+    <string name="nav_volume_cursor_desc">কার্সর সরাতে ভলিউম বোতাম ব্যবহার করুন</string>
+    <string name="nav_smart_volume">স্মার্ট ভলিউম নিয়ন্ত্রণ</string>
+    <string name="nav_smart_volume_desc">অডিও চলাকালীন কার্সর সরাবেন না</string>
+
+    <!-- Paste & Clipboard -->
+    <string name="paste_hold_paste">পেস্ট করতে কী ধরে রাখুন</string>
+    <string name="paste_hold_paste_desc">ক্লিপবোর্ড টেক্সট পেস্ট করতে একটি কী লং-প্রেস করুন</string>
+    <string name="paste_trigger_key">ট্রিগার কী</string>
+    <string name="paste_trigger_key_desc">পেস্টের জন্য ধরে রাখার কী</string>
+    <string name="paste_hold_duration">ধরে রাখার সময়</string>
+    <string name="paste_recent">ক্লিপবোর্ড সাম্প্রতিক আইটেম</string>
+    <string name="paste_recent_desc">ক্লিপবোর্ডে সম্প্রতি কপি বা কাট করা টেক্সট দেখান</string>
+    <string name="paste_expiry">ক্লিপবোর্ড আইটেম অটো-ডিলিট</string>
+    <string name="paste_expiry_desc">নির্ধারিত সময়ের পর কপিগুলো সরিয়ে ফেলুন</string>
+    <string name="paste_expiry_never">কখনো নয়</string>
+    <string name="paste_expiry_1m">১ মিনিট</string>
+    <string name="paste_expiry_5m">৫ মিনিট</string>
+    <string name="paste_expiry_365d">৩৬৫ দিন</string>
+    <string name="paste_images">ক্লিপবোর্ডে কপি করা ছবি দেখান</string>
+    <string name="paste_images_desc">স্ক্রিনশট বা কপি করা ছবি দেখান</string>
+    <string name="paste_delete_all">সব ক্লিপবোর্ড আইটেম মুছুন</string>
+    <string name="paste_delete_all_desc">সব আনপিন করা কপি করা টেক্সট সরান</string>
+    <string name="paste_view_history">ক্লিপবোর্ড ইতিহাস দেখুন</string>
+    <string name="paste_view_history_desc">সব কপি করা টেক্সট ব্রাউজ করুন</string>
+
+    <!-- Emoji -->
+    <string name="emoji_retention">সাম্প্রতিক ইমোজি সংরক্ষণ</string>
+    <string name="emoji_retention_desc">সম্প্রতি ব্যবহৃত ইমোজি কতক্ষণ মনে রাখবে</string>
+    <string name="emoji_expiry_1d">১ দিন</string>
+    <string name="emoji_expiry_7d">৭ দিন</string>
+    <string name="emoji_expiry_30d">৩০ দিন</string>
+    <string name="emoji_expiry_90d">৯০ দিন</string>
+    <string name="emoji_expiry_forever">চিরকাল</string>
+    <string name="emoji_horizontal">অনুভূমিক স্ক্রল</string>
+    <string name="emoji_horizontal_desc_rows">সারিগুলো আলাদাভাবে বাম-ডানে স্ক্রল হয়</string>
+    <string name="emoji_horizontal_desc_vertical">উল্লম্ব তালিকা লেআউট</string>
+    <string name="emoji_visible_rows">দৃশ্যমান সারি</string>
+    <string name="emoji_visible_rows_desc">সার্চ ফলাফলে দেখানো ইমোজি সারির সংখ্যা</string>
+    <plurals name="emoji_rows">
+        <item quantity="one">%1$d টি সারি</item>
+        <item quantity="other">%1$d টি সারি</item>
+    </plurals>
+
+    <!-- Advanced -->
+    <string name="adv_long_press_delay">কী লং প্রেস বিলম্ব (মি.সে.)</string>
+    <string name="adv_popup_dismiss_label">পপআপ ডিজমিস বিলম্ব: %1$s</string>
+    <string name="adv_dismiss_default">ডিফল্ট</string>
+    <string name="adv_dismiss_short">সংক্ষিপ্ত</string>
+    <string name="adv_dismiss_long">দীর্ঘ</string>
+    <string name="adv_space_delay">স্পেসবার কার্সর সরানোর বিলম্ব</string>
+    <string name="adv_space_speed">স্পেসবার কার্সর সরানোর গতি</string>
+    <string name="adv_physical_emoji">ফিজিক্যাল কীবোর্ড ইমোজি কী</string>
+    <string name="adv_physical_emoji_desc">হার্ডওয়্যার কীবোর্ডে ইমোজি কী শর্টকাট সক্রিয় করুন</string>
+    <string name="adv_typed_first">টাইপ করা শব্দ আগে দেখান</string>
+    <string name="adv_typed_first_desc">সঠিক টাইপ করা শব্দ প্রথম সাজেশন হিসেবে দেখায়</string>
+    <string name="adv_backspace_delay">ব্যাকস্পেস রিপিট বিলম্ব (মি.সে.)</string>
+    <string name="adv_backspace_speed">ব্যাকস্পেস রিপিট গতি (মি.সে.)</string>
+
+    <!-- Text correction -->
+    <string name="tc_auto_correct">অটো-সংশোধন</string>
+    <string name="tc_auto_correct_desc">বিরামচিহ্ন শব্দ সংশোধন করে</string>
+    <string name="tc_phonetic">ফোনেটিক অটো-সংশোধন</string>
+    <string name="tc_phonetic_desc">বাংলা ট্রান্সলিটারেশন সংশোধন</string>
+    <string name="tc_show_suggestions">সাজেশন দেখান</string>
+    <string name="tc_show_suggestions_desc">টাইপ করার সময় শব্দ প্রদর্শন</string>
+    <string name="tc_personalized">ব্যক্তিগতকৃত সাজেশন</string>
+    <string name="tc_personalized_desc">যোগাযোগ থেকে শেখে</string>
+    <string name="tc_next_word">পরবর্তী-শব্দ সাজেশন</string>
+    <string name="tc_next_word_desc">আগের শব্দ ব্যবহার করে</string>
+
+    <!-- More Languages -->
+    <string name="more_lang_title">কীবোর্ড ভাষা</string>
+    <string name="more_lang_desc">সক্রিয় কীবোর্ড লেআউট সক্রিয় বা নিষ্ক্রিয় করুন</string>
+    <string name="more_lang_english">ইংরেজি</string>
+    <string name="more_lang_english_desc">QWERTY লেআউট (সবসময় সক্রিয়)</string>
+    <string name="more_lang_bangla">বাংলা (বাংলা)</string>
+    <string name="more_lang_bangla_desc">বাংলাদেশ স্ট্যান্ডার্ড জাতীয় লেআউট</string>
+    <string name="more_lang_avro">অভ্র (অভ্র)</string>
+    <string name="more_lang_avro_desc">অফিসিয়াল অভ্র ফোনেটিক ট্রান্সলিটারেশন ইঞ্জিন</string>
+    <string name="more_lang_arabic">আরবি (عربي)</string>
+    <string name="more_lang_arabic_desc">আরবি অক্ষর লেআউট</string>
+
+    <!-- Gif Quality -->
+    <string name="gif_show_high">উচ্চ মানের GIF দেখান</string>
+    <string name="gif_show_high_desc">আরও ডেটা প্রয়োজন</string>
+    <string name="gif_send_high">উচ্চ মানের GIF পাঠান</string>
+    <string name="gif_send_high_desc">পাঠানোর আগে ডাউনলোড করুন</string>
+
+    <!-- Header Animation -->
+    <string name="header_animation_desc">টাইপ করার সময় টুলবার ও সাজেশন বার কীভাবে একে অপরের সাথে বদলায় তা বেছে নিন (ইউনিফাইড হেডার)।</string>
+    <string name="header_anim_none">কিছুই না</string>
+    <string name="header_anim_none_desc">হেডার তৎক্ষণাৎ বদলায়, কোনো অ্যানিমেশন নেই</string>
+    <string name="header_anim_fade">ফেড</string>
+    <string name="header_anim_fade_desc">দুটি হেডারের মধ্যে মসৃণ ক্রসফেড</string>
+    <string name="header_anim_slide">স্লাইড আপ</string>
+    <string name="header_anim_slide_desc">নতুন হেডার নিচ থেকে উপরে স্লাইড হয়</string>
+    <string name="header_anim_slide_fade">স্লাইড ও ফেড</string>
+    <string name="header_anim_slide_fade_desc">ফেডের সাথে স্লাইড আপ</string>
+    <string name="header_anim_zoom">জুম</string>
+    <string name="header_anim_zoom_desc">নতুন হেডার কেন্দ্র থেকে স্কেল হয়ে আসে</string>
+
+    <!-- Emoji Panel -->
+    <string name="emoji_cat_recent">সাম্প্রতিক</string>
+    <string name="emoji_cat_smileys">স্মাইলি</string>
+    <string name="emoji_cat_people">মানুষ</string>
+    <string name="emoji_cat_hearts">হৃদয়</string>
+    <string name="emoji_cat_animals">প্রাণী</string>
+    <string name="emoji_cat_food">খাবার</string>
+    <string name="emoji_cat_activity">কার্যকলাপ</string>
+    <string name="emoji_cat_travel">ভ্রমণ</string>
+    <string name="emoji_cat_objects">বস্তু</string>
+    <string name="emoji_cat_symbols">প্রতীক</string>
+    <string name="emoji_cat_flags">পতাকা</string>
+    <string name="emoji_tab_emoji">ইমোজি</string>
+    <string name="emoji_tab_gif">GIF</string>
+    <string name="emoji_tab_sticker">স্টিকার</string>
+    <string name="emoji_search_hint">ইমোজি খুঁজুন...</string>
+    <string name="emoji_no_recent">এখনো কোনো সাম্প্রতিক ইমোজি নেই\nইমোজি ব্যবহার শুরু করুন!</string>
+    <string name="emoji_gif_coming_soon">GIF সমর্থন শীঘ্রই আসছে</string>
+    <string name="emoji_sticker_coming_soon">স্টিকার সমর্থন শীঘ্রই আসছে</string>
+    <string name="emoji_no_found">কোনো ইমোজি পাওয়া যায়নি</string>
+    <string name="emoji_close">বন্ধ</string>
+    <string name="emoji_delete">মুছুন</string>
+
+    <!-- Theme Creator -->
+    <string name="theme_creator_title">থিম ক্রিয়েটর প্রো</string>
+    <string name="save">সংরক্ষণ</string>
+    <string name="live_preview">লাইভ প্রিভিউ</string>
+    <string name="design_elements">ডিজাইন উপাদান</string>
+    <string name="color_bg">ব্যাকগ্রাউন্ড</string>
+    <string name="color_primary_keys">প্রাইমারি কী</string>
+    <string name="color_key_text">কী টেক্সট</string>
+    <string name="color_special_keys">স্পেশাল কী (শিফট/এন্টার)</string>
+    <string name="color_special_text">স্পেশাল টেক্সট/আইকন</string>
+    <string name="color_accent">অ্যাকসেন্ট (সক্রিয় অবস্থা)</string>
+    <string name="color_suggestion_bg">সাজেশন স্ট্রিপ ব্যাকগ্রাউন্ড</string>
+    <string name="color_suggestion_text">সাজেশন টেক্সট</string>
+    <string name="color_popup_bg">কী পপআপ ব্যাকগ্রাউন্ড</string>
+    <string name="color_popup_text">কী পপআপ টেক্সট</string>
+    <string name="color_hints">সাব-ক্যারেক্টার হিন্ট</string>
+    <string name="reset_default">ডিফল্ট ডার্ক নিয়নে রিসেট</string>
+    <string name="custom_color">কাস্টম রঙ</string>
+    <string name="hue">হিউ</string>
+    <string name="saturation">স্যাচুরেশন</string>
+    <string name="value">ভ্যালু</string>
+    <string name="done">সম্পন্ন</string>
+    <string name="cancel">বাতিল</string>
+
+    <!-- Components -->
+    <string name="components_pro">NexKey Pro</string>
+
+    <!-- Clipboard Panel (IME) -->
+    <string name="clipboard_panel_title">ক্লিপবোর্ড ইতিহাস</string>
+    <string name="clipboard_panel_empty">এখনো কোনো ক্লিপ কপি করা হয়নি</string>
+
+    <!-- Keyboard (IME) -->
+    <string name="kb_clipboard">ক্লিপবোর্ড</string>
+    <string name="kb_emoji">ইমোজি</string>
+    <string name="kb_voice">ভয়েস</string>
+    <string name="kb_theme">থিম</string>
+    <string name="kb_incognito">গোপন মোড</string>
+    <string name="kb_settings">সেটিংস</string>
+    <string name="kb_live">লাইভ</string>
+    <string name="kb_peak">সর্বোচ্চ</string>
+    <string name="kb_suggestions">সাজেশন</string>
+    <string name="kb_show_toolbar">টুলবার দেখান</string>
+    <string name="kb_delete">মুছুন</string>
+</resources>

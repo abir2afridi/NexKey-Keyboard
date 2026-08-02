@@ -10,7 +10,9 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.launch
 
@@ -24,10 +26,10 @@ fun TypingSettingsScreen(onBack: () -> Unit) {
     val doubleSpacePeriod by prefs.smartPunctuation.collectAsState(initial = true)
     val doubleSpaceTab by prefs.doubleSpaceTab.collectAsState(initial = false)
 
-    SettingsSubScaffold(title = "Typing", onBack = onBack) {
-        SettingSwitchItem("Auto-capitalization", "Capitalize the first word of each sentence", Icons.Default.TextFormat, autoCap) { scope.launch { prefs.setAutoCapitalize(it) } }
-        SettingSwitchItem("Double-space period", "Double tap on spacebar inserts a period followed by a space", Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
-        SettingSwitchItem("Double-space tab", "Double tap on spacebar inserts a tab", Icons.AutoMirrored.Filled.KeyboardTab, doubleSpaceTab) { scope.launch { prefs.setDoubleSpaceTab(it) } }
+    SettingsSubScaffold(title = stringResource(R.string.settings_typing), onBack = onBack) {
+        SettingSwitchItem(stringResource(R.string.typing_auto_cap), stringResource(R.string.typing_auto_cap_desc), Icons.Default.TextFormat, autoCap) { scope.launch { prefs.setAutoCapitalize(it) } }
+        SettingSwitchItem(stringResource(R.string.typing_double_space_period), stringResource(R.string.typing_double_space_period_desc), Icons.Default.SpaceBar, doubleSpacePeriod) { scope.launch { prefs.setSmartPunctuation(it) } }
+        SettingSwitchItem(stringResource(R.string.typing_double_space_tab), stringResource(R.string.typing_double_space_tab_desc), Icons.AutoMirrored.Filled.KeyboardTab, doubleSpaceTab) { scope.launch { prefs.setDoubleSpaceTab(it) } }
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
