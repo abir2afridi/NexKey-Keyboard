@@ -110,6 +110,8 @@ class UserPreferences(private val context: Context) {
         private val KEY_BACKSPACE_REPEAT_SPEED = intPreferencesKey("backspace_repeat_speed")
         private val KEY_METER_THEME = stringPreferencesKey("meter_theme")
         private val KEY_METER_FONT = stringPreferencesKey("meter_font")
+        private val KEY_METER_IDLE_MS = intPreferencesKey("meter_idle_ms")
+        private val KEY_METER_INTERVAL = stringPreferencesKey("meter_interval")
 
         // Custom Theme Colors
         private val KEY_CUSTOM_BG_COLOR = stringPreferencesKey("custom_bg_color")
@@ -209,6 +211,8 @@ class UserPreferences(private val context: Context) {
     val backspaceRepeatSpeed: Flow<Int> = context.dataStore.data.map { it[KEY_BACKSPACE_REPEAT_SPEED] ?: 50 }
     val meterTheme: Flow<String> = context.dataStore.data.map { it[KEY_METER_THEME] ?: "CALCULATOR" }
     val meterFont: Flow<String> = context.dataStore.data.map { it[KEY_METER_FONT] ?: "DIGITAL" }
+    val meterIdleMs: Flow<Int> = context.dataStore.data.map { it[KEY_METER_IDLE_MS] ?: 5000 }
+    val meterInterval: Flow<String> = context.dataStore.data.map { it[KEY_METER_INTERVAL] ?: "5s" }
 
     // Custom Theme Flows
     val customBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_BG_COLOR] ?: "#FF12131C" }
@@ -288,6 +292,8 @@ class UserPreferences(private val context: Context) {
     suspend fun setBackspaceRepeatSpeed(ms: Int) = context.dataStore.edit { it[KEY_BACKSPACE_REPEAT_SPEED] = ms }
     suspend fun setMeterTheme(themeName: String) = context.dataStore.edit { it[KEY_METER_THEME] = themeName }
     suspend fun setMeterFont(fontName: String) = context.dataStore.edit { it[KEY_METER_FONT] = fontName }
+    suspend fun setMeterIdleMs(ms: Int) = context.dataStore.edit { it[KEY_METER_IDLE_MS] = ms }
+    suspend fun setMeterInterval(interval: String) = context.dataStore.edit { it[KEY_METER_INTERVAL] = interval }
 
     suspend fun updateCustomTheme(
         bgColor: String? = null,

@@ -36,4 +36,7 @@ sealed class Screen(val route: String) {
     object SettingsPaste : Screen("settings_paste")
     object SettingsAdvancedGroup : Screen("settings_advanced_group")
     object Store : Screen("store")
+    object SettingsSpeedMeter : Screen("settings_speed_meter")
+    object SpeedRecords : Screen("speed_records")
+    object SpeedLeaderboard : Screen("speed_leaderboard")
 }

@@ -45,6 +45,7 @@ import java.util.*
 
 enum class DashboardSection(val icon: ImageVector) {
     PULSE(Icons.Default.Speed),
+    SPEED(Icons.Default.Speed),
     TRENDS(Icons.Default.BarChart),
     DISTRIBUTION(Icons.Default.PieChart),
     HEATMAP(Icons.Default.Keyboard),
@@ -55,6 +56,7 @@ enum class DashboardSection(val icon: ImageVector) {
 fun DashboardSection.title(): String = stringResource(
     when (this) {
         DashboardSection.PULSE -> R.string.home_pulse_title
+        DashboardSection.SPEED -> R.string.home_speed_title
         DashboardSection.TRENDS -> R.string.home_trends_title
         DashboardSection.DISTRIBUTION -> R.string.home_distribution_title
         DashboardSection.HEATMAP -> R.string.home_heatmap_title
@@ -66,6 +68,7 @@ fun DashboardSection.title(): String = stringResource(
 fun DashboardSection.description(): String = stringResource(
     when (this) {
         DashboardSection.PULSE -> R.string.home_pulse_desc
+        DashboardSection.SPEED -> R.string.home_speed_desc
         DashboardSection.TRENDS -> R.string.home_trends_desc
         DashboardSection.DISTRIBUTION -> R.string.home_distribution_desc
         DashboardSection.HEATMAP -> R.string.home_heatmap_desc
@@ -85,7 +88,9 @@ fun HomeScreen(
     onNavigateToClipboard: () -> Unit = {},
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
-    onNavigateToGifQuality: () -> Unit = {}
+    onNavigateToGifQuality: () -> Unit = {},
+    onNavigateToSpeedRecords: () -> Unit = {},
+    onNavigateToSpeedLeaderboard: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -104,6 +109,7 @@ fun HomeScreen(
     var topEmojis by remember { mutableStateOf<List<EmojiUsageEntity>>(emptyList()) }
     var topWords by remember { mutableStateOf<List<LearnedWordEntity>>(emptyList()) }
     var recentSessions by remember { mutableStateOf<List<TypingSessionEntity>>(emptyList()) }
+    var speedRecords by remember { mutableStateOf<List<SpeedRecordEntity>>(emptyList()) }
     
     var selectedChartPeriod by remember { mutableIntStateOf(0) } // 0: Week, 1: Month
     
@@ -122,6 +128,10 @@ fun HomeScreen(
             topWords = database.learnedWordDao().getAllWords().take(12)
             recentSessions = database.typingSessionDao().getSessionsSinceList(System.currentTimeMillis() - 24 * 3600 * 1000)
         }
+    }
+
+    LaunchedEffect(db) {
+        db?.speedRecordDao()?.allRecords()?.collectLatest { speedRecords = it }
     }
 
     // RPM and CPS calculation
@@ -348,7 +358,66 @@ fun HomeScreen(
             }
             Spacer(modifier = Modifier.height(10.dp))
             StatCard("$activeMinutesToday ${stringResource(R.string.home_mins)}", stringResource(R.string.home_active_time), MaterialTheme.colorScheme.secondaryContainer, MaterialTheme.colorScheme.secondary, Icons.Default.HourglassBottom, Modifier.fillMaxWidth())
-            
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            // AUTO SWIPE SPEED RECORDS
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = stringResource(R.string.home_speed_records),
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    TextButton(onClick = onNavigateToSpeedLeaderboard) {
+                        Text(stringResource(R.string.speed_leaderboard), fontSize = 11.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.primary)
+                    }
+                    IconButton(
+                        onClick = { showInfoForSection = DashboardSection.SPEED },
+                        modifier = Modifier.size(16.dp)
+                    ) {
+                        Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.6f))
+                    }
+                }
+            }
+
+            val bestSpeed5 = speedRecords.filter { it.intervalLabel == "5s" }.maxOfOrNull { it.speed }
+            val bestSpeed10 = speedRecords.filter { it.intervalLabel == "10s" }.maxOfOrNull { it.speed }
+            val bestSpeed1min = speedRecords.filter { it.intervalLabel == "1min" }.maxOfOrNull { it.speed }
+            val allTimeStreak = speedRecords.maxOfOrNull { it.streak } ?: 0
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                HomeSpeedMiniCard(stringResource(R.string.meter_interval_5s), bestSpeed5, stringResource(R.string.meter_unit_cps), Modifier.weight(1f))
+                HomeSpeedMiniCard(stringResource(R.string.meter_interval_10s), bestSpeed10, stringResource(R.string.meter_unit_cps), Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                HomeSpeedMiniCard(stringResource(R.string.meter_interval_1min), bestSpeed1min, stringResource(R.string.meter_unit_cpm), Modifier.weight(1f))
+                HomeSpeedMiniCard(stringResource(R.string.speed_records_streak), allTimeStreak.toFloat(), "", Modifier.weight(1f))
+            }
+            Spacer(modifier = Modifier.height(10.dp))
+            Card(
+                onClick = onNavigateToSpeedRecords,
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(14.dp),
+                colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 14.dp),
+                    horizontalArrangement = Arrangement.Center,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Icon(Icons.Default.Leaderboard, contentDescription = null, tint = Color.White, modifier = Modifier.size(18.dp))
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.home_speed_records_view), fontWeight = FontWeight.Bold, color = Color.White, fontSize = 14.sp)
+                }
+            }
+
             Spacer(modifier = Modifier.height(32.dp))
 
             // USAGE TRENDS
@@ -583,6 +652,24 @@ private fun ControlTile(label: String, icon: ImageVector, active: Boolean, modif
             Icon(icon, contentDescription = null, tint = contentColor, modifier = Modifier.size(20.dp))
             Spacer(modifier = Modifier.height(6.dp))
             Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold, color = contentColor, maxLines = 1)
+        }
+    }
+}
+
+@Composable
+private fun HomeSpeedMiniCard(label: String, value: Float?, unit: String, modifier: Modifier = Modifier) {
+    Surface(shape = RoundedCornerShape(14.dp), color = MaterialTheme.colorScheme.surface, tonalElevation = 2.dp, modifier = modifier) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Text(label, fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                text = if (value != null) {
+                    if (unit.isNotEmpty()) String.format(Locale.getDefault(), "%.1f %s", value, unit) else "${value.toInt()}"
+                } else "--",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Black,
+                color = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }

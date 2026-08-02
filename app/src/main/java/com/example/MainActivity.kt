@@ -232,7 +232,9 @@ fun NexKeyApp() {
                         onNavigateToClipboard = { navController.navigate(Screen.ClipboardManager.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) }
+                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
+                        onNavigateToSpeedRecords = { navController.navigate(Screen.SpeedRecords.route) },
+                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
@@ -250,7 +252,8 @@ fun NexKeyApp() {
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
                         onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToHeaderAnimation = { navController.navigate(Screen.SettingsHeaderAnimation.route) },
-                        onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) }
+                        onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) },
+                        onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) }
                     )
                 }
                 composable(Screen.SettingsTyping.route) {
@@ -294,6 +297,15 @@ fun NexKeyApp() {
                 }
                 composable(Screen.SettingsEmoji.route) {
                     EmojiSettingsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsSpeedMeter.route) {
+                    SettingsSpeedMeterScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SpeedRecords.route) {
+                    SpeedRecordsScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SpeedLeaderboard.route) {
+                    SpeedLeaderboardScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsAppLanguage.route) {
                     AppLanguageScreen(onBack = { navController.popBackStack() })

@@ -32,7 +32,8 @@ fun SettingsScreen(
     onNavigateToMoreLanguages: () -> Unit = {},
     onNavigateToGifQuality: () -> Unit = {},
     onNavigateToHeaderAnimation: () -> Unit = {},
-    onNavigateToEmoji: () -> Unit = {}
+    onNavigateToEmoji: () -> Unit = {},
+    onNavigateToSpeedMeter: () -> Unit = {}
 ) {
     val settingsItems =
         listOf(
@@ -48,7 +49,8 @@ fun SettingsScreen(
             SettingCategory(stringResource(R.string.settings_text_correction), stringResource(R.string.settings_text_correction_desc), Icons.Default.Spellcheck, onNavigateToTextCorrection),
             SettingCategory(stringResource(R.string.settings_more_languages), stringResource(R.string.settings_more_languages_desc), Icons.Default.Language, onNavigateToMoreLanguages),
             SettingCategory(stringResource(R.string.settings_gif_quality), stringResource(R.string.settings_gif_quality_desc), Icons.Default.Gif, onNavigateToGifQuality),
-            SettingCategory(stringResource(R.string.settings_header_animation), stringResource(R.string.settings_header_animation_desc), Icons.Default.Animation, onNavigateToHeaderAnimation)
+            SettingCategory(stringResource(R.string.settings_header_animation), stringResource(R.string.settings_header_animation_desc), Icons.Default.Animation, onNavigateToHeaderAnimation),
+            SettingCategory(stringResource(R.string.settings_speed_meter), stringResource(R.string.settings_speed_meter_desc), Icons.Default.Speed, onNavigateToSpeedMeter)
         )
 
     Scaffold(

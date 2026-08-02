@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [ClipEntity::class, LearnedWordEntity::class, TypingSessionEntity::class, EmojiUsageEntity::class, DailyStatsEntity::class],
-    version = 2,
+    entities = [ClipEntity::class, LearnedWordEntity::class, TypingSessionEntity::class, EmojiUsageEntity::class, DailyStatsEntity::class, SpeedRecordEntity::class],
+    version = 3,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
@@ -15,6 +15,7 @@ abstract class AppDatabase : RoomDatabase() {
     abstract fun learnedWordDao(): LearnedWordDao
     abstract fun typingSessionDao(): TypingSessionDao
     abstract fun emojiUsageDao(): EmojiUsageDao
+    abstract fun speedRecordDao(): SpeedRecordDao
 
     companion object {
         @Volatile private var INSTANCE: AppDatabase? = null

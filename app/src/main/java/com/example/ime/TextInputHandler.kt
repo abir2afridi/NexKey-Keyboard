@@ -21,9 +21,10 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
         // Live Speed Meter Logic
         val now = System.currentTimeMillis()
-        if (now - lastKeyPressTime > 2000) {
+        if (now - lastKeyPressTime > meterIdleMsState) {
             burstStartTime = now
             burstKeyCount = 0
+            burstWordCount = 0
             isTypingActive = true
             currentLiveCps = 0f
             maxBurstCps = 0f
@@ -42,8 +43,8 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
         typingStopJob?.cancel()
         typingStopJob = scope.launch {
-            delay(2000)
-            isTypingActive = false
+            delay(meterIdleMsState.toLong())
+            finalizeSpeedWindow()
         }
     }
     val ic = currentInputConnection ?: return
@@ -113,6 +114,7 @@ internal fun NexKeyInputMethodService.handleSpace() {
         ic.beginBatchEdit()
         ic.commitText("$correctedWord ", 1)
         ic.endBatchEdit()
+        countMeteredWord()
         if (!isSensitiveField) {
             predictionEngine.learnWord(correctedWord, isBangla = isBangla)
             predictionEngine.setLastTypedWord(correctedWord)

@@ -24,6 +24,7 @@ internal fun NexKeyInputMethodService.commitSuggestion(word: String) {
     ic.beginBatchEdit()
     ic.commitText("$word ", 1)
     ic.endBatchEdit()
+    countMeteredWord()
     if (!isSensitiveField && personalizedSuggestionsEnabled) {
         predictionEngine.learnWord(word, isBangla = isBanglaMode(currentMode))
         predictionEngine.setLastTypedWord(word)
@@ -42,6 +43,7 @@ internal fun NexKeyInputMethodService.commitComposingBuffer() {
     // inserts at the cursor instead of jumping to the end of the word.
     if (composingBuffer.isNotEmpty()) {
         val word = parseComposing(currentMode, composingBuffer)
+        countMeteredWord()
         ic.beginBatchEdit()
         ic.commitText(word, 1)
         ic.endBatchEdit()

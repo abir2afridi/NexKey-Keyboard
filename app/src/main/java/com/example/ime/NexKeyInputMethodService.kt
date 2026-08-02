@@ -59,8 +59,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var isTypingActive by mutableStateOf(false)
     internal var burstStartTime = 0L
     internal var burstKeyCount = 0
+    internal var burstWordCount = 0
     internal var lastKeyPressTime = 0L
     internal var typingStopJob: kotlinx.coroutines.Job? = null
+    internal var meterIdleMsState by mutableStateOf(5000)
+    internal var meterIntervalState by mutableStateOf("5s")
+    internal val streakCounter = mutableMapOf<String, Int>()
 
     // Live Preferences
     internal var hapticsEnabled by mutableStateOf(true)
@@ -259,6 +263,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         composingBuffer = ""
         candidates = emptyList()
 
+        burstKeyCount = 0
+        burstWordCount = 0
+        typingStopJob?.cancel()
+        isTypingActive = false
+
         detectSensitiveField(info)
 
         val imeAction = info?.imeOptions?.let { it and EditorInfo.IME_MASK_ACTION }
@@ -278,6 +287,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     override fun onFinishInputView(finishingInput: Boolean) {
         TypingAnalytics.endSession()
+        finalizeSpeedWindow()
         super.onFinishInputView(finishingInput)
     }
 

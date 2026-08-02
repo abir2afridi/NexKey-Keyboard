@@ -491,4 +491,46 @@
     <string name="kb_suggestions">Suggestions</string>
     <string name="kb_show_toolbar">Show toolbar</string>
     <string name="kb_delete">Delete</string>
+
+    <!-- Speed Meter / Auto-Swipe Records -->
+    <string name="meter_unit_cps">CPS</string>
+    <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_result_in">In %1$d sec auto-swipe you press %2$d word</string>
+    <string name="meter_result_best">Best: %1$s</string>
+    <string name="meter_result_record">NEW RECORD %1$s (streak %2$d)</string>
+    <string name="settings_speed_meter">Speed Meter</string>
+    <string name="settings_speed_meter_desc">Auto-swipe window, unit and rules</string>
+    <string name="meter_interval_label">Auto-swipe window</string>
+    <string name="meter_interval_5s">5 sec</string>
+    <string name="meter_interval_10s">10 sec</string>
+    <string name="meter_interval_1min">1 min</string>
+    <string name="meter_interval_hint">You chose %1$s. The meter shows CPS for seconds and CPM for minutes. Typing auto-stops after this window.</string>
+    <string name="meter_rules_title">How speed records work</string>
+    <string name="meter_rules_subtitle">Tap to view the rules</string>
+    <string name="meter_rules_line1">1. While you type, the meter shows your live characters per second (CPS).</string>
+    <string name="meter_rules_line2">2. When you stop typing for the chosen window (5 sec / 10 sec / 1 min), the auto-swipe ends and the words you pressed in that window are counted.</string>
+    <string name="meter_rules_line3">3. Every time you beat your best speed for a window, a record-break is saved with date &amp; time, word count, speed (CPS or CPM) and streak.</string>
+    <string name="meter_rules_line4">4. Only record-breaking events appear in the list. Your streak grows while you keep beating your own record.</string>
+    <string name="home_speed_title">Auto-Swipe Speed</string>
+    <string name="home_speed_desc">The keyboard auto-measures every typing burst. When you pause for the chosen window (5 sec / 10 sec / 1 min), it stops and counts the words you pressed, computes CPS or CPM, then saves a record-break whenever you beat your best. The list and graph show only record-breaking entries, ordered by date &amp; time, per interval.</string>
+    <string name="home_speed_records">AUTO-SWIPE SPEED RECORDS</string>
+    <string name="home_speed_records_view">View Records, Graph &amp; History</string>
+    <string name="speed_leaderboard">Leaderboard</string>
+    <string name="speed_records_title">Speed Records</string>
+    <string name="speed_leaderboard_title">Speed Leaderboard</string>
+    <string name="speed_records_best">Best</string>
+    <string name="speed_records_streak">Best streak</string>
+    <string name="speed_records_best_streak">consecutive record-breaks</string>
+    <string name="speed_records_graph_title">RECORD SPEED TREND</string>
+    <string name="speed_records_graph_caption">%1$d record-breaks shown</string>
+    <string name="speed_records_table_title">BREAK HISTORY</string>
+    <string name="speed_records_col_time">Time &amp; date</string>
+    <string name="speed_records_col_words">Words</string>
+    <string name="speed_records_col_speed">Speed</string>
+    <string name="speed_records_col_streak">Streak</string>
+    <string name="speed_records_record_no">Record-break #%1$d</string>
+    <string name="speed_records_empty">No records yet for this window.</string>
+    <string name="speed_records_none">You haven\'t broken any record yet.</string>
+    <string name="speed_records_none_hint">Tap fast! Beat your best speed for a window and a new record-break is added here.</string>
+    <string name="speed_records_new_best">%1$d words typed</string>
 </resources>
