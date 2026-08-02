@@ -152,7 +152,7 @@ private fun MeterTab(
                                         color = theme.textColor.copy(alpha = 0.05f), 
                                         fontSize = 12.sp, 
                                         fontWeight = FontWeight.Black,
-                                        fontFamily = if (currentMeterFont == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                                        fontFamily = com.example.theme.meterFontFamily(currentMeterFont),
                                         letterSpacing = if (currentMeterFont == "LCD") 2.sp else if (currentMeterFont == "SEGMENT") 1.5.sp else theme.letterSpacing,
                                         modifier = Modifier.align(Alignment.Center)
                                     )
@@ -166,8 +166,7 @@ private fun MeterTab(
                                         "0.0", 
                                         color = theme.textColor, 
                                         fontSize = 12.sp, 
-                                        fontWeight = if (currentMeterFont == "SEGMENT") FontWeight.Black else if (currentMeterFont == "MODERN") FontWeight.Bold else FontWeight.Black,
-                                        fontFamily = if (currentMeterFont == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                                        fontFamily = com.example.theme.meterFontFamily(currentMeterFont),
                                         letterSpacing = if (currentMeterFont == "LCD") 2.sp else if (currentMeterFont == "SEGMENT") 1.5.sp else theme.letterSpacing,
                                         style = androidx.compose.ui.text.TextStyle(
                                             shadow = if (theme.glowRadius > 0f) {
@@ -230,8 +229,7 @@ private fun MeterTab(
                         Text(
                             text = "88.8",
                             fontSize = 14.sp,
-                            fontWeight = if (font == "SEGMENT") FontWeight.Black else if (font == "MODERN") FontWeight.Bold else FontWeight.Black,
-                            fontFamily = if (font == "MODERN") androidx.compose.ui.text.font.FontFamily.Default else androidx.compose.ui.text.font.FontFamily.Monospace,
+                            fontFamily = com.example.theme.meterFontFamily(font),
                             letterSpacing = if (font == "LCD") 2.sp else if (font == "SEGMENT") 1.5.sp else 0.sp,
                             color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                         )

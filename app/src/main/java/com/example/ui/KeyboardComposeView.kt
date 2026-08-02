@@ -494,23 +494,22 @@ fun DigitalSpeedMeter(
     val textStyle = remember(fontStyle, meterTheme) {
         when (fontStyle) {
             "LCD" -> androidx.compose.ui.text.TextStyle(
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                fontFamily = com.example.theme.meterFontFamily("LCD"),
                 letterSpacing = 2.sp,
                 fontFeatureSettings = "tnum"
             )
             "SEGMENT" -> androidx.compose.ui.text.TextStyle(
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
-                fontWeight = FontWeight.Black,
+                fontFamily = com.example.theme.meterFontFamily("SEGMENT"),
                 letterSpacing = 1.5.sp,
                 fontFeatureSettings = "tnum"
             )
             "MODERN" -> androidx.compose.ui.text.TextStyle(
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Default,
-                fontWeight = FontWeight.Bold,
+                fontFamily = com.example.theme.meterFontFamily("MODERN"),
+                letterSpacing = 1.sp,
                 fontFeatureSettings = "tnum"
             )
             else -> androidx.compose.ui.text.TextStyle( // DIGITAL
-                fontFamily = androidx.compose.ui.text.font.FontFamily.Monospace,
+                fontFamily = com.example.theme.meterFontFamily("DIGITAL"),
                 letterSpacing = meterTheme.letterSpacing,
                 fontFeatureSettings = "tnum"
             )

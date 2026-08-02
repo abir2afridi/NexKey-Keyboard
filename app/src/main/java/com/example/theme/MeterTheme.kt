@@ -1,9 +1,21 @@
 package com.example.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.R
+
+fun meterFontFamily(fontStyle: String): FontFamily {
+    return when (fontStyle) {
+        "LCD" -> FontFamily(Font(R.font.dseg7_classic_light))
+        "SEGMENT" -> FontFamily(Font(R.font.dseg14_classic_bold))
+        "MODERN" -> FontFamily(Font(R.font.dseg7_modern_regular))
+        else -> FontFamily(Font(R.font.dseg7_classic_regular))
+    }
+}
 
 enum class MeterThemePreset {
     CALCULATOR,
