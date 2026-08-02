@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">速度計</string>
     <string name="settings_speed_meter_desc">自動滑動視窗、單位及規則</string>
     <string name="meter_interval_label">自動滑動視窗</string>
+    <string name="meter_position_label">儀表位置</string>
+    <string name="meter_position_left">左側</string>
+    <string name="meter_position_middle">中間</string>
+    <string name="meter_position_right">右側</string>
     <string name="meter_interval_5s">5 秒</string>
     <string name="meter_interval_10s">10 秒</string>
     <string name="meter_interval_1min">1 分鐘</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">你還沒有打破任何紀錄。</string>
     <string name="speed_records_none_hint">打字快一點吧！打破某個視窗的最佳速度，就會在這裡新增一條紀錄。</string>
     <string name="speed_records_new_best">已輸入 %1$d 個字</string>
+    <string name="settings_speed_meter_enable">啟用速度計</string>
+    <string name="settings_speed_meter_enable_desc_on">速度計已啟用。輸入時頂部顯示即時速度；暫停後自動輪播顯示窗口、輸入次數、你的速度與最佳成績。</string>
+    <string name="settings_speed_meter_enable_desc_off">速度計已關閉。不測量任何速度，鍵盤頂部也不顯示任何內容。</string>
+    <string name="meter_swipe_in">在 %1$d 秒內</string>
+    <string name="meter_swipe_words">你輸入了 %1$d 個字</string>
+    <string name="meter_swipe_speed">你的速度 %1$s</string>
+    <string name="meter_swipe_best">最佳成績 %1$s</string>
+    <string name="meter_rules_line5">窗口結束後速度計自動輪播：窗口、輸入字數、你的速度、最佳成績。5 秒與 10 秒窗口使用 CPS（每秒），1 分鐘窗口使用 CPM（每分鐘）。</string>
+    <string name="meter_rules_line6">只有當你刷新自己某窗口的最佳成績時才會保存記錄。每個窗口（5秒/10秒/1分鐘）在歷史中皆有獨立欄位，含日期與時間。排行榜會依窗口排序你的最佳成績。</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">連勝＝連續打破紀錄。持續刷新自己的最佳成績就會增加；某窗口錯失紀錄時重置為 1。</string>
 </resources>

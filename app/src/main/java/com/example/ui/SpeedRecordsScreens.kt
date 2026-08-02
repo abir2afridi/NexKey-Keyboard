@@ -148,47 +148,72 @@ fun SpeedRecordsScreen(onBack: () -> Unit) {
 
             SectionLabel(stringResource(R.string.speed_records_table_title))
 
-            if (intervalRecords.isEmpty()) {
-                EmptyRecordsCard()
-            } else {
-                Surface(
-                    shape = RoundedCornerShape(20.dp),
-                    color = MaterialTheme.colorScheme.surface,
-                    shadowElevation = 1.dp,
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(modifier = Modifier.padding(12.dp)) {
-                        Row(modifier = Modifier.fillMaxWidth().padding(horizontal = 4.dp, vertical = 8.dp)) {
-                            Text(stringResource(R.string.speed_records_col_time), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(1.2f))
-                            Text(stringResource(R.string.speed_records_col_words), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.7f), textAlign = TextAlign.Center)
-                            Text(stringResource(R.string.speed_records_col_speed), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.8f), textAlign = TextAlign.Center)
-                            Text(stringResource(R.string.speed_records_col_streak), fontSize = 10.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurfaceVariant, modifier = Modifier.weight(0.6f), textAlign = TextAlign.Center)
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = MaterialTheme.colorScheme.surface,
+                shadowElevation = 1.dp,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(12.dp)) {
+                    Row(modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)) {
+                        INTERVALS.forEach { key ->
+                            Text(
+                                text = recordIntervalLabel(key),
+                                fontSize = 10.sp,
+                                fontWeight = FontWeight.Black,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.weight(1f),
+                                textAlign = TextAlign.Center
+                            )
                         }
-                        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-                        intervalRecords.forEachIndexed { index, record ->
-                            Row(
-                                modifier = Modifier.fillMaxWidth().padding(vertical = 10.dp, horizontal = 4.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Column(modifier = Modifier.weight(1.2f)) {
-                                    Text(formatRecordTime(record.recordAt), fontSize = 12.sp, fontWeight = FontWeight.Medium, color = MaterialTheme.colorScheme.onSurface)
-                                    Text(stringResource(R.string.speed_records_record_no, index + 1), fontSize = 10.sp, color = MaterialTheme.colorScheme.primary)
+                    }
+                    if (records.isEmpty()) {
+                        EmptyRecordsCard()
+                    } else {
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            INTERVALS.forEachIndexed { idx, key ->
+                                val intervalRecords = records.filter { it.intervalLabel == key }.reversed()
+                                Column(
+                                    modifier = Modifier
+                                        .weight(1f)
+                                        .padding(horizontal = 4.dp)
+                                ) {
+                                    if (idx > 0) {
+                                        VerticalDivider(
+                                            modifier = Modifier.fillMaxHeight().width(1.dp),
+                                            color = MaterialTheme.colorScheme.outlineVariant
+                                        )
+                                    }
+                                    if (intervalRecords.isEmpty()) {
+                                        Text(
+                                            stringResource(R.string.speed_records_none),
+                                            fontSize = 10.sp,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                                            textAlign = TextAlign.Center,
+                                            lineHeight = 14.sp,
+                                            modifier = Modifier.padding(vertical = 12.dp)
+                                        )
+                                    } else {
+                                        intervalRecords.forEachIndexed { index, record ->
+                                            SpeedHistoryCell(record = record, number = index + 1)
+                                        }
+                                    }
                                 }
-                                Text("${record.wordCount}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface, modifier = Modifier.weight(0.7f), textAlign = TextAlign.Center)
-                                Text(
-                                    text = "${formatRecordSpeed(record.speed)} ${recordUnit(record.intervalMs)}",
-                                    fontSize = 12.sp,
-                                    fontWeight = FontWeight.Black,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.weight(0.8f),
-                                    textAlign = TextAlign.Center
-                                )
-                                Text("${record.streak}", fontSize = 13.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.tertiary, modifier = Modifier.weight(0.6f), textAlign = TextAlign.Center)
                             }
                         }
                     }
                 }
             }
+
+            Spacer(modifier = Modifier.height(16.dp))
+            SectionLabel(stringResource(R.string.speed_records_col_streak))
+            Text(
+                text = stringResource(R.string.speed_records_streak_hint),
+                fontSize = 12.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                lineHeight = 18.sp,
+                modifier = Modifier.padding(horizontal = 4.dp)
+            )
 
             Spacer(modifier = Modifier.height(120.dp))
         }
@@ -211,16 +236,69 @@ private fun SectionLabel(text: String) {
 }
 
 @Composable
+private fun SpeedHistoryCell(record: SpeedRecordEntity, number: Int) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(vertical = 4.dp)
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = formatRecordTime(record.recordAt),
+                fontSize = 11.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = stringResource(R.string.speed_records_record_no_short, number),
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "${record.wordCount} ${stringResource(R.string.speed_records_col_words).lowercase()}",
+                fontSize = 10.sp,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Spacer(modifier = Modifier.weight(1f))
+            Text(
+                text = "${formatRecordSpeed(record.speed)} ${recordUnit(record.intervalMs)}",
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Black,
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "✱ ${record.streak}",
+                fontSize = 10.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.tertiary
+            )
+        }
+        HorizontalDivider(
+            modifier = Modifier.padding(top = 6.dp),
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.4f)
+        )
+    }
+}
+
+@Composable
 private fun MeterRulesDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.meter_rules_title), fontWeight = FontWeight.Bold) },
         text = {
-            Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+            Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                 Text(stringResource(R.string.meter_rules_line1), fontSize = 14.sp, lineHeight = 21.sp)
                 Text(stringResource(R.string.meter_rules_line2), fontSize = 14.sp, lineHeight = 21.sp)
                 Text(stringResource(R.string.meter_rules_line3), fontSize = 14.sp, lineHeight = 21.sp)
                 Text(stringResource(R.string.meter_rules_line4), fontSize = 14.sp, lineHeight = 21.sp, fontWeight = FontWeight.SemiBold)
+                Text(stringResource(R.string.meter_rules_line5), fontSize = 14.sp, lineHeight = 21.sp)
+                Text(stringResource(R.string.meter_rules_line6), fontSize = 14.sp, lineHeight = 21.sp)
             }
         },
         confirmButton = {

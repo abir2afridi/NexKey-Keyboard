@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">Medidor de velocidade</string>
     <string name="settings_speed_meter_desc">Janela de auto-swipe, unidade e regras</string>
     <string name="meter_interval_label">Janela de auto-swipe</string>
+    <string name="meter_position_label">Posição do medidor</string>
+    <string name="meter_position_left">Esquerda</string>
+    <string name="meter_position_middle">Centro</string>
+    <string name="meter_position_right">Direita</string>
     <string name="meter_interval_5s">5 s</string>
     <string name="meter_interval_10s">10 s</string>
     <string name="meter_interval_1min">1 min</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">Você ainda não bateu nenhum recorde.</string>
     <string name="speed_records_none_hint">Digite rápido! Supere sua melhor velocidade em uma janela e um novo recorde será adicionado aqui.</string>
     <string name="speed_records_new_best">%1$d palavras digitadas</string>
+    <string name="settings_speed_meter_enable">Ativar Medidor de Velocidade</string>
+    <string name="settings_speed_meter_enable_desc_on">O Medidor de Velocidade está LIGADO. Durante a digitação, o cabeçalho mostra a velocidade ao vivo e, após uma pausa, mostra automaticamente a janela, as palavras, a sua velocidade e o melhor resultado.</string>
+    <string name="settings_speed_meter_enable_desc_off">O Medidor de Velocidade está DESLIGADO. Nenhuma velocidade é medida e nada aparece no cabeçalho do teclado.</string>
+    <string name="meter_swipe_in">Em %1$d s</string>
+    <string name="meter_swipe_words">você digitou %1$d palavra</string>
+    <string name="meter_swipe_speed">sua velocidade %1$s</string>
+    <string name="meter_swipe_best">melhor resultado %1$s</string>
+    <string name="meter_rules_line5">Ao final da janela, o medidor mostra automaticamente a janela, o total de palavras, a sua velocidade e o melhor resultado. As janelas de 5 s e 10 s usam CPS (por segundo); a de 1 min usa CPM (por minuto).</string>
+    <string name="meter_rules_line6">Os registros são salvos SOMENTE quando você supera a sua melhor marca nessa janela. Cada janela (5s/10s/1min) tem a própria coluna no histórico com data e hora. A classificação ordena o melhor registro por janela.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">Sequência de recordes consecutivos. Ela aumenta enquanto você supera a própria marca e zera quando não bate o recorde de uma janela.</string>
 </resources>

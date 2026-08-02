@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -78,9 +79,15 @@ import androidx.compose.ui.res.stringResource
 import com.example.R
 import com.example.clipboard.ClipItem
 import com.example.clipboard.ClipboardManager
+import com.example.ime.SpeedMeterPhase
 import com.example.theme.KeyboardTheme
 import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.togetherWith
 import java.util.Locale
 import kotlin.math.abs
 @Composable
@@ -124,6 +131,11 @@ fun KeyboardComposeView(
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
+    meterEnabled: Boolean = true,
+    meterPosition: String = "right",
+    meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
+    meterResultLines: List<String> = emptyList(),
+    lastPressedWord: String = "",
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     recentEmojis: MutableList<String> = remember { mutableStateListOf() },
@@ -209,6 +221,11 @@ fun KeyboardComposeView(
                             liveCps = liveCps,
                             maxBurstCps = maxBurstCps,
                             isSpeedActive = isSpeedActive,
+                            meterEnabled = meterEnabled,
+                            meterPosition = meterPosition,
+                            meterPhase = meterPhase,
+                            meterResultLines = meterResultLines,
+                            lastPressedWord = lastPressedWord,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             onModeChange = onModeChange,
@@ -226,6 +243,14 @@ fun KeyboardComposeView(
                             suggestions = suggestions,
                             theme = theme,
                             onSuggestionSelect = onSuggestionSelect,
+                            showMeter = unifiedHeader && meterEnabled,
+                            meterPosition = meterPosition,
+                            meterPhase = meterPhase,
+                            meterResultLines = meterResultLines,
+                            lastPressedWord = lastPressedWord,
+                            liveCps = if (isSpeedActive) liveCps else 0f,
+                            meterTheme = meterTheme,
+                            meterFont = meterFont,
                             onShowToolbar = { isToolbarHeaderVisible = true }
                         )
                     }
@@ -384,6 +409,11 @@ fun SmartToolbar(
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
+    meterEnabled: Boolean = true,
+    meterPosition: String = "right",
+    meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
+    meterResultLines: List<String> = emptyList(),
+    lastPressedWord: String = "",
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     onModeChange: (KeyboardMode) -> Unit,
@@ -398,9 +428,21 @@ fun SmartToolbar(
             .height(42.dp)
             .background(theme.suggestionBgColor)
             .padding(horizontal = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        verticalAlignment = Alignment.CenterVertically
     ) {
+        // Digital Speed Meter (left position)
+        if (meterEnabled && meterPosition == "left") {
+            DigitalSpeedMeter(
+                cps = if (isSpeedActive) liveCps else maxBurstCps,
+                isLive = isSpeedActive,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
+        }
+
         LazyRow(
             modifier = Modifier.weight(1f),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
@@ -470,13 +512,33 @@ fun SmartToolbar(
             }
         }
 
-        // Digital Speed Meter
-        DigitalSpeedMeter(
-            cps = if (isSpeedActive) liveCps else maxBurstCps,
-            isLive = isSpeedActive,
-            meterTheme = meterTheme,
-            fontStyle = meterFont
-        )
+        // Digital Speed Meter (middle: centered between tool icons and the settings button)
+        if (meterEnabled && meterPosition == "middle") {
+            Spacer(modifier = Modifier.weight(1f))
+            DigitalSpeedMeter(
+                cps = if (isSpeedActive) liveCps else maxBurstCps,
+                isLive = isSpeedActive,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+
+        // Digital Speed Meter (right position, default)
+        if (meterEnabled && meterPosition != "left" && meterPosition != "middle") {
+            DigitalSpeedMeter(
+                cps = if (isSpeedActive) liveCps else maxBurstCps,
+                isLive = isSpeedActive,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
+        }
 
         IconButton(onClick = onOpenSettings) {
             Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(R.string.kb_settings), tint = theme.keySpecialTextColor)
@@ -488,6 +550,9 @@ fun SmartToolbar(
 fun DigitalSpeedMeter(
     cps: Float,
     isLive: Boolean,
+    phase: SpeedMeterPhase = SpeedMeterPhase.LIVE,
+    resultLines: List<String> = emptyList(),
+    pressedWord: String = "",
     meterTheme: MeterTheme,
     fontStyle: String = "DIGITAL"
 ) {
@@ -516,10 +581,57 @@ fun DigitalSpeedMeter(
         }
     }
 
+    // RESULT phase: swipe the outcome sequence inside the meter box itself.
+    if (phase == SpeedMeterPhase.RESULT && resultLines.isNotEmpty()) {
+        var step by remember(resultLines) { mutableStateOf(0) }
+        LaunchedEffect(resultLines) {
+            for (i in 1 until resultLines.size) {
+                delay(1600)
+                step = i
+            }
+        }
+        val line = resultLines.getOrNull(step.coerceIn(0, resultLines.lastIndex)) ?: return
+        Surface(
+            modifier = Modifier
+                .padding(horizontal = 6.dp)
+                .widthIn(min = 58.dp, max = 190.dp)
+                .height(30.dp),
+            color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
+            shape = RoundedCornerShape(4.dp),
+            border = androidx.compose.foundation.BorderStroke(meterTheme.borderWidth, meterTheme.borderColor),
+            tonalElevation = 4.dp
+        ) {
+            AnimatedContent(
+                targetState = line,
+                transitionSpec = {
+                    (fadeIn(tween(300)) togetherWith fadeOut(tween(300)))
+                },
+                label = "speedSwipedLine"
+            ) { targetLine ->
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        text = targetLine,
+                        color = meterTheme.textColor,
+                        fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 10.sp,
+                        letterSpacing = 0.3.sp,
+                        maxLines = 1,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
+        return
+    }
+
     Surface(
         modifier = Modifier
             .padding(horizontal = 6.dp)
-            .width(58.dp)
+            .widthIn(min = 58.dp, max = 160.dp)
             .height(30.dp),
         color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
         shape = RoundedCornerShape(4.dp),
@@ -537,37 +649,67 @@ fun DigitalSpeedMeter(
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
-            
-            Column(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+
+            Row(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center
             ) {
-                Text(
-                    text = String.format(Locale.US, "%.1f", cps),
-                    color = meterTheme.textColor,
-                    fontSize = 12.sp,
-                    style = textStyle.merge(
-                        androidx.compose.ui.text.TextStyle(
-                            shadow = if (meterTheme.glowRadius > 0f) {
-                                androidx.compose.ui.graphics.Shadow(
-                                    color = meterTheme.textColor.copy(alpha = 0.8f),
-                                    blurRadius = meterTheme.glowRadius
-                                )
-                            } else null
+                // The last pressed word, shown beside the speed, per key press.
+                if (pressedWord.isNotEmpty()) {
+                    Text(
+                        text = pressedWord,
+                        color = meterTheme.textColor.copy(alpha = if (phase == SpeedMeterPhase.WAITING) 0.45f else 1f),
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 11.sp,
+                        maxLines = 1,
+                        textAlign = TextAlign.Center,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
+                        modifier = Modifier.widthIn(max = 72.dp)
+                    )
+                    Spacer(modifier = Modifier.width(6.dp))
+                }
+
+                Column(
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                if (phase == SpeedMeterPhase.LIVE) {
+                    Text(
+                        text = String.format(Locale.US, "%.1f", cps),
+                        color = meterTheme.textColor,
+                        fontSize = 12.sp,
+                        style = textStyle.merge(
+                            androidx.compose.ui.text.TextStyle(
+                                shadow = if (meterTheme.glowRadius > 0f) {
+                                    androidx.compose.ui.graphics.Shadow(
+                                        color = meterTheme.textColor.copy(alpha = 0.8f),
+                                        blurRadius = meterTheme.glowRadius
+                                    )
+                                } else null
+                            )
                         )
                     )
-                )
-                Text(
-                    text = if (isLive) stringResource(R.string.kb_live) else stringResource(R.string.kb_peak),
-                    color = meterTheme.labelColor,
-                    fontSize = 6.5.sp,
-                    fontWeight = FontWeight.ExtraBold,
-                    letterSpacing = 0.4.sp,
-                    modifier = Modifier.padding(top = 1.dp)
-                )
+                    Text(
+                        text = if (isLive) stringResource(R.string.kb_live) else stringResource(R.string.kb_peak),
+                        color = meterTheme.labelColor,
+                        fontSize = 6.5.sp,
+                        fontWeight = FontWeight.ExtraBold,
+                        letterSpacing = 0.4.sp,
+                        modifier = Modifier.padding(top = 1.dp)
+                    )
+                } else {
+                    // Idle / waiting: the meter shows nothing until the next burst.
+                    Text(
+                        text = "—",
+                        color = meterTheme.textColor.copy(alpha = 0.18f),
+                        fontSize = 12.sp,
+                        style = textStyle
+                    )
+                }
             }
         }
+    }
     }
 }
 
@@ -607,6 +749,14 @@ fun CandidateStrip(
     suggestions: List<String>,
     theme: KeyboardTheme,
     onSuggestionSelect: (String) -> Unit,
+    showMeter: Boolean = false,
+    meterPosition: String = "right",
+    meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
+    meterResultLines: List<String> = emptyList(),
+    lastPressedWord: String = "",
+    liveCps: Float = 0f,
+    meterTheme: MeterTheme = MeterTheme.Calculator,
+    meterFont: String = "DIGITAL",
     // UNIFIED HEADER: when set, a trailing toggle button is drawn that hides the suggestion
     // strip and shows the full toolbar (tap-to-swap, one header at a time).
     onShowToolbar: (() -> Unit)? = null
@@ -619,6 +769,20 @@ fun CandidateStrip(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
+        // Keep the live meter always visible in the header (unified header while typing).
+        if (showMeter && meterPosition == "left") {
+            DigitalSpeedMeter(
+                cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
+                isLive = meterPhase == SpeedMeterPhase.LIVE,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
+            Spacer(modifier = Modifier.width(6.dp))
+        }
+
         if (composingText.isNotEmpty()) {
             Box(
                 modifier = Modifier
@@ -656,6 +820,35 @@ fun CandidateStrip(
                     }
                 }
             }
+        }
+
+        // Digital Speed Meter (middle: centered after the suggestions row)
+        if (showMeter && meterPosition == "middle") {
+            Spacer(modifier = Modifier.weight(1f))
+            DigitalSpeedMeter(
+                cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
+                isLive = meterPhase == SpeedMeterPhase.LIVE,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
+            Spacer(modifier = Modifier.weight(1f))
+        }
+
+        // Digital Speed Meter (right position, default)
+        if (showMeter && meterPosition != "left" && meterPosition != "middle") {
+            Spacer(modifier = Modifier.padding(horizontal = 2.dp))
+            DigitalSpeedMeter(
+                cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
+                isLive = meterPhase == SpeedMeterPhase.LIVE,
+                phase = meterPhase,
+                resultLines = meterResultLines,
+                pressedWord = lastPressedWord,
+                meterTheme = meterTheme,
+                fontStyle = meterFont
+            )
         }
 
         if (onShowToolbar != null) {

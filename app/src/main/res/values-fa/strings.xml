@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">سرعت‌سنج</string>
     <string name="settings_speed_meter_desc">پنجره سوایپ خودکار، واحد و قوانین</string>
     <string name="meter_interval_label">پنجره سوایپ خودکار</string>
+    <string name="meter_position_label">موقعیت متر</string>
+    <string name="meter_position_left">چپ</string>
+    <string name="meter_position_middle">وسط</string>
+    <string name="meter_position_right">راست</string>
     <string name="meter_interval_5s">۵ ثانیه</string>
     <string name="meter_interval_10s">۱۰ ثانیه</string>
     <string name="meter_interval_1min">۱ دقیقه</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">هنوز هیچ رکوردی نشکسته‌اید.</string>
     <string name="speed_records_none_hint">سریع تایپ کنید! بهترین سرعت را در یک پنجره بشکنید تا رکورد جدیدی اینجا اضافه شود.</string>
     <string name="speed_records_new_best">%1$d کلمه تایپ شد</string>
+    <string name="settings_speed_meter_enable">فعال کردن سرعت‌سنج</string>
+    <string name="settings_speed_meter_enable_desc_on">سرعت‌سنج روشن است. هنگام تایپ، هدر سرعت زنده را نمایش می‌دهد و پس از مکث، پنجره، کلمات، سرعت شما و بهترین امتیاز را به‌طور خودکار نشان می‌دهد.</string>
+    <string name="settings_speed_meter_enable_desc_off">سرعت‌سنج خاموش است. هیچ سرعتی سنجیده نمی‌شود و در هدر کیبورد هیچ‌چیزی نمایش داده نمی‌شود.</string>
+    <string name="meter_swipe_in">در %1$d ثانیه</string>
+    <string name="meter_swipe_words">%1$d کلمه تایپ کردید</string>
+    <string name="meter_swipe_speed">سرعت شما %1$s</string>
+    <string name="meter_swipe_best">بهترین امتیاز %1$s</string>
+    <string name="meter_rules_line5">هنگامی که پنجره تمام شد، سرعت‌سنج به‌طور خودکار نمایش می‌دهد: پنجره، کلمات، سرعت شما و بهترین امتیاز. پنجره‌های ۵ و ۱۰ ثانیه از CPS (در ثانیه) و پنجرهٔ ۱ دقیقه از CPM (در دقیقه) استفاده می‌کنند.</string>
+    <string name="meter_rules_line6">فقط وقتی رکورد شما ذخیره می‌شود که بهترین رکورد خود را در آن پنجره بشکنید. برای هر پنجره (5s/10s/1min) با تاریخ و ساعت در ستون مخصوص خود در تاریخ است. جدول برتری‌ها بهترین رکورد را به‌ازای هر پنجره رتبه‌بندی می‌کند.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">سریال = شکستن رکوردهای پیاپی. تا وقتی رکورد خود را بشکنید زیاد می‌شود و در صورت خطا در یک نوبت به ۱ برگشت می‌کند.</string>
 </resources>

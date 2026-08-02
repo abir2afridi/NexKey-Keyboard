@@ -7,6 +7,8 @@ import com.example.data.TypingAnalytics
 import java.util.Locale
 import kotlinx.coroutines.launch
 
+enum class SpeedMeterPhase { LIVE, WAITING, RESULT }
+
 internal fun NexKeyInputMethodService.countMeteredWord() {
     if (isTypingActive) burstWordCount++
 }
@@ -14,10 +16,19 @@ internal fun NexKeyInputMethodService.countMeteredWord() {
 internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     if (!isTypingActive) return
     isTypingActive = false
+    if (!meterEnabled) {
+        meterPhase = SpeedMeterPhase.WAITING
+        meterResultLines = emptyList()
+        return
+    }
 
     val keys = burstKeyCount
     val words = burstWordCount
-    if (keys <= 0) return
+    if (keys <= 0) {
+        meterPhase = SpeedMeterPhase.WAITING
+        meterResultLines = emptyList()
+        return
+    }
 
     val service = this
     val windowSec = (meterIdleMsState / 1000f).coerceAtLeast(1f)
@@ -26,26 +37,23 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     val cps = keys / windowSec
     val speed = if (isMinute) cps * 60f else cps
     val unit = if (isMinute) service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
-    val resultText = service.getString(R.string.meter_result_in, windowSec.toInt(), words)
+
+    val lineIn = service.getString(R.string.meter_swipe_in, windowSec.toInt())
+    val lineWords = service.getString(R.string.meter_swipe_words, words)
+    val lineSpeed = service.getString(R.string.meter_swipe_speed, String.format(Locale.US, "%.1f %s", speed, unit))
 
     scope.launch {
         val dao = TypingAnalytics.getDatabase()?.speedRecordDao()
-        if (dao == null) {
-            Toast.makeText(service, resultText, Toast.LENGTH_SHORT).show()
-            return@launch
-        }
-
-        val best = dao.bestForInterval(label)
+        val best = dao?.bestForInterval(label)
         val isRecord = best == null || speed > best.speed
-        val windowSecInt = windowSec.toInt()
 
         if (isRecord) {
             val streak = (streakCounter[label] ?: 0) + 1
             streakCounter[label] = streak
-            dao.insert(
+            dao?.insert(
                 SpeedRecordEntity(
                     intervalLabel = label,
-                    intervalMs = windowSecInt * 1000L,
+                    intervalMs = windowSec.toInt() * 1000L,
                     recordAt = System.currentTimeMillis(),
                     wordCount = words,
                     keyCount = keys,
@@ -53,21 +61,35 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
                     streak = streak
                 )
             )
-            val message = service.getString(
-                R.string.meter_result_record,
-                String.format(Locale.US, "%.1f %s", speed, unit),
-                streak
+            val bestLine = String.format(Locale.US, "%.1f %s", speed, unit)
+            meterResultLines = listOf(
+                lineIn,
+                lineWords,
+                lineSpeed,
+                service.getString(R.string.meter_swipe_best, bestLine)
             )
-            Toast.makeText(service, "$resultText\n$message", Toast.LENGTH_SHORT).show()
+            meterPhase = SpeedMeterPhase.RESULT
+            if (dao != null) {
+                Toast.makeText(
+                    service,
+                    service.getString(R.string.meter_result_record, bestLine, streak),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
         } else {
             streakCounter[label] = 0
             val bestUnit = if (best.intervalMs >= 60000)
                 service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
-            val message = service.getString(
-                R.string.meter_result_best,
-                String.format(Locale.US, "%.1f %s", best.speed, bestUnit)
+            meterResultLines = listOf(
+                lineIn,
+                lineWords,
+                lineSpeed,
+                service.getString(
+                    R.string.meter_swipe_best,
+                    String.format(Locale.US, "%.1f %s", best.speed, bestUnit)
+                )
             )
-            Toast.makeText(service, "$resultText\n$message", Toast.LENGTH_SHORT).show()
+            meterPhase = SpeedMeterPhase.RESULT
         }
     }
 }

@@ -121,6 +121,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var backspaceRepeatSpeedMsState by mutableStateOf(50)
     internal var currentMeterTheme by mutableStateOf(MeterTheme.Calculator)
     internal var currentMeterFont by mutableStateOf("DIGITAL")
+    internal var meterEnabled by mutableStateOf(true)
+    internal var meterPositionState by mutableStateOf("right")
+    internal var meterPhase by mutableStateOf(SpeedMeterPhase.WAITING)
+    internal var meterResultLines by mutableStateOf<List<String>>(emptyList())
+    internal var lastPressedWord by mutableStateOf("")
     internal var recentEmojis by mutableStateOf<List<String>>(emptyList())
     internal var recentEmojiExpiryDays by mutableStateOf(30)
     internal var emojiSearchActive by mutableStateOf(false)
@@ -202,6 +207,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     liveCps = currentLiveCps,
                     maxBurstCps = maxBurstCps,
                     isSpeedActive = isTypingActive,
+                    meterEnabled = meterEnabled,
+                    meterPosition = meterPositionState,
+                    meterPhase = meterPhase,
+                    meterResultLines = meterResultLines,
+                    lastPressedWord = lastPressedWord,
                     meterTheme = currentMeterTheme,
                     meterFont = currentMeterFont,
                     recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
@@ -267,6 +277,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         burstWordCount = 0
         typingStopJob?.cancel()
         isTypingActive = false
+        meterPhase = SpeedMeterPhase.WAITING
+        meterResultLines = emptyList()
+        lastPressedWord = ""
 
         detectSensitiveField(info)
 

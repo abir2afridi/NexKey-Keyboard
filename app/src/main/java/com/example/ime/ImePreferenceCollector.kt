@@ -144,6 +144,17 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.meterFont.collectLatest { currentMeterFont = it } }
         launch { userPreferences.meterIdleMs.collectLatest { meterIdleMsState = it } }
         launch { userPreferences.meterInterval.collectLatest { meterIntervalState = it } }
+        launch { userPreferences.meterEnabled.collectLatest { enabled ->
+            meterEnabled = enabled
+            if (!enabled) {
+                isTypingActive = false
+                typingStopJob?.cancel()
+                meterPhase = SpeedMeterPhase.WAITING
+                meterResultLines = emptyList()
+                lastPressedWord = ""
+            }
+        } }
+        launch { userPreferences.meterPosition.collectLatest { meterPositionState = it } }
         launch {
             userPreferences.recentEmojiExpiry.collectLatest { recentEmojiExpiryDays = it }
         }

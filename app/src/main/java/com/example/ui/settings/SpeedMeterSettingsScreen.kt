@@ -27,10 +27,47 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
     val interval by prefs.meterInterval.collectAsState(initial = "5s")
+    val meterEnabled by prefs.meterEnabled.collectAsState(initial = true)
+    val meterPosition by prefs.meterPosition.collectAsState(initial = "right")
 
     var showInfo by remember { mutableStateOf(false) }
 
     SettingsSubScaffold(title = stringResource(R.string.settings_speed_meter), onBack = onBack) {
+        Surface(
+            onClick = { scope.launch { prefs.setMeterEnabled(!meterEnabled) } },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surface,
+            shadowElevation = 1.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Default.Speed,
+                    contentDescription = null,
+                    tint = if (meterEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.settings_speed_meter_enable), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(
+                        stringResource(if (meterEnabled) R.string.settings_speed_meter_enable_desc_on else R.string.settings_speed_meter_enable_desc_off),
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = meterEnabled,
+                    onCheckedChange = { scope.launch { prefs.setMeterEnabled(it) } }
+                )
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
         Text(
             text = stringResource(R.string.meter_interval_label),
             color = MaterialTheme.colorScheme.onSurface,
@@ -75,6 +112,33 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
+        Text(
+            text = stringResource(R.string.meter_position_label),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp)
+        )
+
+        val positions = listOf("left", "middle", "right")
+        val positionLabels = mapOf(
+            "left" to stringResource(R.string.meter_position_left),
+            "middle" to stringResource(R.string.meter_position_middle),
+            "right" to stringResource(R.string.meter_position_right)
+        )
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            positions.forEach { key ->
+                FilterChip(
+                    selected = meterPosition == key,
+                    onClick = { scope.launch { prefs.setMeterPosition(key) } },
+                    label = { Text(positionLabels[key] ?: key) }
+                )
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
         Surface(
             onClick = { showInfo = true },
             modifier = Modifier.fillMaxWidth(),
@@ -101,7 +165,7 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
             onDismissRequest = { showInfo = false },
             title = { Text(stringResource(R.string.meter_rules_title), fontWeight = FontWeight.Bold) },
             text = {
-                Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                Column(modifier = Modifier.verticalScroll(rememberScrollState()), verticalArrangement = Arrangement.spacedBy(10.dp)) {
                     stringResource(R.string.meter_rules_line1).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
                     stringResource(R.string.meter_rules_line2).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
                     stringResource(R.string.meter_rules_line3).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
@@ -112,6 +176,8 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Start
                     )
+                    stringResource(R.string.meter_rules_line5).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
+                    stringResource(R.string.meter_rules_line6).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
                 }
             },
             confirmButton = {

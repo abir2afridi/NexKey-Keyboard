@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">رفتار میٹر</string>
     <string name="settings_speed_meter_desc">آٹو سواب ونڈو، اکائی اور قواعد</string>
     <string name="meter_interval_label">آٹو سواب ونڈو</string>
+    <string name="meter_position_label">میٹر کی پوزیشن</string>
+    <string name="meter_position_left">بائیں</string>
+    <string name="meter_position_middle">درمیان</string>
+    <string name="meter_position_right">دائیں</string>
     <string name="meter_interval_5s">5 سیکنڈ</string>
     <string name="meter_interval_10s">10 سیکنڈ</string>
     <string name="meter_interval_1min">1 منٹ</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">آپ نے ابھی تک کوئی ریکارڈ نہیں توڑا۔</string>
     <string name="speed_records_none_hint">تیز ٹائپ کریں! کسی ونڈو میں بہترین رفتار کو توڑیں اور یہاں نئے ریکارڈ شامل ہوگا۔</string>
     <string name="speed_records_new_best">%1$d الفاظ ٹائپ کیے</string>
+    <string name="settings_speed_meter_enable">اسپیڈ میٹر فعال کریں</string>
+    <string name="settings_speed_meter_enable_desc_on">اسپیڈ میٹر آن ہے۔ ٹائپنگ کے دوران ہیڈر لائیو رفتار دکھاتا ہے؛ وقفے کے بعد ونڈو، الفاظ، آپ کی رفتار اور بہترین سکور خود بخود دکھاتا ہے۔</string>
+    <string name="settings_speed_meter_enable_desc_off">اسپیڈ میٹر بند ہے۔ کوئی رفتار ناپی نہیں جاتی اور کیبورڈ ہیڈر میں کچھ نہیں دکھتا۔</string>
+    <string name="meter_swipe_in">%1$d سیکنڈ میں</string>
+    <string name="meter_swipe_words">آپ نے %1$d الفاظ ٹائپ کیے</string>
+    <string name="meter_swipe_speed">آپ کی رفتار %1$s</string>
+    <string name="meter_swipe_best">بہترین سکور %1$s</string>
+    <string name="meter_rules_line5">وقفے کے بعد میٹر خود بخود دکھاتا ہے: ونڈو، الفاظ، آپ کی رفتار اور بہترین سکور۔ 5 سیکنڈ اور 10 سیکنڈ کی ونڈو CPS (فی سیکنڈ)، جبکہ 1 منٹ کی ونڈو CPM (فی منٹ) استعمال کرتی ہے۔</string>
+    <string name="meter_rules_line6">صرف اپنے کسی ونڈو کے بہترین ریکارڈ کو توڑنے پر ہی ریکارڈ محفوظ ہوتا ہے۔ ہر ونڈو (5s/10s/1min) کے لیے تاریخ و وقت کے ساتھ الگ کالم ہے۔ لیڈر بورڈ ہر ونڈو کے بہترین ریکارڈ کو زمرہ بندی کرتا ہے۔</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">اسٹریک = مسلسل ریکارڈ توڑنا۔ جب تک اپنا بہترین ریکارڈ توڑتے ہیں بڑھتی ہے، کسی ونڈو میں ریکارڈ نہ توڑنے پر 1 سمجھوت ہو جاتی ہے۔</string>
 </resources>

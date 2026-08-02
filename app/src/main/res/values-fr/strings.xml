@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">Compteur de vitesse</string>
     <string name="settings_speed_meter_desc">Fenêtre d\'auto-swipe, unité et règles</string>
     <string name="meter_interval_label">Fenêtre d\'auto-swipe</string>
+    <string name="meter_position_label">Position du compteur</string>
+    <string name="meter_position_left">Gauche</string>
+    <string name="meter_position_middle">Centre</string>
+    <string name="meter_position_right">Droite</string>
     <string name="meter_interval_5s">5 s</string>
     <string name="meter_interval_10s">10 s</string>
     <string name="meter_interval_1min">1 min</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">Vous n\'avez encore battu aucun record.</string>
     <string name="speed_records_none_hint">Écrivez vite ! Battez votre meilleure vitesse et un nouveau record sera ajouté ici.</string>
     <string name="speed_records_new_best">%1$d mots écrits</string>
+    <string name="settings_speed_meter_enable">Activer le compteur de vitesse</string>
+    <string name="settings_speed_meter_enable_desc_on">Le compteur de vitesse est ACTIF. Pendant la saisie, le bandeau affiche la vitesse en direct et, après une pause, il fait défiler automatiquement la fenêtre, les mots, votre vitesse et le meilleur score.</string>
+    <string name="settings_speed_meter_enable_desc_off">Le compteur de vitesse est INACTIF. Rien n’est mesuré et le bandeau clavier ne l’affiche pas.</string>
+    <string name="meter_swipe_in">En %1$d s</string>
+    <string name="meter_swipe_words">vous avez tapé %1$d mot</string>
+    <string name="meter_swipe_speed">votre vitesse %1$s</string>
+    <string name="meter_swipe_best">meilleur score %1$s</string>
+    <string name="meter_rules_line5">Une fois la fenetre terminée, le compteur fait défiler : fenêtre, mots, votre vitesse et le meilleur score. Les fenetres de 5 s et 10 s utilisent les CPS (par seconde), celle de 1 min les CPM (par minute).</string>
+    <string name="meter_rules_line6">Un record est enregistré UNIQUEMENT si vous battez votre meilleur score pour cette fenêtre. Chaque durée (5 s / 10 s / 1 min) a sa propre colonne dans l’historique avec la date et l’heure. Le classement trie le meilleur record par durée.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">Streak = records battus consécutifs. Il augmente tant que vous battez votre meilleur record et revient à 1 si vous manquez un record.</string>
 </resources>

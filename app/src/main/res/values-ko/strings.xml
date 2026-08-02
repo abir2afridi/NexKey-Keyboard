@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">속도 미터</string>
     <string name="settings_speed_meter_desc">오토스와이프 창, 단위 및 규칙</string>
     <string name="meter_interval_label">오토스와이프 창</string>
+    <string name="meter_position_label">미터 위치</string>
+    <string name="meter_position_left">왼쪽</string>
+    <string name="meter_position_middle">가운데</string>
+    <string name="meter_position_right">오른쪽</string>
     <string name="meter_interval_5s">5초</string>
     <string name="meter_interval_10s">10초</string>
     <string name="meter_interval_1min">1분</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">아직 기록을 갱신하지 않았습니다.</string>
     <string name="speed_records_none_hint">빨리 입력하세요! 어떤 창의 최고 속도를 갱신하면 새 기록이 여기에 추가됩니다.</string>
     <string name="speed_records_new_best">%1$d개 단어 입력</string>
+    <string name="settings_speed_meter_enable">속도 측정기 사용</string>
+    <string name="settings_speed_meter_enable_desc_on">속도 측정기가 켜져 있습니다. 입력하는 동안 헤더에 실시간 속도가 표시되고, 멈추 후에는 창, 단어, 속도, 최고 기록이 자동으로 표시됩니다.</string>
+    <string name="settings_speed_meter_enable_desc_off">속도 측정기가 꺼져 있습니다. 속도를 측정하지 않고 키보드 헤더에도 아무것도 표시되지 않습니다.</string>
+    <string name="meter_swipe_in">%1$d초 안에</string>
+    <string name="meter_swipe_words">%1$d개의 단어를 입력했습니다</string>
+    <string name="meter_swipe_speed">속도 %1$s</string>
+    <string name="meter_swipe_best">최고 기록 %1$s</string>
+    <string name="meter_rules_line5">창이 끝나면 측정기가 자동으로 이어집니다: 창 → 입력된 단어 → 속도 → 최고 기록. 5초 및 10초 창은 CPS(초당), 1분 창은 CPM(분당)을 사용합니다.</string>
+    <string name="meter_rules_line6">같은 창에 대한 자신의 최고 기록을 갱신할 때만 저장됩니다. 각 창(5초/10초/1분)은 날짜 및 시간과 함께 통합된 열을 가지며, 리더보드는 창별의 최고 기록을 순위로 표시합니다.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">스트릭 = 연속 기록 갱신. 자기 기록을 갱신하는 동안 증가하고, 기록을 놓치면 1로 초기화됩니다.</string>
 </resources>

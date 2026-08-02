@@ -112,6 +112,8 @@ class UserPreferences(private val context: Context) {
         private val KEY_METER_FONT = stringPreferencesKey("meter_font")
         private val KEY_METER_IDLE_MS = intPreferencesKey("meter_idle_ms")
         private val KEY_METER_INTERVAL = stringPreferencesKey("meter_interval")
+        private val KEY_METER_ENABLED = booleanPreferencesKey("meter_enabled")
+        private val KEY_METER_POSITION = stringPreferencesKey("meter_position")
 
         // Custom Theme Colors
         private val KEY_CUSTOM_BG_COLOR = stringPreferencesKey("custom_bg_color")
@@ -213,6 +215,8 @@ class UserPreferences(private val context: Context) {
     val meterFont: Flow<String> = context.dataStore.data.map { it[KEY_METER_FONT] ?: "DIGITAL" }
     val meterIdleMs: Flow<Int> = context.dataStore.data.map { it[KEY_METER_IDLE_MS] ?: 5000 }
     val meterInterval: Flow<String> = context.dataStore.data.map { it[KEY_METER_INTERVAL] ?: "5s" }
+    val meterEnabled: Flow<Boolean> = context.dataStore.data.map { it[KEY_METER_ENABLED] ?: true }
+    val meterPosition: Flow<String> = context.dataStore.data.map { it[KEY_METER_POSITION] ?: "right" }
 
     // Custom Theme Flows
     val customBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_BG_COLOR] ?: "#FF12131C" }
@@ -294,6 +298,8 @@ class UserPreferences(private val context: Context) {
     suspend fun setMeterFont(fontName: String) = context.dataStore.edit { it[KEY_METER_FONT] = fontName }
     suspend fun setMeterIdleMs(ms: Int) = context.dataStore.edit { it[KEY_METER_IDLE_MS] = ms }
     suspend fun setMeterInterval(interval: String) = context.dataStore.edit { it[KEY_METER_INTERVAL] = interval }
+    suspend fun setMeterEnabled(enabled: Boolean) = context.dataStore.edit { it[KEY_METER_ENABLED] = enabled }
+    suspend fun setMeterPosition(position: String) = context.dataStore.edit { it[KEY_METER_POSITION] = position }
 
     suspend fun updateCustomTheme(
         bgColor: String? = null,

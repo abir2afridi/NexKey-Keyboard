@@ -502,6 +502,10 @@
     <string name="settings_speed_meter">Измеритель скорости</string>
     <string name="settings_speed_meter_desc">Окно авто-свайпа, единица и правила</string>
     <string name="meter_interval_label">Окно авто-свайпа</string>
+    <string name="meter_position_label">Положение счётчика</string>
+    <string name="meter_position_left">Слева</string>
+    <string name="meter_position_middle">По центру</string>
+    <string name="meter_position_right">Справа</string>
     <string name="meter_interval_5s">5 с</string>
     <string name="meter_interval_10s">10 с</string>
     <string name="meter_interval_1min">1 мин</string>
@@ -534,4 +538,15 @@
     <string name="speed_records_none">Вы ещё не побили ни одного рекорда.</string>
     <string name="speed_records_none_hint">Печатайте быстрее! Побейте свою лучшую скорость, и здесь появится новый рекорд.</string>
     <string name="speed_records_new_best">Набрано слов: %1$d</string>
+    <string name="settings_speed_meter_enable">Включить спидометр</string>
+    <string name="settings_speed_meter_enable_desc_on">Спидометр включён. Во время набора в шапке показывается скорость в реальном времени, а после паузы автоматически отображаются окно, слова, ваша скорость и лучший результат.</string>
+    <string name="settings_speed_meter_enable_desc_off">Спидометр выключен. Скорость не измеряется и в шапке клавиатуры ничего не отображается.</string>
+    <string name="meter_swipe_in">За %1$d сек</string>
+    <string name="meter_swipe_words">вы набрали %1$d слов(а)</string>
+    <string name="meter_swipe_speed">ваша скорость %1$s</string>
+    <string name="meter_swipe_best">лучший результат %1$s</string>
+    <string name="meter_rules_line5">После окончания окна спидометр автоматически показывает: окно, слова, вашу скорость и лучший результат. Окна 5 с и 10 с используют CPS (в секунду), а окно 1 мин — CPM (в минуту).</string>
+    <string name="meter_rules_line6">Записи сохраняются ТОЛЬКО когда вы побили свой рекорд в таком окне. Каждое окно (5с/10с/1мин) имеет в истории собственную колонку с датой и временем. Таблица лидеров сортирует лучший рекорд по каждому окну.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">Серия — это подряд записанные рекорды. Она растёт, пока вы бьёте свой рекорд, и сбрасывается, если рекорд не побит.</string>
 </resources>

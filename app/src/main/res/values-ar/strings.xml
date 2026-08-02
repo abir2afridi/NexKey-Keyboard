@@ -504,6 +504,10 @@
     <string name="settings_speed_meter">عداد السرعة</string>
     <string name="settings_speed_meter_desc">نافذة السحب التلقائي، الوحدة والقواعد</string>
     <string name="meter_interval_label">نافذة السحب التلقائي</string>
+    <string name="meter_position_label">موضع العداد</string>
+    <string name="meter_position_left">يسار</string>
+    <string name="meter_position_middle">وسط</string>
+    <string name="meter_position_right">يمين</string>
     <string name="meter_interval_5s">5 ثوانٍ</string>
     <string name="meter_interval_10s">10 ثوانٍ</string>
     <string name="meter_interval_1min">دقيقة</string>
@@ -536,4 +540,15 @@
     <string name="speed_records_none">لم تحطّم أي رقم قياسي بعد.</string>
     <string name="speed_records_none_hint">اكتب بسرعة! تجاوز أفضل سرعتك وسيضاف رقم قياسي جديد هنا.</string>
     <string name="speed_records_new_best">كتبت %1$d كلمة</string>
+    <string name="settings_speed_meter_enable">تفعيل عداد السرعة</string>
+    <string name="settings_speed_meter_enable_desc_on">عداد السرعة مفعَّل. أثناء الكتابة، يظهر في رأس لوحة المفاتيح السرعة الفورية، وبعد التوقف يعرض تلقائيًا النافذة والكلمات وسرعتك وأفضل نتيجة.</string>
+    <string name="settings_speed_meter_enable_desc_off">عداد السرعة مطفأ. لا تُقاس أي سرعة ولا يظهر شيء في رأس لوحة المفاتيح.</string>
+    <string name="meter_swipe_in">خلال %1$d ثانية</string>
+    <string name="meter_swipe_words">كتبت %1$d كلمة</string>
+    <string name="meter_swipe_speed">سرعتك %1$s</string>
+    <string name="meter_swipe_best">أفضل نتيجة %1$s</string>
+    <string name="meter_rules_line5">بعد انتهاء النافذة يعرض العداد تلقائيًا: النافذة ثم الكلمات ثم سرعتك ثم أفضل نتيجة. تستخدم نوافذ ٥ و١٠ ثوانٍ وحدات CPS (لكل ثانية)، ونافذة الدقيقة وحدات CPM (لكل دقيقة).</string>
+    <string name="meter_rules_line6">لا تُحفظ السجلات إلا عندما تكسر أفضل سرعة لديك لهذه النافذة. لكل نافذة (5ث/10ث/1د) عمودها الخاص في السجل مع التاريخ والوقت، ويرتبّ قائمة الصدارة أفضل رقْم لكل نافذة.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">السلسلة هي كسر السجلات المتتالية. تزداد كلما كسرت رقمك القياسي وتعود إلى 1 حال عدم كسره في نافذة.</string>
 </resources>

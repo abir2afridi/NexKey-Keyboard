@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">速度メーター</string>
     <string name="settings_speed_meter_desc">オートスワイプ間隔、単位とルール</string>
     <string name="meter_interval_label">オートスワイプ間隔</string>
+    <string name="meter_position_label">メーターの位置</string>
+    <string name="meter_position_left">左</string>
+    <string name="meter_position_middle">中央</string>
+    <string name="meter_position_right">右</string>
     <string name="meter_interval_5s">5秒</string>
     <string name="meter_interval_10s">10秒</string>
     <string name="meter_interval_1min">1分</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">まだ記録を更新していません。</string>
     <string name="speed_records_none_hint">素早く入力しましょう！間隔ごとの最高速度を更新すると新しい記録がここに追加されます。</string>
     <string name="speed_records_new_best">%1$d語入力</string>
+    <string name="settings_speed_meter_enable">速度メーターを有効にする</string>
+    <string name="settings_speed_meter_enable_desc_on">速度メーターはオンです。入力中はヘッダーにリアルタイム速度が表示され、一時停止するとウィンドウ、単語数、速度、ベストスコアを自動で切り替えて表示します。</string>
+    <string name="settings_speed_meter_enable_desc_off">速度メーターはオフです。速度は測定されず、キーボードのヘッダーにも何も表示されません。</string>
+    <string name="meter_swipe_in">%1$d 秒で</string>
+    <string name="meter_swipe_words">%1$d 語を入力しました</string>
+    <string name="meter_swipe_speed">あなたの速度 %1$s</string>
+    <string name="meter_swipe_best">ベストスコア %1$s</string>
+    <string name="meter_rules_line5">ワインドウが終わると、メーターは自動でウィンドウ、単語、速度、ベストスコアと切り替えます。5 秒・10 秒は CPS（毎秒）、1 分は CPM（毎分）を使います。</string>
+    <string name="meter_rules_line6">自分のベストスートを上回った時だけ記録が保存されます。各ウィンドウ（5s/10s/1min）は履歴で日時付の独立した列を持ち、リーダーボードはウィンドウごとのベストをランク付けします。</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">ストリーク＝連続した記録更新。自分のベストを更新し続けると増え、更新に失敗すると 1 に戻ります。</string>
 </resources>

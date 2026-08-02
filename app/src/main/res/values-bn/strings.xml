@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">গতির মিটার</string>
     <string name="settings_speed_meter_desc">অটো-সোয়াইপ উইন্ডো, একক ও নিয়ম</string>
     <string name="meter_interval_label">অটো-সোয়াইপ উইন্ডো</string>
+    <string name="meter_position_label">মিটারের অবস্থান</string>
+    <string name="meter_position_left">বাম</string>
+    <string name="meter_position_middle">মাঝখানে</string>
+    <string name="meter_position_right">ডান</string>
     <string name="meter_interval_5s">৫ সেকেন্ড</string>
     <string name="meter_interval_10s">১০ সেকেন্ড</string>
     <string name="meter_interval_1min">১ মিনিট</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">আপনি এখনও কোনো রেকর্ড ভাঙেননি।</string>
     <string name="speed_records_none_hint">দ্রুত টাইপ করুন! কোনো উইন্ডোয় সেরা গতি ভেঙে এখানে নতুন রেকর্ড যোগ করবে।</string>
     <string name="speed_records_new_best">%1$d শব্দ টাইপ হয়েছে</string>
+    <string name="settings_speed_meter_enable">স্পিড মিটার সক্রিয় করুন</string>
+    <string name="settings_speed_meter_enable_desc_on">স্পিড মিটার চালু আছে। আপনি টাইপ করার সময় হেডারে লাইভ স্পিড দেখায়; বিরতির পরে উইন্ডো, শব্দ, আপনার স্পিড এবং সেরা স্কোর স্বয়ংক্রিয়ভাবে দেখায়।</string>
+    <string name="settings_speed_meter_enable_desc_off">স্পিড মিটার বন্ধ আছে। কোনো স্পিড মাপা হয় না এবং কিবোর্ডের হেডারে কিছু দেখা যায় না।</string>
+    <string name="meter_swipe_in">%1$d সেকেন্ডে</string>
+    <string name="meter_swipe_words">আপনি %1$d শব্দ টাইপ করেছেন</string>
+    <string name="meter_swipe_speed">আপনার গতি %1$s</string>
+    <string name="meter_swipe_best">সেরা স্কোর %1$s</string>
+    <string name="meter_rules_line5">বিরতির সময় শেষ হলে মিটার স্বয়ংক্রিয়ভাবে দেখায়: উইন্ডো, শব্দ, আপনার গতি, সেরা স্কোর। ৫ সেকেন্ড ও ১০ সেকেন্ডের উইন্ডোতে CPS (প্রতি সেকেন্ডে) এবং ১ মিনিটে CPM (প্রতি মিনিটে) ব্যবহৃত হয়।</string>
+    <string name="meter_rules_line6">শুধু নিজের সেরা রেকর্ড ভাঙলেই রেকর্ড সংরক্ষিত হয়। প্রতিটি উইন্ডো (৫ সে/১০ সে/১ মিনিট) এর নিজস্ব কলাম আছে তারিখ ও সময়সহ। লিডারবোর্ড প্রতি উইন্ডোতে সেরা রেকর্ড দেখায়।</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">স্ট্রিক = ধারাবাহিক রেকর্ড-ব্রেক। নিজের সেরাটি ভাঙার সময় এটি বাড়ে এবং একটি উইন্ডোতে রেকর্ড না ভাঙলে ১-এ রিসেট হয়।</string>
 </resources>

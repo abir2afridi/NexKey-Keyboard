@@ -501,6 +501,10 @@
     <string name="settings_speed_meter">Speed Meter</string>
     <string name="settings_speed_meter_desc">Auto-swipe window, unit and rules</string>
     <string name="meter_interval_label">Auto-swipe window</string>
+    <string name="meter_position_label">Meter position</string>
+    <string name="meter_position_left">Left</string>
+    <string name="meter_position_middle">Middle</string>
+    <string name="meter_position_right">Right</string>
     <string name="meter_interval_5s">5 sec</string>
     <string name="meter_interval_10s">10 sec</string>
     <string name="meter_interval_1min">1 min</string>
@@ -533,4 +537,15 @@
     <string name="speed_records_none">You haven\'t broken any record yet.</string>
     <string name="speed_records_none_hint">Tap fast! Beat your best speed for a window and a new record-break is added here.</string>
     <string name="speed_records_new_best">%1$d words typed</string>
+    <string name="settings_speed_meter_enable">Enable Speed Meter</string>
+    <string name="settings_speed_meter_enable_desc_on">Speed Meter is ON. While typing, the header shows live speed — after a pause it auto-swipes window, words, your speed and best score.</string>
+    <string name="settings_speed_meter_enable_desc_off">Speed Meter is OFF. No speed is measured and nothing shows in the keyboard header.</string>
+    <string name="meter_swipe_in">In %1$d sec</string>
+    <string name="meter_swipe_words">you press %1$d word</string>
+    <string name="meter_swipe_speed">your speed %1$s</string>
+    <string name="meter_swipe_best">best score %1$s</string>
+    <string name="meter_rules_line5">After the window ends, the speed meter auto-swipes: \u201CIn 5 sec\u201D \u2192 \u201Cyou press 12 words\u201D \u2192 \u201Cyour speed\u201D \u2192 \u201Cbest score\u201D. The 5-sec and 10-sec windows use CPS (per second); the 1-min window uses CPM (per minute).</string>
+    <string name="meter_rules_line6">Records are saved ONLY when you break your own best for a window. Every window (5s / 10s / 1min) has its own column in the history with date &amp; time, record-break number, words, speed and streak. The leaderboard ranks your fastest break per window.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">Streak = consecutive record-breaks. It grows while you keep beating your own best and resets to 1 when you miss a record for that window.</string>
 </resources>

@@ -19,32 +19,37 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
     if (!isIncognito && !isSensitiveField) {
         TypingAnalytics.trackKeyPress()
 
-        // Live Speed Meter Logic
-        val now = System.currentTimeMillis()
-        if (now - lastKeyPressTime > meterIdleMsState) {
-            burstStartTime = now
-            burstKeyCount = 0
-            burstWordCount = 0
-            isTypingActive = true
-            currentLiveCps = 0f
-            maxBurstCps = 0f
-        }
-
-        lastKeyPressTime = now
-        burstKeyCount++
-
-        val elapsedSec = (now - burstStartTime) / 1000f
-        if (elapsedSec > 0.1f) {
-            currentLiveCps = burstKeyCount / elapsedSec
-            if (currentLiveCps > maxBurstCps) {
-                maxBurstCps = currentLiveCps
+        // Live Speed Meter Logic (only when the meter is enabled in settings)
+        if (meterEnabled) {
+            val now = System.currentTimeMillis()
+            if (now - lastKeyPressTime > meterIdleMsState) {
+                burstStartTime = now
+                burstKeyCount = 0
+                burstWordCount = 0
+                isTypingActive = true
+                currentLiveCps = 0f
+                maxBurstCps = 0f
             }
-        }
 
-        typingStopJob?.cancel()
-        typingStopJob = scope.launch {
-            delay(meterIdleMsState.toLong())
-            finalizeSpeedWindow()
+            lastKeyPressTime = now
+            burstKeyCount++
+
+            val elapsedSec = (now - burstStartTime) / 1000f
+            if (elapsedSec > 0.1f) {
+                currentLiveCps = burstKeyCount / elapsedSec
+                if (currentLiveCps > maxBurstCps) {
+                    maxBurstCps = currentLiveCps
+                }
+            }
+
+            meterPhase = SpeedMeterPhase.LIVE
+            lastPressedWord = key
+            typingStopJob?.cancel()
+            typingStopJob = scope.launch {
+                meterPhase = SpeedMeterPhase.WAITING
+                delay(meterIdleMsState.toLong())
+                finalizeSpeedWindow()
+            }
         }
     }
     val ic = currentInputConnection ?: return

@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">Medidor de velocidad</string>
     <string name="settings_speed_meter_desc">Ventana de auto-swipe, unidad y reglas</string>
     <string name="meter_interval_label">Ventana de auto-swipe</string>
+    <string name="meter_position_label">Posición del medidor</string>
+    <string name="meter_position_left">Izquierda</string>
+    <string name="meter_position_middle">Centro</string>
+    <string name="meter_position_right">Derecha</string>
     <string name="meter_interval_5s">5 s</string>
     <string name="meter_interval_10s">10 s</string>
     <string name="meter_interval_1min">1 min</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">Aún no has batido ningún récord.</string>
     <string name="speed_records_none_hint">¡Escribe rápido! Supera tu mejor velocidad en una ventana y aquí se añadirá un nuevo récord.</string>
     <string name="speed_records_new_best">%1$d palabras escritas</string>
+    <string name="settings_speed_meter_enable">Activar Medidor de Velocidad</string>
+    <string name="settings_speed_meter_enable_desc_on">El Medidor de Velocidad está ACTIVADO. Mientras escribes, el encabezado muestra la velocidad en vivo y, tras una pausa, muestra por sí solo la ventana, las palabras, tu velocidad y el mejor resultado.</string>
+    <string name="settings_speed_meter_enable_desc_off">El Medidor de Velocidad está DESACTIVADO. No se mide ninguna velocidad y no se muestra nada en el encabezado del teclado.</string>
+    <string name="meter_swipe_in">En %1$d s</string>
+    <string name="meter_swipe_words">pulsaste %1$d palabra</string>
+    <string name="meter_swipe_speed">tu velocidad %1$s</string>
+    <string name="meter_swipe_best">mejor resultado %1$s</string>
+    <string name="meter_rules_line5">Cuando el periodo termina, el medidor muestra automáticamente la ventana, el total de palabras, tu velocidad y el mejor resultado. Las ventanas de 5 s y 10 s usan CPS (por segundo); la de 1 min usa CPM (por minuto).</string>
+    <string name="meter_rules_line6">Los registros se guardan SOLO cuando superas tu mejor marca de esa ventana. Cada ventana (5s/10s/1min) tiene su propia columna en el historial con fecha y hora, número de récord, palabras, velocidad y racha. La clasificación ordena los mejores récords por ventana.</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">Racha = récords consecutivos. Aumenta al superar tu mejor marca y se reinicia cuando fallas en una ventana.</string>
 </resources>

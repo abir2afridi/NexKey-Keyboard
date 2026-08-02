@@ -500,6 +500,10 @@
     <string name="settings_speed_meter">गति मीटर</string>
     <string name="settings_speed_meter_desc">ऑटो-स्वाइप विंडो, इकाई और नियम</string>
     <string name="meter_interval_label">ऑटो-स्वाइप विंडो</string>
+    <string name="meter_position_label">मीटर की स्थिति</string>
+    <string name="meter_position_left">बाएँ</string>
+    <string name="meter_position_middle">मध्य</string>
+    <string name="meter_position_right">दाएँ</string>
     <string name="meter_interval_5s">5 सेकंड</string>
     <string name="meter_interval_10s">10 सेकंड</string>
     <string name="meter_interval_1min">1 मिनट</string>
@@ -532,4 +536,15 @@
     <string name="speed_records_none">आपने अभी तक कोई रिकॉर्ड नहीं तोड़ा है।</string>
     <string name="speed_records_none_hint">तेज़ टाइप करें! किसी विंडो में सर्वश्रेष्ठ गति तोड़ें और यहाँ नया रिकॉर्ड जुड़ेगा।</string>
     <string name="speed_records_new_best">%1$d शब्द टाइप किए</string>
+    <string name="settings_speed_meter_enable">स्पीड मीटर सक्षम करें</string>
+    <string name="settings_speed_meter_enable_desc_on">स्पीड मीटर चालू है। टाइप करते समय हेडर में लाइव गति दिखती है; रुकने के बाद विंडो, शब्द, आपकी गति और बेस्ट स्कोर स्वतः दिखता है।</string>
+    <string name="settings_speed_meter_enable_desc_off">स्पीड मीटर बंद है। कोई गति नहीं मापी जाती और किबोर्ड के हेडर में कुछ भी नहीं दिखता।</string>
+    <string name="meter_swipe_in">%1$d सेकंड में</string>
+    <string name="meter_swipe_words">आपने %1$d शब्द टाइप किए</string>
+    <string name="meter_swipe_speed">आपकी गति %1$s</string>
+    <string name="meter_swipe_best">बेस्ट स्कोर %1$s</string>
+    <string name="meter_rules_line5">विंडो समाप्त होने के बाद मीटर स्वतः दिखाता है: विंडो, शब्द, आपकी गति और बेस्ट स्कोर। 5 सेकंड व 10 सेकंड की विंडो CPS (प्रति सेकंड) और 1 मिनट की विंडो CPM (प्रति मिनट) का उपयोग करती है।</string>
+    <string name="meter_rules_line6">रिकॉर्ड तभी सहेजा जाता है जब आप किसी विंडो का अपना सर्वश्रेष्ठ रिकॉर्ड तोड़ते हैं। हर विंडो (5s/10s/1min) के लिए इतिहास में तारीख व समय के साथ अलग कॉलम होता है। लीडरबोर्ड हर विंडो के सर्वश्रेष्ठ रिकॉर्ड को क्रमबद्ध करता है।</string>
+    <string name="speed_records_record_no_short">#%1$d</string>
+    <string name="speed_records_streak_hint">स्ट्रीक = लगातार रिकॉर्ड तोड़ना। जब तक अपना बेस्ट तोड़ते हैं बढ़ती है; किसी विंडो में रिकॉर्ड न तोड़ने पर 1 पर रीसेट हो जाती है।</string>
 </resources>
