@@ -83,13 +83,17 @@ object TypingAnalytics {
     fun trackEmoji(emoji: String) {
         sessionEmojiCount++
         scope.launch {
-            db?.emojiUsageDao()?.upsert(
-                EmojiUsageEntity(
-                    emoji = emoji,
-                    frequency = 1,
-                    lastUsedAt = System.currentTimeMillis()
+            val dao = db?.emojiUsageDao() ?: return@launch
+            val updated = dao.increment(emoji)
+            if (updated == 0) {
+                dao.upsert(
+                    EmojiUsageEntity(
+                        emoji = emoji,
+                        frequency = 1,
+                        lastUsedAt = System.currentTimeMillis()
+                    )
                 )
-            )
+            }
         }
     }
 

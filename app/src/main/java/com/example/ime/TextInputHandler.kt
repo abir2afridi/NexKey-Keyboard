@@ -50,6 +50,7 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
     val ic = currentInputConnection ?: return
 
     val isAlphaKey = key.length == 1 && key[0].isLetter()
+    val isEmoji = isEmojiKey(key)
     if (shouldCompose(currentMode, isPasswordField, isAlphaKey)) {
         // FIX (cursor-jump bug): composingBuffer is ONLY valid while the cursor sits at
         // the END of the composing region. onUpdateSelection() in NexKeyInputMethodService
@@ -76,6 +77,10 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
         ic.commitText(textToCommit, 1)
         ic.endBatchEdit()
 
+        if (!isIncognito && !isSensitiveField && isEmoji) {
+            TypingAnalytics.trackEmoji(key)
+        }
+
         if (!isIncognito && !isSensitiveField) {
             scope.launch {
                 userPreferences.incrementStats(words = 0, chars = 1)
@@ -89,6 +94,18 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
     if (shiftState == ShiftState.SHIFT) {
         shiftState = ShiftState.OFF
+    }
+}
+
+internal fun isEmojiKey(key: String): Boolean {
+    if (key.isEmpty()) return false
+    return key.codePoints().anyMatch { cp ->
+        (cp in 0x1F000..0x1FAFF) ||
+        (cp in 0x2600..0x27BF) ||
+        (cp in 0x2B00..0x2BFF) ||
+        (cp in 0xFE00..0xFE0F) ||
+        cp == 0x200D ||
+        cp == 0x20E3
     }
 }
 

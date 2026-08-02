@@ -11,7 +11,7 @@ interface EmojiUsageDao {
     suspend fun upsert(emoji: EmojiUsageEntity)
 
     @Query("UPDATE emoji_usage SET frequency = frequency + 1, lastUsedAt = :now WHERE emoji = :emoji")
-    suspend fun increment(emoji: String, now: Long = System.currentTimeMillis())
+    suspend fun increment(emoji: String, now: Long = System.currentTimeMillis()): Int
 
     @Query("SELECT * FROM emoji_usage ORDER BY frequency DESC LIMIT :limit")
     suspend fun getTopEmojis(limit: Int = 20): List<EmojiUsageEntity>
