@@ -1,11 +1,11 @@
 package com.example
 
+import android.content.res.Configuration
 import android.os.Bundle
+import android.view.View
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.app.AppCompatDelegate
-import androidx.core.os.LocaleListCompat
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,11 +17,16 @@ import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.unit.LayoutDirection
 import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -41,6 +46,7 @@ import com.example.ui.navigation.Screen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.checkIsKeyboardEnabled
 import com.example.ui.checkIsKeyboardSelected
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,22 +55,35 @@ class MainActivity : AppCompatActivity() {
         enableEdgeToEdge()
         ClipboardManager.init(applicationContext)
         setContent {
-            val context = androidx.compose.ui.platform.LocalContext.current
-            val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
+            val context = LocalContext.current
+            val prefs = remember { com.example.data.UserPreferences(context) }
             val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
             val accentColor by prefs.accentColor.collectAsState(initial = "#FF2E7D32")
             val appLanguage: String? by prefs.appLanguage.collectAsState(initial = null)
 
-            appLanguage?.let { savedLanguage ->
-                LaunchedEffect(savedLanguage) {
-                    AppCompatDelegate.setApplicationLocales(
-                        LocaleListCompat.forLanguageTags(savedLanguage.replace('_', '-'))
-                    )
+            val savedLanguage = appLanguage
+            if (savedLanguage != null) {
+                val localizedContext = remember(savedLanguage) {
+                    val locale = Locale.forLanguageTag(savedLanguage.replace('_', '-'))
+                    Locale.setDefault(locale)
+                    val config = Configuration(context.resources.configuration)
+                    config.setLocale(locale)
+                    context.createConfigurationContext(config)
                 }
-            }
-
-            MyApplicationTheme(appTheme = appTheme, accentColorHex = accentColor) {
-                NexKeyApp()
+                val localizedResources = localizedContext.resources
+                CompositionLocalProvider(
+                    LocalContext provides localizedContext,
+                    LocalConfiguration provides localizedResources.configuration,
+                    LocalLayoutDirection provides if (localizedResources.configuration.layoutDirection == View.LAYOUT_DIRECTION_RTL) {
+                        LayoutDirection.Rtl
+                    } else {
+                        LayoutDirection.Ltr
+                    }
+                ) {
+                    MyApplicationTheme(appTheme = appTheme, accentColorHex = accentColor) {
+                        NexKeyApp()
+                    }
+                }
             }
         }
     }
