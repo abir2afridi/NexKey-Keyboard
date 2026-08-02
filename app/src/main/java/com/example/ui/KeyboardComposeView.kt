@@ -656,8 +656,8 @@ fun DigitalSpeedMeter(
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 6.dp)
-            .widthIn(min = 58.dp, max = 160.dp)
+            .padding(horizontal = 4.dp)
+            .widthIn(min = 48.dp, max = 88.dp)
             .height(30.dp),
         color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
         shape = RoundedCornerShape(4.dp),
@@ -670,14 +670,14 @@ fun DigitalSpeedMeter(
                 Text(
                     text = "88.8",
                     color = meterTheme.textColor.copy(alpha = 0.05f),
-                    fontSize = 12.sp,
+                    fontSize = 11.sp,
                     style = textStyle,
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
 
             Row(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
@@ -749,7 +749,7 @@ fun MeterHeaderPair(
     meterInterval: String,
     liveElapsedSec: Int
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.widthIn(max = 224.dp)) {
         DigitalSpeedMeter(
             cps = cps,
             isLive = isLive,
@@ -847,8 +847,8 @@ fun InfoBox(
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 6.dp)
-            .widthIn(min = 58.dp, max = 190.dp)
+            .padding(horizontal = 4.dp)
+            .widthIn(min = 48.dp, max = 112.dp)
             .height(30.dp),
         color = frame.backgroundColor.copy(alpha = frame.backgroundAlpha),
         shape = RoundedCornerShape(frame.cornerRadius),
@@ -862,7 +862,7 @@ fun InfoBox(
             label = "infoBoxText"
         ) { target ->
             Box(
-                modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
+                modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
                 if (target.isNotEmpty()) {
