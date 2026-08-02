@@ -126,6 +126,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var meterPhase by mutableStateOf(SpeedMeterPhase.WAITING)
     internal var meterResultLines by mutableStateOf<List<String>>(emptyList())
     internal var lastPressedWord by mutableStateOf("")
+    internal var infoBoxFrameState by mutableStateOf("CLASSIC")
+    internal var infoBoxTextColorState by mutableStateOf("#00FF41")
+    internal var infoBoxCustomTextsState by mutableStateOf("[]")
+    internal var infoBoxCustomModeState by mutableStateOf("off")
+    internal var infoBoxCustomSecState by mutableStateOf(5)
+    internal var infoBoxSwipeTimeoutSecState by mutableStateOf(10)
     internal var recentEmojis by mutableStateOf<List<String>>(emptyList())
     internal var recentEmojiExpiryDays by mutableStateOf(30)
     internal var emojiSearchActive by mutableStateOf(false)
@@ -212,6 +218,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     meterPhase = meterPhase,
                     meterResultLines = meterResultLines,
                     lastPressedWord = lastPressedWord,
+                    infoBoxFrame = infoBoxFrameState,
+                    infoBoxTextColor = infoBoxTextColorState,
+                    infoBoxCustomTexts = infoBoxCustomTextsState,
+                    infoBoxCustomMode = infoBoxCustomModeState,
+                    infoBoxCustomSec = infoBoxCustomSecState,
+                    infoBoxSwipeTimeoutSec = infoBoxSwipeTimeoutSecState,
                     meterTheme = currentMeterTheme,
                     meterFont = currentMeterFont,
                     recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
@@ -233,7 +245,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onThemeToggle = { toggleTheme() },
                     onOpenSettings = { launchSettingsActivity() },
                     onCursorMove = { direction -> handleCursorMove(direction) },
-                    onIncognitoToggle = { toggleIncognito() },
                     onHoldPaste = { handlePasteClipboard() }
                 )
             }
@@ -408,18 +419,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         val nextIndex = (currentTheme.preset.ordinal + 1) % themes.size
         currentTheme = KeyboardTheme.fromPreset(themes[nextIndex])
         scope.launch { userPreferences.setTheme(currentTheme.preset) }
-    }
-
-    private fun toggleIncognito() {
-        isIncognito = !isIncognito
-        ClipboardManager.setIncognito(isIncognito)
-        predictionEngine.setIncognito(isIncognito)
-        scope.launch { userPreferences.setIncognito(isIncognito) }
-        if (isIncognito) {
-            Toast.makeText(this, getString(R.string.ime_incognito_on), Toast.LENGTH_SHORT).show()
-        } else {
-            Toast.makeText(this, getString(R.string.ime_incognito_off), Toast.LENGTH_SHORT).show()
-        }
     }
 
     private fun handlePasteClipboard() {

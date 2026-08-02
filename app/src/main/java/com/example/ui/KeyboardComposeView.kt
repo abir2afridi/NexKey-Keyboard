@@ -29,7 +29,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material.icons.filled.Security
 import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Mic
@@ -80,6 +79,8 @@ import com.example.R
 import com.example.clipboard.ClipItem
 import com.example.clipboard.ClipboardManager
 import com.example.ime.SpeedMeterPhase
+import com.example.theme.InfoBoxFrame
+import com.example.theme.InfoBoxFramePreset
 import com.example.theme.KeyboardTheme
 import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
@@ -90,6 +91,7 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.togetherWith
 import java.util.Locale
 import kotlin.math.abs
+import org.json.JSONArray
 @Composable
 fun KeyboardComposeView(
     mode: KeyboardMode,
@@ -136,6 +138,12 @@ fun KeyboardComposeView(
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
     meterResultLines: List<String> = emptyList(),
     lastPressedWord: String = "",
+    infoBoxFrame: String = "CLASSIC",
+    infoBoxTextColor: String = "#00FF41",
+    infoBoxCustomTexts: String = "[]",
+    infoBoxCustomMode: String = "off",
+    infoBoxCustomSec: Int = 5,
+    infoBoxSwipeTimeoutSec: Int = 10,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     recentEmojis: MutableList<String> = remember { mutableStateListOf() },
@@ -157,7 +165,6 @@ fun KeyboardComposeView(
     onThemeToggle: () -> Unit,
     onOpenSettings: () -> Unit,
     onCursorMove: (Int) -> Unit = {},
-    onIncognitoToggle: (() -> Unit)? = null,
     onHoldPaste: (() -> Unit)? = null
 ) {
     val popupAutoDismissMs = when (popupDismissDelay) {
@@ -187,6 +194,20 @@ fun KeyboardComposeView(
     val orientation = config.orientation
     val effectiveHeight = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) keyboardHeightLandscape else keyboardHeightPortrait
     val effectiveOneHanded = if (orientation == android.content.res.Configuration.ORIENTATION_LANDSCAPE) oneHandedWidthLandscape else oneHandedWidth
+
+    val infoFrame = remember(infoBoxFrame) {
+        try { InfoBoxFrame.fromPreset(InfoBoxFramePreset.valueOf(infoBoxFrame)) } catch (_: Exception) { InfoBoxFrame.Classic }
+    }
+    val infoTextColor = remember(infoBoxTextColor, infoFrame) {
+        try { Color(android.graphics.Color.parseColor(infoBoxTextColor)) } catch (_: Exception) { infoFrame.defaultTextColor }
+    }
+    val infoCustomTexts = remember(infoBoxCustomTexts) {
+        try {
+            JSONArray(infoBoxCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
+        } catch (_: Exception) {
+            emptyList()
+        }
+    }
 
     Surface(
         modifier = Modifier.fillMaxWidth(),
@@ -226,13 +247,18 @@ fun KeyboardComposeView(
                             meterPhase = meterPhase,
                             meterResultLines = meterResultLines,
                             lastPressedWord = lastPressedWord,
+                            infoFrame = infoFrame,
+                            infoTextColor = infoTextColor,
+                            infoCustomTexts = infoCustomTexts,
+                            infoCustomMode = infoBoxCustomMode,
+                            infoCustomSec = infoBoxCustomSec,
+                            infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             onModeChange = onModeChange,
                             onVoiceClick = onVoiceClick,
                             onThemeToggle = onThemeToggle,
-                            onOpenSettings = onOpenSettings,
-                            onIncognitoToggle = onIncognitoToggle
+                            onOpenSettings = onOpenSettings
                         )
                     },
                     suggestions = {
@@ -248,6 +274,12 @@ fun KeyboardComposeView(
                             meterPhase = meterPhase,
                             meterResultLines = meterResultLines,
                             lastPressedWord = lastPressedWord,
+                            infoFrame = infoFrame,
+                            infoTextColor = infoTextColor,
+                            infoCustomTexts = infoCustomTexts,
+                            infoCustomMode = infoBoxCustomMode,
+                            infoCustomSec = infoBoxCustomSec,
+                            infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
                             liveCps = if (isSpeedActive) liveCps else 0f,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
@@ -414,13 +446,18 @@ fun SmartToolbar(
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
     meterResultLines: List<String> = emptyList(),
     lastPressedWord: String = "",
+    infoFrame: InfoBoxFrame = InfoBoxFrame.Classic,
+    infoTextColor: Color = Color(0xFF00FF41),
+    infoCustomTexts: List<String> = emptyList(),
+    infoCustomMode: String = "off",
+    infoCustomSec: Int = 5,
+    infoSwipeTimeoutSec: Int = 10,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
-    onOpenSettings: () -> Unit,
-    onIncognitoToggle: (() -> Unit)? = null
+    onOpenSettings: () -> Unit
 ) {
     Row(
         modifier = Modifier
@@ -430,16 +467,22 @@ fun SmartToolbar(
             .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        // Digital Speed Meter (left position)
+        // Speed meter + info box (left position)
         if (meterEnabled && meterPosition == "left") {
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
         }
 
@@ -499,44 +542,45 @@ fun SmartToolbar(
             item {
                 ToolbarIcon(icon = Icons.Default.Palette, contentDescription = stringResource(R.string.kb_theme), active = false, theme = theme, onClick = onThemeToggle)
             }
-            if (onIncognitoToggle != null) {
-                item {
-                    ToolbarIcon(
-                        icon = Icons.Default.Security,
-                        contentDescription = stringResource(R.string.kb_incognito),
-                        active = isIncognito,
-                        theme = theme,
-                        onClick = onIncognitoToggle
-                    )
-                }
-            }
         }
 
-        // Digital Speed Meter (middle: centered between tool icons and the settings button)
+        // Speed meter + info box (middle: centered between tool icons and the settings button)
         if (meterEnabled && meterPosition == "middle") {
             Spacer(modifier = Modifier.weight(1f))
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        // Digital Speed Meter (right position, default)
+        // Speed meter + info box (right position, default)
         if (meterEnabled && meterPosition != "left" && meterPosition != "middle") {
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
         }
 
@@ -551,7 +595,6 @@ fun DigitalSpeedMeter(
     cps: Float,
     isLive: Boolean,
     phase: SpeedMeterPhase = SpeedMeterPhase.LIVE,
-    resultLines: List<String> = emptyList(),
     pressedWord: String = "",
     meterTheme: MeterTheme,
     fontStyle: String = "DIGITAL"
@@ -579,53 +622,6 @@ fun DigitalSpeedMeter(
                 fontFeatureSettings = "tnum"
             )
         }
-    }
-
-    // RESULT phase: swipe the outcome sequence inside the meter box itself.
-    if (phase == SpeedMeterPhase.RESULT && resultLines.isNotEmpty()) {
-        var step by remember(resultLines) { mutableStateOf(0) }
-        LaunchedEffect(resultLines) {
-            for (i in 1 until resultLines.size) {
-                delay(1600)
-                step = i
-            }
-        }
-        val line = resultLines.getOrNull(step.coerceIn(0, resultLines.lastIndex)) ?: return
-        Surface(
-            modifier = Modifier
-                .padding(horizontal = 6.dp)
-                .widthIn(min = 58.dp, max = 190.dp)
-                .height(30.dp),
-            color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
-            shape = RoundedCornerShape(4.dp),
-            border = androidx.compose.foundation.BorderStroke(meterTheme.borderWidth, meterTheme.borderColor),
-            tonalElevation = 4.dp
-        ) {
-            AnimatedContent(
-                targetState = line,
-                transitionSpec = {
-                    (fadeIn(tween(300)) togetherWith fadeOut(tween(300)))
-                },
-                label = "speedSwipedLine"
-            ) { targetLine ->
-                Box(
-                    modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = targetLine,
-                        color = meterTheme.textColor,
-                        fontStyle = androidx.compose.ui.text.font.FontStyle.Normal,
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 10.sp,
-                        letterSpacing = 0.3.sp,
-                        maxLines = 1,
-                        textAlign = TextAlign.Center
-                    )
-                }
-            }
-        }
-        return
     }
 
     Surface(
@@ -674,7 +670,7 @@ fun DigitalSpeedMeter(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                if (phase == SpeedMeterPhase.LIVE) {
+                if (phase == SpeedMeterPhase.LIVE || phase == SpeedMeterPhase.RESULT) {
                     Text(
                         text = String.format(Locale.US, "%.1f", cps),
                         color = meterTheme.textColor,
@@ -710,6 +706,140 @@ fun DigitalSpeedMeter(
             }
         }
     }
+    }
+}
+
+@Composable
+fun MeterHeaderPair(
+    cps: Float,
+    isLive: Boolean,
+    meterPhase: SpeedMeterPhase,
+    pressedWord: String,
+    swipeLines: List<String>,
+    meterTheme: MeterTheme,
+    meterFont: String,
+    infoFrame: InfoBoxFrame,
+    infoTextColor: Color,
+    infoCustomTexts: List<String>,
+    infoCustomMode: String,
+    infoCustomSec: Int,
+    infoSwipeTimeoutSec: Int
+) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        DigitalSpeedMeter(
+            cps = cps,
+            isLive = isLive,
+            phase = meterPhase,
+            pressedWord = pressedWord,
+            meterTheme = meterTheme,
+            fontStyle = meterFont
+        )
+        InfoBox(
+            phase = meterPhase,
+            swipeLines = swipeLines,
+            frame = infoFrame,
+            textColor = infoTextColor,
+            customTexts = infoCustomTexts,
+            customMode = infoCustomMode,
+            customSec = infoCustomSec,
+            swipeTimeoutSec = infoSwipeTimeoutSec
+        )
+    }
+}
+
+@Composable
+fun InfoBox(
+    phase: SpeedMeterPhase,
+    swipeLines: List<String>,
+    frame: InfoBoxFrame,
+    textColor: Color,
+    customTexts: List<String>,
+    customMode: String,
+    customSec: Int,
+    swipeTimeoutSec: Int
+) {
+    var displayText by remember { mutableStateOf("") }
+
+    LaunchedEffect(phase, swipeLines, customTexts, customMode, customSec, swipeTimeoutSec) {
+        displayText = ""
+        if (phase != SpeedMeterPhase.RESULT) return@LaunchedEffect
+
+        val timeoutMillis = swipeTimeoutSec.coerceAtLeast(1) * 1000L
+        val start = System.currentTimeMillis()
+        val hasCustoms = customTexts.isNotEmpty() && customMode != "off"
+
+        // 1. Swipe info sequence: one line per 1.6s fade cycle.
+        for (i in swipeLines.indices) {
+            displayText = swipeLines[i]
+            if (i == swipeLines.lastIndex && !hasCustoms) {
+                val held = System.currentTimeMillis() - start
+                if (held < timeoutMillis) delay(timeoutMillis - held)
+                displayText = ""
+                return@LaunchedEffect
+            }
+            delay(1600)
+        }
+
+        // 2. Custom texts phase (runs only after the swipe info has finished).
+        if (hasCustoms) {
+            val perText = customSec.coerceAtLeast(1) * 1000L
+            if (customMode == "always") {
+                while (true) {
+                    for (t in customTexts) {
+                        displayText = t
+                        delay(perText)
+                    }
+                }
+            } else {
+                for (t in customTexts) {
+                    displayText = t
+                    delay(perText)
+                }
+                val held = System.currentTimeMillis() - start
+                if (held < timeoutMillis) delay(timeoutMillis - held)
+                displayText = ""
+            }
+        } else {
+            val held = System.currentTimeMillis() - start
+            if (held < timeoutMillis) delay(timeoutMillis - held)
+            displayText = ""
+        }
+    }
+
+    Surface(
+        modifier = Modifier
+            .padding(horizontal = 6.dp)
+            .widthIn(min = 58.dp, max = 190.dp)
+            .height(30.dp),
+        color = frame.backgroundColor.copy(alpha = frame.backgroundAlpha),
+        shape = RoundedCornerShape(frame.cornerRadius),
+        border = androidx.compose.foundation.BorderStroke(frame.borderWidth, frame.borderColor),
+        shadowElevation = frame.glowRadius.dp,
+        tonalElevation = 4.dp
+    ) {
+        AnimatedContent(
+            targetState = displayText,
+            transitionSpec = { (fadeIn(tween(300)) togetherWith fadeOut(tween(300))) },
+            label = "infoBoxText"
+        ) { target ->
+            Box(
+                modifier = Modifier.fillMaxSize().padding(horizontal = 6.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                if (target.isNotEmpty()) {
+                    Text(
+                        text = target,
+                        color = textColor,
+                        fontWeight = FontWeight.ExtraBold,
+                        fontSize = 10.sp,
+                        letterSpacing = 0.3.sp,
+                        maxLines = 1,
+                        textAlign = TextAlign.Center,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                    )
+                }
+            }
+        }
     }
 }
 
@@ -754,6 +884,12 @@ fun CandidateStrip(
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
     meterResultLines: List<String> = emptyList(),
     lastPressedWord: String = "",
+    infoFrame: InfoBoxFrame = InfoBoxFrame.Classic,
+    infoTextColor: Color = Color(0xFF00FF41),
+    infoCustomTexts: List<String> = emptyList(),
+    infoCustomMode: String = "off",
+    infoCustomSec: Int = 5,
+    infoSwipeTimeoutSec: Int = 10,
     liveCps: Float = 0f,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
@@ -771,14 +907,20 @@ fun CandidateStrip(
     ) {
         // Keep the live meter always visible in the header (unified header while typing).
         if (showMeter && meterPosition == "left") {
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
             Spacer(modifier = Modifier.width(6.dp))
         }
@@ -822,32 +964,44 @@ fun CandidateStrip(
             }
         }
 
-        // Digital Speed Meter (middle: centered after the suggestions row)
+        // Speed meter + info box (middle: centered after the suggestions row)
         if (showMeter && meterPosition == "middle") {
             Spacer(modifier = Modifier.weight(1f))
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
             Spacer(modifier = Modifier.weight(1f))
         }
 
-        // Digital Speed Meter (right position, default)
+        // Speed meter + info box (right position, default)
         if (showMeter && meterPosition != "left" && meterPosition != "middle") {
             Spacer(modifier = Modifier.padding(horizontal = 2.dp))
-            DigitalSpeedMeter(
+            MeterHeaderPair(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
-                phase = meterPhase,
-                resultLines = meterResultLines,
+                meterPhase = meterPhase,
                 pressedWord = lastPressedWord,
+                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
-                fontStyle = meterFont
+                meterFont = meterFont,
+                infoFrame = infoFrame,
+                infoTextColor = infoTextColor,
+                infoCustomTexts = infoCustomTexts,
+                infoCustomMode = infoCustomMode,
+                infoCustomSec = infoCustomSec,
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec
             )
         }
 
