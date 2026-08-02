@@ -1,6 +1,5 @@
 package com.example.ui
 
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -18,7 +17,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.os.LocaleListCompat
 import com.example.R
 import com.example.data.UserPreferences
 import kotlinx.coroutines.flow.first
@@ -79,9 +77,6 @@ fun AppLanguageScreen(onBack: () -> Unit) {
                     .clickable {
                         selectedLanguage = lang.code
                         scope.launch { prefs.setAppLanguage(lang.code) }
-                        AppCompatDelegate.setApplicationLocales(
-                            LocaleListCompat.forLanguageTags(lang.code.replace('_', '-'))
-                        )
                     }
                     .padding(horizontal = 12.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically

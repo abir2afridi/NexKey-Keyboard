@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -40,18 +41,10 @@ import com.example.ui.navigation.Screen
 import com.example.ui.theme.MyApplicationTheme
 import com.example.ui.checkIsKeyboardEnabled
 import com.example.ui.checkIsKeyboardSelected
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.runBlocking
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val savedLanguage = runBlocking {
-            UserPreferences(applicationContext).appLanguage.first()
-        }
-        AppCompatDelegate.setApplicationLocales(
-            LocaleListCompat.forLanguageTags(savedLanguage.replace('_', '-'))
-        )
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         ClipboardManager.init(applicationContext)
@@ -60,6 +53,15 @@ class MainActivity : AppCompatActivity() {
             val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
             val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
             val accentColor by prefs.accentColor.collectAsState(initial = "#FF2E7D32")
+            val appLanguage: String? by prefs.appLanguage.collectAsState(initial = null)
+
+            appLanguage?.let { savedLanguage ->
+                LaunchedEffect(savedLanguage) {
+                    AppCompatDelegate.setApplicationLocales(
+                        LocaleListCompat.forLanguageTags(savedLanguage.replace('_', '-'))
+                    )
+                }
+            }
 
             MyApplicationTheme(appTheme = appTheme, accentColorHex = accentColor) {
                 NexKeyApp()
