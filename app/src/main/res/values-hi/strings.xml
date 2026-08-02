@@ -18,7 +18,7 @@
     <string name="ime_network_error">नेटवर्क त्रुटि</string>
     <string name="ime_recognizer_busy">रिकग्नाइज़र व्यस्त</string>
     <string name="ime_permission_denied">अनुमति अस्वीकृत</string>
-    <string name="ime_voice_error">त्रुटि: %1$s</string>
+    <string name="ime_voice_error">त्रुटि: %1$d</string>
     <string name="ime_voice_start_failed">वॉयस इनपुट शुरू करने में विफल: %1$s</string>
 
     <!-- Home -->

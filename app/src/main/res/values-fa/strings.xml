@@ -18,7 +18,7 @@
     <string name="ime_network_error">خطای شبکه</string>
     <string name="ime_recognizer_busy">تشخیصدهنده مشغول است</string>
     <string name="ime_permission_denied">دسترسی رد شد</string>
-    <string name="ime_voice_error">خطا: %1$s</string>
+    <string name="ime_voice_error">خطا: %1$d</string>
     <string name="ime_voice_start_failed">شروع ورودی صوتی ناموفق بود: %1$s</string>
 
     <!-- Home -->

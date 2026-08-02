@@ -18,7 +18,7 @@
     <string name="ime_network_error">网络错误</string>
     <string name="ime_recognizer_busy">识别器繁忙</string>
     <string name="ime_permission_denied">权限被拒绝</string>
-    <string name="ime_voice_error">错误：%1$s</string>
+    <string name="ime_voice_error">错误：%1$d</string>
     <string name="ime_voice_start_failed">无法启动语音输入：%1$s</string>
 
     <!-- Home -->

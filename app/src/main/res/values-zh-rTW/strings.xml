@@ -18,7 +18,7 @@
     <string name="ime_network_error">網路錯誤</string>
     <string name="ime_recognizer_busy">辨識器忙碌中</string>
     <string name="ime_permission_denied">已拒絕權限</string>
-    <string name="ime_voice_error">錯誤：%1$s</string>
+    <string name="ime_voice_error">錯誤：%1$d</string>
     <string name="ime_voice_start_failed">無法啟動語音輸入：%1$s</string>
 
     <!-- Home -->

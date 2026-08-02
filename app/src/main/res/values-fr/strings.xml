@@ -18,7 +18,7 @@
     <string name="ime_network_error">Erreur réseau</string>
     <string name="ime_recognizer_busy">Reconnaisseur occupé</string>
     <string name="ime_permission_denied">Autorisation refusée</string>
-    <string name="ime_voice_error">Erreur : %1$s</string>
+    <string name="ime_voice_error">Erreur : %1$d</string>
     <string name="ime_voice_start_failed">Échec du démarrage de la saisie vocale : %1$s</string>
 
     <!-- Home -->

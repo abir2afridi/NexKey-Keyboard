@@ -18,7 +18,7 @@
     <string name="ime_network_error">Error de red</string>
     <string name="ime_recognizer_busy">Reconocedor ocupado</string>
     <string name="ime_permission_denied">Permiso denegado</string>
-    <string name="ime_voice_error">Error: %1$s</string>
+    <string name="ime_voice_error">Error: %1$d</string>
     <string name="ime_voice_start_failed">No se pudo iniciar la entrada de voz: %1$s</string>
 
     <!-- Home -->

@@ -18,7 +18,7 @@
     <string name="ime_network_error">Ошибка сети</string>
     <string name="ime_recognizer_busy">Распознаватель занят</string>
     <string name="ime_permission_denied">В доступе отказано</string>
-    <string name="ime_voice_error">Ошибка: %1$s</string>
+    <string name="ime_voice_error">Ошибка: %1$d</string>
     <string name="ime_voice_start_failed">Не удалось запустить голосовой ввод: %1$s</string>
 
     <!-- Home -->

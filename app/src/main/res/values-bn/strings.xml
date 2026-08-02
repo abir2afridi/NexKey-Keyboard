@@ -18,7 +18,7 @@
     <string name="ime_network_error">নেটওয়ার্ক ত্রুটি</string>
     <string name="ime_recognizer_busy">রিকগনাইজার ব্যস্ত</string>
     <string name="ime_permission_denied">অনুমতি অস্বীকৃত</string>
-    <string name="ime_voice_error">ত্রুটি: %1$s</string>
+    <string name="ime_voice_error">ত্রুটি: %1$d</string>
     <string name="ime_voice_start_failed">ভয়েস ইনপুট শুরু করা যায়নি: %1$s</string>
 
     <!-- Home -->

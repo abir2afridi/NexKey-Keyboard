@@ -18,7 +18,7 @@
     <string name="ime_network_error">ネットワークエラー</string>
     <string name="ime_recognizer_busy">認識機能がビジーです</string>
     <string name="ime_permission_denied">権限が拒否されました</string>
-    <string name="ime_voice_error">エラー: %1$s</string>
+    <string name="ime_voice_error">エラー: %1$d</string>
     <string name="ime_voice_start_failed">音声入力を開始できませんでした: %1$s</string>
 
     <!-- Home -->

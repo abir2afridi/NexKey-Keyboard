@@ -18,7 +18,7 @@
     <string name="ime_network_error">Network error</string>
     <string name="ime_recognizer_busy">Recognizer busy</string>
     <string name="ime_permission_denied">Permission denied</string>
-    <string name="ime_voice_error">Error: %1$s</string>
+    <string name="ime_voice_error">Error: %1$d</string>
     <string name="ime_voice_start_failed">Failed to start voice input: %1$s</string>
 
     <!-- Home -->

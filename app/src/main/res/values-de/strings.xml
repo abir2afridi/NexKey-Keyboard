@@ -18,7 +18,7 @@
     <string name="ime_network_error">Netzwerkfehler</string>
     <string name="ime_recognizer_busy">Erkenner beschäftigt</string>
     <string name="ime_permission_denied">Berechtigung verweigert</string>
-    <string name="ime_voice_error">Fehler: %1$s</string>
+    <string name="ime_voice_error">Fehler: %1$d</string>
     <string name="ime_voice_start_failed">Spracheingabe konnte nicht gestartet werden: %1$s</string>
 
     <!-- Home -->

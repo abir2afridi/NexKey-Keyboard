@@ -18,7 +18,7 @@
     <string name="ime_network_error">네트워크 오류</string>
     <string name="ime_recognizer_busy">인식기가 사용 중입니다</string>
     <string name="ime_permission_denied">권한이 거부되었습니다</string>
-    <string name="ime_voice_error">오류: %1$s</string>
+    <string name="ime_voice_error">오류: %1$d</string>
     <string name="ime_voice_start_failed">음성 입력을 시작하지 못했습니다: %1$s</string>
 
     <!-- Home -->

@@ -18,7 +18,7 @@
     <string name="ime_network_error">خطأ في الشبكة</string>
     <string name="ime_recognizer_busy">المُعرّف مشغول</string>
     <string name="ime_permission_denied">تم رفض الإذن</string>
-    <string name="ime_voice_error">خطأ: %1$s</string>
+    <string name="ime_voice_error">خطأ: %1$d</string>
     <string name="ime_voice_start_failed">فشل بدء الإدخال الصوتي: %1$s</string>
 
     <!-- Home -->
@@ -364,6 +364,7 @@
     <string name="emoji_visible_rows">الصفوف المرئية</string>
     <string name="emoji_visible_rows_desc">عدد صفوف الرموز التعبيرية المعروضة في نتائج البحث</string>
     <plurals name="emoji_rows">
+        <item quantity="zero">%1$d صف</item>
         <item quantity="one">%1$d صف</item>
         <item quantity="two">%1$d صفين</item>
         <item quantity="few">%1$d صفوف</item>

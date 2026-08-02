@@ -18,7 +18,7 @@
     <string name="ime_network_error">نیٹ ورک کی خرابی</string>
     <string name="ime_recognizer_busy">شناخت کنندہ مصروف ہے</string>
     <string name="ime_permission_denied">اجازت سے انکار</string>
-    <string name="ime_voice_error">خرابی: %1$s</string>
+    <string name="ime_voice_error">خرابی: %1$d</string>
     <string name="ime_voice_start_failed">صوتی ان پٹ شروع کرنے میں ناکامی: %1$s</string>
 
     <!-- Home -->
