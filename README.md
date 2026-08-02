@@ -4,19 +4,19 @@
 
 # NexKey Keyboard
 
-**Original Multilingual Android Keyboard** — Ridmik-class Bangla phonetic typing + English + Arabic + unlimited language support.
+**Original Multilingual Android Keyboard** — Ridmik-class Bangla phonetic typing + English + Arabic + unlimited language support, with the app itself localized into 15 languages.
 
 ![Platform](https://img.shields.io/badge/platform-Android-3DDC84?logo=android)
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.3.0-blue)
+![Version](https://img.shields.io/badge/version-1.4.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.3.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.4.0-ff69b4)](../releases)
 
 ---
 
@@ -73,7 +73,10 @@
 | Physical keyboard support | 🚧 Planned |
 | Foldable & stylus support | 🚧 Planned |
 | Handwriting interface | 🚧 Planned |
-| App localization (BN/HI/AR) | 🚧 Planned |
+| App localization (14 languages + English) | ✅ |
+| HSV color picker (theme creator) | ✅ |
+| Unified animated header (auto-show/hide) | ✅ |
+| Instant flicker-free language switching (no activity recreation) | ✅ |
 | In-app updates | 🚧 Planned |
 | Crash watchdog | 🚧 Planned |
 | 46+ language support | ✅ |
@@ -86,7 +89,7 @@
 ```
 app/
 └── src/main/java/com/example/
-    ├── MainActivity.kt                     — Navigation host, bottom nav, route registration
+    ├── MainActivity.kt                     — Navigation host, bottom nav, route registration, locale-aware composition (createConfigurationContext + composition locals)
     ├── ime/
     │   ├── NexKeyInputMethodService.kt     — Core IME service (state, lifecycle, view wiring)
     │   ├── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
@@ -179,22 +182,23 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.3.0 | **Published:** July 31, 2026
+**Version:** 1.4.0 | **Published:** August 2, 2026
 
-- **APK:** [Download v1.3.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.4.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
-- ✅ Custom Theme Engine (11 adjustable color groups + live preview)
-- ✅ Live preview pinned at top while color pickers scroll below
-- ✅ Standardized 120dp bottom clearance on every screen (no more content hidden behind floating nav)
-- ✅ Cursor position fix (moving mid-word no longer jumps to end)
-- ✅ Codebase refactored into per-feature modules (per-language modes, per-settings screens)
+- ✅ Full internationalization — every string extracted; complete translations for 14 languages (Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese Simplified/Traditional, Urdu, Persian)
+- ✅ Instant language switching — all screens update in place with no activity recreation, no display flash, and RTL mirrors immediately
+- ✅ No more black screen when switching apps
+- ✅ HSV color picker dialog in the theme creator (independent H/S/V sliders, correct hue gradient)
+- ✅ Unified header with auto-show and animated transitions
+- ✅ Stored-label i18n bug fixed (popup dismiss delay settings persist correctly)
 
 **Checksums:**
 | File | SHA256 | MD5 |
 |------|--------|-----|
-| NexKey-Keyboard-v1.3.0.apk | `cba81605d022b76a1e3089badea72abe02afee5a3075f967035eba732f2e3cc0` | `18e81450e2d9c11c2c84ca41bb0bbf9e` |
+| NexKey-Keyboard-v1.4.0.apk | `520174e0df4310eae22725621724c20b2ec4213c9a670f7f00d02df2162db3a3` | `2cba33d980265bff349cddd4ff1c1c67` |
 
 [View all releases →](../releases)
 
@@ -285,6 +289,16 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 ---
 
 ## Recent Fixes
+
+### v1.4.0
+- Added full internationalization — all hardcoded strings extracted to resources; complete translations for 14 languages: Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese (Simplified & Traditional), Urdu, Persian
+- Added HSV color picker dialog to the theme creator (independent hue/saturation/value sliders, correct hue gradient, custom button first)
+- Added unified header with auto-show/auto-hide and animated transitions
+- Fixed black screen when switching between apps — removed blocking DataStore read from `onCreate`; themed window background
+- Fixed language switch requiring a second click — locale applied from a single source of truth (DataStore)
+- Fixed display flashing off/on during language switch — locale context wrapping (`createConfigurationContext` + composition locals) replaces activity recreation; strings and RTL update instantly in place, navigation state preserved
+- Fixed stored-label i18n bug — `popupDismissDelay` persists stable keys instead of Android resource IDs
+- Fixed voice error message formatting (`%1$s` → `%1$d`) and added missing Arabic `zero` plural quantity
 
 ### v1.3.0
 - Added Custom Theme Engine — customize background, primary keys, key text, special keys, accent color, suggestion strip, key popup, and sub-character hints
