@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.0] - 2026-08-02
+
+### 🚀 Features
+- **Full internationalization (i18n)** — every hardcoded string extracted into resources and complete translations added for 14 languages: Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese (Simplified), Chinese (Traditional), Urdu, and Persian
+- **HSV color picker dialog** — full color customization in the theme creator with independent hue/saturation/value sliders
+- **Unified header** — animated auto-show/auto-hide header with smooth transitions
+
+### 🐛 Bug Fixes
+- **Fixed app turning black when switching between apps** — removed blocking DataStore read from `onCreate`; window background is now themed, so no more black flash on activity recreation
+- **Fixed language switch needing a second click** — locale is now applied from a single source of truth (DataStore) instead of racing `AppCompatDelegate.setApplicationLocales()` against activity recreation
+- **Fixed display flashing off/on during language switch** — app no longer recreates the activity; the whole Compose tree is wrapped in a locale-specific context (`createConfigurationContext`), so all strings (and RTL layout) update instantly in place, preserving navigation state
+- **Fixed stored-label i18n bug** — `popupDismissDelay` settings no longer persist Android resource IDs; stable keys ("Default"/"Short"/"Long") are stored instead
+- **Fixed color picker** — independent HSV sliders, correct hue gradient, custom button now appears first
+
+### ♻️ Refactors
+- Reactive language switching: composition-local context wrapping (`LocalContext`, `LocalConfiguration`, `LocalLayoutDirection`) replaces activity recreation; `Locale.setDefault()` kept in sync
+
 ## [1.3.1] - 2026-08-01
 
 ### 🐛 Bug Fixes

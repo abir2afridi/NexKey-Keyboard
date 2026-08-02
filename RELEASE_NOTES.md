@@ -1,32 +1,35 @@
-# NexKey Keyboard v1.3.1 - Release Notes
+# NexKey Keyboard v1.4.0 - Release Notes
 
 ## Overview
 
-NexKey Keyboard v1.3.1 is a patch release that fixes three editing bugs that made correcting text painful: cursor jumps when editing mid-word, emoji backspace leaving a "?" behind, and the delete key ignoring selected text.
+NexKey Keyboard v1.4.0 is a minor release that brings the app to 15 languages, a professional HSV color picker for themes, and fixes two long-standing UI bugs: the black screen flash when switching apps, and the language switcher that needed a second tap (and flashed the display when it worked).
 
 ## Highlights
 
-- **Edit Mid-Word Without Jumping** — Move the cursor anywhere inside a composed word (e.g. tap between the letters of "aple" to type "apple") and new keys insert exactly where the cursor is — no more being thrown to the end of the sentence
-- **Emoji Deletes Cleanly** — Backspace removes the entire emoji in one press: surrogate-pair emojis, family/flag ZWJ sequences, variation selectors (❤️), and combined marks (é) — no leftover "?" half-characters
-- **Delete Respects Selection** — Select any text (or select-all) and press delete: the whole selection is removed at once
+- **Now in 15 languages** — Full translations for English, Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese (Simplified & Traditional), Urdu, and Persian, switchable from App Settings → Language
+- **Instant, flicker-free language switching** — switching language now updates every screen in place with zero activity recreation, zero display flash, and no black screen — even RTL (Arabic/Urdu/Persian) mirrors instantly and your place in the app is preserved
+- **No more black screen when switching apps** — app resumes instantly, no blocking disk reads, no black flash
+- **HSV color picker** — theme creator now has independent Hue/Saturation/Value sliders with a correct hue gradient
+- **Animated header** — auto-show/auto-hide header with smooth transitions
 
 ## What's Changed
 
-- Composing-region handling rewritten: composing text is committed whenever the cursor moves off the end of the composing region
-- Grapheme-aware backspace deletion with selection detection
-- Input method logic restructured into dedicated handler files (text input, deletion, suggestions, preferences) and settings split into per-screen files
+- All hardcoded strings extracted to resources; 14 locale folders (425 keys each, zero missing)
+- Language switching rewritten: composition-local locale context replaces `AppCompatDelegate` activity recreation
+- `popupDismissDelay` now persists stable keys instead of resource IDs (settings no longer revert after restart)
+- Color picker sliders decoupled and fixed
 
 ## Files
 
-- `NexKey-Keyboard-v1.3.1.apk` — installable debug build
-- `NexKey-Keyboard-v1.3.1.apk.sha256` / `.md5` — integrity checksums
+- `NexKey-Keyboard-v1.4.0.apk` — installable debug build
+- `NexKey-Keyboard-v1.4.0.apk.sha256` / `.md5` — integrity checksums
 
 ## Installation
 
 Download the APK and enable "Install unknown apps" for your file manager or browser. Or install via ADB:
 
 ```
-adb install NexKey-Keyboard-v1.3.1.apk
+adb install NexKey-Keyboard-v1.4.0.apk
 ```
 
 Then enable the keyboard in **Settings → System → Languages & input → NexKey Keyboard**.
