@@ -514,6 +514,15 @@
     <string name="kb_delete">Supprimer</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">Sec</string>
+    <string name="meter_display_mode">Affichage du compteur</string>
+    <string name="meter_display_speed">Vitesse</string>
+    <string name="meter_display_counter">Compteur</string>
+    <string name="settings_speed_meter_infobox">Boîte d\'infos</string>
+    <string name="settings_speed_meter_infobox_desc_on">Affiche les infos de balayage et les textes personnalisés</string>
+    <string name="settings_speed_meter_infobox_desc_off">Masqué de l\'en-tête</string>
+    <string name="store_infobox_enable">Activer la boîte d\'infos</string>
+    <string name="store_infobox_enable_desc">Afficher la boîte d\'infos à côté du compteur de vitesse</string>
     <string name="meter_result_in">En %1$d s d\'auto-swipe vous avez écrit %2$d mots</string>
     <string name="meter_result_best">Record : %1$s</string>
     <string name="meter_result_record">NOUVEAU RECORD %1$s (série %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">meilleur score %1$s</string>
     <string name="meter_rules_line5">Une fois la fenetre terminée, le compteur fait défiler : fenêtre, mots, votre vitesse et le meilleur score. Les fenetres de 5 s et 10 s utilisent les CPS (par seconde), celle de 1 min les CPM (par minute).</string>
     <string name="meter_rules_line6">Un record est enregistré UNIQUEMENT si vous battez votre meilleur score pour cette fenêtre. Chaque durée (5 s / 10 s / 1 min) a sa propre colonne dans l’historique avec la date et l’heure. Le classement trie le meilleur record par durée.</string>
+    <string name="meter_rules_line7">7. La boîte d’informations (à côté du compteur) affiche en direct le mot tapé, puis, quand le balayage automatique se termine, affiche les infos de balayage puis vos textes personnalisés (si présents). Mode Toujours : les textes défilent après les infos ; mode Minuté : ils restent pendant la durée définie. Après le délai de balayage, la boîte se vide. Cadre, couleurs et textes se règlent dans Magasin → Boîte d’informations.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = records battus consécutifs. Il augmente tant que vous battez votre meilleur record et revient à 1 si vous manquez un record.</string>
 </resources>

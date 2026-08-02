@@ -514,6 +514,15 @@
     <string name="kb_delete">মুছুন</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">সেকেন্ড</string>
+    <string name="meter_display_mode">মিটার ডিসপ্লে</string>
+    <string name="meter_display_speed">গতি</string>
+    <string name="meter_display_counter">কাউন্টার</string>
+    <string name="settings_speed_meter_infobox">ইনফো বক্স</string>
+    <string name="settings_speed_meter_infobox_desc_on">সুইপ তথ্য ও কাস্টম টেক্সট দেখায়</string>
+    <string name="settings_speed_meter_infobox_desc_off">হেডার থেকে লুকানো</string>
+    <string name="store_infobox_enable">ইনফো বক্স চালু করুন</string>
+    <string name="store_infobox_enable_desc">স্পিড মিটারের পাশে ইনফো বক্স দেখান</string>
     <string name="meter_result_in">%1$d সেকেন্ড অটো-সোয়াইপে আপনি %2$d শব্দ চাপলেন</string>
     <string name="meter_result_best">সেরা: %1$s</string>
     <string name="meter_result_record">নতুন রেকর্ড %1$s (ধারা %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">সেরা স্কোর %1$s</string>
     <string name="meter_rules_line5">বিরতির সময় শেষ হলে মিটার স্বয়ংক্রিয়ভাবে দেখায়: উইন্ডো, শব্দ, আপনার গতি, সেরা স্কোর। ৫ সেকেন্ড ও ১০ সেকেন্ডের উইন্ডোতে CPS (প্রতি সেকেন্ডে) এবং ১ মিনিটে CPM (প্রতি মিনিটে) ব্যবহৃত হয়।</string>
     <string name="meter_rules_line6">শুধু নিজের সেরা রেকর্ড ভাঙলেই রেকর্ড সংরক্ষিত হয়। প্রতিটি উইন্ডো (৫ সে/১০ সে/১ মিনিট) এর নিজস্ব কলাম আছে তারিখ ও সময়সহ। লিডারবোর্ড প্রতি উইন্ডোতে সেরা রেকর্ড দেখায়।</string>
+    <string name="meter_rules_line7">৭. ইনফো বক্স (মিটারের পাশে) টাইপ করা শব্দটি লাইভ দেখায়; অটো-সুইপ শেষ হলে সুইপ তথ্য এবং তারপর আপনার কাস্টম টেক্সট (যদি থাকে) দেখায়। সর্বদা মোড তথ্যের পরে বারবার টেক্সট দেখায়, সময়সীমা মোড নির্দিষ্ট সময়ের জন্য দেখায়। সুইপ টাইমআউটের পর বক্সটি খালি থাকে। এর ফ্রেম, রং ও টেক্সট স্টোর → ইনফো বক্স থেকে সেট করা যায়।</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">স্ট্রিক = ধারাবাহিক রেকর্ড-ব্রেক। নিজের সেরাটি ভাঙার সময় এটি বাড়ে এবং একটি উইন্ডোতে রেকর্ড না ভাঙলে ১-এ রিসেট হয়।</string>
 </resources>

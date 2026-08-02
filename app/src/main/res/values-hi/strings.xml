@@ -514,6 +514,15 @@
     <string name="kb_delete">हटाएँ</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">सेकंड</string>
+    <string name="meter_display_mode">मीटर डिस्प्ले</string>
+    <string name="meter_display_speed">गति</string>
+    <string name="meter_display_counter">काउंटर</string>
+    <string name="settings_speed_meter_infobox">इन्फो बॉक्स</string>
+    <string name="settings_speed_meter_infobox_desc_on">स्वाइप जानकारी और कस्टम टेक्स्ट दिखाता है</string>
+    <string name="settings_speed_meter_infobox_desc_off">हेडर से छिपा हुआ</string>
+    <string name="store_infobox_enable">इन्फो बॉक्स सक्षम करें</string>
+    <string name="store_infobox_enable_desc">स्पीड मीटर के बगल में इन्फो बॉक्स दिखाएं</string>
     <string name="meter_result_in">%1$d सेकंड ऑटो-स्वाइप में आपने %2$d शब्द दबाए</string>
     <string name="meter_result_best">सर्वश्रेष्ठ: %1$s</string>
     <string name="meter_result_record">नया रिकॉर्ड %1$s (लकीर %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">बेस्ट स्कोर %1$s</string>
     <string name="meter_rules_line5">विंडो समाप्त होने के बाद मीटर स्वतः दिखाता है: विंडो, शब्द, आपकी गति और बेस्ट स्कोर। 5 सेकंड व 10 सेकंड की विंडो CPS (प्रति सेकंड) और 1 मिनट की विंडो CPM (प्रति मिनट) का उपयोग करती है।</string>
     <string name="meter_rules_line6">रिकॉर्ड तभी सहेजा जाता है जब आप किसी विंडो का अपना सर्वश्रेष्ठ रिकॉर्ड तोड़ते हैं। हर विंडो (5s/10s/1min) के लिए इतिहास में तारीख व समय के साथ अलग कॉलम होता है। लीडरबोर्ड हर विंडो के सर्वश्रेष्ठ रिकॉर्ड को क्रमबद्ध करता है।</string>
+    <string name="meter_rules_line7">7. इन्फो बॉक्स (मीटर के पास) टाइप किए गए शब्द को लाइव दिखाता है; ऑटो-स्वाइप के बाद स्वाइप जानकारी और फिर आपके कस्टम टेक्स्ट (यदि हैं) दिखाता है। हमेशा मोड जानकारी के बाद टेक्स्ट दोहराता है, समयबद्ध मोड निर्धारित अवधि तक दिखाता है। टाइमआउट के बाद बॉक्स खाली हो जाता है। इसका रंग, फ्रेम और टेक्स्ट स्टोर → इन्फो बॉक्स में सेट होते हैं।</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">स्ट्रीक = लगातार रिकॉर्ड तोड़ना। जब तक अपना बेस्ट तोड़ते हैं बढ़ती है; किसी विंडो में रिकॉर्ड न तोड़ने पर 1 पर रीसेट हो जाती है।</string>
 </resources>

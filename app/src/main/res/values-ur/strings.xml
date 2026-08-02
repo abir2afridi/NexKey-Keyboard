@@ -514,6 +514,15 @@
     <string name="kb_delete">حذف کریں</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">سیکنڈ</string>
+    <string name="meter_display_mode">میٹر ڈسپلے</string>
+    <string name="meter_display_speed">رفتار</string>
+    <string name="meter_display_counter">کاؤنٹر</string>
+    <string name="settings_speed_meter_infobox">انفو باکس</string>
+    <string name="settings_speed_meter_infobox_desc_on">سوائپ معلومات اور اپنی مرضی کے متن دکھاتا ہے</string>
+    <string name="settings_speed_meter_infobox_desc_off">ہیڈر سے پوشیدہ</string>
+    <string name="store_infobox_enable">انفو باکس فعال کریں</string>
+    <string name="store_infobox_enable_desc">اسپیڈ میٹر کے ساتھ انفو باکس دکھائیں</string>
     <string name="meter_result_in">%1$d سیکنڈ آٹو سواب میں آپ نے %2$d الفاظ ٹائپ کیے</string>
     <string name="meter_result_best">بہترین: %1$s</string>
     <string name="meter_result_record">نیا ریکارڈ %1$s (سلسلہ %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">بہترین سکور %1$s</string>
     <string name="meter_rules_line5">وقفے کے بعد میٹر خود بخود دکھاتا ہے: ونڈو، الفاظ، آپ کی رفتار اور بہترین سکور۔ 5 سیکنڈ اور 10 سیکنڈ کی ونڈو CPS (فی سیکنڈ)، جبکہ 1 منٹ کی ونڈو CPM (فی منٹ) استعمال کرتی ہے۔</string>
     <string name="meter_rules_line6">صرف اپنے کسی ونڈو کے بہترین ریکارڈ کو توڑنے پر ہی ریکارڈ محفوظ ہوتا ہے۔ ہر ونڈو (5s/10s/1min) کے لیے تاریخ و وقت کے ساتھ الگ کالم ہے۔ لیڈر بورڈ ہر ونڈو کے بہترین ریکارڈ کو زمرہ بندی کرتا ہے۔</string>
+    <string name="meter_rules_line7">7. انفو باکس (میٹر کے ساتھ) ٹائپ شدہ لفظ کو لائیو دکھاتا ہے؛ آٹو سوائپ کے بعد سوائپ معلومات اور پھر آپ کے کسٹم ٹیکسٹ (اگر ہوں) دکھاتا ہے۔ ہمیشہ موڈ معلومات کے بعد ہر بار ٹیکسٹ دہراتا ہے، وقت میں موڈ مقررہ مدت تک دکھاتا ہے۔ ٹائم آؤٹ کے بعد باکس خالی ہو جاتا ہے۔ رنگ، فریم اور ٹیکسٹ اسٹور میں سیٹ ہوتے ہیں۔</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">اسٹریک = مسلسل ریکارڈ توڑنا۔ جب تک اپنا بہترین ریکارڈ توڑتے ہیں بڑھتی ہے، کسی ونڈو میں ریکارڈ نہ توڑنے پر 1 سمجھوت ہو جاتی ہے۔</string>
 </resources>

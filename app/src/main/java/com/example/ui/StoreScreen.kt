@@ -275,8 +275,10 @@ private fun InfoBoxTab(
     val currentCustomMode by prefs.infoBoxCustomMode.collectAsState(initial = "off")
     val currentCustomSec by prefs.infoBoxCustomSec.collectAsState(initial = 5)
     val currentSwipeTimeout by prefs.infoBoxSwipeTimeoutSec.collectAsState(initial = 10)
+    val infoBoxEnabled by prefs.infoBoxEnabled.collectAsState(initial = true)
 
     var newText by remember { mutableStateOf("") }
+    var showRules by remember { mutableStateOf(false) }
     val customTexts = remember(currentCustomTexts) {
         try {
             JSONArray(currentCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
@@ -291,6 +293,37 @@ private fun InfoBoxTab(
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        Surface(
+            onClick = { scope.launch { prefs.setInfoBoxEnabled(!infoBoxEnabled) } },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surface,
+            shadowElevation = 1.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = null,
+                    tint = if (infoBoxEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.store_infobox_enable), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.store_infobox_enable_desc), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+                Switch(
+                    checked = infoBoxEnabled,
+                    onCheckedChange = { scope.launch { prefs.setInfoBoxEnabled(it) } }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         Text(
             stringResource(R.string.infobox_frames),
             fontSize = 14.sp,
@@ -298,6 +331,21 @@ private fun InfoBoxTab(
             color = MaterialTheme.colorScheme.primary,
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
         )
+        Box(modifier = Modifier.fillMaxWidth()) {
+            Text(
+                stringResource(R.string.infobox_frames),
+                fontSize = 14.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(start = 6.dp)
+            )
+            IconButton(
+                onClick = { showRules = true },
+                modifier = Modifier.align(Alignment.CenterEnd).size(24.dp)
+            ) {
+                Icon(Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary.copy(alpha = 0.7f), modifier = Modifier.size(16.dp))
+            }
+        }
 
         androidx.compose.foundation.lazy.grid.LazyVerticalGrid(
             columns = androidx.compose.foundation.lazy.grid.GridCells.Fixed(2),
@@ -539,6 +587,10 @@ private fun InfoBoxTab(
         )
 
         Spacer(modifier = Modifier.height(120.dp))
+    }
+
+    if (showRules) {
+        MeterRulesDialog(onDismiss = { showRules = false })
     }
 }
 

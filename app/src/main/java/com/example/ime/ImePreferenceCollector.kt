@@ -161,6 +161,8 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.infoBoxCustomMode.collectLatest { infoBoxCustomModeState = it } }
         launch { userPreferences.infoBoxCustomSec.collectLatest { infoBoxCustomSecState = it } }
         launch { userPreferences.infoBoxSwipeTimeoutSec.collectLatest { infoBoxSwipeTimeoutSecState = it } }
+        launch { userPreferences.infoBoxEnabled.collectLatest { infoBoxEnabledState = it } }
+        launch { userPreferences.meterDisplayMode.collectLatest { meterDisplayModeState = it } }
         launch {
             userPreferences.recentEmojiExpiry.collectLatest { recentEmojiExpiryDays = it }
         }

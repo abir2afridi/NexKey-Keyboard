@@ -16,6 +16,7 @@ internal fun NexKeyInputMethodService.countMeteredWord() {
 internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     if (!isTypingActive) return
     isTypingActive = false
+    elapsedTickerJob?.cancel()
     if (!meterEnabled) {
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()

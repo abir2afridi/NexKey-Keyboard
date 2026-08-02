@@ -6,6 +6,7 @@ import com.example.data.TypingAnalytics
 import com.example.ui.KeyboardMode
 import com.example.ui.ShiftState
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 
 internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
@@ -19,8 +20,8 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
     if (!isIncognito && !isSensitiveField) {
         TypingAnalytics.trackKeyPress()
 
-        // Live Speed Meter Logic (only when the meter is enabled in settings)
-        if (meterEnabled) {
+        // Live Speed Meter + Info Box logic (runs when either box is enabled)
+        if (meterEnabled || infoBoxEnabledState) {
             val now = System.currentTimeMillis()
             if (now - lastKeyPressTime > meterIdleMsState) {
                 burstStartTime = now
@@ -29,6 +30,7 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
                 isTypingActive = true
                 currentLiveCps = 0f
                 maxBurstCps = 0f
+                liveElapsedSec = 0
             }
 
             lastKeyPressTime = now
@@ -44,6 +46,16 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
             meterPhase = SpeedMeterPhase.LIVE
             lastPressedWord = key
+
+            // Elapsed-seconds ticker for the meter's Counter display mode.
+            elapsedTickerJob?.cancel()
+            elapsedTickerJob = scope.launch {
+                while (isActive) {
+                    liveElapsedSec = ((System.currentTimeMillis() - burstStartTime) / 1000L).toInt()
+                    delay(200)
+                }
+            }
+
             typingStopJob?.cancel()
             typingStopJob = scope.launch {
                 meterPhase = SpeedMeterPhase.WAITING

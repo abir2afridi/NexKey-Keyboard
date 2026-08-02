@@ -514,6 +514,15 @@
     <string name="kb_delete">刪除</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">秒</string>
+    <string name="meter_display_mode">儀表顯示</string>
+    <string name="meter_display_speed">速度</string>
+    <string name="meter_display_counter">計數器</string>
+    <string name="settings_speed_meter_infobox">資訊框</string>
+    <string name="settings_speed_meter_infobox_desc_on">顯示滑動資訊和自訂文字</string>
+    <string name="settings_speed_meter_infobox_desc_off">從頂欄隱藏</string>
+    <string name="store_infobox_enable">啟用資訊框</string>
+    <string name="store_infobox_enable_desc">在速度計旁邊顯示資訊框</string>
     <string name="meter_result_in">在 %1$d 秒自動滑動輸入了 %2$d 個字</string>
     <string name="meter_result_best">最佳：%1$s</string>
     <string name="meter_result_record">新紀錄 %1$s（連續 %2$d）</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">最佳成績 %1$s</string>
     <string name="meter_rules_line5">窗口結束後速度計自動輪播：窗口、輸入字數、你的速度、最佳成績。5 秒與 10 秒窗口使用 CPS（每秒），1 分鐘窗口使用 CPM（每分鐘）。</string>
     <string name="meter_rules_line6">只有當你刷新自己某窗口的最佳成績時才會保存記錄。每個窗口（5秒/10秒/1分鐘）在歷史中皆有獨立欄位，含日期與時間。排行榜會依窗口排序你的最佳成績。</string>
+    <string name="meter_rules_line7">7. 資訊框（位於測速旁）會即時顯示正在輸入的字；自動滑動結束後依序顯示滑動資訊與自訂文字（如有）。始終模式會在資訊後反覆顯示文字，定時模式會按設定時長顯示。逾時後資訊框變為空白。其邊框、顏色與文字可在商店 → 資訊框中設定。</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">連勝＝連續打破紀錄。持續刷新自己的最佳成績就會增加；某窗口錯失紀錄時重置為 1。</string>
 </resources>

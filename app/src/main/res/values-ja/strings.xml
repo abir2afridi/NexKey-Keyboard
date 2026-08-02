@@ -514,6 +514,15 @@
     <string name="kb_delete">削除</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">秒</string>
+    <string name="meter_display_mode">メーター表示</string>
+    <string name="meter_display_speed">速度</string>
+    <string name="meter_display_counter">カウンター</string>
+    <string name="settings_speed_meter_infobox">情報ボックス</string>
+    <string name="settings_speed_meter_infobox_desc_on">スワイプ情報とカスタムテキストを表示します</string>
+    <string name="settings_speed_meter_infobox_desc_off">ヘッダーから非表示</string>
+    <string name="store_infobox_enable">情報ボックスを有効化</string>
+    <string name="store_infobox_enable_desc">スピードメーターの隣に情報ボックスを表示</string>
     <string name="meter_result_in">%1$d秒オートスワイプで%2$d語入力しました</string>
     <string name="meter_result_best">最高: %1$s</string>
     <string name="meter_result_record">新記録 %1$s（連続 %2$d）</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">ベストスコア %1$s</string>
     <string name="meter_rules_line5">ワインドウが終わると、メーターは自動でウィンドウ、単語、速度、ベストスコアと切り替えます。5 秒・10 秒は CPS（毎秒）、1 分は CPM（毎分）を使います。</string>
     <string name="meter_rules_line6">自分のベストスートを上回った時だけ記録が保存されます。各ウィンドウ（5s/10s/1min）は履歴で日時付の独立した列を持ち、リーダーボードはウィンドウごとのベストをランク付けします。</string>
+    <string name="meter_rules_line7">7. 情報ボックス（メーターの隣）は、入力中に入力した単語をリアルタイム表示します。自動スワイプが終わると、スワイプ情報、続いてカスタムテキスト（あれば）を表示します。常時モードは情報の後にテキストを繰り返し表示し、時間指定モードは設定時間だけ表示します。タイムアウト後はボックスは空になります。枠・色・テキストはストア → 情報ボックスで設定します。</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">ストリーク＝連続した記録更新。自分のベストを更新し続けると増え、更新に失敗すると 1 に戻ります。</string>
 </resources>

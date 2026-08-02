@@ -514,6 +514,15 @@
     <string name="kb_delete">Excluir</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">Seg</string>
+    <string name="meter_display_mode">Exibição do medidor</string>
+    <string name="meter_display_speed">Velocidade</string>
+    <string name="meter_display_counter">Contador</string>
+    <string name="settings_speed_meter_infobox">Caixa de informações</string>
+    <string name="settings_speed_meter_infobox_desc_on">Mostra as informações de deslize e os textos personalizados</string>
+    <string name="settings_speed_meter_infobox_desc_off">Oculto do cabeçalho</string>
+    <string name="store_infobox_enable">Ativar caixa de informações</string>
+    <string name="store_infobox_enable_desc">Mostrar a caixa de informações ao lado do medidor de velocidade</string>
     <string name="meter_result_in">Em %1$d s de auto-swipe você digitou %2$d palavras</string>
     <string name="meter_result_best">Melhor: %1$s</string>
     <string name="meter_result_record">NOVO RECORDE %1$s (sequência %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">melhor resultado %1$s</string>
     <string name="meter_rules_line5">Ao final da janela, o medidor mostra automaticamente a janela, o total de palavras, a sua velocidade e o melhor resultado. As janelas de 5 s e 10 s usam CPS (por segundo); a de 1 min usa CPM (por minuto).</string>
     <string name="meter_rules_line6">Os registros são salvos SOMENTE quando você supera a sua melhor marca nessa janela. Cada janela (5s/10s/1min) tem a própria coluna no histórico com data e hora. A classificação ordena o melhor registro por janela.</string>
+    <string name="meter_rules_line7">7. A caixa de informações (ao lado do medidor) mostra a palavra digitada em tempo real; ao terminar o deslize automático, mostra a informação do deslize e depois os textos personalizados (se houver). Sempre repete os textos depois da informação do deslize, Cronometrado mostra por a duração definida. Após o tempo limite, a caixa fica vazia. Moldura, cor e textos são definidos em Loja → Caixa de informações.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Sequência de recordes consecutivos. Ela aumenta enquanto você supera a própria marca e zera quando não bate o recorde de uma janela.</string>
 </resources>

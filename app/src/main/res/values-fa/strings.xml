@@ -514,6 +514,15 @@
     <string name="kb_delete">حذف</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">ثانیه</string>
+    <string name="meter_display_mode">نمایش متر</string>
+    <string name="meter_display_speed">سرعت</string>
+    <string name="meter_display_counter">شمارنده</string>
+    <string name="settings_speed_meter_infobox">کادر اطلاعات</string>
+    <string name="settings_speed_meter_infobox_desc_on">اطلاعات سوایپ و متن‌های سفارشی را نشان می‌دهد</string>
+    <string name="settings_speed_meter_infobox_desc_off">پنهان از هدر</string>
+    <string name="store_infobox_enable">فعال‌سازی کادر اطلاعات</string>
+    <string name="store_infobox_enable_desc">نمایش کادر اطلاعات در کنار متر سرعت</string>
     <string name="meter_result_in">در %1$d ثانیه سوایپ خودکار %2$d کلمه تایپ کردید</string>
     <string name="meter_result_best">بهترین: %1$s</string>
     <string name="meter_result_record">رکورد جدید %1$s (زنجیره %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">بهترین امتیاز %1$s</string>
     <string name="meter_rules_line5">هنگامی که پنجره تمام شد، سرعت‌سنج به‌طور خودکار نمایش می‌دهد: پنجره، کلمات، سرعت شما و بهترین امتیاز. پنجره‌های ۵ و ۱۰ ثانیه از CPS (در ثانیه) و پنجرهٔ ۱ دقیقه از CPM (در دقیقه) استفاده می‌کنند.</string>
     <string name="meter_rules_line6">فقط وقتی رکورد شما ذخیره می‌شود که بهترین رکورد خود را در آن پنجره بشکنید. برای هر پنجره (5s/10s/1min) با تاریخ و ساعت در ستون مخصوص خود در تاریخ است. جدول برتری‌ها بهترین رکورد را به‌ازای هر پنجره رتبه‌بندی می‌کند.</string>
+    <string name="meter_rules_line7">۷. کادر اطلاعات (کنار سرعتسنج) کلمهای را که در هنگام نوشتن میزنید، زنده نشان میدهد؛ هنگام پایان سوایپ خودکار، اطلاعات سوایپ و سپس متنهای سفارشی شما (در صورت وجود) نمایش داده میشود. حالت «همیشه» پس از اطلاعات، متنها را تکرار میکند؛ حالت «دورهای» برای مدت مشخص نمایش میدهد. پس از مهلت، کادر خالی میشود. قاب، رنگ و متنهای آن از فروشگاه ← کادر اطلاعات تنظیم میشود.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">سریال = شکستن رکوردهای پیاپی. تا وقتی رکورد خود را بشکنید زیاد می‌شود و در صورت خطا در یک نوبت به ۱ برگشت می‌کند.</string>
 </resources>

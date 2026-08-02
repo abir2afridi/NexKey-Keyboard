@@ -5,6 +5,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -29,6 +30,8 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
     val interval by prefs.meterInterval.collectAsState(initial = "5s")
     val meterEnabled by prefs.meterEnabled.collectAsState(initial = true)
     val meterPosition by prefs.meterPosition.collectAsState(initial = "right")
+    val infoBoxEnabled by prefs.infoBoxEnabled.collectAsState(initial = true)
+    val meterDisplayMode by prefs.meterDisplayMode.collectAsState(initial = "speed")
 
     var showInfo by remember { mutableStateOf(false) }
 
@@ -67,6 +70,64 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
         }
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
+        Surface(
+            onClick = { scope.launch { prefs.setInfoBoxEnabled(!infoBoxEnabled) } },
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surface,
+            shadowElevation = 1.dp
+        ) {
+            Row(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    Icons.Default.Info,
+                    contentDescription = null,
+                    tint = if (infoBoxEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(28.dp)
+                )
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.settings_speed_meter_infobox), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(
+                        stringResource(if (infoBoxEnabled) R.string.settings_speed_meter_infobox_desc_on else R.string.settings_speed_meter_infobox_desc_off),
+                        fontSize = 13.sp,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+                Switch(
+                    checked = infoBoxEnabled,
+                    onCheckedChange = { scope.launch { prefs.setInfoBoxEnabled(it) } }
+                )
+            }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
+        Text(
+            text = stringResource(R.string.meter_display_mode),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp)
+        )
+
+        val displayModes = listOf("speed" to stringResource(R.string.meter_display_speed), "counter" to stringResource(R.string.meter_display_counter))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            displayModes.forEach { (key, label) ->
+                FilterChip(
+                    selected = meterDisplayMode == key,
+                    onClick = { scope.launch { prefs.setMeterDisplayMode(key) } },
+                    label = { Text(label) }
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
         Text(
             text = stringResource(R.string.meter_interval_label),
@@ -178,6 +239,7 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
                     )
                     stringResource(R.string.meter_rules_line5).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
                     stringResource(R.string.meter_rules_line6).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
+                    stringResource(R.string.meter_rules_line7).also { Text(it, fontSize = 14.sp, lineHeight = 21.sp) }
                 }
             },
             confirmButton = {

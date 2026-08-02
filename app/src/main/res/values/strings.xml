@@ -515,6 +515,15 @@
     <!-- Speed Meter / Auto-Swipe Records -->
     <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">SEC</string>
+    <string name="meter_display_mode">Meter Display</string>
+    <string name="meter_display_speed">Speed</string>
+    <string name="meter_display_counter">Counter</string>
+    <string name="settings_speed_meter_infobox">Info Box</string>
+    <string name="settings_speed_meter_infobox_desc_on">Shows swipe info &amp; custom texts</string>
+    <string name="settings_speed_meter_infobox_desc_off">Hidden from the header</string>
+    <string name="store_infobox_enable">Enable Info Box</string>
+    <string name="store_infobox_enable_desc">Show the info box next to the speed meter</string>
     <string name="meter_result_in">In %1$d sec auto-swipe you press %2$d word</string>
     <string name="meter_result_best">Best: %1$s</string>
     <string name="meter_result_record">NEW RECORD %1$s (streak %2$d)</string>
@@ -566,6 +575,7 @@
     <string name="meter_swipe_best">best score %1$s</string>
     <string name="meter_rules_line5">After the window ends, the speed meter auto-swipes: \u201CIn 5 sec\u201D \u2192 \u201Cyou press 12 words\u201D \u2192 \u201Cyour speed\u201D \u2192 \u201Cbest score\u201D. The 5-sec and 10-sec windows use CPS (per second); the 1-min window uses CPM (per minute).</string>
     <string name="meter_rules_line6">Records are saved ONLY when you break your own best for a window. Every window (5s / 10s / 1min) has its own column in the history with date &amp; time, record-break number, words, speed and streak. The leaderboard ranks your fastest break per window.</string>
+    <string name="meter_rules_line7">7. The info box (next to the meter) shows the word you press live, then when the auto-swipe ends it replays the swipe info followed by your custom texts (if any). \u201CAlways\u201D keeps repeating texts after the swipe info, \u201CTimed\u201D shows them for the set duration. After the swipe timeout the box goes empty. Its frame, color and texts are set in Store &gt; Info Box.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = consecutive record-breaks. It grows while you keep beating your own best and resets to 1 when you miss a record for that window.</string>
 </resources>

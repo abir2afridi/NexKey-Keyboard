@@ -518,6 +518,15 @@
     <string name="kb_delete">حذف</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">ثانية</string>
+    <string name="meter_display_mode">عرض العداد</string>
+    <string name="meter_display_speed">السرعة</string>
+    <string name="meter_display_counter">عداد</string>
+    <string name="settings_speed_meter_infobox">صندوق المعلومات</string>
+    <string name="settings_speed_meter_infobox_desc_on">يعرض معلومات السحب والنصوص المخصصة</string>
+    <string name="settings_speed_meter_infobox_desc_off">مخفي من الرأس</string>
+    <string name="store_infobox_enable">تفعيل صندوق المعلومات</string>
+    <string name="store_infobox_enable_desc">إظهار صندوق المعلومات بجوار عداد السرعة</string>
     <string name="meter_result_in">في %1$d ثانية من السحب التلقائي كتبت %2$d كلمة</string>
     <string name="meter_result_best">الأفضل: %1$s</string>
     <string name="meter_result_record">رقم قياسي جديد %1$s (سلسلة %2$d)</string>
@@ -569,6 +578,7 @@
     <string name="meter_swipe_best">أفضل نتيجة %1$s</string>
     <string name="meter_rules_line5">بعد انتهاء النافذة يعرض العداد تلقائيًا: النافذة ثم الكلمات ثم سرعتك ثم أفضل نتيجة. تستخدم نوافذ ٥ و١٠ ثوانٍ وحدات CPS (لكل ثانية)، ونافذة الدقيقة وحدات CPM (لكل دقيقة).</string>
     <string name="meter_rules_line6">لا تُحفظ السجلات إلا عندما تكسر أفضل سرعة لديك لهذه النافذة. لكل نافذة (5ث/10ث/1د) عمودها الخاص في السجل مع التاريخ والوقت، ويرتبّ قائمة الصدارة أفضل رقْم لكل نافذة.</string>
+    <string name="meter_rules_line7">٧. صندوق المعلومات (بجوار العداد) يعرض الكلمة التي تكتبها مباشرة أثناء الكتابة؛ وعند انتهاء السحب التلقائي يعيد عرض معلومات السحب ثم نصوصك المخصصة (إن وجدت). وضع «دائمًا» يكرر النصوص بعد معلومات السحب، ووضع «مؤقت» يعرضها لمدة محددة. بعد انتهاء مهلة السحب يصبح الصندوق فارغًا. إطاره ولونه ونصوصه تُضبط من المتجر ← صندوق المعلومات.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">السلسلة هي كسر السجلات المتتالية. تزداد كلما كسرت رقمك القياسي وتعود إلى 1 حال عدم كسره في نافذة.</string>
 </resources>

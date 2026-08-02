@@ -401,6 +401,8 @@ fun HomeScreen(
                 HomeSpeedMiniCard(stringResource(R.string.speed_records_streak), allTimeStreak.toFloat(), "", Modifier.weight(1f))
             }
             Spacer(modifier = Modifier.height(10.dp))
+            HomeSpeedTrendChart(speedRecords)
+            Spacer(modifier = Modifier.height(10.dp))
             Card(
                 onClick = onNavigateToSpeedRecords,
                 modifier = Modifier.fillMaxWidth(),
@@ -670,6 +672,53 @@ private fun HomeSpeedMiniCard(label: String, value: Float?, unit: String, modifi
                 fontWeight = FontWeight.Black,
                 color = MaterialTheme.colorScheme.primary
             )
+        }
+    }
+}
+
+@Composable
+private fun HomeSpeedTrendChart(records: List<SpeedRecordEntity>) {
+    val label = remember(records) {
+        records.groupBy { it.intervalLabel }
+            .maxByOrNull { it.value.size }
+            ?.key ?: ""
+    }
+    val intervalRecords = remember(records) { records.filter { it.intervalLabel == label }.takeLast(12) }
+    val bestStreak = remember(records) { records.maxOfOrNull { it.streak } ?: 0 }
+    val primary = MaterialTheme.colorScheme.primary
+    Surface(shape = RoundedCornerShape(14.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(stringResource(R.string.speed_records_graph_title), fontSize = 11.sp, fontWeight = FontWeight.ExtraBold, color = primary, modifier = Modifier.weight(1f))
+                Icon(Icons.Default.Leaderboard, contentDescription = null, tint = primary, modifier = Modifier.size(14.dp))
+            }
+            Spacer(modifier = Modifier.height(12.dp))
+            if (intervalRecords.isEmpty()) {
+                Text(stringResource(R.string.speed_records_empty), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            } else {
+                Canvas(modifier = Modifier.fillMaxWidth().height(96.dp)) {
+                    val maxVal = intervalRecords.maxOfOrNull { it.speed }?.coerceAtLeast(1f) ?: 1f
+                    val slot = size.width / intervalRecords.size
+                    intervalRecords.forEachIndexed { i, r ->
+                        val barW = slot * 0.62f
+                        val barH = (r.speed / maxVal) * (size.height - 22f).coerceAtLeast(10f)
+                        val x = i * slot + (slot - barW) / 2
+                        drawRect(
+                            brush = Brush.verticalGradient(listOf(primary, primary.copy(alpha = 0.25f))),
+                            topLeft = Offset(x, size.height - barH),
+                            size = Size(barW, barH)
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(label, fontSize = 11.sp, fontWeight = FontWeight.Black, color = primary)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.speed_records_best_streak), fontSize = 10.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                    Spacer(modifier = Modifier.width(6.dp))
+                    Text("$bestStreak", fontSize = 12.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.tertiary)
+                }
+            }
         }
     }
 }

@@ -516,6 +516,15 @@
     <string name="kb_delete">Удалить</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">Сек</string>
+    <string name="meter_display_mode">Отображение счетчика</string>
+    <string name="meter_display_speed">Скорость</string>
+    <string name="meter_display_counter">Счетчик</string>
+    <string name="settings_speed_meter_infobox">Инфо-бокс</string>
+    <string name="settings_speed_meter_infobox_desc_on">Показывает информацию о свайпе и пользовательские тексты</string>
+    <string name="settings_speed_meter_infobox_desc_off">Скрыт из шапки</string>
+    <string name="store_infobox_enable">Включить инфо-бокс</string>
+    <string name="store_infobox_enable_desc">Показать инфо-бокс рядом со счетчиком скорости</string>
     <string name="meter_result_in">За %1$d с авто-свайпа вы набрали %2$d слов</string>
     <string name="meter_result_best">Лучшее: %1$s</string>
     <string name="meter_result_record">НОВЫЙ РЕКОРД %1$s (серия %2$d)</string>
@@ -567,6 +576,7 @@
     <string name="meter_swipe_best">лучший результат %1$s</string>
     <string name="meter_rules_line5">После окончания окна спидометр автоматически показывает: окно, слова, вашу скорость и лучший результат. Окна 5 с и 10 с используют CPS (в секунду), а окно 1 мин — CPM (в минуту).</string>
     <string name="meter_rules_line6">Записи сохраняются ТОЛЬКО когда вы побили свой рекорд в таком окне. Каждое окно (5с/10с/1мин) имеет в истории собственную колонку с датой и временем. Таблица лидеров сортирует лучший рекорд по каждому окну.</string>
+    <string name="meter_rules_line7">7. Инфо-бокс (рядом со счётчиком) показывает набираемое слово в реальном времени, а после автопроводки — информацию о проводке, затем ваши пользовательские тексты (если есть). Режим «Всегда» повторяет тексты после информации о проводке, режим «По времени» показывает их в течение заданного времени. После таймаута бокс пустеет. Рамка, цвет и тексты настраиваются в магазине → Инфо-бокс.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Серия — это подряд записанные рекорды. Она растёт, пока вы бьёте свой рекорд, и сбрасывается, если рекорд не побит.</string>
 </resources>

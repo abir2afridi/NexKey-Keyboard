@@ -62,8 +62,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var burstWordCount = 0
     internal var lastKeyPressTime = 0L
     internal var typingStopJob: kotlinx.coroutines.Job? = null
+    internal var elapsedTickerJob: kotlinx.coroutines.Job? = null
     internal var meterIdleMsState by mutableStateOf(5000)
     internal var meterIntervalState by mutableStateOf("5s")
+    internal var meterDisplayModeState by mutableStateOf("speed")
+    internal var liveElapsedSec by mutableStateOf(0)
     internal val streakCounter = mutableMapOf<String, Int>()
 
     // Live Preferences
@@ -132,6 +135,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var infoBoxCustomModeState by mutableStateOf("off")
     internal var infoBoxCustomSecState by mutableStateOf(5)
     internal var infoBoxSwipeTimeoutSecState by mutableStateOf(10)
+    internal var infoBoxEnabledState by mutableStateOf(true)
     internal var recentEmojis by mutableStateOf<List<String>>(emptyList())
     internal var recentEmojiExpiryDays by mutableStateOf(30)
     internal var emojiSearchActive by mutableStateOf(false)
@@ -224,6 +228,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     infoBoxCustomMode = infoBoxCustomModeState,
                     infoBoxCustomSec = infoBoxCustomSecState,
                     infoBoxSwipeTimeoutSec = infoBoxSwipeTimeoutSecState,
+                    infoBoxEnabled = infoBoxEnabledState,
+                    meterDisplayMode = meterDisplayModeState,
+                    meterInterval = meterIntervalState,
+                    liveElapsedSec = liveElapsedSec,
                     meterTheme = currentMeterTheme,
                     meterFont = currentMeterFont,
                     recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
@@ -287,10 +295,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         burstKeyCount = 0
         burstWordCount = 0
         typingStopJob?.cancel()
+        elapsedTickerJob?.cancel()
         isTypingActive = false
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
         lastPressedWord = ""
+        liveElapsedSec = 0
 
         detectSensitiveField(info)
 

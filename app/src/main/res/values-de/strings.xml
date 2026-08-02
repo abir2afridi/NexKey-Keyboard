@@ -514,6 +514,15 @@
     <string name="kb_delete">Löschen</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">Sek</string>
+    <string name="meter_display_mode">Meter-Anzeige</string>
+    <string name="meter_display_speed">Geschwindigkeit</string>
+    <string name="meter_display_counter">Zähler</string>
+    <string name="settings_speed_meter_infobox">Info-Box</string>
+    <string name="settings_speed_meter_infobox_desc_on">Zeigt Wisch-Info und eigene Texte</string>
+    <string name="settings_speed_meter_infobox_desc_off">Im Header ausgeblendet</string>
+    <string name="store_infobox_enable">Info-Box aktivieren</string>
+    <string name="store_infobox_enable_desc">Info-Box neben dem Geschwindigkeitsmesser anzeigen</string>
     <string name="meter_result_in">In %1$d s Auto-Swipe hast du %2$d Wörter getippt</string>
     <string name="meter_result_best">Bestes: %1$s</string>
     <string name="meter_result_record">NEUER REKORD %1$s (Serie %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">Bestwert %1$s</string>
     <string name="meter_rules_line5">Nach Ablauf der Fensters zeigt das Speed-Meter automatisch: Fenster, Wörter, Geschwindigkeit, Bestwert. Die 5-Sek- und 10-Sek-Phasen nutzen CPS (pro Sekunde), die 1-Min-Phase CPM (pro Minute).</string>
     <string name="meter_rules_line6">Rekorde werden NUR gespeichert, wenn du deinen eigenen Bestwert für dieses Fenster übertriffst. Jedes Fenster (5s/10s/1min) hat eine eigene Spalte in der Historie mit Datum und Uhrzeit. Die Rangliste ordnet deinen Bestrekord je Fenster.</string>
+    <string name="meter_rules_line7">7. Das Infofeld (neben dem Messgerät) zeigt das Wort live, dann nach dem Auto-Swipe die Wisch-Info und danach deine eigenen Texte (falls vorhanden). Immer wiederholt die Texte nach der Wisch-Info, Zeitgesteuert zeigt sie für die festgesetzte Dauer. Nach dem Wisch-Timeout wird das Feld leer. Rahmen, Farbe und Texte werden im Store eingestellt.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = aufeinanderfolgende Rekordbrüche. Sie wächst, solange du dein Rekord halt, und springt auf 1 zurück, wenn du an einem Fenster keine Rekord erzielst.</string>
 </resources>

@@ -135,6 +135,9 @@ fun KeyboardComposeView(
     isSpeedActive: Boolean = false,
     meterEnabled: Boolean = true,
     meterPosition: String = "right",
+    meterDisplayMode: String = "speed",
+    meterInterval: String = "5s",
+    liveElapsedSec: Int = 0,
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
     meterResultLines: List<String> = emptyList(),
     lastPressedWord: String = "",
@@ -144,6 +147,7 @@ fun KeyboardComposeView(
     infoBoxCustomMode: String = "off",
     infoBoxCustomSec: Int = 5,
     infoBoxSwipeTimeoutSec: Int = 10,
+    infoBoxEnabled: Boolean = true,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     recentEmojis: MutableList<String> = remember { mutableStateListOf() },
@@ -253,6 +257,10 @@ fun KeyboardComposeView(
                             infoCustomMode = infoBoxCustomMode,
                             infoCustomSec = infoBoxCustomSec,
                             infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
+                            infoBoxEnabled = infoBoxEnabled,
+                            meterDisplayMode = meterDisplayMode,
+                            meterInterval = meterInterval,
+                            liveElapsedSec = liveElapsedSec,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             onModeChange = onModeChange,
@@ -280,6 +288,10 @@ fun KeyboardComposeView(
                             infoCustomMode = infoBoxCustomMode,
                             infoCustomSec = infoBoxCustomSec,
                             infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
+                            infoBoxEnabled = infoBoxEnabled,
+                            meterDisplayMode = meterDisplayMode,
+                            meterInterval = meterInterval,
+                            liveElapsedSec = liveElapsedSec,
                             liveCps = if (isSpeedActive) liveCps else 0f,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
@@ -452,6 +464,10 @@ fun SmartToolbar(
     infoCustomMode: String = "off",
     infoCustomSec: Int = 5,
     infoSwipeTimeoutSec: Int = 10,
+    infoBoxEnabled: Boolean = true,
+    meterDisplayMode: String = "speed",
+    meterInterval: String = "5s",
+    liveElapsedSec: Int = 0,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     onModeChange: (KeyboardMode) -> Unit,
@@ -482,7 +498,11 @@ fun SmartToolbar(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
         }
 
@@ -560,7 +580,11 @@ fun SmartToolbar(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -580,7 +604,11 @@ fun SmartToolbar(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
         }
 
@@ -595,7 +623,9 @@ fun DigitalSpeedMeter(
     cps: Float,
     isLive: Boolean,
     phase: SpeedMeterPhase = SpeedMeterPhase.LIVE,
-    pressedWord: String = "",
+    meterDisplayMode: String = "speed",
+    meterInterval: String = "5s",
+    liveElapsedSec: Int = 0,
     meterTheme: MeterTheme,
     fontStyle: String = "DIGITAL"
 ) {
@@ -651,28 +681,14 @@ fun DigitalSpeedMeter(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
-                // The last pressed word, shown beside the speed, per key press.
-                if (pressedWord.isNotEmpty()) {
-                    Text(
-                        text = pressedWord,
-                        color = meterTheme.textColor.copy(alpha = if (phase == SpeedMeterPhase.WAITING) 0.45f else 1f),
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 11.sp,
-                        maxLines = 1,
-                        textAlign = TextAlign.Center,
-                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis,
-                        modifier = Modifier.widthIn(max = 72.dp)
-                    )
-                    Spacer(modifier = Modifier.width(6.dp))
-                }
-
                 Column(
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                 if (phase == SpeedMeterPhase.LIVE || phase == SpeedMeterPhase.RESULT) {
+                    val isCounter = phase == SpeedMeterPhase.LIVE && meterDisplayMode == "counter"
                     Text(
-                        text = String.format(Locale.US, "%.1f", cps),
+                        text = if (isCounter) "$liveElapsedSec" else String.format(Locale.US, "%.1f", cps),
                         color = meterTheme.textColor,
                         fontSize = 12.sp,
                         style = textStyle.merge(
@@ -687,7 +703,11 @@ fun DigitalSpeedMeter(
                         )
                     )
                     Text(
-                        text = if (isLive) stringResource(R.string.kb_live) else stringResource(R.string.kb_peak),
+                        text = when {
+                            isCounter -> stringResource(R.string.meter_unit_sec)
+                            isLive -> stringResource(R.string.kb_live)
+                            else -> stringResource(R.string.kb_peak)
+                        },
                         color = meterTheme.labelColor,
                         fontSize = 6.5.sp,
                         fontWeight = FontWeight.ExtraBold,
@@ -695,9 +715,9 @@ fun DigitalSpeedMeter(
                         modifier = Modifier.padding(top = 1.dp)
                     )
                 } else {
-                    // Idle / waiting: the meter shows nothing until the next burst.
+                    // Idle / waiting: "00" in minute mode, dash otherwise.
                     Text(
-                        text = "—",
+                        text = if (meterInterval == "1min") "00" else "—",
                         color = meterTheme.textColor.copy(alpha = 0.18f),
                         fontSize = 12.sp,
                         style = textStyle
@@ -723,27 +743,36 @@ fun MeterHeaderPair(
     infoCustomTexts: List<String>,
     infoCustomMode: String,
     infoCustomSec: Int,
-    infoSwipeTimeoutSec: Int
+    infoSwipeTimeoutSec: Int,
+    infoBoxEnabled: Boolean,
+    meterDisplayMode: String,
+    meterInterval: String,
+    liveElapsedSec: Int
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         DigitalSpeedMeter(
             cps = cps,
             isLive = isLive,
             phase = meterPhase,
-            pressedWord = pressedWord,
+            meterDisplayMode = meterDisplayMode,
+            meterInterval = meterInterval,
+            liveElapsedSec = liveElapsedSec,
             meterTheme = meterTheme,
             fontStyle = meterFont
         )
-        InfoBox(
-            phase = meterPhase,
-            swipeLines = swipeLines,
-            frame = infoFrame,
-            textColor = infoTextColor,
-            customTexts = infoCustomTexts,
-            customMode = infoCustomMode,
-            customSec = infoCustomSec,
-            swipeTimeoutSec = infoSwipeTimeoutSec
-        )
+        if (infoBoxEnabled) {
+            InfoBox(
+                phase = meterPhase,
+                swipeLines = swipeLines,
+                frame = infoFrame,
+                textColor = infoTextColor,
+                customTexts = infoCustomTexts,
+                customMode = infoCustomMode,
+                customSec = infoCustomSec,
+                swipeTimeoutSec = infoSwipeTimeoutSec,
+                pressedWord = pressedWord
+            )
+        }
     }
 }
 
@@ -756,13 +785,14 @@ fun InfoBox(
     customTexts: List<String>,
     customMode: String,
     customSec: Int,
-    swipeTimeoutSec: Int
+    swipeTimeoutSec: Int,
+    pressedWord: String = ""
 ) {
     var displayText by remember { mutableStateOf("") }
 
     LaunchedEffect(phase, swipeLines, customTexts, customMode, customSec, swipeTimeoutSec) {
-        displayText = ""
         if (phase != SpeedMeterPhase.RESULT) return@LaunchedEffect
+        displayText = ""
 
         val timeoutMillis = swipeTimeoutSec.coerceAtLeast(1) * 1000L
         val start = System.currentTimeMillis()
@@ -803,6 +833,15 @@ fun InfoBox(
             val held = System.currentTimeMillis() - start
             if (held < timeoutMillis) delay(timeoutMillis - held)
             displayText = ""
+        }
+    }
+
+    // Live pressed word: shown per key press while typing.
+    LaunchedEffect(phase, pressedWord) {
+        when (phase) {
+            SpeedMeterPhase.LIVE -> displayText = pressedWord
+            SpeedMeterPhase.WAITING -> displayText = ""
+            else -> {}
         }
     }
 
@@ -890,6 +929,10 @@ fun CandidateStrip(
     infoCustomMode: String = "off",
     infoCustomSec: Int = 5,
     infoSwipeTimeoutSec: Int = 10,
+    infoBoxEnabled: Boolean = true,
+    meterDisplayMode: String = "speed",
+    meterInterval: String = "5s",
+    liveElapsedSec: Int = 0,
     liveCps: Float = 0f,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
@@ -920,7 +963,11 @@ fun CandidateStrip(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
             Spacer(modifier = Modifier.width(6.dp))
         }
@@ -980,7 +1027,11 @@ fun CandidateStrip(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -1001,7 +1052,11 @@ fun CandidateStrip(
                 infoCustomTexts = infoCustomTexts,
                 infoCustomMode = infoCustomMode,
                 infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec
+                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoBoxEnabled = infoBoxEnabled,
+                meterDisplayMode = meterDisplayMode,
+                meterInterval = meterInterval,
+                liveElapsedSec = liveElapsedSec
             )
         }
 

@@ -287,7 +287,7 @@ private fun SpeedHistoryCell(record: SpeedRecordEntity, number: Int) {
 }
 
 @Composable
-private fun MeterRulesDialog(onDismiss: () -> Unit) {
+internal fun MeterRulesDialog(onDismiss: () -> Unit) {
     AlertDialog(
         onDismissRequest = onDismiss,
         title = { Text(stringResource(R.string.meter_rules_title), fontWeight = FontWeight.Bold) },
@@ -299,6 +299,7 @@ private fun MeterRulesDialog(onDismiss: () -> Unit) {
                 Text(stringResource(R.string.meter_rules_line4), fontSize = 14.sp, lineHeight = 21.sp, fontWeight = FontWeight.SemiBold)
                 Text(stringResource(R.string.meter_rules_line5), fontSize = 14.sp, lineHeight = 21.sp)
                 Text(stringResource(R.string.meter_rules_line6), fontSize = 14.sp, lineHeight = 21.sp)
+                Text(stringResource(R.string.meter_rules_line7), fontSize = 14.sp, lineHeight = 21.sp)
             }
         },
         confirmButton = {

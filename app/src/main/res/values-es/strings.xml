@@ -514,6 +514,15 @@
     <string name="kb_delete">Eliminar</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
+    <string name="meter_unit_sec">Seg</string>
+    <string name="meter_display_mode">Pantalla del medidor</string>
+    <string name="meter_display_speed">Velocidad</string>
+    <string name="meter_display_counter">Contador</string>
+    <string name="settings_speed_meter_infobox">Cuadro de información</string>
+    <string name="settings_speed_meter_infobox_desc_on">Muestra la información de deslizamiento y los textos personalizados</string>
+    <string name="settings_speed_meter_infobox_desc_off">Oculto del encabezado</string>
+    <string name="store_infobox_enable">Activar cuadro de información</string>
+    <string name="store_infobox_enable_desc">Mostrar el cuadro de información junto al medidor de velocidad</string>
     <string name="meter_result_in">In %1$d s de auto-swipe pulsas %2$d palabras</string>
     <string name="meter_result_best">Mejor: %1$s</string>
     <string name="meter_result_record">NUEVO RÉCORD %1$s (racha %2$d)</string>
@@ -565,6 +574,7 @@
     <string name="meter_swipe_best">mejor resultado %1$s</string>
     <string name="meter_rules_line5">Cuando el periodo termina, el medidor muestra automáticamente la ventana, el total de palabras, tu velocidad y el mejor resultado. Las ventanas de 5 s y 10 s usan CPS (por segundo); la de 1 min usa CPM (por minuto).</string>
     <string name="meter_rules_line6">Los registros se guardan SOLO cuando superas tu mejor marca de esa ventana. Cada ventana (5s/10s/1min) tiene su propia columna en el historial con fecha y hora, número de récord, palabras, velocidad y racha. La clasificación ordena los mejores récords por ventana.</string>
+    <string name="meter_rules_line7">7. El cuadro de información (junto al medidor) muestra la palabra escrita en vivo; al terminar el deslizamiento automático reproduce la info del deslizamiento y luego tus textos personalizados (si los hay). Siempre repite los textos tras la info de deslizamiento, Con tiempo los muestra durante la duración. Tras el tiempo de espera el cuadro queda vacío. Su marco, color y textos se ajustan en Tienda → Cuadro de información.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Racha = récords consecutivos. Aumenta al superar tu mejor marca y se reinicia cuando fallas en una ventana.</string>
 </resources>
