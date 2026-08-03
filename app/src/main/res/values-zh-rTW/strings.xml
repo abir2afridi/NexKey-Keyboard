@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">資訊框</string>
     <string name="infobox_frames">邊框設計</string>
     <string name="infobox_text_color">滑動文字顏色</string>
+    <string name="infobox_custom_text_color">自訂文字顏色</string>
     <string name="infobox_custom_texts">自訂文字</string>
     <string name="infobox_custom_texts_desc">滑動資訊結束後顯示</string>
+    <string name="infobox_custom_texts_count">已儲存 %1$d 個文字</string>
     <string name="infobox_add_text">新增</string>
     <string name="infobox_text_placeholder">輸入自訂文字…</string>
     <string name="infobox_custom_mode">自訂文字模式</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">速度計已關閉。不測量任何速度，鍵盤頂部也不顯示任何內容。</string>
     <string name="meter_swipe_in">在 %1$d 秒內</string>
     <string name="meter_swipe_words">你輸入了 %1$d 個字</string>
+    <string name="meter_swipe_keys">你按了 %1$d 個按鍵</string>
+    <string name="meter_count_hint">按鍵數顯示按下的按鍵數（ABCD = 4）。詞數顯示輸入的單詞數（Apple is a great fruits = 5）。</string>
+    <string name="meter_count_words">詞數</string>
+    <string name="meter_count_keys">按鍵數</string>
+    <string name="meter_count_title">滑動資訊計數</string>
     <string name="meter_swipe_speed">你的速度 %1$s</string>
     <string name="meter_swipe_best">最佳成績 %1$s</string>
     <string name="meter_rules_line5">窗口結束後速度計自動輪播：窗口、輸入字數、你的速度、最佳成績。5 秒與 10 秒窗口使用 CPS（每秒），1 分鐘窗口使用 CPM（每分鐘）。</string>

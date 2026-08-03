@@ -17,6 +17,9 @@ internal fun NexKeyInputMethodService.handleBackspace() {
 
     if (composingBuffer.isNotEmpty()) {
         composingBuffer = composingBuffer.dropLast(1)
+        if (lastPressedWord.isNotEmpty()) {
+            lastPressedWord = lastPressedWord.dropLast(1)
+        }
         if (composingBuffer.isNotEmpty()) {
             val parsed = parseComposing(currentMode, composingBuffer)
             ic.setComposingText(parsed, 1)
@@ -26,6 +29,9 @@ internal fun NexKeyInputMethodService.handleBackspace() {
             candidates = emptyList()
         }
     } else {
+        if (lastPressedWord.isNotEmpty()) {
+            lastPressedWord = lastPressedWord.dropLast(1)
+        }
         deleteGraphemeBackward(ic)
     }
 }

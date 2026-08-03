@@ -24,7 +24,8 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     }
 
     val keys = burstKeyCount
-    val words = burstWordCount
+    val trailingWord = if (burstLastChar.length == 1 && burstLastChar[0].isLetter()) 1 else 0
+    val words = burstWordCount + trailingWord
     if (keys <= 0) {
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
@@ -40,7 +41,12 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     val unit = if (isMinute) service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
 
     val lineIn = service.getString(R.string.meter_swipe_in, windowSec.toInt())
-    val lineWords = service.getString(R.string.meter_swipe_words, words)
+    // Key count (default) or sentence word count, chosen in Settings → Speed Meter.
+    val lineCount = if (meterCountModeState == "words") {
+        service.getString(R.string.meter_swipe_words, words)
+    } else {
+        service.getString(R.string.meter_swipe_keys, keys)
+    }
     val lineSpeed = service.getString(R.string.meter_swipe_speed, String.format(Locale.US, "%.1f %s", speed, unit))
 
     scope.launch {
@@ -65,7 +71,7 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
             val bestLine = String.format(Locale.US, "%.1f %s", speed, unit)
             meterResultLines = listOf(
                 lineIn,
-                lineWords,
+                lineCount,
                 lineSpeed,
                 service.getString(R.string.meter_swipe_best, bestLine)
             )
@@ -83,7 +89,7 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
                 service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
             meterResultLines = listOf(
                 lineIn,
-                lineWords,
+                lineCount,
                 lineSpeed,
                 service.getString(
                     R.string.meter_swipe_best,

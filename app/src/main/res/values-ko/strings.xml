@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">정보 상자</string>
     <string name="infobox_frames">박스 프레임 디자인</string>
     <string name="infobox_text_color">스와이프 텍스트 색상</string>
+    <string name="infobox_custom_text_color">사용자 지정 텍스트 색상</string>
     <string name="infobox_custom_texts">사용자 지정 텍스트</string>
     <string name="infobox_custom_texts_desc">스와이프 정보 표시가 끝난 후 표시됩니다</string>
+    <string name="infobox_custom_texts_count">저장된 텍스트 %1$d개</string>
     <string name="infobox_add_text">추가</string>
     <string name="infobox_text_placeholder">사용자 지정 텍스트 입력…</string>
     <string name="infobox_custom_mode">사용자 지정 텍스트 모드</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">속도 측정기가 꺼져 있습니다. 속도를 측정하지 않고 키보드 헤더에도 아무것도 표시되지 않습니다.</string>
     <string name="meter_swipe_in">%1$d초 안에</string>
     <string name="meter_swipe_words">%1$d개의 단어를 입력했습니다</string>
+    <string name="meter_swipe_keys">%1$d개의 키를 눌렀습니다</string>
+    <string name="meter_count_hint">키 개수는 누른 키 수를 표시합니다(ABCD = 4). 문장 단어 수는 입력한 단어 수를 표시합니다(Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">문장 단어 수</string>
+    <string name="meter_count_keys">키 개수</string>
+    <string name="meter_count_title">스와이프 정보 개수</string>
     <string name="meter_swipe_speed">속도 %1$s</string>
     <string name="meter_swipe_best">최고 기록 %1$s</string>
     <string name="meter_rules_line5">창이 끝나면 측정기가 자동으로 이어집니다: 창 → 입력된 단어 → 속도 → 최고 기록. 5초 및 10초 창은 CPS(초당), 1분 창은 CPM(분당)을 사용합니다.</string>

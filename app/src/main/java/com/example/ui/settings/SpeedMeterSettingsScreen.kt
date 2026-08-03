@@ -129,6 +129,35 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
 
         HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp), color = MaterialTheme.colorScheme.outlineVariant)
 
+        val meterCountMode by prefs.meterCountMode.collectAsState(initial = "keys")
+
+        Text(
+            text = stringResource(R.string.meter_count_title),
+            color = MaterialTheme.colorScheme.onSurface,
+            fontSize = 15.sp,
+            fontWeight = FontWeight.Medium,
+            modifier = Modifier.padding(vertical = 8.dp, horizontal = 4.dp)
+        )
+
+        val countModes = listOf("keys" to stringResource(R.string.meter_count_keys), "words" to stringResource(R.string.meter_count_words))
+        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            countModes.forEach { (key, label) ->
+                FilterChip(
+                    selected = meterCountMode == key,
+                    onClick = { scope.launch { prefs.setMeterCountMode(key) } },
+                    label = { Text(label) }
+                )
+            }
+        }
+
+        Text(
+            text = stringResource(R.string.meter_count_hint),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 13.sp,
+            lineHeight = 20.sp,
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp)
+        )
+
         Text(
             text = stringResource(R.string.meter_interval_label),
             color = MaterialTheme.colorScheme.onSurface,

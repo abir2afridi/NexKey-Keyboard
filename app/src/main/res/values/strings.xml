@@ -216,8 +216,10 @@
     <string name="store_tab_infobox">Info Box</string>
     <string name="infobox_frames">Box Frame Designs</string>
     <string name="infobox_text_color">Swipe Text Color</string>
+    <string name="infobox_custom_text_color">Custom Text Color</string>
     <string name="infobox_custom_texts">Custom Texts</string>
     <string name="infobox_custom_texts_desc">Shown after the swipe info finishes</string>
+    <string name="infobox_custom_texts_count">%1$d saved texts</string>
     <string name="infobox_add_text">Add</string>
     <string name="infobox_text_placeholder">Type custom text…</string>
     <string name="infobox_custom_mode">Custom Text Mode</string>
@@ -571,6 +573,11 @@
     <string name="settings_speed_meter_enable_desc_off">Speed Meter is OFF. No speed is measured and nothing shows in the keyboard header.</string>
     <string name="meter_swipe_in">In %1$d sec</string>
     <string name="meter_swipe_words">you press %1$d word</string>
+    <string name="meter_swipe_keys">you press %1$d keys</string>
+    <string name="meter_count_hint">Key count shows the number of keys you pressed (ABCD = 4). Sentence count shows the number of words you typed (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">Sentence count</string>
+    <string name="meter_count_keys">Key count</string>
+    <string name="meter_count_title">Count in swipe info</string>
     <string name="meter_swipe_speed">your speed %1$s</string>
     <string name="meter_swipe_best">best score %1$s</string>
     <string name="meter_rules_line5">After the window ends, the speed meter auto-swipes: \u201CIn 5 sec\u201D \u2192 \u201Cyou press 12 words\u201D \u2192 \u201Cyour speed\u201D \u2192 \u201Cbest score\u201D. The 5-sec and 10-sec windows use CPS (per second); the 1-min window uses CPM (per minute).</string>

@@ -157,12 +157,14 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.meterPosition.collectLatest { meterPositionState = it } }
         launch { userPreferences.infoBoxFrame.collectLatest { infoBoxFrameState = it } }
         launch { userPreferences.infoBoxTextColor.collectLatest { infoBoxTextColorState = it } }
+        launch { userPreferences.infoBoxCustomTextColor.collectLatest { infoBoxCustomTextColorState = it } }
         launch { userPreferences.infoBoxCustomTexts.collectLatest { infoBoxCustomTextsState = it } }
         launch { userPreferences.infoBoxCustomMode.collectLatest { infoBoxCustomModeState = it } }
         launch { userPreferences.infoBoxCustomSec.collectLatest { infoBoxCustomSecState = it } }
         launch { userPreferences.infoBoxSwipeTimeoutSec.collectLatest { infoBoxSwipeTimeoutSecState = it } }
         launch { userPreferences.infoBoxEnabled.collectLatest { infoBoxEnabledState = it } }
         launch { userPreferences.meterDisplayMode.collectLatest { meterDisplayModeState = it } }
+        launch { userPreferences.meterCountMode.collectLatest { meterCountModeState = it } }
         launch {
             userPreferences.recentEmojiExpiry.collectLatest { recentEmojiExpiryDays = it }
         }

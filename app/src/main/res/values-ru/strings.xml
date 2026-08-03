@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">Инфо-бокс</string>
     <string name="infobox_frames">Дизайны рамок</string>
     <string name="infobox_text_color">Цвет текста свайпа</string>
+    <string name="infobox_custom_text_color">Цвет пользовательского текста</string>
     <string name="infobox_custom_texts">Пользовательские тексты</string>
     <string name="infobox_custom_texts_desc">Показывается после завершения информации о свайпе</string>
+    <string name="infobox_custom_texts_count">Сохранено текстов: %1$d</string>
     <string name="infobox_add_text">Добавить</string>
     <string name="infobox_text_placeholder">Введите свой текст…</string>
     <string name="infobox_custom_mode">Режим пользовательского текста</string>
@@ -572,6 +574,11 @@
     <string name="settings_speed_meter_enable_desc_off">Спидометр выключен. Скорость не измеряется и в шапке клавиатуры ничего не отображается.</string>
     <string name="meter_swipe_in">За %1$d сек</string>
     <string name="meter_swipe_words">вы набрали %1$d слов(а)</string>
+    <string name="meter_swipe_keys">вы нажали %1$d клавиш</string>
+    <string name="meter_count_hint">Количество клавиш показывает нажатые клавиши (ABCD = 4). Количество слов показывает введенные слова (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">Количество слов</string>
+    <string name="meter_count_keys">Количество клавиш</string>
+    <string name="meter_count_title">Подсчет в инфо-боксе</string>
     <string name="meter_swipe_speed">ваша скорость %1$s</string>
     <string name="meter_swipe_best">лучший результат %1$s</string>
     <string name="meter_rules_line5">После окончания окна спидометр автоматически показывает: окно, слова, вашу скорость и лучший результат. Окна 5 с и 10 с используют CPS (в секунду), а окно 1 мин — CPM (в минуту).</string>

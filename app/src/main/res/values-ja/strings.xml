@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">情報ボックス</string>
     <string name="infobox_frames">ボックス枠デザイン</string>
     <string name="infobox_text_color">スワイプ文字色</string>
+    <string name="infobox_custom_text_color">カスタムテキストの色</string>
     <string name="infobox_custom_texts">カスタムテキスト</string>
     <string name="infobox_custom_texts_desc">スワイプ情報の表示後に表示されます</string>
+    <string name="infobox_custom_texts_count">保存済みテキスト %1$d 件</string>
     <string name="infobox_add_text">追加</string>
     <string name="infobox_text_placeholder">カスタムテキストを入力…</string>
     <string name="infobox_custom_mode">カスタムテキストモード</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">速度メーターはオフです。速度は測定されず、キーボードのヘッダーにも何も表示されません。</string>
     <string name="meter_swipe_in">%1$d 秒で</string>
     <string name="meter_swipe_words">%1$d 語を入力しました</string>
+    <string name="meter_swipe_keys">%1$d キーを押しました</string>
+    <string name="meter_count_hint">キー数は押したキーの数を表示します（ABCD = 4）。文の単語数は入力した単語数を表示します（Apple is a great fruits = 5）。</string>
+    <string name="meter_count_words">文の単語数</string>
+    <string name="meter_count_keys">キー数</string>
+    <string name="meter_count_title">スワイプ情報のカウント</string>
     <string name="meter_swipe_speed">あなたの速度 %1$s</string>
     <string name="meter_swipe_best">ベストスコア %1$s</string>
     <string name="meter_rules_line5">ワインドウが終わると、メーターは自動でウィンドウ、単語、速度、ベストスコアと切り替えます。5 秒・10 秒は CPS（毎秒）、1 分は CPM（毎分）を使います。</string>

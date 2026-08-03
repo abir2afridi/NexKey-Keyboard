@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">Info-Box</string>
     <string name="infobox_frames">Box-Rahmen-Designs</string>
     <string name="infobox_text_color">Wisch-Textfarbe</string>
+    <string name="infobox_custom_text_color">Benutzerdefinierte Textfarbe</string>
     <string name="infobox_custom_texts">Eigene Texte</string>
     <string name="infobox_custom_texts_desc">Wird angezeigt, nachdem die Wisch-Info endet</string>
+    <string name="infobox_custom_texts_count">%1$d gespeicherte Texte</string>
     <string name="infobox_add_text">Hinzufügen</string>
     <string name="infobox_text_placeholder">Eigenen Text eingeben…</string>
     <string name="infobox_custom_mode">Modus für eigene Texte</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">Das Speed-Meter ist DEAKTIVIERT. Es wird nichts gemessen und im Tastatur-Kopf nichts angezeigt.</string>
     <string name="meter_swipe_in">In %1$d s</string>
     <string name="meter_swipe_words">du hast %1$d Wort geschrieben</string>
+    <string name="meter_swipe_keys">du drückst %1$d Tasten</string>
+    <string name="meter_count_hint">Tastenanzahl zeigt die gedrückten Tasten (ABCD = 4). Satzanzahl zeigt die getippten Wörter (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">Satzanzahl</string>
+    <string name="meter_count_keys">Tastenanzahl</string>
+    <string name="meter_count_title">Anzahl in der Wisch-Info</string>
     <string name="meter_swipe_speed">deine Geschwindigkeit %1$s</string>
     <string name="meter_swipe_best">Bestwert %1$s</string>
     <string name="meter_rules_line5">Nach Ablauf der Fensters zeigt das Speed-Meter automatisch: Fenster, Wörter, Geschwindigkeit, Bestwert. Die 5-Sek- und 10-Sek-Phasen nutzen CPS (pro Sekunde), die 1-Min-Phase CPM (pro Minute).</string>

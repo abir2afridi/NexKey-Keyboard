@@ -45,7 +45,11 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
             }
 
             meterPhase = SpeedMeterPhase.LIVE
-            lastPressedWord = key
+            burstLastChar = key
+            // Live pressed word for the Info Box: accumulate the word while typing,
+            // clear on any non-letter key (space, punctuation, symbol, emoji...).
+            val wordChar = key.length == 1 && key[0].isLetter()
+            lastPressedWord = if (wordChar) lastPressedWord + key else ""
 
             // Elapsed-seconds ticker for the meter's Counter display mode.
             elapsedTickerJob?.cancel()
@@ -58,8 +62,8 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
 
             typingStopJob?.cancel()
             typingStopJob = scope.launch {
-                meterPhase = SpeedMeterPhase.WAITING
                 delay(meterIdleMsState.toLong())
+                meterPhase = SpeedMeterPhase.WAITING
                 finalizeSpeedWindow()
             }
         }
@@ -135,6 +139,7 @@ internal fun NexKeyInputMethodService.isNewSentence(): Boolean {
 internal fun NexKeyInputMethodService.handleSpace() {
     playFeedback()
     val ic = currentInputConnection ?: return
+    lastPressedWord = ""
 
     if (composingBuffer.isNotEmpty()) {
         val rawWord = parseComposing(currentMode, composingBuffer)
@@ -186,6 +191,7 @@ internal fun NexKeyInputMethodService.handleSpace() {
 internal fun NexKeyInputMethodService.handleEnter() {
     playFeedback()
     val ic = currentInputConnection ?: return
+    lastPressedWord = ""
 
     if (composingBuffer.isNotEmpty()) {
         commitComposingBuffer()

@@ -66,7 +66,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var meterIdleMsState by mutableStateOf(5000)
     internal var meterIntervalState by mutableStateOf("5s")
     internal var meterDisplayModeState by mutableStateOf("speed")
+    internal var meterCountModeState by mutableStateOf("keys")
     internal var liveElapsedSec by mutableStateOf(0)
+    internal var burstLastChar by mutableStateOf("")
     internal val streakCounter = mutableMapOf<String, Int>()
 
     // Live Preferences
@@ -131,6 +133,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var lastPressedWord by mutableStateOf("")
     internal var infoBoxFrameState by mutableStateOf("CLASSIC")
     internal var infoBoxTextColorState by mutableStateOf("#00FF41")
+    internal var infoBoxCustomTextColorState by mutableStateOf("#FFFFFF")
     internal var infoBoxCustomTextsState by mutableStateOf("[]")
     internal var infoBoxCustomModeState by mutableStateOf("off")
     internal var infoBoxCustomSecState by mutableStateOf(5)
@@ -224,6 +227,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     lastPressedWord = lastPressedWord,
                     infoBoxFrame = infoBoxFrameState,
                     infoBoxTextColor = infoBoxTextColorState,
+                    infoBoxCustomTextColor = infoBoxCustomTextColorState,
                     infoBoxCustomTexts = infoBoxCustomTextsState,
                     infoBoxCustomMode = infoBoxCustomModeState,
                     infoBoxCustomSec = infoBoxCustomSecState,

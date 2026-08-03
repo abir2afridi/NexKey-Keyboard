@@ -16,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.stringResource
 import com.example.R
 import androidx.compose.ui.text.font.FontWeight
@@ -271,6 +272,7 @@ private fun InfoBoxTab(
     val frames = remember { InfoBoxFrame.allPresets() }
     val currentFrame by prefs.infoBoxFrame.collectAsState(initial = "CLASSIC")
     val currentTextColor by prefs.infoBoxTextColor.collectAsState(initial = "#00FF41")
+    val currentCustomTextColor by prefs.infoBoxCustomTextColor.collectAsState(initial = "#FFFFFF")
     val currentCustomTexts by prefs.infoBoxCustomTexts.collectAsState(initial = "[]")
     val currentCustomMode by prefs.infoBoxCustomMode.collectAsState(initial = "off")
     val currentCustomSec by prefs.infoBoxCustomSec.collectAsState(initial = 5)
@@ -423,7 +425,7 @@ private fun InfoBoxTab(
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             swatchColors.distinct().forEach { color ->
-                val hex = "#%06X".format((color.value.toLong() and 0xFFFFFF))
+                val hex = "#%06X".format(color.toArgb() and 0xFFFFFF)
                 val isSelected = currentTextColor.equals(hex, ignoreCase = true)
                 Box(
                     modifier = Modifier
@@ -450,6 +452,45 @@ private fun InfoBoxTab(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
+            stringResource(R.string.infobox_custom_text_color),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            swatchColors.distinct().forEach { color ->
+                val hex = "#%06X".format(color.toArgb() and 0xFFFFFF)
+                val isSelected = currentCustomTextColor.equals(hex, ignoreCase = true)
+                Box(
+                    modifier = Modifier
+                        .size(34.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(color)
+                        .border(
+                            width = if (isSelected) 3.dp else 1.dp,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
+                        )
+                        .clickable { scope.launch { prefs.setInfoBoxCustomTextColor(hex) } }
+                )
+            }
+        }
+
+        OutlinedTextField(
+            value = currentCustomTextColor,
+            onValueChange = { scope.launch { prefs.setInfoBoxCustomTextColor(it.uppercase()) } },
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            label = { Text(stringResource(R.string.infobox_custom_text_color)) },
+            singleLine = true
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
             stringResource(R.string.infobox_custom_texts),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
@@ -463,7 +504,17 @@ private fun InfoBoxTab(
             modifier = Modifier.padding(horizontal = 4.dp)
         )
 
-        customTexts.forEach { text ->
+        if (customTexts.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.infobox_custom_texts_count, customTexts.size),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Medium,
+                color = MaterialTheme.colorScheme.primary,
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp)
+            )
+        }
+
+        customTexts.forEachIndexed { index, text ->
             Surface(
                 shape = RoundedCornerShape(10.dp),
                 color = MaterialTheme.colorScheme.surface,
@@ -471,7 +522,7 @@ private fun InfoBoxTab(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
             ) {
                 Row(
-                    modifier = Modifier.padding(start = 14.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
+                    modifier = Modifier.padding(start = 14.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -480,12 +531,11 @@ private fun InfoBoxTab(
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.weight(1f),
-                        maxLines = 1,
-                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                        maxLines = 3
                     )
                     IconButton(onClick = {
                         scope.launch {
-                            val updated = customTexts.filter { it != text }
+                            val updated = customTexts.toMutableList().apply { removeAt(index) }
                             prefs.setInfoBoxCustomTexts(JSONArray(updated).toString())
                         }
                     }) {

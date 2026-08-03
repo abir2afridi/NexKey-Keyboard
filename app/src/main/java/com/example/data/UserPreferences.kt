@@ -115,6 +115,7 @@ class UserPreferences(private val context: Context) {
         private val KEY_METER_ENABLED = booleanPreferencesKey("meter_enabled")
         private val KEY_METER_POSITION = stringPreferencesKey("meter_position")
         private val KEY_METER_DISPLAY_MODE = stringPreferencesKey("meter_display_mode")
+        private val KEY_METER_COUNT_MODE = stringPreferencesKey("meter_count_mode")
 
         // Info box (second box frame next to the speed meter)
         private val KEY_INFOBOX_FRAME = stringPreferencesKey("infobox_frame")
@@ -124,6 +125,7 @@ class UserPreferences(private val context: Context) {
         private val KEY_INFOBOX_CUSTOM_SEC = intPreferencesKey("infobox_custom_sec")
         private val KEY_INFOBOX_SWIPE_TIMEOUT_SEC = intPreferencesKey("infobox_swipe_timeout_sec")
         private val KEY_INFOBOX_ENABLED = booleanPreferencesKey("infobox_enabled")
+        private val KEY_INFOBOX_CUSTOM_TEXT_COLOR = stringPreferencesKey("infobox_custom_text_color")
 
         // Custom Theme Colors
         private val KEY_CUSTOM_BG_COLOR = stringPreferencesKey("custom_bg_color")
@@ -229,12 +231,14 @@ class UserPreferences(private val context: Context) {
     val meterPosition: Flow<String> = context.dataStore.data.map { it[KEY_METER_POSITION] ?: "right" }
     val infoBoxFrame: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_FRAME] ?: "CLASSIC" }
     val infoBoxTextColor: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_TEXT_COLOR] ?: "#00FF41" }
+    val infoBoxCustomTextColor: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_TEXT_COLOR] ?: "#FFFFFF" }
     val infoBoxCustomTexts: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_TEXTS] ?: "[]" }
     val infoBoxCustomMode: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_MODE] ?: "off" }
     val infoBoxCustomSec: Flow<Int> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_SEC] ?: 5 }
     val infoBoxSwipeTimeoutSec: Flow<Int> = context.dataStore.data.map { it[KEY_INFOBOX_SWIPE_TIMEOUT_SEC] ?: 10 }
     val infoBoxEnabled: Flow<Boolean> = context.dataStore.data.map { it[KEY_INFOBOX_ENABLED] ?: true }
     val meterDisplayMode: Flow<String> = context.dataStore.data.map { it[KEY_METER_DISPLAY_MODE] ?: "speed" }
+    val meterCountMode: Flow<String> = context.dataStore.data.map { it[KEY_METER_COUNT_MODE] ?: "keys" }
 
     // Custom Theme Flows
     val customBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_BG_COLOR] ?: "#FF12131C" }
@@ -320,12 +324,14 @@ class UserPreferences(private val context: Context) {
     suspend fun setMeterPosition(position: String) = context.dataStore.edit { it[KEY_METER_POSITION] = position }
     suspend fun setInfoBoxFrame(frame: String) = context.dataStore.edit { it[KEY_INFOBOX_FRAME] = frame }
     suspend fun setInfoBoxTextColor(color: String) = context.dataStore.edit { it[KEY_INFOBOX_TEXT_COLOR] = color }
+    suspend fun setInfoBoxCustomTextColor(color: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_TEXT_COLOR] = color }
     suspend fun setInfoBoxCustomTexts(json: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_TEXTS] = json }
     suspend fun setInfoBoxCustomMode(mode: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_MODE] = mode }
     suspend fun setInfoBoxCustomSec(sec: Int) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_SEC] = sec }
     suspend fun setInfoBoxSwipeTimeoutSec(sec: Int) = context.dataStore.edit { it[KEY_INFOBOX_SWIPE_TIMEOUT_SEC] = sec }
     suspend fun setInfoBoxEnabled(enabled: Boolean) = context.dataStore.edit { it[KEY_INFOBOX_ENABLED] = enabled }
     suspend fun setMeterDisplayMode(mode: String) = context.dataStore.edit { it[KEY_METER_DISPLAY_MODE] = mode }
+    suspend fun setMeterCountMode(mode: String) = context.dataStore.edit { it[KEY_METER_COUNT_MODE] = mode }
 
     suspend fun updateCustomTheme(
         bgColor: String? = null,

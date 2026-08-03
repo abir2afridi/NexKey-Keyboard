@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">Boîte d\'infos</string>
     <string name="infobox_frames">Conceptions de cadre</string>
     <string name="infobox_text_color">Couleur du texte de balayage</string>
+    <string name="infobox_custom_text_color">Couleur du texte personnalise</string>
     <string name="infobox_custom_texts">Textes personnalisés</string>
     <string name="infobox_custom_texts_desc">Affiché après la fin des infos de balayage</string>
+    <string name="infobox_custom_texts_count">%1$d textes enregistres</string>
     <string name="infobox_add_text">Ajouter</string>
     <string name="infobox_text_placeholder">Saisissez un texte personnalisé…</string>
     <string name="infobox_custom_mode">Mode texte personnalisé</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">Le compteur de vitesse est INACTIF. Rien n’est mesuré et le bandeau clavier ne l’affiche pas.</string>
     <string name="meter_swipe_in">En %1$d s</string>
     <string name="meter_swipe_words">vous avez tapé %1$d mot</string>
+    <string name="meter_swipe_keys">vous avez pressé %1$d touches</string>
+    <string name="meter_count_hint">Le nombre de touches indique les touches pressées (ABCD = 4). Le nombre de mots indique les mots tapés (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">Nombre de mots</string>
+    <string name="meter_count_keys">Nombre de touches</string>
+    <string name="meter_count_title">Comptage dans les infos de balayage</string>
     <string name="meter_swipe_speed">votre vitesse %1$s</string>
     <string name="meter_swipe_best">meilleur score %1$s</string>
     <string name="meter_rules_line5">Une fois la fenetre terminée, le compteur fait défiler : fenêtre, mots, votre vitesse et le meilleur score. Les fenetres de 5 s et 10 s utilisent les CPS (par seconde), celle de 1 min les CPM (par minute).</string>

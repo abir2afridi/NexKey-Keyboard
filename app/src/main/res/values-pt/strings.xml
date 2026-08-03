@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">Caixa de informações</string>
     <string name="infobox_frames">Designs de moldura</string>
     <string name="infobox_text_color">Cor do texto de deslize</string>
+    <string name="infobox_custom_text_color">Cor do texto personalizado</string>
     <string name="infobox_custom_texts">Textos personalizados</string>
     <string name="infobox_custom_texts_desc">Mostrado após as informações de deslize terminarem</string>
+    <string name="infobox_custom_texts_count">%1$d textos salvos</string>
     <string name="infobox_add_text">Adicionar</string>
     <string name="infobox_text_placeholder">Digite um texto personalizado…</string>
     <string name="infobox_custom_mode">Modo de texto personalizado</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">O Medidor de Velocidade está DESLIGADO. Nenhuma velocidade é medida e nada aparece no cabeçalho do teclado.</string>
     <string name="meter_swipe_in">Em %1$d s</string>
     <string name="meter_swipe_words">você digitou %1$d palavra</string>
+    <string name="meter_swipe_keys">você pressionou %1$d teclas</string>
+    <string name="meter_count_hint">Contagem de teclas mostra as teclas pressionadas (ABCD = 4). Contagem de palavras mostra as palavras digitadas (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">Contagem de palavras</string>
+    <string name="meter_count_keys">Contagem de teclas</string>
+    <string name="meter_count_title">Contagem na informação do deslize</string>
     <string name="meter_swipe_speed">sua velocidade %1$s</string>
     <string name="meter_swipe_best">melhor resultado %1$s</string>
     <string name="meter_rules_line5">Ao final da janela, o medidor mostra automaticamente a janela, o total de palavras, a sua velocidade e o melhor resultado. As janelas de 5 s e 10 s usam CPS (por segundo); a de 1 min usa CPM (por minuto).</string>

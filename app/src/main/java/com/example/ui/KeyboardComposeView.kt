@@ -143,6 +143,7 @@ fun KeyboardComposeView(
     lastPressedWord: String = "",
     infoBoxFrame: String = "CLASSIC",
     infoBoxTextColor: String = "#00FF41",
+    infoBoxCustomTextColor: String = "#FFFFFF",
     infoBoxCustomTexts: String = "[]",
     infoBoxCustomMode: String = "off",
     infoBoxCustomSec: Int = 5,
@@ -205,11 +206,78 @@ fun KeyboardComposeView(
     val infoTextColor = remember(infoBoxTextColor, infoFrame) {
         try { Color(android.graphics.Color.parseColor(infoBoxTextColor)) } catch (_: Exception) { infoFrame.defaultTextColor }
     }
+    val infoCustomTextColor = remember(infoBoxCustomTextColor) {
+        try { Color(android.graphics.Color.parseColor(infoBoxCustomTextColor)) } catch (_: Exception) { Color.White }
+    }
     val infoCustomTexts = remember(infoBoxCustomTexts) {
         try {
             JSONArray(infoBoxCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
         } catch (_: Exception) {
             emptyList()
+        }
+    }
+
+    // Info Box display state is hoisted here (instead of inside InfoBox) so the swipe-info
+    // sequence survives header swaps (unified header) and only one sequence runs at a time.
+    var infoBoxDisplayText by remember { mutableStateOf("") }
+    var infoBoxCustomPhase by remember { mutableStateOf(false) }
+
+    LaunchedEffect(meterPhase, meterResultLines, infoCustomTexts, infoBoxCustomMode, infoBoxCustomSec, infoBoxSwipeTimeoutSec, lastPressedWord) {
+        when (meterPhase) {
+            SpeedMeterPhase.LIVE -> {
+                infoBoxCustomPhase = false
+                infoBoxDisplayText = lastPressedWord
+            }
+            SpeedMeterPhase.WAITING -> {
+                infoBoxCustomPhase = false
+                infoBoxDisplayText = ""
+            }
+            SpeedMeterPhase.RESULT -> {
+                infoBoxDisplayText = ""
+
+                val timeoutMillis = infoBoxSwipeTimeoutSec.coerceAtLeast(1) * 1000L
+                val start = System.currentTimeMillis()
+                val hasCustoms = infoCustomTexts.isNotEmpty() && infoBoxCustomMode != "off"
+
+                // 1. Swipe info sequence: one line per 1.6s fade cycle.
+                for (i in meterResultLines.indices) {
+                    infoBoxDisplayText = meterResultLines[i]
+                    if (i == meterResultLines.lastIndex && !hasCustoms) {
+                        val held = System.currentTimeMillis() - start
+                        if (held < timeoutMillis) delay(timeoutMillis - held)
+                        infoBoxDisplayText = ""
+                        return@LaunchedEffect
+                    }
+                    delay(1600)
+                }
+
+                // 2. Custom texts phase (runs only after the swipe info has finished).
+                if (hasCustoms) {
+                    val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
+                    infoBoxCustomPhase = true
+                    if (infoBoxCustomMode == "always") {
+                        while (true) {
+                            for (t in infoCustomTexts) {
+                                infoBoxDisplayText = t
+                                delay(perText)
+                            }
+                        }
+                    } else {
+                        for (t in infoCustomTexts) {
+                            infoBoxDisplayText = t
+                            delay(perText)
+                        }
+                        infoBoxCustomPhase = false
+                        val held = System.currentTimeMillis() - start
+                        if (held < timeoutMillis) delay(timeoutMillis - held)
+                        infoBoxDisplayText = ""
+                    }
+                } else {
+                    val held = System.currentTimeMillis() - start
+                    if (held < timeoutMillis) delay(timeoutMillis - held)
+                    infoBoxDisplayText = ""
+                }
+            }
         }
     }
 
@@ -249,14 +317,11 @@ fun KeyboardComposeView(
                             meterEnabled = meterEnabled,
                             meterPosition = meterPosition,
                             meterPhase = meterPhase,
-                            meterResultLines = meterResultLines,
-                            lastPressedWord = lastPressedWord,
                             infoFrame = infoFrame,
                             infoTextColor = infoTextColor,
-                            infoCustomTexts = infoCustomTexts,
-                            infoCustomMode = infoBoxCustomMode,
-                            infoCustomSec = infoBoxCustomSec,
-                            infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
+                            infoCustomTextColor = infoCustomTextColor,
+                            infoBoxText = infoBoxDisplayText,
+                            infoCustomActive = infoBoxCustomPhase,
                             infoBoxEnabled = infoBoxEnabled,
                             meterDisplayMode = meterDisplayMode,
                             meterInterval = meterInterval,
@@ -280,14 +345,11 @@ fun KeyboardComposeView(
                             showMeter = unifiedHeader && meterEnabled,
                             meterPosition = meterPosition,
                             meterPhase = meterPhase,
-                            meterResultLines = meterResultLines,
-                            lastPressedWord = lastPressedWord,
                             infoFrame = infoFrame,
                             infoTextColor = infoTextColor,
-                            infoCustomTexts = infoCustomTexts,
-                            infoCustomMode = infoBoxCustomMode,
-                            infoCustomSec = infoBoxCustomSec,
-                            infoSwipeTimeoutSec = infoBoxSwipeTimeoutSec,
+                            infoCustomTextColor = infoCustomTextColor,
+                            infoBoxText = infoBoxDisplayText,
+                            infoCustomActive = infoBoxCustomPhase,
                             infoBoxEnabled = infoBoxEnabled,
                             meterDisplayMode = meterDisplayMode,
                             meterInterval = meterInterval,
@@ -456,14 +518,11 @@ fun SmartToolbar(
     meterEnabled: Boolean = true,
     meterPosition: String = "right",
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
-    meterResultLines: List<String> = emptyList(),
-    lastPressedWord: String = "",
     infoFrame: InfoBoxFrame = InfoBoxFrame.Classic,
     infoTextColor: Color = Color(0xFF00FF41),
-    infoCustomTexts: List<String> = emptyList(),
-    infoCustomMode: String = "off",
-    infoCustomSec: Int = 5,
-    infoSwipeTimeoutSec: Int = 10,
+    infoCustomTextColor: Color = Color.White,
+    infoBoxText: String = "",
+    infoCustomActive: Boolean = false,
     infoBoxEnabled: Boolean = true,
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
@@ -489,16 +548,13 @@ fun SmartToolbar(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,
@@ -571,16 +627,13 @@ fun SmartToolbar(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,
@@ -595,16 +648,13 @@ fun SmartToolbar(
                 cps = if (isSpeedActive) liveCps else maxBurstCps,
                 isLive = isSpeedActive,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,
@@ -656,8 +706,8 @@ fun DigitalSpeedMeter(
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 4.dp)
-            .widthIn(min = 48.dp, max = 88.dp)
+            .padding(horizontal = 3.dp)
+            .widthIn(min = 40.dp, max = 56.dp)
             .height(30.dp),
         color = meterTheme.backgroundColor.copy(alpha = meterTheme.backgroundAlpha),
         shape = RoundedCornerShape(4.dp),
@@ -734,22 +784,19 @@ fun MeterHeaderPair(
     cps: Float,
     isLive: Boolean,
     meterPhase: SpeedMeterPhase,
-    pressedWord: String,
-    swipeLines: List<String>,
     meterTheme: MeterTheme,
     meterFont: String,
     infoFrame: InfoBoxFrame,
     infoTextColor: Color,
-    infoCustomTexts: List<String>,
-    infoCustomMode: String,
-    infoCustomSec: Int,
-    infoSwipeTimeoutSec: Int,
+    infoCustomTextColor: Color,
+    infoBoxText: String,
+    infoCustomActive: Boolean,
     infoBoxEnabled: Boolean,
     meterDisplayMode: String,
     meterInterval: String,
     liveElapsedSec: Int
 ) {
-    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.widthIn(max = 224.dp)) {
+    Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.widthIn(max = 180.dp)) {
         DigitalSpeedMeter(
             cps = cps,
             isLive = isLive,
@@ -762,15 +809,11 @@ fun MeterHeaderPair(
         )
         if (infoBoxEnabled) {
             InfoBox(
-                phase = meterPhase,
-                swipeLines = swipeLines,
+                text = infoBoxText,
+                customActive = infoCustomActive,
                 frame = infoFrame,
                 textColor = infoTextColor,
-                customTexts = infoCustomTexts,
-                customMode = infoCustomMode,
-                customSec = infoCustomSec,
-                swipeTimeoutSec = infoSwipeTimeoutSec,
-                pressedWord = pressedWord
+                customTextColor = infoCustomTextColor
             )
         }
     }
@@ -778,77 +821,18 @@ fun MeterHeaderPair(
 
 @Composable
 fun InfoBox(
-    phase: SpeedMeterPhase,
-    swipeLines: List<String>,
+    text: String,
     frame: InfoBoxFrame,
     textColor: Color,
-    customTexts: List<String>,
-    customMode: String,
-    customSec: Int,
-    swipeTimeoutSec: Int,
-    pressedWord: String = ""
+    customActive: Boolean = false,
+    customTextColor: Color = Color.White
 ) {
-    var displayText by remember { mutableStateOf("") }
-
-    LaunchedEffect(phase, swipeLines, customTexts, customMode, customSec, swipeTimeoutSec) {
-        if (phase != SpeedMeterPhase.RESULT) return@LaunchedEffect
-        displayText = ""
-
-        val timeoutMillis = swipeTimeoutSec.coerceAtLeast(1) * 1000L
-        val start = System.currentTimeMillis()
-        val hasCustoms = customTexts.isNotEmpty() && customMode != "off"
-
-        // 1. Swipe info sequence: one line per 1.6s fade cycle.
-        for (i in swipeLines.indices) {
-            displayText = swipeLines[i]
-            if (i == swipeLines.lastIndex && !hasCustoms) {
-                val held = System.currentTimeMillis() - start
-                if (held < timeoutMillis) delay(timeoutMillis - held)
-                displayText = ""
-                return@LaunchedEffect
-            }
-            delay(1600)
-        }
-
-        // 2. Custom texts phase (runs only after the swipe info has finished).
-        if (hasCustoms) {
-            val perText = customSec.coerceAtLeast(1) * 1000L
-            if (customMode == "always") {
-                while (true) {
-                    for (t in customTexts) {
-                        displayText = t
-                        delay(perText)
-                    }
-                }
-            } else {
-                for (t in customTexts) {
-                    displayText = t
-                    delay(perText)
-                }
-                val held = System.currentTimeMillis() - start
-                if (held < timeoutMillis) delay(timeoutMillis - held)
-                displayText = ""
-            }
-        } else {
-            val held = System.currentTimeMillis() - start
-            if (held < timeoutMillis) delay(timeoutMillis - held)
-            displayText = ""
-        }
-    }
-
-    // Live pressed word: shown per key press while typing.
-    LaunchedEffect(phase, pressedWord) {
-        when (phase) {
-            SpeedMeterPhase.LIVE -> displayText = pressedWord
-            SpeedMeterPhase.WAITING -> displayText = ""
-            else -> {}
-        }
-    }
+    val displayColor = if (customActive) customTextColor else textColor
 
     Surface(
         modifier = Modifier
-            .padding(horizontal = 4.dp)
-            .widthIn(min = 48.dp, max = 112.dp)
+            .padding(horizontal = 3.dp)
+            .widthIn(min = 44.dp, max = 100.dp)
             .height(30.dp),
         color = frame.backgroundColor.copy(alpha = frame.backgroundAlpha),
         shape = RoundedCornerShape(frame.cornerRadius),
@@ -857,7 +841,7 @@ fun InfoBox(
         tonalElevation = 4.dp
     ) {
         AnimatedContent(
-            targetState = displayText,
+            targetState = text,
             transitionSpec = { (fadeIn(tween(300)) togetherWith fadeOut(tween(300))) },
             label = "infoBoxText"
         ) { target ->
@@ -868,7 +852,7 @@ fun InfoBox(
                 if (target.isNotEmpty()) {
                     Text(
                         text = target,
-                        color = textColor,
+                        color = displayColor,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 10.sp,
                         letterSpacing = 0.3.sp,
@@ -921,14 +905,11 @@ fun CandidateStrip(
     showMeter: Boolean = false,
     meterPosition: String = "right",
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
-    meterResultLines: List<String> = emptyList(),
-    lastPressedWord: String = "",
     infoFrame: InfoBoxFrame = InfoBoxFrame.Classic,
     infoTextColor: Color = Color(0xFF00FF41),
-    infoCustomTexts: List<String> = emptyList(),
-    infoCustomMode: String = "off",
-    infoCustomSec: Int = 5,
-    infoSwipeTimeoutSec: Int = 10,
+    infoCustomTextColor: Color = Color.White,
+    infoBoxText: String = "",
+    infoCustomActive: Boolean = false,
     infoBoxEnabled: Boolean = true,
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
@@ -954,16 +935,13 @@ fun CandidateStrip(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,
@@ -1018,16 +996,13 @@ fun CandidateStrip(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,
@@ -1043,16 +1018,13 @@ fun CandidateStrip(
                 cps = if (meterPhase == SpeedMeterPhase.LIVE) liveCps else 0f,
                 isLive = meterPhase == SpeedMeterPhase.LIVE,
                 meterPhase = meterPhase,
-                pressedWord = lastPressedWord,
-                swipeLines = meterResultLines,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
-                infoCustomTexts = infoCustomTexts,
-                infoCustomMode = infoCustomMode,
-                infoCustomSec = infoCustomSec,
-                infoSwipeTimeoutSec = infoSwipeTimeoutSec,
+                infoCustomTextColor = infoCustomTextColor,
+                infoBoxText = infoBoxText,
+                infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
                 meterInterval = meterInterval,

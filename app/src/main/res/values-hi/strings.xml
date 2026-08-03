@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">इन्फो बॉक्स</string>
     <string name="infobox_frames">बॉक्स फ्रेम डिज़ाइन</string>
     <string name="infobox_text_color">स्वाइप टेक्स्ट रंग</string>
+    <string name="infobox_custom_text_color">कस्टम टेक्स्ट का रंग</string>
     <string name="infobox_custom_texts">कस्टम टेक्स्ट</string>
     <string name="infobox_custom_texts_desc">स्वाइप जानकारी समाप्त होने के बाद दिखाया जाता है</string>
+    <string name="infobox_custom_texts_count">%1$d सहेजे गए टेक्स्ट</string>
     <string name="infobox_add_text">जोड़ें</string>
     <string name="infobox_text_placeholder">कस्टम टेक्स्ट लिखें…</string>
     <string name="infobox_custom_mode">कस्टम टेक्स्ट मोड</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">स्पीड मीटर बंद है। कोई गति नहीं मापी जाती और किबोर्ड के हेडर में कुछ भी नहीं दिखता।</string>
     <string name="meter_swipe_in">%1$d सेकंड में</string>
     <string name="meter_swipe_words">आपने %1$d शब्द टाइप किए</string>
+    <string name="meter_swipe_keys">आपने %1$d कुंजियाँ दबाईं</string>
+    <string name="meter_count_hint">कुंजी गिनती दिखाती है कि आपने कितनी कुंजियाँ दबाईं (ABCD = 4)। वाक्य गिनती दिखाती है कि आपने कितने शब्द लिखे (Apple is a great fruits = 5)।</string>
+    <string name="meter_count_words">वाक्य गिनती</string>
+    <string name="meter_count_keys">कुंजी गिनती</string>
+    <string name="meter_count_title">स्वाइप जानकारी में गिनती</string>
     <string name="meter_swipe_speed">आपकी गति %1$s</string>
     <string name="meter_swipe_best">बेस्ट स्कोर %1$s</string>
     <string name="meter_rules_line5">विंडो समाप्त होने के बाद मीटर स्वतः दिखाता है: विंडो, शब्द, आपकी गति और बेस्ट स्कोर। 5 सेकंड व 10 सेकंड की विंडो CPS (प्रति सेकंड) और 1 मिनट की विंडो CPM (प्रति मिनट) का उपयोग करती है।</string>

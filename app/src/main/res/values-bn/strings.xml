@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">ইনফো বক্স</string>
     <string name="infobox_frames">বক্স ফ্রেম ডিজাইন</string>
     <string name="infobox_text_color">সুইপ টেক্সট রঙ</string>
+    <string name="infobox_custom_text_color">কাস্টম টেক্সটের রং</string>
     <string name="infobox_custom_texts">কাস্টম টেক্সট</string>
     <string name="infobox_custom_texts_desc">সুইপ তথ্য শেষ হওয়ার পরে দেখানো হয়</string>
+    <string name="infobox_custom_texts_count">%1$dটি সেভ করা টেক্সট</string>
     <string name="infobox_add_text">যোগ করুন</string>
     <string name="infobox_text_placeholder">কাস্টম টেক্সট লিখুন…</string>
     <string name="infobox_custom_mode">কাস্টম টেক্সট মোড</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">স্পিড মিটার বন্ধ আছে। কোনো স্পিড মাপা হয় না এবং কিবোর্ডের হেডারে কিছু দেখা যায় না।</string>
     <string name="meter_swipe_in">%1$d সেকেন্ডে</string>
     <string name="meter_swipe_words">আপনি %1$d শব্দ টাইপ করেছেন</string>
+    <string name="meter_swipe_keys">তুমি %1$d টি কী চেপেছ</string>
+    <string name="meter_count_hint">কী সংখ্যা মোডে আপনি কতগুলো কী চাপলেন তা দেখায় (ABCD = 4)। বাক্য গণনা মোডে আপনি কতগুলো শব্দ লিখলেন তা দেখায় (Apple is a great fruits = 5)।</string>
+    <string name="meter_count_words">বাক্য গণনা</string>
+    <string name="meter_count_keys">কী সংখ্যা</string>
+    <string name="meter_count_title">সুইপ তথ্যে গণনা</string>
     <string name="meter_swipe_speed">আপনার গতি %1$s</string>
     <string name="meter_swipe_best">সেরা স্কোর %1$s</string>
     <string name="meter_rules_line5">বিরতির সময় শেষ হলে মিটার স্বয়ংক্রিয়ভাবে দেখায়: উইন্ডো, শব্দ, আপনার গতি, সেরা স্কোর। ৫ সেকেন্ড ও ১০ সেকেন্ডের উইন্ডোতে CPS (প্রতি সেকেন্ডে) এবং ১ মিনিটে CPM (প্রতি মিনিটে) ব্যবহৃত হয়।</string>

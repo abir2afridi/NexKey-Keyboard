@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">کادر اطلاعات</string>
     <string name="infobox_frames">طرح‌های قاب</string>
     <string name="infobox_text_color">رنگ متن سوایپ</string>
+    <string name="infobox_custom_text_color">رنگ متن سفارشی</string>
     <string name="infobox_custom_texts">متن‌های سفارشی</string>
     <string name="infobox_custom_texts_desc">پس از پایان اطلاعات سوایپ نمایش داده می‌شود</string>
+    <string name="infobox_custom_texts_count">%1$d متن ذخیره‌شده</string>
     <string name="infobox_add_text">افزودن</string>
     <string name="infobox_text_placeholder">متن سفارشی بنویسید…</string>
     <string name="infobox_custom_mode">حالت متن سفارشی</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">سرعت‌سنج خاموش است. هیچ سرعتی سنجیده نمی‌شود و در هدر کیبورد هیچ‌چیزی نمایش داده نمی‌شود.</string>
     <string name="meter_swipe_in">در %1$d ثانیه</string>
     <string name="meter_swipe_words">%1$d کلمه تایپ کردید</string>
+    <string name="meter_swipe_keys">%1$d کلید فشار دادی</string>
+    <string name="meter_count_hint">شمارش کلیدها تعداد کلیدهای فشرده را نشان میدهد (ABCD = 4). شمارش جمله تعداد کلمات تایپشده را نشان میدهد (Apple is a great fruits = 5).</string>
+    <string name="meter_count_words">شمارش جمله</string>
+    <string name="meter_count_keys">شمارش کلیدها</string>
+    <string name="meter_count_title">شمارش در اطلاعات سوایپ</string>
     <string name="meter_swipe_speed">سرعت شما %1$s</string>
     <string name="meter_swipe_best">بهترین امتیاز %1$s</string>
     <string name="meter_rules_line5">هنگامی که پنجره تمام شد، سرعت‌سنج به‌طور خودکار نمایش می‌دهد: پنجره، کلمات، سرعت شما و بهترین امتیاز. پنجره‌های ۵ و ۱۰ ثانیه از CPS (در ثانیه) و پنجرهٔ ۱ دقیقه از CPM (در دقیقه) استفاده می‌کنند.</string>

@@ -217,8 +217,10 @@
     <string name="store_tab_infobox">انفو باکس</string>
     <string name="infobox_frames">باکس فریم ڈیزائن</string>
     <string name="infobox_text_color">سوائپ ٹیکسٹ کا رنگ</string>
+    <string name="infobox_custom_text_color">اپنی مرضی کے متن کا رنگ</string>
     <string name="infobox_custom_texts">اپنی مرضی کے متن</string>
     <string name="infobox_custom_texts_desc">سوائپ کی معلومات ختم ہونے کے بعد دکھایا جاتا ہے</string>
+    <string name="infobox_custom_texts_count">%1$d محفوظ کردہ متن</string>
     <string name="infobox_add_text">شامل کریں</string>
     <string name="infobox_text_placeholder">اپنی مرضی کا متن لکھیں…</string>
     <string name="infobox_custom_mode">اپنی مرضی کا متن موڈ</string>
@@ -570,6 +572,11 @@
     <string name="settings_speed_meter_enable_desc_off">اسپیڈ میٹر بند ہے۔ کوئی رفتار ناپی نہیں جاتی اور کیبورڈ ہیڈر میں کچھ نہیں دکھتا۔</string>
     <string name="meter_swipe_in">%1$d سیکنڈ میں</string>
     <string name="meter_swipe_words">آپ نے %1$d الفاظ ٹائپ کیے</string>
+    <string name="meter_swipe_keys">آپ نے %1$d کلیدیں دبائیں</string>
+    <string name="meter_count_hint">کلیدوں کی گنتی دکھاتی ہے کہ آپ نے کتنی کلیدیں دبائیں (ABCD = 4)۔ جملے کی گنتی دکھاتی ہے کہ آپ نے کتنے الفاظ لکھے (Apple is a great fruits = 5)۔</string>
+    <string name="meter_count_words">جملے کی گنتی</string>
+    <string name="meter_count_keys">کلیدوں کی گنتی</string>
+    <string name="meter_count_title">سوائپ معلومات میں شمار</string>
     <string name="meter_swipe_speed">آپ کی رفتار %1$s</string>
     <string name="meter_swipe_best">بہترین سکور %1$s</string>
     <string name="meter_rules_line5">وقفے کے بعد میٹر خود بخود دکھاتا ہے: ونڈو، الفاظ، آپ کی رفتار اور بہترین سکور۔ 5 سیکنڈ اور 10 سیکنڈ کی ونڈو CPS (فی سیکنڈ)، جبکہ 1 منٹ کی ونڈو CPM (فی منٹ) استعمال کرتی ہے۔</string>
