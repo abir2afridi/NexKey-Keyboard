@@ -219,7 +219,6 @@
     <string name="infobox_custom_text_color">Custom Text Color</string>
     <string name="infobox_custom_texts">Custom Texts</string>
     <string name="infobox_custom_texts_desc">Shown after the swipe info finishes</string>
-    <string name="infobox_custom_texts_count">%1$d saved texts</string>
     <string name="infobox_add_text">Add</string>
     <string name="infobox_text_placeholder">Type custom text…</string>
     <string name="infobox_custom_mode">Custom Text Mode</string>

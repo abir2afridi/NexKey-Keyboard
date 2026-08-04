@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">Cor do texto personalizado</string>
     <string name="infobox_custom_texts">Textos personalizados</string>
     <string name="infobox_custom_texts_desc">Mostrado após as informações de deslize terminarem</string>
-    <string name="infobox_custom_texts_count">%1$d textos salvos</string>
     <string name="infobox_add_text">Adicionar</string>
     <string name="infobox_text_placeholder">Digite um texto personalizado…</string>
     <string name="infobox_custom_mode">Modo de texto personalizado</string>

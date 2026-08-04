@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">Цвет пользовательского текста</string>
     <string name="infobox_custom_texts">Пользовательские тексты</string>
     <string name="infobox_custom_texts_desc">Показывается после завершения информации о свайпе</string>
-    <string name="infobox_custom_texts_count">Сохранено текстов: %1$d</string>
     <string name="infobox_add_text">Добавить</string>
     <string name="infobox_text_placeholder">Введите свой текст…</string>
     <string name="infobox_custom_mode">Режим пользовательского текста</string>

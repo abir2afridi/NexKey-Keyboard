@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">Benutzerdefinierte Textfarbe</string>
     <string name="infobox_custom_texts">Eigene Texte</string>
     <string name="infobox_custom_texts_desc">Wird angezeigt, nachdem die Wisch-Info endet</string>
-    <string name="infobox_custom_texts_count">%1$d gespeicherte Texte</string>
     <string name="infobox_add_text">Hinzufügen</string>
     <string name="infobox_text_placeholder">Eigenen Text eingeben…</string>
     <string name="infobox_custom_mode">Modus für eigene Texte</string>

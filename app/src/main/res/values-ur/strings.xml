@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">اپنی مرضی کے متن کا رنگ</string>
     <string name="infobox_custom_texts">اپنی مرضی کے متن</string>
     <string name="infobox_custom_texts_desc">سوائپ کی معلومات ختم ہونے کے بعد دکھایا جاتا ہے</string>
-    <string name="infobox_custom_texts_count">%1$d محفوظ کردہ متن</string>
     <string name="infobox_add_text">شامل کریں</string>
     <string name="infobox_text_placeholder">اپنی مرضی کا متن لکھیں…</string>
     <string name="infobox_custom_mode">اپنی مرضی کا متن موڈ</string>

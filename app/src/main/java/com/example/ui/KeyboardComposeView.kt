@@ -222,7 +222,58 @@ fun KeyboardComposeView(
     var infoBoxDisplayText by remember { mutableStateOf("") }
     var infoBoxCustomPhase by remember { mutableStateOf(false) }
 
-    LaunchedEffect(meterPhase, meterResultLines, infoCustomTexts, infoBoxCustomMode, infoBoxCustomSec, infoBoxSwipeTimeoutSec, lastPressedWord) {
+    // Swipe-info + custom-text sequence. Deliberately NOT keyed on lastPressedWord:
+    // per-keypress word updates must never restart a running RESULT sequence.
+    LaunchedEffect(meterPhase, meterResultLines, infoCustomTexts, infoBoxCustomMode, infoBoxCustomSec, infoBoxSwipeTimeoutSec) {
+        if (meterPhase != SpeedMeterPhase.RESULT) return@LaunchedEffect
+        infoBoxDisplayText = ""
+
+        val timeoutMillis = infoBoxSwipeTimeoutSec.coerceAtLeast(1) * 1000L
+        val start = System.currentTimeMillis()
+        val hasCustoms = infoCustomTexts.isNotEmpty() && infoBoxCustomMode != "off"
+
+        // 1. Swipe info sequence: one line per 1.6s fade cycle.
+        for (i in meterResultLines.indices) {
+            infoBoxDisplayText = meterResultLines[i]
+            if (i == meterResultLines.lastIndex && !hasCustoms) {
+                val held = System.currentTimeMillis() - start
+                if (held < timeoutMillis) delay(timeoutMillis - held)
+                infoBoxDisplayText = ""
+                return@LaunchedEffect
+            }
+            delay(1600)
+        }
+
+        // 2. Custom texts phase (runs only after the swipe info has finished).
+        if (hasCustoms) {
+            val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
+            infoBoxCustomPhase = true
+            if (infoBoxCustomMode == "always") {
+                while (true) {
+                    for (t in infoCustomTexts) {
+                        infoBoxDisplayText = t
+                        delay(perText)
+                    }
+                }
+            } else {
+                for (t in infoCustomTexts) {
+                    infoBoxDisplayText = t
+                    delay(perText)
+                }
+                infoBoxCustomPhase = false
+                val held = System.currentTimeMillis() - start
+                if (held < timeoutMillis) delay(timeoutMillis - held)
+                infoBoxDisplayText = ""
+            }
+        } else {
+            val held = System.currentTimeMillis() - start
+            if (held < timeoutMillis) delay(timeoutMillis - held)
+            infoBoxDisplayText = ""
+        }
+    }
+
+    // Live pressed word (shown per key press while typing) and WAITING clearing.
+    LaunchedEffect(meterPhase, lastPressedWord) {
         when (meterPhase) {
             SpeedMeterPhase.LIVE -> {
                 infoBoxCustomPhase = false
@@ -232,52 +283,7 @@ fun KeyboardComposeView(
                 infoBoxCustomPhase = false
                 infoBoxDisplayText = ""
             }
-            SpeedMeterPhase.RESULT -> {
-                infoBoxDisplayText = ""
-
-                val timeoutMillis = infoBoxSwipeTimeoutSec.coerceAtLeast(1) * 1000L
-                val start = System.currentTimeMillis()
-                val hasCustoms = infoCustomTexts.isNotEmpty() && infoBoxCustomMode != "off"
-
-                // 1. Swipe info sequence: one line per 1.6s fade cycle.
-                for (i in meterResultLines.indices) {
-                    infoBoxDisplayText = meterResultLines[i]
-                    if (i == meterResultLines.lastIndex && !hasCustoms) {
-                        val held = System.currentTimeMillis() - start
-                        if (held < timeoutMillis) delay(timeoutMillis - held)
-                        infoBoxDisplayText = ""
-                        return@LaunchedEffect
-                    }
-                    delay(1600)
-                }
-
-                // 2. Custom texts phase (runs only after the swipe info has finished).
-                if (hasCustoms) {
-                    val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
-                    infoBoxCustomPhase = true
-                    if (infoBoxCustomMode == "always") {
-                        while (true) {
-                            for (t in infoCustomTexts) {
-                                infoBoxDisplayText = t
-                                delay(perText)
-                            }
-                        }
-                    } else {
-                        for (t in infoCustomTexts) {
-                            infoBoxDisplayText = t
-                            delay(perText)
-                        }
-                        infoBoxCustomPhase = false
-                        val held = System.currentTimeMillis() - start
-                        if (held < timeoutMillis) delay(timeoutMillis - held)
-                        infoBoxDisplayText = ""
-                    }
-                } else {
-                    val held = System.currentTimeMillis() - start
-                    if (held < timeoutMillis) delay(timeoutMillis - held)
-                    infoBoxDisplayText = ""
-                }
-            }
+            else -> {}
         }
     }
 

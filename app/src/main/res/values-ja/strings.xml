@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">カスタムテキストの色</string>
     <string name="infobox_custom_texts">カスタムテキスト</string>
     <string name="infobox_custom_texts_desc">スワイプ情報の表示後に表示されます</string>
-    <string name="infobox_custom_texts_count">保存済みテキスト %1$d 件</string>
     <string name="infobox_add_text">追加</string>
     <string name="infobox_text_placeholder">カスタムテキストを入力…</string>
     <string name="infobox_custom_mode">カスタムテキストモード</string>

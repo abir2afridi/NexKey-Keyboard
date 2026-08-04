@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">لون النص المخصص</string>
     <string name="infobox_custom_texts">نصوص مخصصة</string>
     <string name="infobox_custom_texts_desc">تظهر بعد انتهاء معلومات السحب</string>
-    <string name="infobox_custom_texts_count">%1$d نصوص محفوظة</string>
     <string name="infobox_add_text">إضافة</string>
     <string name="infobox_text_placeholder">اكتب نصًا مخصصًا…</string>
     <string name="infobox_custom_mode">وضع النص المخصص</string>

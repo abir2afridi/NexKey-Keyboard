@@ -271,7 +271,13 @@ private fun InfoBoxTab(
 ) {
     val frames = remember { InfoBoxFrame.allPresets() }
     val currentFrame by prefs.infoBoxFrame.collectAsState(initial = "CLASSIC")
+    val previewFrame = remember(currentFrame, frames) {
+        frames.firstOrNull { it.preset.name == currentFrame } ?: frames.first()
+    }
     val currentTextColor by prefs.infoBoxTextColor.collectAsState(initial = "#00FF41")
+    val previewTextColor = remember(currentTextColor) {
+        try { Color(android.graphics.Color.parseColor(currentTextColor)) } catch (_: Exception) { Color(0xFF00FF41) }
+    }
     val currentCustomTextColor by prefs.infoBoxCustomTextColor.collectAsState(initial = "#FFFFFF")
     val currentCustomTexts by prefs.infoBoxCustomTexts.collectAsState(initial = "[]")
     val currentCustomMode by prefs.infoBoxCustomMode.collectAsState(initial = "off")
@@ -326,13 +332,6 @@ private fun InfoBoxTab(
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text(
-            stringResource(R.string.infobox_frames),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
-        )
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
                 stringResource(R.string.infobox_frames),
@@ -441,6 +440,27 @@ private fun InfoBoxTab(
             }
         }
 
+        Box(
+            modifier = Modifier
+                .padding(top = 14.dp)
+                .width(160.dp)
+                .height(32.dp)
+                .clip(RoundedCornerShape(previewFrame.cornerRadius))
+                .background(previewFrame.backgroundColor.copy(alpha = previewFrame.backgroundAlpha))
+                .border(previewFrame.borderWidth, previewFrame.borderColor, RoundedCornerShape(previewFrame.cornerRadius)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = stringResource(R.string.meter_swipe_in, 5),
+                color = previewTextColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
+        }
+
         OutlinedTextField(
             value = currentTextColor,
             onValueChange = { scope.launch { prefs.setInfoBoxTextColor(it.uppercase()) } },
@@ -504,17 +524,7 @@ private fun InfoBoxTab(
             modifier = Modifier.padding(horizontal = 4.dp)
         )
 
-        if (customTexts.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.infobox_custom_texts_count, customTexts.size),
-                fontSize = 12.sp,
-                fontWeight = FontWeight.Medium,
-                color = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.padding(horizontal = 4.dp, vertical = 6.dp)
-            )
-        }
-
-        customTexts.forEachIndexed { index, text ->
+        customTexts.forEach { text ->
             Surface(
                 shape = RoundedCornerShape(10.dp),
                 color = MaterialTheme.colorScheme.surface,
@@ -522,7 +532,7 @@ private fun InfoBoxTab(
                 modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp)
             ) {
                 Row(
-                    modifier = Modifier.padding(start = 14.dp, end = 4.dp, top = 6.dp, bottom = 6.dp),
+                    modifier = Modifier.padding(start = 14.dp, end = 4.dp, top = 4.dp, bottom = 4.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
@@ -531,11 +541,12 @@ private fun InfoBoxTab(
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface,
                         modifier = Modifier.weight(1f),
-                        maxLines = 3
+                        maxLines = 1,
+                        overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
                     IconButton(onClick = {
                         scope.launch {
-                            val updated = customTexts.toMutableList().apply { removeAt(index) }
+                            val updated = customTexts.filter { it != text }
                             prefs.setInfoBoxCustomTexts(JSONArray(updated).toString())
                         }
                     }) {

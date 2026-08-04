@@ -220,7 +220,6 @@
     <string name="infobox_custom_text_color">رنگ متن سفارشی</string>
     <string name="infobox_custom_texts">متن‌های سفارشی</string>
     <string name="infobox_custom_texts_desc">پس از پایان اطلاعات سوایپ نمایش داده می‌شود</string>
-    <string name="infobox_custom_texts_count">%1$d متن ذخیره‌شده</string>
     <string name="infobox_add_text">افزودن</string>
     <string name="infobox_text_placeholder">متن سفارشی بنویسید…</string>
     <string name="infobox_custom_mode">حالت متن سفارشی</string>
