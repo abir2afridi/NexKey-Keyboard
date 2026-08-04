@@ -238,137 +238,10 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
 
         Spacer(modifier = Modifier.height(24.dp))
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        Text(
-            stringResource(R.string.infobox_downloadable_fonts),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
-        )
-
-        Surface(
-            shape = RoundedCornerShape(14.dp),
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 1.dp,
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Row(
-                modifier = Modifier.padding(16.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(Icons.Default.Download, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
-                Spacer(modifier = Modifier.width(14.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.store_coming_soon), fontSize = 14.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                    Text(stringResource(R.string.infobox_downloadable_fonts_desc), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-                }
-            }
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
-
-        Text(
-            stringResource(R.string.infobox_key_press_color),
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
-        )
-
         val swatchColors = remember(frames) {
             listOf(Color(0xFF00FF41), Color(0xFFFFFFFF), Color(0xFF00FF9F), Color(0xFF0F380F), Color(0xFFE0E0E0), Color(0xFF1B1B1B), Color(0xFFCCFF00), Color(0xFFBB86FC)) +
                 frames.map { it.defaultTextColor }
         }
-        Row(
-            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
-            horizontalArrangement = Arrangement.spacedBy(8.dp)
-        ) {
-            swatchColors.distinct().forEach { color ->
-                val hex = "#%06X".format(color.toArgb() and 0xFFFFFF)
-                val isSelected = currentTextColor.equals(hex, ignoreCase = true)
-                Box(
-                    modifier = Modifier
-                        .size(34.dp)
-                        .clip(RoundedCornerShape(8.dp))
-                        .background(color)
-                        .border(
-                            width = if (isSelected) 3.dp else 1.dp,
-                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
-                        )
-                        .clickable { scope.launch { prefs.setInfoBoxTextColor(hex) } }
-                )
-            }
-            Box(
-                modifier = Modifier
-                    .size(34.dp)
-                    .clip(CircleShape)
-                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
-                    .background(MaterialTheme.colorScheme.surfaceVariant)
-                    .clickable { showSwipeColorPicker = true },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = stringResource(R.string.custom_color),
-                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(20.dp)
-                )
-            }
-        }
-
-        Text(
-            stringResource(R.string.preview_info_box),
-            fontSize = 12.sp,
-            fontWeight = FontWeight.Bold,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(top = 14.dp, start = 4.dp)
-        )
-
-        Box(
-            modifier = Modifier
-                .padding(top = 6.dp)
-                .width(160.dp)
-                .height(32.dp)
-                .clip(RoundedCornerShape(previewFrame.cornerRadius))
-                .background(previewFrame.backgroundColor.copy(alpha = previewFrame.backgroundAlpha))
-                .border(previewFrame.borderWidth, previewFrame.borderColor, RoundedCornerShape(previewFrame.cornerRadius)),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = "A/B/C/D",
-                color = previewTextColor,
-                fontSize = 10.sp,
-                fontWeight = FontWeight.ExtraBold,
-                fontFamily = meterFontFamily(currentInfoBoxFont),
-                maxLines = 1,
-                textAlign = TextAlign.Center,
-                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-            )
-        }
-
-        OutlinedTextField(
-            value = currentTextColor,
-            onValueChange = { scope.launch { prefs.setInfoBoxTextColor(it.uppercase()) } },
-            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
-            label = { Text(stringResource(R.string.infobox_key_press_color)) },
-            singleLine = true
-        )
-
-        if (showSwipeColorPicker) {
-            ColorPickerDialog(
-                title = stringResource(R.string.infobox_key_press_color),
-                initialColor = previewTextColor,
-                onDismiss = { showSwipeColorPicker = false },
-                onConfirm = { color ->
-                    scope.launch { prefs.setInfoBoxTextColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
-                    showSwipeColorPicker = false
-                }
-            )
-        }
-
-        Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             stringResource(R.string.infobox_info_color),
@@ -460,6 +333,143 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
                 onConfirm = { color ->
                     scope.launch { prefs.setInfoBoxInfoColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
                     showInfoColorPicker = false
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        StepperRow(
+            label = stringResource(R.string.infobox_swipe_timeout),
+            value = currentSwipeTimeout,
+            onDecrease = { scope.launch { prefs.setInfoBoxSwipeTimeoutSec((currentSwipeTimeout - 1).coerceAtLeast(3)) } },
+            onIncrease = { scope.launch { prefs.setInfoBoxSwipeTimeoutSec((currentSwipeTimeout + 1).coerceAtMost(120)) } }
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
+        Text(
+            stringResource(R.string.infobox_downloadable_fonts),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        Surface(
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 1.dp,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.Download, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.store_coming_soon), fontSize = 14.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.infobox_downloadable_fonts_desc), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            stringResource(R.string.infobox_key_press_color),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            swatchColors.distinct().forEach { color ->
+                val hex = "#%06X".format(color.toArgb() and 0xFFFFFF)
+                val isSelected = currentTextColor.equals(hex, ignoreCase = true)
+                Box(
+                    modifier = Modifier
+                        .size(34.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(color)
+                        .border(
+                            width = if (isSelected) 3.dp else 1.dp,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
+                        )
+                        .clickable { scope.launch { prefs.setInfoBoxTextColor(hex) } }
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable { showSwipeColorPicker = true },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.custom_color),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
+        Text(
+            stringResource(R.string.preview_info_box),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 14.dp, start = 4.dp)
+        )
+
+        Box(
+            modifier = Modifier
+                .padding(top = 6.dp)
+                .width(160.dp)
+                .height(32.dp)
+                .clip(RoundedCornerShape(previewFrame.cornerRadius))
+                .background(previewFrame.backgroundColor.copy(alpha = previewFrame.backgroundAlpha))
+                .border(previewFrame.borderWidth, previewFrame.borderColor, RoundedCornerShape(previewFrame.cornerRadius)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "A/B/C/D",
+                color = previewTextColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                fontFamily = meterFontFamily(currentInfoBoxFont),
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
+        }
+
+        OutlinedTextField(
+            value = currentTextColor,
+            onValueChange = { scope.launch { prefs.setInfoBoxTextColor(it.uppercase()) } },
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            label = { Text(stringResource(R.string.infobox_key_press_color)) },
+            singleLine = true
+        )
+
+        if (showSwipeColorPicker) {
+            ColorPickerDialog(
+                title = stringResource(R.string.infobox_key_press_color),
+                initialColor = previewTextColor,
+                onDismiss = { showSwipeColorPicker = false },
+                onConfirm = { color ->
+                    scope.launch { prefs.setInfoBoxTextColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
+                    showSwipeColorPicker = false
                 }
             )
         }
@@ -689,15 +699,6 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
             value = currentCustomSec,
             onDecrease = { scope.launch { prefs.setInfoBoxCustomSec((currentCustomSec - 1).coerceAtLeast(1)) } },
             onIncrease = { scope.launch { prefs.setInfoBoxCustomSec((currentCustomSec + 1).coerceAtMost(60)) } }
-        )
-
-        Spacer(modifier = Modifier.height(12.dp))
-
-        StepperRow(
-            label = stringResource(R.string.infobox_swipe_timeout),
-            value = currentSwipeTimeout,
-            onDecrease = { scope.launch { prefs.setInfoBoxSwipeTimeoutSec((currentSwipeTimeout - 1).coerceAtLeast(3)) } },
-            onIncrease = { scope.launch { prefs.setInfoBoxSwipeTimeoutSec((currentSwipeTimeout + 1).coerceAtMost(120)) } }
         )
 
         Spacer(modifier = Modifier.height(120.dp))
