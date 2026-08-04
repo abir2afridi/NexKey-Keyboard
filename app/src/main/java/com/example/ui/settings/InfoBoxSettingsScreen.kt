@@ -23,8 +23,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.R
+import com.example.theme.INFOBOX_FONT_OPTIONS
 import com.example.theme.InfoBoxFrame
 import com.example.theme.InfoBoxFramePreset
+import com.example.theme.meterFontFamily
 import kotlinx.coroutines.launch
 import org.json.JSONArray
 
@@ -160,6 +162,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
                                 color = frame.defaultTextColor,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.ExtraBold,
+                                fontFamily = meterFontFamily(currentInfoBoxFont),
                                 maxLines = 1,
                                 textAlign = TextAlign.Center
                             )
@@ -188,7 +191,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
         )
 
-        val fontOptions = listOf("DEFAULT", "DIGITAL", "LCD", "SEGMENT", "MODERN", "MONO", "SERIF", "CURSIVE")
+        val fontOptions = INFOBOX_FONT_OPTIONS
         val fontRows = fontOptions.chunked(4)
         fontRows.forEachIndexed { rowIndex, rowFonts ->
             Row(
@@ -338,6 +341,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
                 color = previewTextColor,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.ExtraBold,
+                fontFamily = meterFontFamily(currentInfoBoxFont),
                 maxLines = 1,
                 textAlign = TextAlign.Center,
                 overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis

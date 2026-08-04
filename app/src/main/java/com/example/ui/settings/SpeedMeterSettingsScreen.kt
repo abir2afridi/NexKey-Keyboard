@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.R
 import com.example.data.UserPreferences
+import com.example.theme.METER_FONT_OPTIONS
 import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
 import kotlinx.coroutines.launch
@@ -182,7 +183,7 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
         )
 
-        val fontOptions = listOf("DIGITAL", "LCD", "SEGMENT", "MODERN")
+        val fontOptions = METER_FONT_OPTIONS
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
