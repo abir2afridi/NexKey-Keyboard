@@ -15,6 +15,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,15 +24,17 @@ import androidx.compose.ui.unit.sp
 import com.example.R
 import com.example.theme.InfoBoxFrame
 import com.example.theme.InfoBoxFramePreset
+import com.example.theme.KeyboardTheme
 import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
+import com.example.theme.ThemePreset
 import com.example.theme.meterFontFamily
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StoreScreen(
     onBack: () -> Unit = {},
-    onNavigateToThemes: () -> Unit = {},
     onNavigateToCustomTheme: () -> Unit = {},
     onNavigateToSpeedMeter: () -> Unit = {},
     onNavigateToInfoBox: () -> Unit = {}
@@ -88,7 +91,7 @@ fun StoreScreen(
 
             when (selectedTab) {
                 0 -> ShopTab()
-                1 -> KeyboardThemesTab(onNavigateToThemes = onNavigateToThemes, onNavigateToCustomTheme = onNavigateToCustomTheme)
+                1 -> KeyboardThemesTab(onNavigateToCustomTheme = onNavigateToCustomTheme)
                 2 -> MeterStoreTab(onNavigateToSpeedMeter = onNavigateToSpeedMeter)
                 3 -> InfoBoxStoreTab(onNavigateToInfoBox = onNavigateToInfoBox)
             }
@@ -120,13 +123,66 @@ private fun ShopTab() {
 }
 
 @Composable
-private fun KeyboardThemesTab(onNavigateToThemes: () -> Unit, onNavigateToCustomTheme: () -> Unit) {
+private fun KeyboardThemesTab(onNavigateToCustomTheme: () -> Unit) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+    val prefs = remember { com.example.data.UserPreferences(context) }
+    val scope = rememberCoroutineScope()
+    val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
+
+    val customBg by prefs.customBgColor.collectAsState(initial = "#FF12131C")
+    val customKeyBg by prefs.customKeyBgColor.collectAsState(initial = "#FF1E2136")
+    val customKeySpec by prefs.customKeySpecialColor.collectAsState(initial = "#FF2A2E4B")
+    val customKeyText by prefs.customKeyTextColor.collectAsState(initial = "#FFF1F3FB")
+    val customKeySpecText by prefs.customKeySpecialTextColor.collectAsState(initial = "#FF80D8FF")
+    val customAccent by prefs.customAccentColor.collectAsState(initial = "#FF00E5FF")
+    val customSugBg by prefs.customSuggestionBgColor.collectAsState(initial = "#FF1A1C29")
+    val customSugText by prefs.customSuggestionTextColor.collectAsState(initial = "#FFF1F3FB")
+    val customPopBg by prefs.customPopupBgColor.collectAsState(initial = "#FF2A2E4B")
+    val customPopText by prefs.customPopupTextColor.collectAsState(initial = "#FF00E5FF")
+    val customKeyHint by prefs.customKeyHintColor.collectAsState(initial = "#66F1F3FB")
+
+    val customTheme = remember(customBg, customKeyBg, customKeySpec, customKeyText, customKeySpecText, customAccent, customSugBg, customSugText, customPopBg, customPopText, customKeyHint) {
+        KeyboardTheme(
+            preset = ThemePreset.CUSTOM,
+            backgroundColor = Color(android.graphics.Color.parseColor(customBg)),
+            keyBackgroundColor = Color(android.graphics.Color.parseColor(customKeyBg)),
+            keySpecialColor = Color(android.graphics.Color.parseColor(customKeySpec)),
+            keyTextColor = Color(android.graphics.Color.parseColor(customKeyText)),
+            keySpecialTextColor = Color(android.graphics.Color.parseColor(customKeySpecText)),
+            accentColor = Color(android.graphics.Color.parseColor(customAccent)),
+            suggestionBgColor = Color(android.graphics.Color.parseColor(customSugBg)),
+            suggestionTextColor = Color(android.graphics.Color.parseColor(customSugText)),
+            popupBackgroundColor = Color(android.graphics.Color.parseColor(customPopBg)),
+            popupTextColor = Color(android.graphics.Color.parseColor(customPopText)),
+            keyHintColor = Color(android.graphics.Color.parseColor(customKeyHint))
+        )
+    }
+
+    val themes = remember(customTheme) { listOf(customTheme) + KeyboardTheme.allThemes() }
+
+    val selectedTheme = remember(savedThemePresetName) {
+        try {
+            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName))
+        } catch (e: Exception) {
+            KeyboardTheme.DarkNeon
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
             .verticalScroll(rememberScrollState())
     ) {
+        CustomizeLink(
+            title = stringResource(R.string.store_customize),
+            desc = stringResource(R.string.store_custom_theme_sub),
+            icon = Icons.Default.Colorize,
+            onClick = onNavigateToCustomTheme
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             stringResource(R.string.store_tab_keyboard),
             fontSize = 14.sp,
@@ -135,14 +191,29 @@ private fun KeyboardThemesTab(onNavigateToThemes: () -> Unit, onNavigateToCustom
             modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
         )
 
-        Surface(shape = MaterialTheme.shapes.medium, color = MaterialTheme.colorScheme.surface, tonalElevation = 1.dp) {
-            Column {
-                SettingItem(stringResource(R.string.store_browse_themes), stringResource(R.string.store_browse_themes_sub), Icons.Default.Palette, onClick = onNavigateToThemes)
-                HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.outlineVariant)
-                SettingItem(stringResource(R.string.store_custom_theme), stringResource(R.string.store_custom_theme_sub), Icons.Default.Colorize, onClick = onNavigateToCustomTheme)
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2),
+            modifier = Modifier.heightIn(max = 2400.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
+            userScrollEnabled = false
+        ) {
+            items(themes.size) { index ->
+                val theme = themes[index]
+                ThemePreviewCard(
+                    theme = theme,
+                    isSelected = selectedTheme.preset == theme.preset,
+                    onClick = {
+                        scope.launch {
+                            prefs.setTheme(theme.preset)
+                        }
+                    }
+                )
             }
         }
 
+        Spacer(modifier = Modifier.height(24.dp))
+        DownloadThemesPlaceholder()
         Spacer(modifier = Modifier.height(120.dp))
     }
 }
@@ -157,7 +228,6 @@ private fun MeterStoreTab(onNavigateToSpeedMeter: () -> Unit) {
     ) {
         CustomizeLink(
             title = stringResource(R.string.store_customize),
-            subtitle = stringResource(R.string.settings_speed_meter),
             desc = stringResource(R.string.settings_speed_meter_desc),
             icon = Icons.Default.Speed,
             onClick = onNavigateToSpeedMeter
@@ -271,7 +341,6 @@ private fun InfoBoxStoreTab(onNavigateToInfoBox: () -> Unit) {
     ) {
         CustomizeLink(
             title = stringResource(R.string.store_customize),
-            subtitle = stringResource(R.string.settings_info_box),
             desc = stringResource(R.string.settings_info_box_desc),
             icon = Icons.Default.Info,
             onClick = onNavigateToInfoBox
@@ -352,7 +421,6 @@ private fun InfoBoxStoreTab(onNavigateToInfoBox: () -> Unit) {
 @Composable
 private fun CustomizeLink(
     title: String,
-    subtitle: String,
     desc: String,
     icon: androidx.compose.ui.graphics.vector.ImageVector,
     onClick: () -> Unit

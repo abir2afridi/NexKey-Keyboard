@@ -353,7 +353,6 @@ fun NexKeyApp() {
                 }
                 composable(Screen.Store.route) {
                     StoreScreen(
-                        onNavigateToThemes = { navController.navigate(Screen.Themes.route) },
                         onNavigateToCustomTheme = { navController.navigate(Screen.CustomTheme.route) },
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
                         onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) }
