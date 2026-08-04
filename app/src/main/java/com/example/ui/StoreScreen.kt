@@ -279,6 +279,10 @@ private fun InfoBoxTab(
     val previewTextColor = remember(currentTextColor) {
         try { Color(android.graphics.Color.parseColor(currentTextColor)) } catch (_: Exception) { Color(0xFF00FF41) }
     }
+    val currentInfoColor by prefs.infoBoxInfoColor.collectAsState(initial = "#00FF41")
+    val previewInfoColor = remember(currentInfoColor) {
+        try { Color(android.graphics.Color.parseColor(currentInfoColor)) } catch (_: Exception) { Color(0xFF00FF41) }
+    }
     val currentCustomTextColor by prefs.infoBoxCustomTextColor.collectAsState(initial = "#FFFFFF")
     val previewCustomTextColor = remember(currentCustomTextColor) {
         try { Color(android.graphics.Color.parseColor(currentCustomTextColor)) } catch (_: Exception) { Color.White }
@@ -293,6 +297,7 @@ private fun InfoBoxTab(
     var showRules by remember { mutableStateOf(false) }
     var showCustomColorPicker by remember { mutableStateOf(false) }
     var showSwipeColorPicker by remember { mutableStateOf(false) }
+    var showInfoColorPicker by remember { mutableStateOf(false) }
     val customTexts = remember(currentCustomTexts) {
         try {
             JSONArray(currentCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
@@ -415,7 +420,7 @@ private fun InfoBoxTab(
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
-            stringResource(R.string.infobox_text_color),
+            stringResource(R.string.infobox_key_press_color),
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.primary,
@@ -488,18 +493,106 @@ private fun InfoBoxTab(
             value = currentTextColor,
             onValueChange = { scope.launch { prefs.setInfoBoxTextColor(it.uppercase()) } },
             modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
-            label = { Text(stringResource(R.string.infobox_text_color)) },
+            label = { Text(stringResource(R.string.infobox_key_press_color)) },
             singleLine = true
         )
 
         if (showSwipeColorPicker) {
             ColorPickerDialog(
-                title = stringResource(R.string.infobox_text_color),
+                title = stringResource(R.string.infobox_key_press_color),
                 initialColor = previewTextColor,
                 onDismiss = { showSwipeColorPicker = false },
                 onConfirm = { color ->
                     scope.launch { prefs.setInfoBoxTextColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
                     showSwipeColorPicker = false
+                }
+            )
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            stringResource(R.string.infobox_info_color),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        Row(
+            modifier = Modifier.fillMaxWidth().horizontalScroll(rememberScrollState()),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            swatchColors.distinct().forEach { color ->
+                val hex = "#%06X".format(color.toArgb() and 0xFFFFFF)
+                val isSelected = currentInfoColor.equals(hex, ignoreCase = true)
+                Box(
+                    modifier = Modifier
+                        .size(34.dp)
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(color)
+                        .border(
+                            width = if (isSelected) 3.dp else 1.dp,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant
+                        )
+                        .clickable { scope.launch { prefs.setInfoBoxInfoColor(hex) } }
+                )
+            }
+            Box(
+                modifier = Modifier
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable { showInfoColorPicker = true },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.custom_color),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(top = 14.dp)
+                .width(160.dp)
+                .height(32.dp)
+                .clip(RoundedCornerShape(previewFrame.cornerRadius))
+                .background(previewFrame.backgroundColor.copy(alpha = previewFrame.backgroundAlpha))
+                .border(previewFrame.borderWidth, previewFrame.borderColor, RoundedCornerShape(previewFrame.cornerRadius)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "12.3 CPS",
+                color = previewInfoColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
+        }
+
+        OutlinedTextField(
+            value = currentInfoColor,
+            onValueChange = { scope.launch { prefs.setInfoBoxInfoColor(it.uppercase()) } },
+            modifier = Modifier.fillMaxWidth().padding(top = 12.dp),
+            label = { Text(stringResource(R.string.infobox_info_color)) },
+            singleLine = true
+        )
+
+        if (showInfoColorPicker) {
+            ColorPickerDialog(
+                title = stringResource(R.string.infobox_info_color),
+                initialColor = previewInfoColor,
+                onDismiss = { showInfoColorPicker = false },
+                onConfirm = { color ->
+                    scope.launch { prefs.setInfoBoxInfoColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
+                    showInfoColorPicker = false
                 }
             )
         }

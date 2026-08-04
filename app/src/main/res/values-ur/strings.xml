@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">انفو باکس</string>
     <string name="infobox_frames">باکس فریم ڈیزائن</string>
     <string name="infobox_text_color">سوائپ ٹیکسٹ کا رنگ</string>
+    <string name="infobox_key_press_color">کی پریس رنگ</string>
+    <string name="infobox_info_color">معلوماتی متن کا رنگ</string>
     <string name="infobox_custom_text_color">اپنی مرضی کے متن کا رنگ</string>
     <string name="infobox_custom_text_sample">کسٹم ٹیکسٹ</string>
     <string name="infobox_custom_texts">اپنی مرضی کے متن</string>

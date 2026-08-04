@@ -143,6 +143,7 @@ fun KeyboardComposeView(
     lastPressedWord: String = "",
     infoBoxFrame: String = "CLASSIC",
     infoBoxTextColor: String = "#00FF41",
+    infoBoxInfoColor: String = "#00FF41",
     infoBoxCustomTextColor: String = "#FFFFFF",
     infoBoxCustomTexts: String = "[]",
     infoBoxCustomMode: String = "off",
@@ -206,6 +207,9 @@ fun KeyboardComposeView(
     val infoTextColor = remember(infoBoxTextColor, infoFrame) {
         try { Color(android.graphics.Color.parseColor(infoBoxTextColor)) } catch (_: Exception) { infoFrame.defaultTextColor }
     }
+    val infoInfoColor = remember(infoBoxInfoColor, infoFrame) {
+        try { Color(android.graphics.Color.parseColor(infoBoxInfoColor)) } catch (_: Exception) { infoFrame.defaultTextColor }
+    }
     val infoCustomTextColor = remember(infoBoxCustomTextColor) {
         try { Color(android.graphics.Color.parseColor(infoBoxCustomTextColor)) } catch (_: Exception) { Color.White }
     }
@@ -222,12 +226,15 @@ fun KeyboardComposeView(
     // sequence survives header swaps (unified header) and only one sequence runs at a time.
     var infoBoxDisplayText by remember { mutableStateOf("") }
     var infoBoxCustomPhase by remember { mutableStateOf(false) }
+    var infoBoxKeyPressActive by remember { mutableStateOf(false) }
+    val infoBoxMainTextColor = if (infoBoxKeyPressActive) infoTextColor else infoInfoColor
 
     // Swipe-info + custom-text sequence. Deliberately NOT keyed on lastPressedWord:
     // per-keypress word updates must never restart a running RESULT sequence.
     LaunchedEffect(meterPhase, meterResultLines, infoCustomTexts, infoBoxCustomMode, infoBoxCustomSec, infoBoxSwipeTimeoutSec) {
         if (meterPhase != SpeedMeterPhase.RESULT) return@LaunchedEffect
         infoBoxDisplayText = ""
+        infoBoxKeyPressActive = false
 
         val timeoutMillis = infoBoxSwipeTimeoutSec.coerceAtLeast(1) * 1000L
         val start = System.currentTimeMillis()
@@ -285,10 +292,12 @@ fun KeyboardComposeView(
         when (meterPhase) {
             SpeedMeterPhase.LIVE -> {
                 infoBoxCustomPhase = false
+                infoBoxKeyPressActive = true
                 infoBoxDisplayText = lastPressedWord
             }
             SpeedMeterPhase.WAITING -> {
                 infoBoxCustomPhase = false
+                infoBoxKeyPressActive = false
                 infoBoxDisplayText = ""
             }
             else -> {}
@@ -332,7 +341,7 @@ fun KeyboardComposeView(
                             meterPosition = meterPosition,
                             meterPhase = meterPhase,
                             infoFrame = infoFrame,
-                            infoTextColor = infoTextColor,
+                            infoTextColor = infoBoxMainTextColor,
                             infoCustomTextColor = infoCustomTextColor,
                             infoBoxText = infoBoxDisplayText,
                             infoCustomActive = infoBoxCustomPhase,
@@ -360,7 +369,7 @@ fun KeyboardComposeView(
                             meterPosition = meterPosition,
                             meterPhase = meterPhase,
                             infoFrame = infoFrame,
-                            infoTextColor = infoTextColor,
+                            infoTextColor = infoBoxMainTextColor,
                             infoCustomTextColor = infoCustomTextColor,
                             infoBoxText = infoBoxDisplayText,
                             infoCustomActive = infoBoxCustomPhase,

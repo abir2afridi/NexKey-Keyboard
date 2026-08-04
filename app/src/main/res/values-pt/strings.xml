@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">Caixa de informações</string>
     <string name="infobox_frames">Designs de moldura</string>
     <string name="infobox_text_color">Cor do texto de deslize</string>
+    <string name="infobox_key_press_color">Cor da tecla pressionada</string>
+    <string name="infobox_info_color">Cor do texto de informações</string>
     <string name="infobox_custom_text_color">Cor do texto personalizado</string>
     <string name="infobox_custom_text_sample">Texto personalizado</string>
     <string name="infobox_custom_texts">Textos personalizados</string>

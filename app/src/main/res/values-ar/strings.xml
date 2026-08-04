@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">صندوق المعلومات</string>
     <string name="infobox_frames">تصميمات إطار الصندوق</string>
     <string name="infobox_text_color">لون نص السحب</string>
+    <string name="infobox_key_press_color">لون ضغط المفتاح</string>
+    <string name="infobox_info_color">لون نص المعلومات</string>
     <string name="infobox_custom_text_color">لون النص المخصص</string>
     <string name="infobox_custom_text_sample">نص مخصص</string>
     <string name="infobox_custom_texts">نصوص مخصصة</string>

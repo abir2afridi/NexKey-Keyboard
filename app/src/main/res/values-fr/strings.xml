@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">Boîte d\'infos</string>
     <string name="infobox_frames">Conceptions de cadre</string>
     <string name="infobox_text_color">Couleur du texte de balayage</string>
+    <string name="infobox_key_press_color">Couleur de touche pressée</string>
+    <string name="infobox_info_color">Couleur du texte d\'info</string>
     <string name="infobox_custom_text_color">Couleur du texte personnalise</string>
     <string name="infobox_custom_text_sample">Texte personnalisé</string>
     <string name="infobox_custom_texts">Textes personnalisés</string>

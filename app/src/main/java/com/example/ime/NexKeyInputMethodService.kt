@@ -133,6 +133,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var lastPressedWord by mutableStateOf("")
     internal var infoBoxFrameState by mutableStateOf("CLASSIC")
     internal var infoBoxTextColorState by mutableStateOf("#00FF41")
+    internal var infoBoxInfoColorState by mutableStateOf("#00FF41")
     internal var infoBoxCustomTextColorState by mutableStateOf("#FFFFFF")
     internal var infoBoxCustomTextsState by mutableStateOf("[]")
     internal var infoBoxCustomModeState by mutableStateOf("off")
@@ -227,6 +228,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     lastPressedWord = lastPressedWord,
                     infoBoxFrame = infoBoxFrameState,
                     infoBoxTextColor = infoBoxTextColorState,
+                    infoBoxInfoColor = infoBoxInfoColorState,
                     infoBoxCustomTextColor = infoBoxCustomTextColorState,
                     infoBoxCustomTexts = infoBoxCustomTextsState,
                     infoBoxCustomMode = infoBoxCustomModeState,

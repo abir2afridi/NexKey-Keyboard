@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">信息框</string>
     <string name="infobox_frames">边框设计</string>
     <string name="infobox_text_color">滑动文字颜色</string>
+    <string name="infobox_key_press_color">按键按压颜色</string>
+    <string name="infobox_info_color">信息文字颜色</string>
     <string name="infobox_custom_text_color">自定义文本颜色</string>
     <string name="infobox_custom_text_sample">自定义文本</string>
     <string name="infobox_custom_texts">自定义文本</string>

@@ -120,6 +120,7 @@ class UserPreferences(private val context: Context) {
         // Info box (second box frame next to the speed meter)
         private val KEY_INFOBOX_FRAME = stringPreferencesKey("infobox_frame")
         private val KEY_INFOBOX_TEXT_COLOR = stringPreferencesKey("infobox_text_color")
+        private val KEY_INFOBOX_INFO_COLOR = stringPreferencesKey("infobox_info_color")
         private val KEY_INFOBOX_CUSTOM_TEXTS = stringPreferencesKey("infobox_custom_texts")
         private val KEY_INFOBOX_CUSTOM_MODE = stringPreferencesKey("infobox_custom_mode")
         private val KEY_INFOBOX_CUSTOM_SEC = intPreferencesKey("infobox_custom_sec")
@@ -231,6 +232,7 @@ class UserPreferences(private val context: Context) {
     val meterPosition: Flow<String> = context.dataStore.data.map { it[KEY_METER_POSITION] ?: "right" }
     val infoBoxFrame: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_FRAME] ?: "CLASSIC" }
     val infoBoxTextColor: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_TEXT_COLOR] ?: "#00FF41" }
+    val infoBoxInfoColor: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_INFO_COLOR] ?: "#00FF41" }
     val infoBoxCustomTextColor: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_TEXT_COLOR] ?: "#FFFFFF" }
     val infoBoxCustomTexts: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_TEXTS] ?: "[]" }
     val infoBoxCustomMode: Flow<String> = context.dataStore.data.map { it[KEY_INFOBOX_CUSTOM_MODE] ?: "off" }
@@ -324,6 +326,7 @@ class UserPreferences(private val context: Context) {
     suspend fun setMeterPosition(position: String) = context.dataStore.edit { it[KEY_METER_POSITION] = position }
     suspend fun setInfoBoxFrame(frame: String) = context.dataStore.edit { it[KEY_INFOBOX_FRAME] = frame }
     suspend fun setInfoBoxTextColor(color: String) = context.dataStore.edit { it[KEY_INFOBOX_TEXT_COLOR] = color }
+    suspend fun setInfoBoxInfoColor(color: String) = context.dataStore.edit { it[KEY_INFOBOX_INFO_COLOR] = color }
     suspend fun setInfoBoxCustomTextColor(color: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_TEXT_COLOR] = color }
     suspend fun setInfoBoxCustomTexts(json: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_TEXTS] = json }
     suspend fun setInfoBoxCustomMode(mode: String) = context.dataStore.edit { it[KEY_INFOBOX_CUSTOM_MODE] = mode }

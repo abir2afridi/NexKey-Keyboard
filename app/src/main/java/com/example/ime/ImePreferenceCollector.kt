@@ -157,6 +157,7 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.meterPosition.collectLatest { meterPositionState = it } }
         launch { userPreferences.infoBoxFrame.collectLatest { infoBoxFrameState = it } }
         launch { userPreferences.infoBoxTextColor.collectLatest { infoBoxTextColorState = it } }
+        launch { userPreferences.infoBoxInfoColor.collectLatest { infoBoxInfoColorState = it } }
         launch { userPreferences.infoBoxCustomTextColor.collectLatest { infoBoxCustomTextColorState = it } }
         launch { userPreferences.infoBoxCustomTexts.collectLatest { infoBoxCustomTextsState = it } }
         launch { userPreferences.infoBoxCustomMode.collectLatest { infoBoxCustomModeState = it } }

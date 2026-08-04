@@ -217,6 +217,8 @@
     <string name="store_tab_infobox">情報ボックス</string>
     <string name="infobox_frames">ボックス枠デザイン</string>
     <string name="infobox_text_color">スワイプ文字色</string>
+    <string name="infobox_key_press_color">キー押下色</string>
+    <string name="infobox_info_color">情報テキスト色</string>
     <string name="infobox_custom_text_color">カスタムテキストの色</string>
     <string name="infobox_custom_text_sample">カスタムテキスト</string>
     <string name="infobox_custom_texts">カスタムテキスト</string>
