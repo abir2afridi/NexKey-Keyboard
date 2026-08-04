@@ -533,6 +533,8 @@
     <string name="meter_result_best">Best: %1$s</string>
     <string name="meter_result_record">NEW RECORD %1$s (streak %2$d)</string>
     <string name="settings_speed_meter">Speed Meter</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">Auto-swipe window, unit and rules</string>
     <string name="meter_interval_label">Auto-swipe window</string>
     <string name="meter_position_label">Meter position</string>

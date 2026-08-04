@@ -33,7 +33,8 @@ fun SettingsScreen(
     onNavigateToGifQuality: () -> Unit = {},
     onNavigateToHeaderAnimation: () -> Unit = {},
     onNavigateToEmoji: () -> Unit = {},
-    onNavigateToSpeedMeter: () -> Unit = {}
+    onNavigateToSpeedMeter: () -> Unit = {},
+    onNavigateToInfoBox: () -> Unit = {}
 ) {
     val settingsItems =
         listOf(
@@ -50,7 +51,8 @@ fun SettingsScreen(
             SettingCategory(stringResource(R.string.settings_more_languages), stringResource(R.string.settings_more_languages_desc), Icons.Default.Language, onNavigateToMoreLanguages),
             SettingCategory(stringResource(R.string.settings_gif_quality), stringResource(R.string.settings_gif_quality_desc), Icons.Default.Gif, onNavigateToGifQuality),
             SettingCategory(stringResource(R.string.settings_header_animation), stringResource(R.string.settings_header_animation_desc), Icons.Default.Animation, onNavigateToHeaderAnimation),
-            SettingCategory(stringResource(R.string.settings_speed_meter), stringResource(R.string.settings_speed_meter_desc), Icons.Default.Speed, onNavigateToSpeedMeter)
+            SettingCategory(stringResource(R.string.settings_speed_meter), stringResource(R.string.settings_speed_meter_desc), Icons.Default.Speed, onNavigateToSpeedMeter),
+            SettingCategory(stringResource(R.string.settings_info_box), stringResource(R.string.settings_info_box_desc), Icons.Default.Info, onNavigateToInfoBox)
         )
 
     Scaffold(

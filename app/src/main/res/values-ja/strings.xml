@@ -532,6 +532,8 @@
     <string name="meter_result_best">最高: %1$s</string>
     <string name="meter_result_record">新記録 %1$s（連続 %2$d）</string>
     <string name="settings_speed_meter">速度メーター</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">オートスワイプ間隔、単位とルール</string>
     <string name="meter_interval_label">オートスワイプ間隔</string>
     <string name="meter_position_label">メーターの位置</string>

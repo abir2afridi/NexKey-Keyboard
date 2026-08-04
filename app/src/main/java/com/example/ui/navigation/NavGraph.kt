@@ -37,6 +37,7 @@ sealed class Screen(val route: String) {
     object SettingsAdvancedGroup : Screen("settings_advanced_group")
     object Store : Screen("store")
     object SettingsSpeedMeter : Screen("settings_speed_meter")
+    object SettingsInfoBox : Screen("settings_info_box")
     object SpeedRecords : Screen("speed_records")
     object SpeedLeaderboard : Screen("speed_leaderboard")
 }

@@ -532,6 +532,8 @@
     <string name="meter_result_best">সেরা: %1$s</string>
     <string name="meter_result_record">নতুন রেকর্ড %1$s (ধারা %2$d)</string>
     <string name="settings_speed_meter">গতির মিটার</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">অটো-সোয়াইপ উইন্ডো, একক ও নিয়ম</string>
     <string name="meter_interval_label">অটো-সোয়াইপ উইন্ডো</string>
     <string name="meter_position_label">মিটারের অবস্থান</string>

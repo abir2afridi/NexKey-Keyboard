@@ -532,6 +532,8 @@
     <string name="meter_result_best">최고: %1$s</string>
     <string name="meter_result_record">새 기록 %1$s (연속 %2$d)</string>
     <string name="settings_speed_meter">속도 미터</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">오토스와이프 창, 단위 및 규칙</string>
     <string name="meter_interval_label">오토스와이프 창</string>
     <string name="meter_position_label">미터 위치</string>

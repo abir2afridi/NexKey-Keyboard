@@ -532,6 +532,8 @@
     <string name="meter_result_best">Mejor: %1$s</string>
     <string name="meter_result_record">NUEVO RÉCORD %1$s (racha %2$d)</string>
     <string name="settings_speed_meter">Medidor de velocidad</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">Ventana de auto-swipe, unidad y reglas</string>
     <string name="meter_interval_label">Ventana de auto-swipe</string>
     <string name="meter_position_label">Posición del medidor</string>

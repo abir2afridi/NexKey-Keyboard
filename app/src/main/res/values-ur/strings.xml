@@ -532,6 +532,8 @@
     <string name="meter_result_best">بہترین: %1$s</string>
     <string name="meter_result_record">نیا ریکارڈ %1$s (سلسلہ %2$d)</string>
     <string name="settings_speed_meter">رفتار میٹر</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">آٹو سواب ونڈو، اکائی اور قواعد</string>
     <string name="meter_interval_label">آٹو سواب ونڈو</string>
     <string name="meter_position_label">میٹر کی پوزیشن</string>

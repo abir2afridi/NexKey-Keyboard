@@ -532,6 +532,8 @@
     <string name="meter_result_best">सर्वश्रेष्ठ: %1$s</string>
     <string name="meter_result_record">नया रिकॉर्ड %1$s (लकीर %2$d)</string>
     <string name="settings_speed_meter">गति मीटर</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">ऑटो-स्वाइप विंडो, इकाई और नियम</string>
     <string name="meter_interval_label">ऑटो-स्वाइप विंडो</string>
     <string name="meter_position_label">मीटर की स्थिति</string>

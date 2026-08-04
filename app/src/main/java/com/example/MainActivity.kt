@@ -253,7 +253,8 @@ fun NexKeyApp() {
                         onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToHeaderAnimation = { navController.navigate(Screen.SettingsHeaderAnimation.route) },
                         onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) },
-                        onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) }
+                        onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
+                        onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) }
                     )
                 }
                 composable(Screen.SettingsTyping.route) {
@@ -300,6 +301,9 @@ fun NexKeyApp() {
                 }
                 composable(Screen.SettingsSpeedMeter.route) {
                     SettingsSpeedMeterScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.SettingsInfoBox.route) {
+                    SettingsInfoBoxScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SpeedRecords.route) {
                     SpeedRecordsScreen(onBack = { navController.popBackStack() })

@@ -532,6 +532,8 @@
     <string name="meter_result_best">بهترین: %1$s</string>
     <string name="meter_result_record">رکورد جدید %1$s (زنجیره %2$d)</string>
     <string name="settings_speed_meter">سرعت‌سنج</string>
+    <string name="settings_info_box">Info Box</string>
+    <string name="settings_info_box_desc">Info Box colors, frames and custom texts</string>
     <string name="settings_speed_meter_desc">پنجره سوایپ خودکار، واحد و قوانین</string>
     <string name="meter_interval_label">پنجره سوایپ خودکار</string>
     <string name="meter_position_label">موقعیت متر</string>

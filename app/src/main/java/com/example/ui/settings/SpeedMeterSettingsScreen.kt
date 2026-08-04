@@ -30,7 +30,6 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
     val interval by prefs.meterInterval.collectAsState(initial = "5s")
     val meterEnabled by prefs.meterEnabled.collectAsState(initial = true)
     val meterPosition by prefs.meterPosition.collectAsState(initial = "right")
-    val infoBoxEnabled by prefs.infoBoxEnabled.collectAsState(initial = true)
     val meterDisplayMode by prefs.meterDisplayMode.collectAsState(initial = "speed")
 
     var showInfo by remember { mutableStateOf(false) }
@@ -65,41 +64,6 @@ fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
                 Switch(
                     checked = meterEnabled,
                     onCheckedChange = { scope.launch { prefs.setMeterEnabled(it) } }
-                )
-            }
-        }
-
-        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-
-        Surface(
-            onClick = { scope.launch { prefs.setInfoBoxEnabled(!infoBoxEnabled) } },
-            modifier = Modifier.fillMaxWidth(),
-            shape = RoundedCornerShape(14.dp),
-            color = MaterialTheme.colorScheme.surface,
-            shadowElevation = 1.dp
-        ) {
-            Row(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Icon(
-                    Icons.Default.Info,
-                    contentDescription = null,
-                    tint = if (infoBoxEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.size(28.dp)
-                )
-                Spacer(modifier = Modifier.width(14.dp))
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(stringResource(R.string.settings_speed_meter_infobox), fontSize = 15.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
-                    Text(
-                        stringResource(if (infoBoxEnabled) R.string.settings_speed_meter_infobox_desc_on else R.string.settings_speed_meter_infobox_desc_off),
-                        fontSize = 13.sp,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
-                    )
-                }
-                Switch(
-                    checked = infoBoxEnabled,
-                    onCheckedChange = { scope.launch { prefs.setInfoBoxEnabled(it) } }
                 )
             }
         }
