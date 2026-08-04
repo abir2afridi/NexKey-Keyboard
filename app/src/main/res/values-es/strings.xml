@@ -218,6 +218,7 @@
     <string name="infobox_frames">Diseños de marco</string>
     <string name="infobox_text_color">Color del texto de deslizamiento</string>
     <string name="infobox_key_press_color">Color de tecla presionada</string>
+                                                                         <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">Color de texto de información</string>
     <string name="infobox_custom_text_color">Color de texto personalizado</string>
     <string name="infobox_custom_text_sample">Texto personalizado</string>

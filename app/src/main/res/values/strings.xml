@@ -215,8 +215,9 @@
     <string name="store_tab_meter">Meter</string>
     <string name="store_tab_infobox">Info Box</string>
     <string name="infobox_frames">Box Frame Designs</string>
-    <string name="infobox_text_color">Swipe Text Color</string>
+<string name="infobox_text_color">Swipe Text Color</string>
     <string name="infobox_key_press_color">Key Press Color</string>
+    <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">Info Text Color</string>
     <string name="infobox_custom_text_color">Custom Text Color</string>
     <string name="infobox_custom_text_sample">Custom Text</string>

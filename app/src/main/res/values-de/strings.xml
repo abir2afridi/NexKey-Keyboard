@@ -218,6 +218,7 @@
     <string name="infobox_frames">Box-Rahmen-Designs</string>
     <string name="infobox_text_color">Wisch-Textfarbe</string>
     <string name="infobox_key_press_color">Tastenfarbe beim Drücken</string>
+                                                                        <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">Info-Textfarbe</string>
     <string name="infobox_custom_text_color">Benutzerdefinierte Textfarbe</string>
     <string name="infobox_custom_text_sample">Benutzerdefinierter Text</string>

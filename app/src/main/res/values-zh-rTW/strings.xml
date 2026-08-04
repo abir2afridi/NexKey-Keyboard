@@ -218,6 +218,7 @@
     <string name="infobox_frames">邊框設計</string>
     <string name="infobox_text_color">滑動文字顏色</string>
     <string name="infobox_key_press_color">按鍵按下顏色</string>
+                                                      <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">資訊文字顏色</string>
     <string name="infobox_custom_text_color">自訂文字顏色</string>
     <string name="infobox_custom_text_sample">自訂文字</string>

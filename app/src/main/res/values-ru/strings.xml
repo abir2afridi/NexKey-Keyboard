@@ -218,6 +218,7 @@
     <string name="infobox_frames">Дизайны рамок</string>
     <string name="infobox_text_color">Цвет текста свайпа</string>
     <string name="infobox_key_press_color">Цвет нажатия клавиш</string>
+                                                                   <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">Цвет информационного текста</string>
     <string name="infobox_custom_text_color">Цвет пользовательского текста</string>
     <string name="infobox_custom_text_sample">Пользовательский текст</string>

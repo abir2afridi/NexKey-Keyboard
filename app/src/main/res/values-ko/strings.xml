@@ -218,6 +218,7 @@
     <string name="infobox_frames">박스 프레임 디자인</string>
     <string name="infobox_text_color">스와이프 텍스트 색상</string>
     <string name="infobox_key_press_color">키 누름 색상</string>
+                                                       <string name="preview_info_box">Preview :</string>
     <string name="infobox_info_color">정보 텍스트 색상</string>
     <string name="infobox_custom_text_color">사용자 지정 텍스트 색상</string>
     <string name="infobox_custom_text_sample">사용자 지정 텍스트</string>

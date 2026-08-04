@@ -468,9 +468,17 @@ private fun InfoBoxTab(
             }
         }
 
+        Text(
+            stringResource(R.string.preview_info_box),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 14.dp, start = 4.dp)
+        )
+
         Box(
             modifier = Modifier
-                .padding(top = 14.dp)
+                .padding(top = 6.dp)
                 .width(160.dp)
                 .height(32.dp)
                 .clip(RoundedCornerShape(previewFrame.cornerRadius))
@@ -479,7 +487,7 @@ private fun InfoBoxTab(
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = stringResource(R.string.meter_swipe_in, 5),
+                text = "A/B/C/D",
                 color = previewTextColor,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -556,9 +564,17 @@ private fun InfoBoxTab(
             }
         }
 
+        Text(
+            stringResource(R.string.preview_info_box),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 14.dp, start = 4.dp)
+        )
+
         Box(
             modifier = Modifier
-                .padding(top = 14.dp)
+                .padding(top = 6.dp)
                 .width(160.dp)
                 .height(32.dp)
                 .clip(RoundedCornerShape(previewFrame.cornerRadius))
@@ -644,9 +660,17 @@ private fun InfoBoxTab(
             }
         }
 
+        Text(
+            stringResource(R.string.preview_info_box),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(top = 14.dp, start = 4.dp)
+        )
+
         Box(
             modifier = Modifier
-                .padding(top = 14.dp)
+                .padding(top = 6.dp)
                 .width(160.dp)
                 .height(32.dp)
                 .clip(RoundedCornerShape(previewFrame.cornerRadius))
