@@ -297,7 +297,13 @@ fun NexKeyApp() {
                     HeaderAnimationSettingsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsEmoji.route) {
-                    EmojiSettingsScreen(onBack = { navController.popBackStack() })
+                    EmojiSettingsScreen(
+                        onBack = { navController.popBackStack() },
+                        onNavigateToAllEmojis = { navController.navigate(Screen.SettingsAllEmojis.route) }
+                    )
+                }
+                composable(Screen.SettingsAllEmojis.route) {
+                    AllEmojisScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsSpeedMeter.route) {
                     SettingsSpeedMeterScreen(onBack = { navController.popBackStack() })

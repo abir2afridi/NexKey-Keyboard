@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Inicio</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">Explorar todos los textos copiados</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">Todos los emojis</string>
+    <string name="all_emojis_view">Ver todos los emojis</string>
+    <string name="all_emojis_view_desc">Explora cada emoji con su nombre y código</string>
+    <string name="all_emojis_search_hint">Buscar emoji, nombre o código</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Retención de emojis recientes</string>
     <string name="emoji_retention_desc">Cuánto tiempo recordar los emojis usados recientemente</string>
     <string name="emoji_expiry_1d">1 día</string>

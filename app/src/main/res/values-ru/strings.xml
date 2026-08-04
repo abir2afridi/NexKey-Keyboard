@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Главная</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">Просмотр всех скопированных текстов</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">Все эмодзи</string>
+    <string name="all_emojis_view">Показать все эмодзи</string>
+    <string name="all_emojis_view_desc">Просмотр всех эмодзи с названием и кодом</string>
+    <string name="all_emojis_search_hint">Поиск эмодзи, названия или кода</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Хранение недавних эмодзи</string>
     <string name="emoji_retention_desc">Как долго помнить недавно использованные эмодзи</string>
     <string name="emoji_expiry_1d">1 день</string>

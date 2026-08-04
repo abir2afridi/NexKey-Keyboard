@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">الرئيسية</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">تصفح جميع النصوص المنسوخة</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">جميع الرموز التعبيرية</string>
+    <string name="all_emojis_view">عرض كل الرموز</string>
+    <string name="all_emojis_view_desc">تصفح كل رمز مع الاسم والكود</string>
+    <string name="all_emojis_search_hint">ابحث عن رمز أو اسم أو كود</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">الاحتفاظ بالرموز التعبيرية الحديثة</string>
     <string name="emoji_retention_desc">مدة تذكر الرموز التعبيرية المستخدمة حديثًا</string>
     <string name="emoji_expiry_1d">يوم واحد</string>

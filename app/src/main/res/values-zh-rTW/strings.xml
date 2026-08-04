@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">首頁</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">瀏覽所有複製的文字</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">全部表情符號</string>
+    <string name="all_emojis_view">查看所有表情符號</string>
+    <string name="all_emojis_view_desc">瀏覽每個表情符號的名稱和代碼</string>
+    <string name="all_emojis_search_hint">搜尋表情符號、名稱或代碼</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">最近表情符號保留</string>
     <string name="emoji_retention_desc">記住最近使用的表情符號的時長</string>
     <string name="emoji_expiry_1d">1 天</string>

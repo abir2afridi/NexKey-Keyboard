@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">홈</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">복사한 모든 텍스트 보기</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">모든 이모지</string>
+    <string name="all_emojis_view">모든 이모지 보기</string>
+    <string name="all_emojis_view_desc">이름과 코드가 있는 모든 이모지 보기</string>
+    <string name="all_emojis_search_hint">이모지, 이름 또는 코드 검색</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">최근 이모지 보존</string>
     <string name="emoji_retention_desc">최근 사용한 이모지를 기억할 기간</string>
     <string name="emoji_expiry_1d">1일</string>

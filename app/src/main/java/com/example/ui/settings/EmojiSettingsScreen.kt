@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DensitySmall
 import androidx.compose.material.icons.filled.EmojiEmotions
+import androidx.compose.material.icons.filled.GridView
 import androidx.compose.material.icons.filled.ViewModule
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -19,7 +20,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun EmojiSettingsScreen(onBack: () -> Unit) {
+fun EmojiSettingsScreen(onBack: () -> Unit, onNavigateToAllEmojis: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
@@ -28,6 +29,16 @@ fun EmojiSettingsScreen(onBack: () -> Unit) {
     val emojiSearchHorizontal by prefs.emojiSearchHorizontal.collectAsState(initial = true)
 
     SettingsSubScaffold(title = stringResource(R.string.settings_emoji), onBack = onBack) {
+        // View all emoji
+        SettingActionItem(
+            title = stringResource(R.string.all_emojis_view),
+            subtitle = stringResource(R.string.all_emojis_view_desc),
+            icon = Icons.Default.GridView,
+            onClick = onNavigateToAllEmojis
+        )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
         // Recent emoji retention
         val expiryOptions = listOf(1, 7, 30, 90, 0)
         val expiryLabels = listOf(stringResource(R.string.emoji_expiry_1d), stringResource(R.string.emoji_expiry_7d), stringResource(R.string.emoji_expiry_30d), stringResource(R.string.emoji_expiry_90d), stringResource(R.string.emoji_expiry_forever))

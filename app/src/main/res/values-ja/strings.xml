@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">ホーム</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">コピーしたすべてのテキストを閲覧</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">すべての絵文字</string>
+    <string name="all_emojis_view">すべての絵文字を見る</string>
+    <string name="all_emojis_view_desc">名前とコード付きで全絵文字を閲覧</string>
+    <string name="all_emojis_search_hint">絵文字・名前・コードを検索</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">最近の絵文字の保持</string>
     <string name="emoji_retention_desc">最近使用した絵文字を覚えておく期間</string>
     <string name="emoji_expiry_1d">1日</string>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">ہوم</string>
@@ -387,6 +387,11 @@
     <string name="paste_view_history_desc">تمام کاپی شدہ متن دیکھیں</string>
 
     <!-- Emoji -->
+    <string name="all_emojis_title">تمام ایموجی</string>
+    <string name="all_emojis_view">تمام ایموجی دیکھیں</string>
+    <string name="all_emojis_view_desc">نام اور کوڈ کے ساتھ ہر ایموجی دیکھیں</string>
+    <string name="all_emojis_search_hint">ایموجی، نام یا کوڈ تلاش کریں</string>
+    <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">حالیہ ایموجی برقرار رکھنا</string>
     <string name="emoji_retention_desc">حالیہ استعمال شدہ ایموجیز کو کتنی دیر یاد رکھیں</string>
     <string name="emoji_expiry_1d">1 دن</string>
