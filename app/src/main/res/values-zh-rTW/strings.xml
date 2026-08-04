@@ -219,6 +219,9 @@
     <string name="store_customize">自訂</string>
     <string name="store_download_themes">可下載的主題</string>
     <string name="store_download_themes_desc">新主題即將在此提供下載。</string>
+    <string name="infobox_text_style">文字樣式</string>
+    <string name="infobox_downloadable_fonts">可下載的字型樣式</string>
+    <string name="infobox_downloadable_fonts_desc">新的字型樣式即將在此提供下載。</string>
     <string name="infobox_frames">邊框設計</string>
     <string name="infobox_text_color">滑動文字顏色</string>
     <string name="infobox_key_press_color">按鍵按下顏色</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">段碼</string>
     <string name="meter_font_modern">現代</string>
+    <string name="meter_font_default">預設</string>
+    <string name="meter_font_mono">等寬</string>
+    <string name="meter_font_serif">襯線</string>
+    <string name="meter_font_cursive">手寫體</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">剪貼簿管理員</string>

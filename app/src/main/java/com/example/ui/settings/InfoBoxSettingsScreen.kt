@@ -57,6 +57,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
     val currentCustomSec by prefs.infoBoxCustomSec.collectAsState(initial = 5)
     val currentSwipeTimeout by prefs.infoBoxSwipeTimeoutSec.collectAsState(initial = 10)
     val infoBoxEnabled by prefs.infoBoxEnabled.collectAsState(initial = true)
+    val currentInfoBoxFont by prefs.infoBoxFont.collectAsState(initial = "DEFAULT")
 
     var newText by remember { mutableStateOf("") }
     var showRules by remember { mutableStateOf(false) }
@@ -155,7 +156,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
-                                text = "12.3 CPS",
+                                text = "A/B/C/D",
                                 color = frame.defaultTextColor,
                                 fontSize = 10.sp,
                                 fontWeight = FontWeight.ExtraBold,
@@ -173,6 +174,92 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            stringResource(R.string.infobox_text_style),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        val fontOptions = listOf("DEFAULT", "DIGITAL", "LCD", "SEGMENT", "MODERN", "MONO", "SERIF", "CURSIVE")
+        val fontRows = fontOptions.chunked(4)
+        fontRows.forEachIndexed { rowIndex, rowFonts ->
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = if (rowIndex < fontRows.lastIndex) 8.dp else 0.dp),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                rowFonts.forEach { font ->
+                    val isSelected = currentInfoBoxFont == font
+                    Surface(
+                        onClick = { scope.launch { prefs.setInfoBoxFont(font) } },
+                        modifier = Modifier.weight(1f),
+                        shape = RoundedCornerShape(12.dp),
+                        color = if (isSelected) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surface,
+                        border = androidx.compose.foundation.BorderStroke(
+                            width = 1.dp,
+                            color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.3f)
+                        )
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(vertical = 12.dp),
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "Aa12",
+                                fontSize = 14.sp,
+                                fontFamily = com.example.theme.meterFontFamily(font),
+                                letterSpacing = if (font == "LCD") 2.sp else if (font == "SEGMENT") 1.5.sp else 0.sp,
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
+                            )
+                            Spacer(modifier = Modifier.height(4.dp))
+                            Text(
+                                text = meterFontLabel(font),
+                                fontSize = 9.sp,
+                                fontWeight = FontWeight.Bold,
+                                color = if (isSelected) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
+
+        Text(
+            stringResource(R.string.infobox_downloadable_fonts),
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)
+        )
+
+        Surface(
+            shape = RoundedCornerShape(14.dp),
+            color = MaterialTheme.colorScheme.surface,
+            tonalElevation = 1.dp,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            Row(
+                modifier = Modifier.padding(16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(Icons.Default.Download, contentDescription = null, tint = MaterialTheme.colorScheme.primary, modifier = Modifier.size(24.dp))
+                Spacer(modifier = Modifier.width(14.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(stringResource(R.string.store_coming_soon), fontSize = 14.sp, fontWeight = FontWeight.Bold, color = MaterialTheme.colorScheme.onSurface)
+                    Text(stringResource(R.string.infobox_downloadable_fonts_desc), fontSize = 13.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }
@@ -343,7 +430,7 @@ fun SettingsInfoBoxScreen(onBack: () -> Unit) {
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = "12.3 CPS",
+                text = "In 5sec you press",
                 color = previewInfoColor,
                 fontSize = 10.sp,
                 fontWeight = FontWeight.ExtraBold,
@@ -668,5 +755,20 @@ private fun infoBoxFrameLabel(preset: InfoBoxFramePreset): String = stringResour
         InfoBoxFramePreset.GHOST_WHITE -> R.string.infobox_frame_ghost_white
         InfoBoxFramePreset.CYBER_LIME -> R.string.infobox_frame_cyber_lime
         InfoBoxFramePreset.VIOLET_GLOW -> R.string.infobox_frame_violet_glow
+    }
+)
+
+@Composable
+private fun meterFontLabel(font: String): String = stringResource(
+    when (font) {
+        "DEFAULT" -> R.string.meter_font_default
+        "DIGITAL" -> R.string.meter_font_digital
+        "LCD" -> R.string.meter_font_lcd
+        "SEGMENT" -> R.string.meter_font_segment
+        "MODERN" -> R.string.meter_font_modern
+        "MONO" -> R.string.meter_font_mono
+        "SERIF" -> R.string.meter_font_serif
+        "CURSIVE" -> R.string.meter_font_cursive
+        else -> R.string.meter_font_default
     }
 )

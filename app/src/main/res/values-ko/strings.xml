@@ -219,6 +219,9 @@
     <string name="store_customize">사용자 지정</string>
     <string name="store_download_themes">다운로드 가능한 테마</string>
     <string name="store_download_themes_desc">곧 새 테마를 여기에서 다운로드할 수 있습니다.</string>
+    <string name="infobox_text_style">텍스트 스타일</string>
+    <string name="infobox_downloadable_fonts">다운로드 가능한 글꼴 스타일</string>
+    <string name="infobox_downloadable_fonts_desc">곧 새 글꼴 스타일을 여기에서 다운로드할 수 있습니다.</string>
     <string name="infobox_frames">박스 프레임 디자인</string>
     <string name="infobox_text_color">스와이프 텍스트 색상</string>
     <string name="infobox_key_press_color">키 누름 색상</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">세그먼트</string>
     <string name="meter_font_modern">모던</string>
+    <string name="meter_font_default">기본</string>
+    <string name="meter_font_mono">모노스페이스</string>
+    <string name="meter_font_serif">세리프</string>
+    <string name="meter_font_cursive">필기체</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">클립보드 관리자</string>

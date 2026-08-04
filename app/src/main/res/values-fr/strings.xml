@@ -219,6 +219,9 @@
     <string name="store_customize">Personnaliser</string>
     <string name="store_download_themes">Thèmes téléchargeables</string>
     <string name="store_download_themes_desc">De nouveaux thèmes seront bientôt disponibles au téléchargement ici.</string>
+    <string name="infobox_text_style">Style de texte</string>
+    <string name="infobox_downloadable_fonts">Styles de police téléchargeables</string>
+    <string name="infobox_downloadable_fonts_desc">De nouveaux styles de police seront bientôt disponibles au téléchargement ici.</string>
     <string name="infobox_frames">Conceptions de cadre</string>
     <string name="infobox_text_color">Couleur du texte de balayage</string>
     <string name="infobox_key_press_color">Couleur de touche pressée</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">Segment</string>
     <string name="meter_font_modern">Moderne</string>
+    <string name="meter_font_default">Par défaut</string>
+    <string name="meter_font_mono">Monospace</string>
+    <string name="meter_font_serif">Serif</string>
+    <string name="meter_font_cursive">Cursive</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">Gestionnaire du presse-papiers</string>

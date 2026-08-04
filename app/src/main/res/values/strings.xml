@@ -218,6 +218,9 @@
     <string name="store_customize">Customize</string>
     <string name="store_download_themes">Downloadable Themes</string>
     <string name="store_download_themes_desc">New themes will be available to download here soon.</string>
+    <string name="infobox_text_style">Text Style</string>
+    <string name="infobox_downloadable_fonts">Downloadable Font Styles</string>
+    <string name="infobox_downloadable_fonts_desc">New font styles will be available to download here soon.</string>
     <string name="infobox_frames">Box Frame Designs</string>
 <string name="infobox_text_color">Swipe Text Color</string>
     <string name="infobox_key_press_color">Key Press Color</string>
@@ -262,6 +265,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">Segment</string>
     <string name="meter_font_modern">Modern</string>
+    <string name="meter_font_default">Default</string>
+    <string name="meter_font_mono">Monospace</string>
+    <string name="meter_font_serif">Serif</string>
+    <string name="meter_font_cursive">Cursive</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">Clipboard Manager</string>

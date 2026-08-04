@@ -219,6 +219,9 @@
     <string name="store_customize">اپنی مرضی کے مطابق بنائیں</string>
     <string name="store_download_themes">ڈاؤن لوڈ کے قابل تھیمز</string>
     <string name="store_download_themes_desc">نئے تھیمز جلد ہی یہاں ڈاؤن لوڈ کے لیے دستیاب ہوں گے۔</string>
+    <string name="infobox_text_style">ٹیکسٹ اسٹائل</string>
+    <string name="infobox_downloadable_fonts">ڈاؤن لوڈ کے قابل فونٹ اسٹائل</string>
+    <string name="infobox_downloadable_fonts_desc">نئے فونٹ اسٹائل جلد ہی یہاں ڈاؤن لوڈ کے لیے دستیاب ہوں گے۔</string>
     <string name="infobox_frames">باکس فریم ڈیزائن</string>
     <string name="infobox_text_color">سوائپ ٹیکسٹ کا رنگ</string>
     <string name="infobox_key_press_color">کی پریس رنگ</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">سیگمنٹ</string>
     <string name="meter_font_modern">ماڈرن</string>
+    <string name="meter_font_default">ڈیفالٹ</string>
+    <string name="meter_font_mono">مونو اسپیس</string>
+    <string name="meter_font_serif">سیرف</string>
+    <string name="meter_font_cursive">کرسیو</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">کلپ بورڈ مینیجر</string>

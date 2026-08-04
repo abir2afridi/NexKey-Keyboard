@@ -219,6 +219,9 @@
     <string name="store_customize">कस्टमाइज़ करें</string>
     <string name="store_download_themes">डाउनलोड करने योग्य थीम</string>
     <string name="store_download_themes_desc">नए थीम जल्द ही यहां डाउनलोड के लिए उपलब्ध होंगे।</string>
+    <string name="infobox_text_style">टेक्स्ट स्टाइल</string>
+    <string name="infobox_downloadable_fonts">डाउनलोड करने योग्य फ़ॉन्ट स्टाइल</string>
+    <string name="infobox_downloadable_fonts_desc">नए फ़ॉन्ट स्टाइल जल्द ही यहां डाउनलोड के लिए उपलब्ध होंगे।</string>
     <string name="infobox_frames">बॉक्स फ्रेम डिज़ाइन</string>
     <string name="infobox_text_color">स्वाइप टेक्स्ट रंग</string>
     <string name="infobox_key_press_color">की प्रेस रंग</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">सेगमेंट</string>
     <string name="meter_font_modern">मॉडर्न</string>
+    <string name="meter_font_default">डिफ़ॉल्ट</string>
+    <string name="meter_font_mono">मोनोस्पेस</string>
+    <string name="meter_font_serif">सेरिफ़</string>
+    <string name="meter_font_cursive">कर्सिव</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">क्लिपबोर्ड प्रबंधक</string>

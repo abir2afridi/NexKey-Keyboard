@@ -219,6 +219,9 @@
     <string name="store_customize">سفارشی کردن</string>
     <string name="store_download_themes">تم‌های قابل دانلود</string>
     <string name="store_download_themes_desc">به‌زودی تم‌های جدید در اینجا قابل دانلود خواهند بود.</string>
+    <string name="infobox_text_style">سبک متن</string>
+    <string name="infobox_downloadable_fonts">سبک‌های فونت قابل دانلود</string>
+    <string name="infobox_downloadable_fonts_desc">به‌زودی سبک‌های فونت جدید در اینجا قابل دانلود خواهند بود.</string>
     <string name="infobox_frames">طرح‌های قاب</string>
     <string name="infobox_text_color">رنگ متن سوایپ</string>
     <string name="infobox_key_press_color">رنگ فشردن کلید</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">سگمنت</string>
     <string name="meter_font_modern">مدرن</string>
+    <string name="meter_font_default">پیش‌فرض</string>
+    <string name="meter_font_mono">تک‌فاصله</string>
+    <string name="meter_font_serif">سریف</string>
+    <string name="meter_font_cursive">کج</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">مدیریت کلیپبورد</string>

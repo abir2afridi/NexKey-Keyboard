@@ -140,6 +140,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var infoBoxCustomSecState by mutableStateOf(5)
     internal var infoBoxSwipeTimeoutSecState by mutableStateOf(10)
     internal var infoBoxEnabledState by mutableStateOf(true)
+    internal var infoBoxFontState by mutableStateOf("DEFAULT")
     internal var recentEmojis by mutableStateOf<List<String>>(emptyList())
     internal var recentEmojiExpiryDays by mutableStateOf(30)
     internal var emojiSearchActive by mutableStateOf(false)
@@ -235,6 +236,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     infoBoxCustomSec = infoBoxCustomSecState,
                     infoBoxSwipeTimeoutSec = infoBoxSwipeTimeoutSecState,
                     infoBoxEnabled = infoBoxEnabledState,
+                    infoBoxFont = infoBoxFontState,
                     meterDisplayMode = meterDisplayModeState,
                     meterInterval = meterIntervalState,
                     liveElapsedSec = liveElapsedSec,

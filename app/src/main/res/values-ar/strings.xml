@@ -219,6 +219,9 @@
     <string name="store_customize">تخصيص</string>
     <string name="store_download_themes">سمات قابلة للتنزيل</string>
     <string name="store_download_themes_desc">ستصبح سمات جديدة متاحة للتنزيل هنا قريبًا.</string>
+    <string name="infobox_text_style">نمط النص</string>
+    <string name="infobox_downloadable_fonts">أنماط الخطوط القابلة للتنزيل</string>
+    <string name="infobox_downloadable_fonts_desc">ستصبح أنماط الخطوط الجديدة متاحة للتنزيل هنا قريبًا.</string>
     <string name="infobox_frames">تصميمات إطار الصندوق</string>
     <string name="infobox_text_color">لون نص السحب</string>
     <string name="infobox_key_press_color">لون ضغط المفتاح</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">مقطع</string>
     <string name="meter_font_modern">حديث</string>
+    <string name="meter_font_default">افتراضي</string>
+    <string name="meter_font_mono">أحادي المسافة</string>
+    <string name="meter_font_serif">سيريف</string>
+    <string name="meter_font_cursive">مائل</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">مدير الحافظة</string>

@@ -152,6 +152,7 @@ fun KeyboardComposeView(
     infoBoxEnabled: Boolean = true,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
+    infoBoxFont: String = "DEFAULT",
     recentEmojis: MutableList<String> = remember { mutableStateListOf() },
     onRecentEmojisChanged: (List<String>) -> Unit = {},
     emojiSearchActive: Boolean = false,
@@ -354,6 +355,7 @@ fun KeyboardComposeView(
                             liveElapsedSec = liveElapsedSec,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
+                            infoBoxFont = infoBoxFont,
                             onModeChange = onModeChange,
                             onVoiceClick = onVoiceClick,
                             onThemeToggle = onThemeToggle,
@@ -383,6 +385,7 @@ fun KeyboardComposeView(
                             liveCps = if (isSpeedActive) liveCps else 0f,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
+                            infoBoxFont = infoBoxFont,
                             onShowToolbar = { isToolbarHeaderVisible = true }
                         )
                     }
@@ -555,6 +558,7 @@ fun SmartToolbar(
     liveElapsedSec: Int = 0,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
+    infoBoxFont: String = "DEFAULT",
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -576,6 +580,7 @@ fun SmartToolbar(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,
@@ -655,6 +660,7 @@ fun SmartToolbar(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,
@@ -676,6 +682,7 @@ fun SmartToolbar(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,
@@ -819,7 +826,8 @@ fun MeterHeaderPair(
     infoBoxEnabled: Boolean,
     meterDisplayMode: String,
     meterInterval: String,
-    liveElapsedSec: Int
+    liveElapsedSec: Int,
+    infoBoxFont: String = "DEFAULT"
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.widthIn(max = 180.dp)) {
         DigitalSpeedMeter(
@@ -838,7 +846,8 @@ fun MeterHeaderPair(
                 customActive = infoCustomActive,
                 frame = infoFrame,
                 textColor = infoTextColor,
-                customTextColor = infoCustomTextColor
+                customTextColor = infoCustomTextColor,
+                fontStyle = infoBoxFont
             )
         }
     }
@@ -850,9 +859,11 @@ fun InfoBox(
     frame: InfoBoxFrame,
     textColor: Color,
     customActive: Boolean = false,
-    customTextColor: Color = Color.White
+    customTextColor: Color = Color.White,
+    fontStyle: String = "DEFAULT"
 ) {
     val displayColor = if (customActive) customTextColor else textColor
+    val fontFamily = com.example.theme.meterFontFamily(fontStyle)
 
     Surface(
         modifier = Modifier
@@ -880,6 +891,7 @@ fun InfoBox(
                         color = displayColor,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 10.sp,
+                        fontFamily = fontFamily,
                         letterSpacing = 0.3.sp,
                         maxLines = 1,
                         textAlign = TextAlign.Center,
@@ -942,6 +954,7 @@ fun CandidateStrip(
     liveCps: Float = 0f,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
+    infoBoxFont: String = "DEFAULT",
     // UNIFIED HEADER: when set, a trailing toggle button is drawn that hides the suggestion
     // strip and shows the full toolbar (tap-to-swap, one header at a time).
     onShowToolbar: (() -> Unit)? = null
@@ -962,6 +975,7 @@ fun CandidateStrip(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,
@@ -1023,6 +1037,7 @@ fun CandidateStrip(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,
@@ -1045,6 +1060,7 @@ fun CandidateStrip(
                 meterPhase = meterPhase,
                 meterTheme = meterTheme,
                 meterFont = meterFont,
+                infoBoxFont = infoBoxFont,
                 infoFrame = infoFrame,
                 infoTextColor = infoTextColor,
                 infoCustomTextColor = infoCustomTextColor,

@@ -219,6 +219,9 @@
     <string name="store_customize">Настроить</string>
     <string name="store_download_themes">Загружаемые темы</string>
     <string name="store_download_themes_desc">Новые темы скоро будут доступны здесь для загрузки.</string>
+    <string name="infobox_text_style">Стиль текста</string>
+    <string name="infobox_downloadable_fonts">Загружаемые стили шрифтов</string>
+    <string name="infobox_downloadable_fonts_desc">Новые стили шрифтов скоро будут доступны здесь для загрузки.</string>
     <string name="infobox_frames">Дизайны рамок</string>
     <string name="infobox_text_color">Цвет текста свайпа</string>
     <string name="infobox_key_press_color">Цвет нажатия клавиш</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">Сегментный</string>
     <string name="meter_font_modern">Современный</string>
+    <string name="meter_font_default">По умолчанию</string>
+    <string name="meter_font_mono">Моноширинный</string>
+    <string name="meter_font_serif">С засечками</string>
+    <string name="meter_font_cursive">Рукописный</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">Менеджер буфера обмена</string>

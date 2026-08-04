@@ -219,6 +219,9 @@
     <string name="store_customize">Anpassen</string>
     <string name="store_download_themes">Herunterladbare Designs</string>
     <string name="store_download_themes_desc">Neue Designs sind hier bald zum Herunterladen verfügbar.</string>
+    <string name="infobox_text_style">Textstil</string>
+    <string name="infobox_downloadable_fonts">Herunterladbare Schriftstile</string>
+    <string name="infobox_downloadable_fonts_desc">Neue Schriftstile sind hier bald zum Herunterladen verfügbar.</string>
     <string name="infobox_frames">Box-Rahmen-Designs</string>
     <string name="infobox_text_color">Wisch-Textfarbe</string>
     <string name="infobox_key_press_color">Tastenfarbe beim Drücken</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">Segment</string>
     <string name="meter_font_modern">Modern</string>
+    <string name="meter_font_default">Standard</string>
+    <string name="meter_font_mono">Monospace</string>
+    <string name="meter_font_serif">Serif</string>
+    <string name="meter_font_cursive">Kursiv</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">Zwischenablage-Manager</string>

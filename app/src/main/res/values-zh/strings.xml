@@ -219,6 +219,9 @@
     <string name="store_customize">自定义</string>
     <string name="store_download_themes">可下载的主题</string>
     <string name="store_download_themes_desc">新主题即将在此提供下载。</string>
+    <string name="infobox_text_style">文本样式</string>
+    <string name="infobox_downloadable_fonts">可下载的字体样式</string>
+    <string name="infobox_downloadable_fonts_desc">新的字体样式即将在此提供下载。</string>
     <string name="infobox_frames">边框设计</string>
     <string name="infobox_text_color">滑动文字颜色</string>
     <string name="infobox_key_press_color">按键按压颜色</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">段码</string>
     <string name="meter_font_modern">现代</string>
+    <string name="meter_font_default">默认</string>
+    <string name="meter_font_mono">等宽</string>
+    <string name="meter_font_serif">衬线</string>
+    <string name="meter_font_cursive">手写体</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">剪贴板管理器</string>

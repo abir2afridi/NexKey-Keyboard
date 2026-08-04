@@ -219,6 +219,9 @@
     <string name="store_customize">কাস্টমাইজ করুন</string>
     <string name="store_download_themes">ডাউনলোডযোগ্য থিম</string>
     <string name="store_download_themes_desc">নতুন থিম শীঘ্রই এখানে ডাউনলোড করা যাবে।</string>
+    <string name="infobox_text_style">টেক্সট স্টাইল</string>
+    <string name="infobox_downloadable_fonts">ডাউনলোডযোগ্য ফন্ট স্টাইল</string>
+    <string name="infobox_downloadable_fonts_desc">নতুন ফন্ট স্টাইল শীঘ্রই এখানে ডাউনলোড করা যাবে।</string>
     <string name="infobox_frames">বক্স ফ্রেম ডিজাইন</string>
     <string name="infobox_text_color">সুইপ টেক্সট রঙ</string>
     <string name="infobox_key_press_color">কী চাপার রঙ</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">সেগমেন্ট</string>
     <string name="meter_font_modern">মডার্ন</string>
+    <string name="meter_font_default">ডিফল্ট</string>
+    <string name="meter_font_mono">মনোস্পেস</string>
+    <string name="meter_font_serif">সেরিফ</string>
+    <string name="meter_font_cursive">কার্সিভ</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">ক্লিপবোর্ড ম্যানেজার</string>

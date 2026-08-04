@@ -219,6 +219,9 @@
     <string name="store_customize">カスタマイズ</string>
     <string name="store_download_themes">ダウンロード可能なテーマ</string>
     <string name="store_download_themes_desc">新しいテーマがまもなくここでダウンロードできるようになります。</string>
+    <string name="infobox_text_style">テキストスタイル</string>
+    <string name="infobox_downloadable_fonts">ダウンロード可能なフォントスタイル</string>
+    <string name="infobox_downloadable_fonts_desc">新しいフォントスタイルがまもなくここでダウンロードできるようになります。</string>
     <string name="infobox_frames">ボックス枠デザイン</string>
     <string name="infobox_text_color">スワイプ文字色</string>
     <string name="infobox_key_press_color">キー押下色</string>
@@ -263,6 +266,10 @@
     <string name="meter_font_lcd">LCD</string>
     <string name="meter_font_segment">セグメント</string>
     <string name="meter_font_modern">モダン</string>
+    <string name="meter_font_default">デフォルト</string>
+    <string name="meter_font_mono">等幅</string>
+    <string name="meter_font_serif">セリフ</string>
+    <string name="meter_font_cursive">筆記体</string>
 
     <!-- Clipboard -->
     <string name="clipboard_title">クリップボードマネージャー</string>

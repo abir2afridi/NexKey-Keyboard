@@ -164,6 +164,7 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.infoBoxCustomSec.collectLatest { infoBoxCustomSecState = it } }
         launch { userPreferences.infoBoxSwipeTimeoutSec.collectLatest { infoBoxSwipeTimeoutSecState = it } }
         launch { userPreferences.infoBoxEnabled.collectLatest { infoBoxEnabledState = it } }
+        launch { userPreferences.infoBoxFont.collectLatest { infoBoxFontState = it } }
         launch { userPreferences.meterDisplayMode.collectLatest { meterDisplayModeState = it } }
         launch { userPreferences.meterCountMode.collectLatest { meterCountModeState = it } }
         launch {
