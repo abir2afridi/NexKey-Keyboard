@@ -242,15 +242,16 @@ fun KeyboardComposeView(
         val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
 
         if (hasCustoms) {
-            infoBoxCustomPhase = true
             if (infoBoxCustomMode == "always") {
                 while (true) {
-                    // Default speed info first
+                    // Default speed info first (info text color)
+                    infoBoxCustomPhase = false
                     for (i in meterResultLines.indices) {
                         infoBoxDisplayText = meterResultLines[i]
                         delay(1600)
                     }
-                    // Then custom texts
+                    // Then custom texts (custom text color)
+                    infoBoxCustomPhase = true
                     for (t in infoCustomTexts) {
                         infoBoxDisplayText = t
                         delay(perText)
@@ -258,10 +259,12 @@ fun KeyboardComposeView(
                 }
             } else {
                 // Timed: default info first, then custom texts once, then hold
+                infoBoxCustomPhase = false
                 for (i in meterResultLines.indices) {
                     infoBoxDisplayText = meterResultLines[i]
                     delay(1600)
                 }
+                infoBoxCustomPhase = true
                 for (t in infoCustomTexts) {
                     infoBoxDisplayText = t
                     delay(perText)
