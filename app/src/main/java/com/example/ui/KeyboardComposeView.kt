@@ -232,21 +232,29 @@ fun KeyboardComposeView(
         val timeoutMillis = infoBoxSwipeTimeoutSec.coerceAtLeast(1) * 1000L
         val start = System.currentTimeMillis()
         val hasCustoms = infoCustomTexts.isNotEmpty() && infoBoxCustomMode != "off"
+        val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
 
-        // Custom texts configured: show them immediately when the RESULT starts.
-        // - "always": keep looping forever until the next typing burst.
-        // - "timed":  play each text once, then hold until the timeout and clear.
         if (hasCustoms) {
-            val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
             infoBoxCustomPhase = true
             if (infoBoxCustomMode == "always") {
                 while (true) {
+                    // Default speed info first
+                    for (i in meterResultLines.indices) {
+                        infoBoxDisplayText = meterResultLines[i]
+                        delay(1600)
+                    }
+                    // Then custom texts
                     for (t in infoCustomTexts) {
                         infoBoxDisplayText = t
                         delay(perText)
                     }
                 }
             } else {
+                // Timed: default info first, then custom texts once, then hold
+                for (i in meterResultLines.indices) {
+                    infoBoxDisplayText = meterResultLines[i]
+                    delay(1600)
+                }
                 for (t in infoCustomTexts) {
                     infoBoxDisplayText = t
                     delay(perText)
@@ -771,9 +779,8 @@ fun DigitalSpeedMeter(
                         modifier = Modifier.padding(top = 1.dp)
                     )
                 } else {
-                    // Idle / waiting: "00" in minute mode, dash otherwise.
                     Text(
-                        text = if (meterInterval == "1min") "00" else "—",
+                        text = "00",
                         color = meterTheme.textColor.copy(alpha = 0.18f),
                         fontSize = 12.sp,
                         style = textStyle

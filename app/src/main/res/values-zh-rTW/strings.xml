@@ -218,6 +218,7 @@
     <string name="infobox_frames">邊框設計</string>
     <string name="infobox_text_color">滑動文字顏色</string>
     <string name="infobox_custom_text_color">自訂文字顏色</string>
+    <string name="infobox_custom_text_sample">自訂文字</string>
     <string name="infobox_custom_texts">自訂文字</string>
     <string name="infobox_custom_texts_desc">滑動資訊結束後顯示</string>
     <string name="infobox_add_text">新增</string>

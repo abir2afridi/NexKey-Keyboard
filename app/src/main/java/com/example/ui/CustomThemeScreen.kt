@@ -3,8 +3,6 @@ package com.example.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.awaitEachGesture
-import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -26,10 +24,7 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.input.pointer.changedToUpIgnoreConsumed
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -504,7 +499,7 @@ fun ColorPickerSection(
 }
 
 @Composable
-private fun ColorPickerDialog(
+internal fun ColorPickerDialog(
     title: String,
     initialColor: Color,
     onDismiss: () -> Unit,
@@ -544,7 +539,8 @@ private fun ColorPickerDialog(
                     label = stringResource(R.string.hue),
                     value = hue,
                     onValueChange = { hue = it },
-                    gradient = hueGradientColors
+                    gradient = hueGradientColors,
+                    valueRange = 0f..360f
                 )
                 ColorSliderRow(
                     label = stringResource(R.string.saturation),
@@ -576,69 +572,55 @@ private fun ColorSliderRow(
     label: String,
     value: Float,
     onValueChange: (Float) -> Unit,
-    gradient: List<Color>
+    gradient: List<Color>,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) {
     Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
         Text(label, fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
-        GradientSlider(value = value, onValueChange = onValueChange, gradient = gradient)
+        GradientSlider(value = value, onValueChange = onValueChange, gradient = gradient, valueRange = valueRange)
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun GradientSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
-    gradient: List<Color>
+    gradient: List<Color>,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f
 ) {
-    val density = LocalDensity.current
-    val currentOnValueChange by rememberUpdatedState(onValueChange)
-    BoxWithConstraints(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(32.dp)
-    ) {
-        val trackHeight = 12.dp
-        val thumbSize = 24.dp
-        val usableWidth = maxWidth - thumbSize
-        val usableWidthPx = with(density) { usableWidth.toPx() }
-        val thumbHalfPx = with(density) { (thumbSize / 2).toPx() }
-
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(trackHeight)
-                .align(Alignment.CenterStart)
-                .clip(RoundedCornerShape(trackHeight / 2))
-                .background(Brush.horizontalGradient(gradient))
+    Slider(
+        value = value,
+        onValueChange = onValueChange,
+        valueRange = valueRange,
+        modifier = Modifier.fillMaxWidth().height(32.dp),
+        thumb = {
+            Box(
+                modifier = Modifier
+                    .size(24.dp)
+                    .clip(CircleShape)
+                    .background(Color.White)
+                    .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
+                    .shadow(2.dp, CircleShape)
+            )
+        },
+        track = {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(12.dp)
+                    .clip(RoundedCornerShape(6.dp))
+                    .background(Brush.horizontalGradient(gradient))
+            )
+        },
+        colors = SliderDefaults.colors(
+            thumbColor = Color.Transparent,
+            activeTrackColor = Color.Transparent,
+            inactiveTrackColor = Color.Transparent,
+            activeTickColor = Color.Transparent,
+            inactiveTickColor = Color.Transparent
         )
-        Box(
-            modifier = Modifier
-                .size(thumbSize)
-                .align(Alignment.CenterStart)
-                .offset(x = usableWidth * value)
-                .clip(CircleShape)
-                .background(Color.White)
-                .border(2.dp, MaterialTheme.colorScheme.outline, CircleShape)
-                .shadow(2.dp, CircleShape)
-        )
-        Box(
-            modifier = Modifier
-                .matchParentSize()
-                .pointerInput(Unit) {
-                    awaitEachGesture {
-                        val down = awaitFirstDown(requireUnconsumed = false)
-                        currentOnValueChange(((down.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f))
-                        while (true) {
-                            val event = awaitPointerEvent()
-                            val change = event.changes.firstOrNull { it.id == down.id } ?: break
-                            if (change.changedToUpIgnoreConsumed()) break
-                            change.consume()
-                            currentOnValueChange(((change.position.x - thumbHalfPx) / usableWidthPx).coerceIn(0f, 1f))
-                        }
-                    }
-                }
-        )
-    }
+    )
 }
 
 private val hueGradientColors = (0..360 step 10).map { hsvColor(it.toFloat(), 1f, 1f) }

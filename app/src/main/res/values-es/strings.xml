@@ -218,6 +218,7 @@
     <string name="infobox_frames">Diseños de marco</string>
     <string name="infobox_text_color">Color del texto de deslizamiento</string>
     <string name="infobox_custom_text_color">Color de texto personalizado</string>
+    <string name="infobox_custom_text_sample">Texto personalizado</string>
     <string name="infobox_custom_texts">Textos personalizados</string>
     <string name="infobox_custom_texts_desc">Se muestra después de que termine la información de deslizamiento</string>
     <string name="infobox_add_text">Añadir</string>

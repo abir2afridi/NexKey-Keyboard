@@ -21,3 +21,4 @@ debug.keystore
 .history/
 docs/
 .artifacts/
+.vscode

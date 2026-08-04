@@ -218,6 +218,7 @@
     <string name="infobox_frames">বক্স ফ্রেম ডিজাইন</string>
     <string name="infobox_text_color">সুইপ টেক্সট রঙ</string>
     <string name="infobox_custom_text_color">কাস্টম টেক্সটের রং</string>
+    <string name="infobox_custom_text_sample">কাস্টম টেক্সট</string>
     <string name="infobox_custom_texts">কাস্টম টেক্সট</string>
     <string name="infobox_custom_texts_desc">সুইপ তথ্য শেষ হওয়ার পরে দেখানো হয়</string>
     <string name="infobox_add_text">যোগ করুন</string>

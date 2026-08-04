@@ -218,6 +218,7 @@
     <string name="infobox_frames">박스 프레임 디자인</string>
     <string name="infobox_text_color">스와이프 텍스트 색상</string>
     <string name="infobox_custom_text_color">사용자 지정 텍스트 색상</string>
+    <string name="infobox_custom_text_sample">사용자 지정 텍스트</string>
     <string name="infobox_custom_texts">사용자 지정 텍스트</string>
     <string name="infobox_custom_texts_desc">스와이프 정보 표시가 끝난 후 표시됩니다</string>
     <string name="infobox_add_text">추가</string>

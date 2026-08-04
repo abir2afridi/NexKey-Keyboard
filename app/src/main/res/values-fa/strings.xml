@@ -218,6 +218,7 @@
     <string name="infobox_frames">طرح‌های قاب</string>
     <string name="infobox_text_color">رنگ متن سوایپ</string>
     <string name="infobox_custom_text_color">رنگ متن سفارشی</string>
+    <string name="infobox_custom_text_sample">متن سفارشی</string>
     <string name="infobox_custom_texts">متن‌های سفارشی</string>
     <string name="infobox_custom_texts_desc">پس از پایان اطلاعات سوایپ نمایش داده می‌شود</string>
     <string name="infobox_add_text">افزودن</string>

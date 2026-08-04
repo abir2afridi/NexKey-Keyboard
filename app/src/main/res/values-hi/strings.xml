@@ -218,6 +218,7 @@
     <string name="infobox_frames">बॉक्स फ्रेम डिज़ाइन</string>
     <string name="infobox_text_color">स्वाइप टेक्स्ट रंग</string>
     <string name="infobox_custom_text_color">कस्टम टेक्स्ट का रंग</string>
+    <string name="infobox_custom_text_sample">कस्टम टेक्स्ट</string>
     <string name="infobox_custom_texts">कस्टम टेक्स्ट</string>
     <string name="infobox_custom_texts_desc">स्वाइप जानकारी समाप्त होने के बाद दिखाया जाता है</string>
     <string name="infobox_add_text">जोड़ें</string>

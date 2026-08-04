@@ -218,6 +218,7 @@
     <string name="infobox_frames">باکس فریم ڈیزائن</string>
     <string name="infobox_text_color">سوائپ ٹیکسٹ کا رنگ</string>
     <string name="infobox_custom_text_color">اپنی مرضی کے متن کا رنگ</string>
+    <string name="infobox_custom_text_sample">کسٹم ٹیکسٹ</string>
     <string name="infobox_custom_texts">اپنی مرضی کے متن</string>
     <string name="infobox_custom_texts_desc">سوائپ کی معلومات ختم ہونے کے بعد دکھایا جاتا ہے</string>
     <string name="infobox_add_text">شامل کریں</string>

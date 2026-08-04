@@ -218,6 +218,7 @@
     <string name="infobox_frames">Дизайны рамок</string>
     <string name="infobox_text_color">Цвет текста свайпа</string>
     <string name="infobox_custom_text_color">Цвет пользовательского текста</string>
+    <string name="infobox_custom_text_sample">Пользовательский текст</string>
     <string name="infobox_custom_texts">Пользовательские тексты</string>
     <string name="infobox_custom_texts_desc">Показывается после завершения информации о свайпе</string>
     <string name="infobox_add_text">Добавить</string>

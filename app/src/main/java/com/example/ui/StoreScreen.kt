@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -279,6 +280,9 @@ private fun InfoBoxTab(
         try { Color(android.graphics.Color.parseColor(currentTextColor)) } catch (_: Exception) { Color(0xFF00FF41) }
     }
     val currentCustomTextColor by prefs.infoBoxCustomTextColor.collectAsState(initial = "#FFFFFF")
+    val previewCustomTextColor = remember(currentCustomTextColor) {
+        try { Color(android.graphics.Color.parseColor(currentCustomTextColor)) } catch (_: Exception) { Color.White }
+    }
     val currentCustomTexts by prefs.infoBoxCustomTexts.collectAsState(initial = "[]")
     val currentCustomMode by prefs.infoBoxCustomMode.collectAsState(initial = "off")
     val currentCustomSec by prefs.infoBoxCustomSec.collectAsState(initial = 5)
@@ -287,6 +291,8 @@ private fun InfoBoxTab(
 
     var newText by remember { mutableStateOf("") }
     var showRules by remember { mutableStateOf(false) }
+    var showCustomColorPicker by remember { mutableStateOf(false) }
+    var showSwipeColorPicker by remember { mutableStateOf(false) }
     val customTexts = remember(currentCustomTexts) {
         try {
             JSONArray(currentCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
@@ -439,6 +445,22 @@ private fun InfoBoxTab(
                         .clickable { scope.launch { prefs.setInfoBoxTextColor(hex) } }
                 )
             }
+            Box(
+                modifier = Modifier
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable { showSwipeColorPicker = true },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.custom_color),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
         }
 
         Box(
@@ -470,6 +492,18 @@ private fun InfoBoxTab(
             singleLine = true
         )
 
+        if (showSwipeColorPicker) {
+            ColorPickerDialog(
+                title = stringResource(R.string.infobox_text_color),
+                initialColor = previewTextColor,
+                onDismiss = { showSwipeColorPicker = false },
+                onConfirm = { color ->
+                    scope.launch { prefs.setInfoBoxTextColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
+                    showSwipeColorPicker = false
+                }
+            )
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
@@ -499,6 +533,43 @@ private fun InfoBoxTab(
                         .clickable { scope.launch { prefs.setInfoBoxCustomTextColor(hex) } }
                 )
             }
+            Box(
+                modifier = Modifier
+                    .size(34.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, MaterialTheme.colorScheme.outlineVariant, CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
+                    .clickable { showCustomColorPicker = true },
+                contentAlignment = Alignment.Center
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Add,
+                    contentDescription = stringResource(R.string.custom_color),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.size(20.dp)
+                )
+            }
+        }
+
+        Box(
+            modifier = Modifier
+                .padding(top = 14.dp)
+                .width(160.dp)
+                .height(32.dp)
+                .clip(RoundedCornerShape(previewFrame.cornerRadius))
+                .background(previewFrame.backgroundColor.copy(alpha = previewFrame.backgroundAlpha))
+                .border(previewFrame.borderWidth, previewFrame.borderColor, RoundedCornerShape(previewFrame.cornerRadius)),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = customTexts.firstOrNull() ?: stringResource(R.string.infobox_custom_text_sample),
+                color = previewCustomTextColor,
+                fontSize = 10.sp,
+                fontWeight = FontWeight.ExtraBold,
+                maxLines = 1,
+                textAlign = TextAlign.Center,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
         }
 
         OutlinedTextField(
@@ -508,6 +579,18 @@ private fun InfoBoxTab(
             label = { Text(stringResource(R.string.infobox_custom_text_color)) },
             singleLine = true
         )
+
+        if (showCustomColorPicker) {
+            ColorPickerDialog(
+                title = stringResource(R.string.infobox_custom_text_color),
+                initialColor = previewCustomTextColor,
+                onDismiss = { showCustomColorPicker = false },
+                onConfirm = { color ->
+                    scope.launch { prefs.setInfoBoxCustomTextColor("#%06X".format(color.toArgb() and 0xFFFFFF)) }
+                    showCustomColorPicker = false
+                }
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 

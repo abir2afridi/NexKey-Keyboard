@@ -218,6 +218,7 @@
     <string name="infobox_frames">ボックス枠デザイン</string>
     <string name="infobox_text_color">スワイプ文字色</string>
     <string name="infobox_custom_text_color">カスタムテキストの色</string>
+    <string name="infobox_custom_text_sample">カスタムテキスト</string>
     <string name="infobox_custom_texts">カスタムテキスト</string>
     <string name="infobox_custom_texts_desc">スワイプ情報の表示後に表示されます</string>
     <string name="infobox_add_text">追加</string>

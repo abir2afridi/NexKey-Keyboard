@@ -218,6 +218,7 @@
     <string name="infobox_frames">تصميمات إطار الصندوق</string>
     <string name="infobox_text_color">لون نص السحب</string>
     <string name="infobox_custom_text_color">لون النص المخصص</string>
+    <string name="infobox_custom_text_sample">نص مخصص</string>
     <string name="infobox_custom_texts">نصوص مخصصة</string>
     <string name="infobox_custom_texts_desc">تظهر بعد انتهاء معلومات السحب</string>
     <string name="infobox_add_text">إضافة</string>
