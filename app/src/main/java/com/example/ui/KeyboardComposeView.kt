@@ -212,6 +212,7 @@ fun KeyboardComposeView(
     val infoCustomTexts = remember(infoBoxCustomTexts) {
         try {
             JSONArray(infoBoxCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
+                .filter { it.isNotBlank() }
         } catch (_: Exception) {
             emptyList()
         }
@@ -232,19 +233,9 @@ fun KeyboardComposeView(
         val start = System.currentTimeMillis()
         val hasCustoms = infoCustomTexts.isNotEmpty() && infoBoxCustomMode != "off"
 
-        // 1. Swipe info sequence: one line per 1.6s fade cycle.
-        for (i in meterResultLines.indices) {
-            infoBoxDisplayText = meterResultLines[i]
-            if (i == meterResultLines.lastIndex && !hasCustoms) {
-                val held = System.currentTimeMillis() - start
-                if (held < timeoutMillis) delay(timeoutMillis - held)
-                infoBoxDisplayText = ""
-                return@LaunchedEffect
-            }
-            delay(1600)
-        }
-
-        // 2. Custom texts phase (runs only after the swipe info has finished).
+        // Custom texts configured: show them immediately when the RESULT starts.
+        // - "always": keep looping forever until the next typing burst.
+        // - "timed":  play each text once, then hold until the timeout and clear.
         if (hasCustoms) {
             val perText = infoBoxCustomSec.coerceAtLeast(1) * 1000L
             infoBoxCustomPhase = true
@@ -265,10 +256,19 @@ fun KeyboardComposeView(
                 if (held < timeoutMillis) delay(timeoutMillis - held)
                 infoBoxDisplayText = ""
             }
-        } else {
-            val held = System.currentTimeMillis() - start
-            if (held < timeoutMillis) delay(timeoutMillis - held)
-            infoBoxDisplayText = ""
+            return@LaunchedEffect
+        }
+
+        // No customs: play the swipe info sequence, one line per 1.6s fade cycle.
+        for (i in meterResultLines.indices) {
+            infoBoxDisplayText = meterResultLines[i]
+            if (i == meterResultLines.lastIndex) {
+                val held = System.currentTimeMillis() - start
+                if (held < timeoutMillis) delay(timeoutMillis - held)
+                infoBoxDisplayText = ""
+                return@LaunchedEffect
+            }
+            delay(1600)
         }
     }
 

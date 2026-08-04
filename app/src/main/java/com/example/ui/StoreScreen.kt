@@ -290,6 +290,7 @@ private fun InfoBoxTab(
     val customTexts = remember(currentCustomTexts) {
         try {
             JSONArray(currentCustomTexts).let { arr -> List(arr.length()) { arr.getString(it) } }
+                .filter { it.isNotBlank() }
         } catch (_: Exception) {
             emptyList()
         }
@@ -536,7 +537,7 @@ private fun InfoBoxTab(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(
-                        text = text,
+                        text = text.ifBlank { "—" },
                         fontSize = 13.sp,
                         fontWeight = FontWeight.Medium,
                         color = MaterialTheme.colorScheme.onSurface,
@@ -571,8 +572,9 @@ private fun InfoBoxTab(
             Button(
                 onClick = {
                     if (newText.isNotBlank()) {
+                        val textToAdd = newText.trim()
                         scope.launch {
-                            val updated = customTexts + newText.trim()
+                            val updated = (customTexts + textToAdd).filter { it.isNotBlank() }
                             prefs.setInfoBoxCustomTexts(JSONArray(updated).toString())
                         }
                         newText = ""

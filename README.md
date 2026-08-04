@@ -39,7 +39,7 @@
 | Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
 | Hold-to-paste (configurable trigger key & duration) | ✅ |
 | Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
-| Bottom navigation (Home, Learn, Keyboard, App Settings) | ✅ |
+| Bottom navigation (Home, Store, Keyboard, App Settings) | ✅ |
 | Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
 | Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
 | Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
@@ -77,6 +77,9 @@
 | HSV color picker (theme creator) | ✅ |
 | Unified animated header (auto-show/hide) | ✅ |
 | Instant flicker-free language switching (no activity recreation) | ✅ |
+| Typing speed meter (CPS / words / keys counts, themes, fonts, intervals) | ✅ |
+| Info Box with selectable frames & swipe text color | ✅ |
+| Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
 | In-app updates | 🚧 Planned |
 | Crash watchdog | 🚧 Planned |
 | 46+ language support | ✅ |
@@ -96,6 +99,7 @@ app/
     │   ├── TextInputHandler.kt             — Key tap, space, enter, shift, mode change, cursor
     │   ├── TextDeletion.kt                 — Backspace / text deletion logic
     │   ├── SuggestionHandler.kt            — Candidate updates, suggestion commit, composing commit
+    │   ├── SpeedMeterHandler.kt            — Typing speed window, burst stats, swipe info lines
     │   ├── ImePreferenceCollector.kt       — All DataStore preference collection
     │   └── modes/
     │       ├── KeyboardModeDispatcher.kt   — Mode-aware compose/parse dispatch
@@ -128,6 +132,7 @@ app/
     │   │   └── AppLanguageScreen.kt        — App interface language selector
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
     │   ├── HomeScreen.kt                   — Dashboard home with status card
+    │   ├── StoreScreen.kt                  — Store (Shop / Themes / Meter / Info Box tabs)
     │   ├── AppSettingsScreen.kt            — App theme, language, about
     │   ├── SettingsScreen.kt               — Keyboard Settings hub (groups index)
     │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
@@ -299,6 +304,12 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 - Fixed display flashing off/on during language switch — locale context wrapping (`createConfigurationContext` + composition locals) replaces activity recreation; strings and RTL update instantly in place, navigation state preserved
 - Fixed stored-label i18n bug — `popupDismissDelay` persists stable keys instead of Android resource IDs
 - Fixed voice error message formatting (`%1$s` → `%1$d`) and added missing Arabic `zero` plural quantity
+- Added Info Box customization — swipe info (In/words/keys/speed/records) with selectable frames, swipe text color, and configurable swipe timeout
+- Added Info Box custom texts — add/delete text entries with Off/Timed/Always modes, show duration, and an independent custom text color with live preview
+- Fixed custom texts never appearing — configured texts now display immediately (Always loops, Timed replays once) instead of waiting behind the swipe-info lines
+- Fixed custom texts not being added — the input is captured before the field clears, so the text at tap time is persisted correctly
+- Fixed blank entries showing as delete-only rows — blank strings are filtered on load and legacy entries render a visible placeholder
+- Fixed swipe text color not applying — color swatches now use a correct hex conversion
 
 ### v1.3.0
 - Added Custom Theme Engine — customize background, primary keys, key text, special keys, accent color, suggestion strip, key popup, and sub-character hints
