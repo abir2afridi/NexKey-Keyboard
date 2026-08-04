@@ -215,6 +215,10 @@
     <string name="store_tab_themes">থিম</string>
     <string name="store_tab_meter">মিটার</string>
     <string name="store_tab_infobox">ইনফো বক্স</string>
+    <string name="store_tab_keyboard">কীবোর্ড</string>
+    <string name="store_customize">কাস্টমাইজ করুন</string>
+    <string name="store_download_themes">ডাউনলোডযোগ্য থিম</string>
+    <string name="store_download_themes_desc">নতুন থিম শীঘ্রই এখানে ডাউনলোড করা যাবে।</string>
     <string name="infobox_frames">বক্স ফ্রেম ডিজাইন</string>
     <string name="infobox_text_color">সুইপ টেক্সট রঙ</string>
     <string name="infobox_key_press_color">কী চাপার রঙ</string>

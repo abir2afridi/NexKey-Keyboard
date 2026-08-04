@@ -215,6 +215,10 @@
     <string name="store_tab_themes">Темы</string>
     <string name="store_tab_meter">Счётчик</string>
     <string name="store_tab_infobox">Инфо-бокс</string>
+    <string name="store_tab_keyboard">Клавиатура</string>
+    <string name="store_customize">Настроить</string>
+    <string name="store_download_themes">Загружаемые темы</string>
+    <string name="store_download_themes_desc">Новые темы скоро будут доступны здесь для загрузки.</string>
     <string name="infobox_frames">Дизайны рамок</string>
     <string name="infobox_text_color">Цвет текста свайпа</string>
     <string name="infobox_key_press_color">Цвет нажатия клавиш</string>

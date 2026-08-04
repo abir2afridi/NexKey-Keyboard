@@ -215,6 +215,10 @@
     <string name="store_tab_themes">테마</string>
     <string name="store_tab_meter">미터</string>
     <string name="store_tab_infobox">정보 상자</string>
+    <string name="store_tab_keyboard">키보드</string>
+    <string name="store_customize">사용자 지정</string>
+    <string name="store_download_themes">다운로드 가능한 테마</string>
+    <string name="store_download_themes_desc">곧 새 테마를 여기에서 다운로드할 수 있습니다.</string>
     <string name="infobox_frames">박스 프레임 디자인</string>
     <string name="infobox_text_color">스와이프 텍스트 색상</string>
     <string name="infobox_key_press_color">키 누름 색상</string>

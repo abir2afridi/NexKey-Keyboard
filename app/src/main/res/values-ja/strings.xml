@@ -215,6 +215,10 @@
     <string name="store_tab_themes">テーマ</string>
     <string name="store_tab_meter">メーター</string>
     <string name="store_tab_infobox">情報ボックス</string>
+    <string name="store_tab_keyboard">キーボード</string>
+    <string name="store_customize">カスタマイズ</string>
+    <string name="store_download_themes">ダウンロード可能なテーマ</string>
+    <string name="store_download_themes_desc">新しいテーマがまもなくここでダウンロードできるようになります。</string>
     <string name="infobox_frames">ボックス枠デザイン</string>
     <string name="infobox_text_color">スワイプ文字色</string>
     <string name="infobox_key_press_color">キー押下色</string>

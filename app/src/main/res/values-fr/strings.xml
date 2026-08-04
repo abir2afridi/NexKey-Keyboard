@@ -215,6 +215,10 @@
     <string name="store_tab_themes">Thèmes</string>
     <string name="store_tab_meter">Compteur</string>
     <string name="store_tab_infobox">Boîte d\'infos</string>
+    <string name="store_tab_keyboard">Clavier</string>
+    <string name="store_customize">Personnaliser</string>
+    <string name="store_download_themes">Thèmes téléchargeables</string>
+    <string name="store_download_themes_desc">De nouveaux thèmes seront bientôt disponibles au téléchargement ici.</string>
     <string name="infobox_frames">Conceptions de cadre</string>
     <string name="infobox_text_color">Couleur du texte de balayage</string>
     <string name="infobox_key_press_color">Couleur de touche pressée</string>

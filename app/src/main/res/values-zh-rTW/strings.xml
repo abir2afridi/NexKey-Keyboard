@@ -215,6 +215,10 @@
     <string name="store_tab_themes">主題</string>
     <string name="store_tab_meter">儀表</string>
     <string name="store_tab_infobox">資訊框</string>
+    <string name="store_tab_keyboard">鍵盤</string>
+    <string name="store_customize">自訂</string>
+    <string name="store_download_themes">可下載的主題</string>
+    <string name="store_download_themes_desc">新主題即將在此提供下載。</string>
     <string name="infobox_frames">邊框設計</string>
     <string name="infobox_text_color">滑動文字顏色</string>
     <string name="infobox_key_press_color">按鍵按下顏色</string>

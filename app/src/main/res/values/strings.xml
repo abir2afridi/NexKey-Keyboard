@@ -214,6 +214,10 @@
     <string name="store_tab_themes">Themes</string>
     <string name="store_tab_meter">Meter</string>
     <string name="store_tab_infobox">Info Box</string>
+    <string name="store_tab_keyboard">Keyboard</string>
+    <string name="store_customize">Customize</string>
+    <string name="store_download_themes">Downloadable Themes</string>
+    <string name="store_download_themes_desc">New themes will be available to download here soon.</string>
     <string name="infobox_frames">Box Frame Designs</string>
 <string name="infobox_text_color">Swipe Text Color</string>
     <string name="infobox_key_press_color">Key Press Color</string>

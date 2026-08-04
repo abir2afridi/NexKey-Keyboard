@@ -215,6 +215,10 @@
     <string name="store_tab_themes">Temas</string>
     <string name="store_tab_meter">Medidor</string>
     <string name="store_tab_infobox">Caixa de informações</string>
+    <string name="store_tab_keyboard">Teclado</string>
+    <string name="store_customize">Personalizar</string>
+    <string name="store_download_themes">Temas para download</string>
+    <string name="store_download_themes_desc">Novos temas estarão disponíveis para download aqui em breve.</string>
     <string name="infobox_frames">Designs de moldura</string>
     <string name="infobox_text_color">Cor do texto de deslize</string>
     <string name="infobox_key_press_color">Cor da tecla pressionada</string>

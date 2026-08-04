@@ -215,6 +215,10 @@
     <string name="store_tab_themes">پوستهها</string>
     <string name="store_tab_meter">متر</string>
     <string name="store_tab_infobox">کادر اطلاعات</string>
+    <string name="store_tab_keyboard">صفحه کلید</string>
+    <string name="store_customize">سفارشی کردن</string>
+    <string name="store_download_themes">تم‌های قابل دانلود</string>
+    <string name="store_download_themes_desc">به‌زودی تم‌های جدید در اینجا قابل دانلود خواهند بود.</string>
     <string name="infobox_frames">طرح‌های قاب</string>
     <string name="infobox_text_color">رنگ متن سوایپ</string>
     <string name="infobox_key_press_color">رنگ فشردن کلید</string>

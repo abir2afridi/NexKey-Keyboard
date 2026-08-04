@@ -215,6 +215,10 @@
     <string name="store_tab_themes">थीम</string>
     <string name="store_tab_meter">मीटर</string>
     <string name="store_tab_infobox">इन्फो बॉक्स</string>
+    <string name="store_tab_keyboard">कीबोर्ड</string>
+    <string name="store_customize">कस्टमाइज़ करें</string>
+    <string name="store_download_themes">डाउनलोड करने योग्य थीम</string>
+    <string name="store_download_themes_desc">नए थीम जल्द ही यहां डाउनलोड के लिए उपलब्ध होंगे।</string>
     <string name="infobox_frames">बॉक्स फ्रेम डिज़ाइन</string>
     <string name="infobox_text_color">स्वाइप टेक्स्ट रंग</string>
     <string name="infobox_key_press_color">की प्रेस रंग</string>
