@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -50,6 +51,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -62,10 +64,15 @@ import kotlinx.coroutines.launch
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.LayoutCoordinates
+import androidx.compose.ui.layout.boundsInRoot
+import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.semantics.Role
@@ -77,6 +84,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.IntOffset
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.res.stringResource
 import com.example.R
 import com.example.clipboard.ClipItem
@@ -190,7 +199,20 @@ fun KeyboardComposeView(
     val config = LocalConfiguration.current
     val hasPhysicalKeyboard = config.keyboard == android.content.res.Configuration.KEYBOARD_QWERTY
     val effectiveShowEmojiKey = showEmojiKey || (physicalKbEmojiEnabled && hasPhysicalKeyboard)
+    // TAP POPUP state (letter-preview bubble on key press):
+    // - tapPopupChar: character currently shown in the bubble (null = no bubble)
+    // - tapPopupSeq: increments on every key tap; restarts the dismiss timer
+    // - tappedKeyCoords: the LayoutCoordinates of the key that was tapped — the bubble is
+    //   anchored to THIS key (not to any other key) so it always appears over the right key.
+    //   Stored as LayoutCoordinates so boundsInRoot() is re-read fresh when the bubble places.
+    // - keysBoxOrigin/keysBoxSize: bounds of the keyboard grid Box, used to convert the
+    //   key's root coordinates into grid-local coordinates and to clamp the bubble inside.
     var longPressKey by remember { mutableStateOf<KeyModel?>(null) }
+    var tapPopupChar by remember { mutableStateOf<String?>(null) }
+    var tapPopupSeq by remember { mutableIntStateOf(0) }
+    var tappedKeyCoords by remember { mutableStateOf<LayoutCoordinates?>(null) }
+    var keysBoxOrigin by remember { mutableStateOf(Offset.Zero) }
+    var keysBoxSize by remember { mutableStateOf(IntSize.Zero) }
     // UNIFIED HEADER state: keyboard opens with the toolbar. While typing the toolbar is
     // swapped for the suggestion strip and does NOT come back on its own — only the strip's
     // toggle button brings it back. If the keyboard stays idle for toolbarAutoShowDelay
@@ -472,7 +494,22 @@ fun KeyboardComposeView(
                             splitKeyboardEnabled = splitKeyboardEnabled,
                             backspaceRepeatDelayMs = backspaceRepeatDelayMs,
                             backspaceRepeatSpeedMs = backspaceRepeatSpeedMs,
-                            onKeyTap = onKeyTap,
+                            // Tap popup trigger. onKeyTap fires for the letter itself; we ALSO
+                            // bump tapPopupSeq + set tapPopupChar (toggle on) so the bubble
+                            // shows. Real input still goes through onKeyTap(char).
+                            onKeyTap = { char ->
+                                if (popupOnKeypressEnabled) {
+                                    tapPopupSeq++
+                                    tapPopupChar = char
+                                }
+                                onKeyTap(char)
+                            },
+                            // Captures the LayoutCoordinates of the ACTUAL key tapped. The key
+                            // reports its own coords at tap time, so the bubble is anchored to
+                            // the right key even when several keys recompose/layout.
+                            onKeyTapWithCoords = { _, coords ->
+                                tappedKeyCoords = coords
+                            },
                             onBackspaceTap = onBackspaceTap,
                             onSpaceTap = onSpaceTap,
                             onEnterTap = onEnterTap,
@@ -480,6 +517,7 @@ fun KeyboardComposeView(
                             onModeChange = onModeChange,
                             onCursorMove = onCursorMove,
                             onLongPress = { key ->
+                                tapPopupChar = null
                                 if (holdPasteEnabled && key.code == holdPasteTriggerKey) {
                                     onHoldPaste?.invoke()
                                 } else {
@@ -487,6 +525,69 @@ fun KeyboardComposeView(
                                 }
                             }
                         )
+                    }
+                }
+            }
+
+            // TAP POPUP (Popup on keypress) — bubble shown above the tapped key.
+            // Lifecycle: shows instantly on tap, auto-dismisses after a short delay.
+            // Duration is short (130–260ms) so it feels snappy like Gboard/SwiftKey;
+            // the popupDismissDelay setting only affects the SEPARATE long-press popup below.
+            if (popupOnKeypressEnabled && tapPopupSeq > 0) {
+                tapPopupChar?.let { char ->
+                    val tapPopupDismissMs = when (popupDismissDelay) {
+                        "Short" -> 130L
+                        "Long" -> 260L
+                        else -> 160L
+                    }
+                    // Restart the dismiss timer on every new tap (key = tapPopupSeq),
+                    // cancel the previous pending hide (if any).
+                    LaunchedEffect(tapPopupSeq) {
+                        delay(tapPopupDismissMs)
+                        tapPopupChar = null
+                    }
+                    // Wrapper Box: matchParentSize fills the keyboard grid Box. It records
+                    // its own root-origin so we can convert key coordinates (measured in
+                    // root space) into grid-local offsets for the bubble below.
+                    Box(
+                        modifier = Modifier
+                            .matchParentSize()
+                            .onGloballyPositioned { keysBoxOrigin = it.boundsInRoot().topLeft; keysBoxSize = it.size },
+                        contentAlignment = Alignment.TopStart
+                    ) {
+                        // The bubble itself. Positioned via .offset {}:
+                        //   x = key center, clamped to stay inside the keyboard width.
+                        //   y = just above the key (bottom of bubble 2dp above key top);
+                        //       for top-row keys with no room above, it clamps to the
+                        //       keyboard top and barely overlaps the key (like Gboard).
+                        Box(
+                            modifier = Modifier
+                                .offset {
+                                    val anchor = tappedKeyCoords?.boundsInRoot()?.topLeft ?: Offset.Zero
+                                    val keyW = (tappedKeyCoords?.boundsInRoot()?.size?.width ?: 0).toFloat()
+                                    val popupW = 56.dp.toPx()
+                                    val popupH = 56.dp.toPx()
+                                    val safeMaxX = (keysBoxSize.width - popupW - 4.dp.toPx()).coerceAtLeast(4.dp.toPx())
+                                    val x = (anchor.x - keysBoxOrigin.x + keyW / 2f - popupW / 2f)
+                                        .coerceIn(4.dp.toPx(), safeMaxX)
+                                    val y = (anchor.y - keysBoxOrigin.y - popupH - 2.dp.toPx())
+                                        .coerceAtLeast(4.dp.toPx())
+                                    IntOffset(x.toInt(), y.toInt())
+                                }
+                                .size(56.dp)
+                                .shadow(8.dp, RoundedCornerShape(12.dp))
+                                .clip(RoundedCornerShape(12.dp))
+                                .background(theme.popupBackgroundColor),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                text = char,
+                                color = theme.popupTextColor,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                maxLines = 1
+                            )
+                        }
                     }
                 }
             }
@@ -1161,7 +1262,8 @@ fun KeyboardKeysGrid(
     onShiftTap: () -> Unit,
     onModeChange: (KeyboardMode) -> Unit,
     onCursorMove: (Int) -> Unit = {},
-    onLongPress: (KeyModel) -> Unit = {}
+    onLongPress: (KeyModel) -> Unit = {},
+    onKeyTapWithCoords: (String, LayoutCoordinates) -> Unit = { _, _ -> }
 ) {
     var totalDragX by remember { mutableStateOf(0f) }
     val dragThreshold = ((200f - spaceCursorSpeed * 0.35f) + spaceCursorDelay * 0.02f).coerceIn(15f, 180f)
@@ -1192,7 +1294,8 @@ fun KeyboardKeysGrid(
                         hideHints = hideLongPressHints,
                         longPressDelayMs = longPressDelayMs,
                         onTap = { onKeyTap(it) },
-                        onLongPress = { onLongPress(keyModel) }
+                        onLongPress = { onLongPress(keyModel) },
+                        onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
                     )
                 }
             }
@@ -1229,7 +1332,8 @@ fun KeyboardKeysGrid(
                         hideHints = hideLongPressHints,
                         longPressDelayMs = longPressDelayMs,
                         onTap = { onKeyTap(it) },
-                        onLongPress = { onLongPress(keyModel) }
+                        onLongPress = { onLongPress(keyModel) },
+                        onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
                     )
                 }
             }
@@ -1259,7 +1363,8 @@ fun KeyboardKeysGrid(
                     hideHints = hideLongPressHints,
                     longPressDelayMs = longPressDelayMs,
                     onTap = { onKeyTap(it) },
-                    onLongPress = { onLongPress(keyModel) }
+                    onLongPress = { onLongPress(keyModel) },
+                    onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
                 )
             }
             val deleteLabel = stringResource(R.string.kb_delete)
@@ -1366,19 +1471,25 @@ fun KeyItem(
     hideHints: Boolean = false,
     longPressDelayMs: Long = 300L,
     onTap: (String) -> Unit,
-    onLongPress: (() -> Unit)? = null
+    onLongPress: (() -> Unit)? = null,
+    onTapWithCoords: (String, LayoutCoordinates) -> Unit = { _, _ -> }
 ) {
     val charToOutput = when (shiftState) {
         ShiftState.SHIFT, ShiftState.CAPS_LOCK -> keyModel.label.uppercase()
         ShiftState.OFF -> keyModel.label
     }
+    var selfCoords by remember { mutableStateOf<LayoutCoordinates?>(null) }
     KeyButton(
         modifier = modifier,
         theme = theme,
         isSpecial = keyModel.isSpecial,
         longPressDelayMs = longPressDelayMs,
-        onClick = { onTap(charToOutput) },
-        onLongClick = onLongPress
+        onClick = {
+            onTap(charToOutput)
+            selfCoords?.let { onTapWithCoords(charToOutput, it) }
+        },
+        onLongClick = onLongPress,
+        onLayout = { selfCoords = it }
     ) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
             Text(
@@ -1413,6 +1524,7 @@ fun KeyButton(
     longPressDelayMs: Long = 300L,
     onClick: () -> Unit,
     onLongClick: (() -> Unit)? = null,
+    onLayout: ((LayoutCoordinates) -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
     Box(
@@ -1421,7 +1533,10 @@ fun KeyButton(
             .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
             .background(if (isSpecial) theme.keySpecialColor else theme.keyBackgroundColor)
             .combinedClickable(onClick = onClick, onLongClick = onLongClick, role = Role.Button)
-            .semantics { this.contentDescription = contentDescription; role = Role.Button },
+            .semantics { this.contentDescription = contentDescription; role = Role.Button }
+            .let { base ->
+                if (onLayout != null) base.onGloballyPositioned { onLayout(it) } else base
+            },
         contentAlignment = Alignment.Center
     ) {
         content()

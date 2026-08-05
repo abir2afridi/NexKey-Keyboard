@@ -22,3 +22,11 @@ debug.keystore
 docs/
 .artifacts/
 .vscode
+# aapt2 / build artifacts accidentally extracted at project root
+/AndroidManifest.xml
+/META-INF/
+/classes.jar
+/annotations.zip
+/inspector.jar
+/lint.jar
+/res/
