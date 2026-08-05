@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">隐藏长按提示</string>
     <string name="layout_hide_hints_desc">隐藏按键角落的小标签</string>
     <string name="layout_resizing">启用键盘调整大小</string>
+    <string name="layout_resizing_desc">打开带有实时键盘预览的调整大小屏幕</string>
+    <string name="resize_title">键盘调整大小</string>
+    <string name="resize_enable_desc">将您的自定义高度和宽度应用于键盘</string>
+    <string name="resize_preview_hint">实时预览 — 更改会立即生效</string>
+    <string name="resize_reset">重置为默认值</string>
     <string name="layout_split">启用分体键盘</string>
     <string name="layout_split_desc">适用于折叠屏手机</string>
     <string name="layout_forced_enter">强制回车键</string>

@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">लंबे प्रेस हिंट छिपाएँ</string>
     <string name="layout_hide_hints_desc">कुंजी कोनों से छोटे लेबल छिपाएँ</string>
     <string name="layout_resizing">कीबोर्ड रीसाइज़िंग सक्षम करें</string>
+    <string name="layout_resizing_desc">लाइव कीबोर्ड पूर्वावलोकन के साथ रीसाइज़िंग स्क्रीन खोलें</string>
+    <string name="resize_title">कीबोर्ड रीसाइज़िंग</string>
+    <string name="resize_enable_desc">आपकी कस्टम ऊँचाई और चौड़ाई कीबोर्ड पर लागू करता है</string>
+    <string name="resize_preview_hint">लाइव पूर्वावलोकन — परिवर्तन तुरंत लागू होते हैं</string>
+    <string name="resize_reset">डिफ़ॉल्ट पर रीसेट करें</string>
     <string name="layout_split">स्प्लिट कीबोर्ड सक्षम करें</string>
     <string name="layout_split_desc">फोल्डेबल फोन के लिए</string>
     <string name="layout_forced_enter">फोर्स्ड एंटर बटन</string>

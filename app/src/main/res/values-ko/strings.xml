@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">길게 누르기 힌트 숨기기</string>
     <string name="layout_hide_hints_desc">키 모서리의 작은 라벨 숨기기</string>
     <string name="layout_resizing">키보드 크기 조절 사용</string>
+    <string name="layout_resizing_desc">라이브 키보드 미리보기와 함께 크기 조절 화면 열기</string>
+    <string name="resize_title">키보드 크기 조절</string>
+    <string name="resize_enable_desc">사용자 지정 높이와 너비를 키보드에 적용합니다</string>
+    <string name="resize_preview_hint">라이브 미리보기 — 변경 사항이 즉시 적용됩니다</string>
+    <string name="resize_reset">기본값으로 재설정</string>
     <string name="layout_split">분할 키보드 사용</string>
     <string name="layout_split_desc">폴더블 폰용</string>
     <string name="layout_forced_enter">강제 엔터 버튼</string>

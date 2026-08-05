@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">لمبی دبائیں کے ہنٹس چھپائیں</string>
     <string name="layout_hide_hints_desc">کلیدوں کے کونوں سے چھوٹے لیبلز چھپائیں</string>
     <string name="layout_resizing">کی بورڈ سائز تبدیلی فعال کریں</string>
+    <string name="layout_resizing_desc">لائیو کی بورڈ پیش نظارہ کے ساتھ سائز تبدیلی اسکرین کھولیں</string>
+    <string name="resize_title">کی بورڈ سائز تبدیلی</string>
+    <string name="resize_enable_desc">آپ کی مخصوص اونچائی اور چوڑائی کی بورڈ پر لاگو کرتا ہے</string>
+    <string name="resize_preview_hint">لائیو پیش نظارہ — تبدیلیاں فوراً لاگو ہوتی ہیں</string>
+    <string name="resize_reset">پہلے طے شدہ پر ری سیٹ کریں</string>
     <string name="layout_split">تقسیم شدہ کی بورڈ فعال کریں</string>
     <string name="layout_split_desc">فولڈ ایبل فونز کے لیے</string>
     <string name="layout_forced_enter">لازمی انٹر بٹن</string>

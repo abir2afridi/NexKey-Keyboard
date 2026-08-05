@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">Tipphinweise ausblenden</string>
     <string name="layout_hide_hints_desc">Kleine Beschriftungen an Tastenecken ausblenden</string>
     <string name="layout_resizing">Tastatur-Größenänderung aktivieren</string>
+    <string name="layout_resizing_desc">Öffnet den Größenänderungs-Bildschirm mit Live-Tastaturvorschau</string>
+    <string name="resize_title">Tastatur-Größenänderung</string>
+    <string name="resize_enable_desc">Wendet Ihre benutzerdefinierte Höhe und Breite auf die Tastatur an</string>
+    <string name="resize_preview_hint">Live-Vorschau — Änderungen gelten sofort</string>
+    <string name="resize_reset">Auf Standard zurücksetzen</string>
     <string name="layout_split">Geteilte Tastatur aktivieren</string>
     <string name="layout_split_desc">Für Falt-Handys</string>
     <string name="layout_forced_enter">Erzwungene Eingabetaste</string>

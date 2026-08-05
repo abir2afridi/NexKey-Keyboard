@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">Masquer les indices d\'appui long</string>
     <string name="layout_hide_hints_desc">Masquer les petites étiquettes des coins des touches</string>
     <string name="layout_resizing">Activer le redimensionnement du clavier</string>
+    <string name="layout_resizing_desc">Ouvrez l\'écran de redimensionnement avec un aperçu en direct du clavier</string>
+    <string name="resize_title">Redimensionnement du clavier</string>
+    <string name="resize_enable_desc">Applique votre hauteur et largeur personnalisées au clavier</string>
+    <string name="resize_preview_hint">Aperçu en direct — les modifications s\'appliquent instantanément</string>
+    <string name="resize_reset">Rétablir les valeurs par défaut</string>
     <string name="layout_split">Activer le clavier scindé</string>
     <string name="layout_split_desc">Pour les téléphones pliables</string>
     <string name="layout_forced_enter">Bouton Entrée forcé</string>

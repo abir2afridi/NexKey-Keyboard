@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">پنهان کردن راهنمای نگهداشتن</string>
     <string name="layout_hide_hints_desc">برچسبهای کوچک گوشه کلیدها را پنهان کند</string>
     <string name="layout_resizing">فعالسازی تغییر اندازه صفحهکلید</string>
+    <string name="layout_resizing_desc">صفحه تغییر اندازه را با پیشنمایش زنده صفحهکلید باز کنید</string>
+    <string name="resize_title">تغییر اندازه صفحهکلید</string>
+    <string name="resize_enable_desc">ارتفاع و عرض سفارشی شما را روی صفحهکلید اعمال میکند</string>
+    <string name="resize_preview_hint">پیشنمایش زنده — تغییرات فوراً اعمال میشوند</string>
+    <string name="resize_reset">بازنشانی به پیشفرض</string>
     <string name="layout_split">فعالسازی صفحهکلید تقسیمشده</string>
     <string name="layout_split_desc">برای گوشیهای تاشو</string>
     <string name="layout_forced_enter">دکمه اینتر اجباری</string>

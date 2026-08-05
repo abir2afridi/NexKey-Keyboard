@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">Ocultar indicaciones de pulsación larga</string>
     <string name="layout_hide_hints_desc">Ocultar las etiquetas pequeñas de las esquinas de las teclas</string>
     <string name="layout_resizing">Habilitar redimensionado del teclado</string>
+    <string name="layout_resizing_desc">Abre la pantalla de redimensionamiento con una vista previa en vivo del teclado</string>
+    <string name="resize_title">Redimensionamiento del teclado</string>
+    <string name="resize_enable_desc">Aplica tu altura y ancho personalizados al teclado</string>
+    <string name="resize_preview_hint">Vista previa en vivo — los cambios se aplican al instante</string>
+    <string name="resize_reset">Restablecer a los valores predeterminados</string>
     <string name="layout_split">Habilitar teclado dividido</string>
     <string name="layout_split_desc">Para teléfonos plegables</string>
     <string name="layout_forced_enter">Botón de entrada forzado</string>

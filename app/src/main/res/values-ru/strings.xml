@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">Скрыть подсказки долгого нажатия</string>
     <string name="layout_hide_hints_desc">Скрыть маленькие метки в углах клавиш</string>
     <string name="layout_resizing">Включить изменение размера клавиатуры</string>
+    <string name="layout_resizing_desc">Откройте экран изменения размера с живым предпросмотром клавиатуры</string>
+    <string name="resize_title">Изменение размера клавиатуры</string>
+    <string name="resize_enable_desc">Применяет ваши пользовательские высоту и ширину к клавиатуре</string>
+    <string name="resize_preview_hint">Живой предпросмотр — изменения применяются мгновенно</string>
+    <string name="resize_reset">Сбросить к значениям по умолчанию</string>
     <string name="layout_split">Включить разделённую клавиатуру</string>
     <string name="layout_split_desc">Для складных телефонов</string>
     <string name="layout_forced_enter">Принудительная клавиша ввода</string>

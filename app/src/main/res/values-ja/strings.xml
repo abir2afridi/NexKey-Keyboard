@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">長押しヒントを非表示</string>
     <string name="layout_hide_hints_desc">キーの隅の小さなラベルを非表示</string>
     <string name="layout_resizing">キーボードのサイズ変更を有効にする</string>
+    <string name="layout_resizing_desc">ライブキーボードプレビュー付きのサイズ変更画面を開く</string>
+    <string name="resize_title">キーボードのサイズ変更</string>
+    <string name="resize_enable_desc">カスタムの高さと幅をキーボードに適用します</string>
+    <string name="resize_preview_hint">ライブプレビュー — 変更はすぐに適用されます</string>
+    <string name="resize_reset">デフォルトにリセット</string>
     <string name="layout_split">分割キーボードを有効にする</string>
     <string name="layout_split_desc">折りたたみスマホ用</string>
     <string name="layout_forced_enter">強制エンターキー</string>
