@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.gestures.awaitFirstDown
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -98,6 +100,7 @@ import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.AnimationVector1D
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.animateTo
@@ -1527,12 +1530,31 @@ fun KeyButton(
     onLayout: ((LayoutCoordinates) -> Unit)? = null,
     content: @Composable () -> Unit
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.92f else 1f,
+        animationSpec = if (isPressed) tween(70) else spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+    )
+    val bgColor = if (isSpecial) theme.keySpecialColor else theme.keyBackgroundColor
+    val pressedBg = if (isSpecial) theme.keySpecialColor.copy(alpha = 0.7f) else theme.keyBackgroundColor.copy(alpha = 0.8f)
+
     Box(
         modifier = modifier
             .height(theme.keyHeightDp.dp)
             .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
-            .background(if (isSpecial) theme.keySpecialColor else theme.keyBackgroundColor)
-            .combinedClickable(onClick = onClick, onLongClick = onLongClick, role = Role.Button)
+            .background(if (isPressed) pressedBg else bgColor)
+            .combinedClickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onClick,
+                onLongClick = onLongClick,
+                role = Role.Button
+            )
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
             .semantics { this.contentDescription = contentDescription; role = Role.Button }
             .let { base ->
                 if (onLayout != null) base.onGloballyPositioned { onLayout(it) } else base

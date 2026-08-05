@@ -21,6 +21,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 ### Fixed
 - Letter preview popup appearing over the wrong key — the popup is now anchored to the actual tapped key and auto-dismisses faster
 - Speed meter font styles not applying — bundled DSEG fonts are now actually wired up
+- No visual feedback when pressing letter/space/enter keys — every key now has a press-and-bounce animation matching the delete key style
 
 ### Refactored
 - Emoji panel grid layout and sizing
