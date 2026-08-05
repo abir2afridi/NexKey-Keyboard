@@ -41,9 +41,16 @@ fun SettingsScreen(
     onToggleTheme: () -> Unit = {},
     onNavigateToAppSettings: () -> Unit = {}
 ) {
+    // ── Header search state ──────────────────────────────────────────────
+    // searchActive = true turns the app-bar title into a text field and hides
+    // the Theme/App-Settings icons. The back arrow then exits search instead of
+    // leaving the screen. query holds whatever the user has typed so far.
     var searchActive by remember { mutableStateOf(false) }
     var query by remember { mutableStateOf("") }
 
+    // Master list of every settings category card shown on this screen.
+    // Each entry pairs a (localized) title + description with its icon and the
+    // navigation callback that opens that sub-screen.
     val settingsItems =
         listOf(
             SettingCategory(stringResource(R.string.settings_typing), stringResource(R.string.settings_typing_desc), Icons.Default.TextFormat, onNavigateToTyping),
@@ -63,6 +70,10 @@ fun SettingsScreen(
             SettingCategory(stringResource(R.string.settings_info_box), stringResource(R.string.settings_info_box_desc), Icons.Default.Info, onNavigateToInfoBox)
         )
 
+    // Live filter: when the search box is non-empty we keep only the categories
+    // whose title OR description contains the query (case-insensitive). Because
+    // title/description come from stringResource(), matching happens in the
+    // user's currently-selected app language. An empty query shows everything.
     val searchQuery = query.trim().lowercase()
     val filteredItems = if (searchQuery.isEmpty()) settingsItems
         else settingsItems.filter {
@@ -106,8 +117,13 @@ fun SettingsScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                     }
                 },
+                // In normal (non-search) mode the app bar shows three action
+                // icons: Search (opens the inline search field), Theme toggle,
+                // and App Settings. In search mode these are hidden so the text
+                // field gets the full width.
                 actions = {
                     if (!searchActive) {
+                        // Tap the magnifier to enter search mode.
                         IconButton(onClick = { searchActive = true }) {
                             Icon(Icons.Default.Search, contentDescription = stringResource(R.string.settings_search), tint = MaterialTheme.colorScheme.primary)
                         }
@@ -135,16 +151,21 @@ fun SettingsScreen(
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
+            // Section header label. This always shows (even while searching) so
+            // the grid keeps its visual structure above the filtered results.
             item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
                 Text(
-                    text = stringResource(R.string.settings_customization), 
-                    color = MaterialTheme.colorScheme.primary, 
-                    fontSize = 11.sp, 
-                    fontWeight = FontWeight.ExtraBold, 
+                    text = stringResource(R.string.settings_customization),
+                    color = MaterialTheme.colorScheme.primary,
+                    fontSize = 11.sp,
+                    fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier.padding(bottom = 8.dp, start = 4.dp)
                 )
             }
 
+            // If the search query matched nothing, show a centred empty-state
+            // message spanning the full grid width. Otherwise render the
+            // (possibly filtered) category cards.
             if (filteredItems.isEmpty()) {
                 item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
                     Box(
@@ -161,6 +182,9 @@ fun SettingsScreen(
                     }
                 }
             } else {
+                // filteredItems equals the full list when the search box is
+                // empty, so this single branch covers both "all items" and
+                // "search results" rendering.
                 items(filteredItems.size) { index ->
                     val item = filteredItems[index]
                     SettingGridItem(

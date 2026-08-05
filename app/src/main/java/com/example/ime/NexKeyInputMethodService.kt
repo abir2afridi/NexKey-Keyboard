@@ -312,16 +312,28 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
         detectSensitiveField(info)
 
-        val imeAction = info?.imeOptions?.let { it and EditorInfo.IME_MASK_ACTION }
-        actionLabel = if (isMultilineField) {
+        // Compute the label shown on the Enter key so it matches what Enter will
+        // actually DO (see handleEnter() in TextInputHandler.kt). We only show a
+        // concrete action word (Search/Go/Send/Next/Done) when the editor both
+        // requests that action AND has not opted out with IME_FLAG_NO_ENTER_ACTION
+        // (the flag messaging apps set so Enter stays a newline). Otherwise the
+        // key shows the plain return glyph "↵".
+        val imeOptions = info?.imeOptions ?: 0
+        val imeAction = imeOptions and EditorInfo.IME_MASK_ACTION
+        val noEnterAction = (imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION) != 0
+        actionLabel = if (!noEnterAction &&
+            imeAction != EditorInfo.IME_ACTION_NONE &&
+            imeAction != EditorInfo.IME_ACTION_UNSPECIFIED) {
+            when (imeAction) {
+                EditorInfo.IME_ACTION_SEARCH -> getString(R.string.ime_action_search)
+                EditorInfo.IME_ACTION_GO -> getString(R.string.ime_action_go)
+                EditorInfo.IME_ACTION_SEND -> getString(R.string.ime_action_send)
+                EditorInfo.IME_ACTION_NEXT -> getString(R.string.ime_action_next)
+                EditorInfo.IME_ACTION_DONE -> getString(R.string.ime_action_done)
+                else -> "↵"
+            }
+        } else {
             "↵"
-        } else when (imeAction) {
-            EditorInfo.IME_ACTION_SEARCH -> getString(R.string.ime_action_search)
-            EditorInfo.IME_ACTION_GO -> getString(R.string.ime_action_go)
-            EditorInfo.IME_ACTION_SEND -> getString(R.string.ime_action_send)
-            EditorInfo.IME_ACTION_NEXT -> getString(R.string.ime_action_next)
-            EditorInfo.IME_ACTION_DONE -> getString(R.string.ime_action_done)
-            else -> "↵"
         }
 
         detectSensitiveField(info)

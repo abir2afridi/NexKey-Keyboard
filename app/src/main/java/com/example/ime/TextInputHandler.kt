@@ -197,18 +197,48 @@ internal fun NexKeyInputMethodService.handleEnter() {
         commitComposingBuffer()
     }
 
-    if (forcedEnterEnabled || isMultilineField) {
-        ic?.commitText("\n", 1)
+    // User override: always insert a newline regardless of the field's action.
+    if (forcedEnterEnabled) {
+        ic.commitText("\n", 1)
         return
     }
 
-    val info = currentInputEditorInfo
-    val imeAction = info?.imeOptions?.let { it and EditorInfo.IME_MASK_ACTION }
-    if (imeAction != null && imeAction != EditorInfo.IME_ACTION_NONE && imeAction != EditorInfo.IME_ACTION_UNSPECIFIED) {
-        ic?.performEditorAction(imeAction)
-    } else {
-        ic?.commitText("\n", 1)
+    val imeOptions = currentInputEditorInfo?.imeOptions ?: 0
+    val imeAction = imeOptions and EditorInfo.IME_MASK_ACTION
+    // IME_FLAG_NO_ENTER_ACTION means the editor is (typically) multiline and
+    // explicitly wants Enter to insert a newline rather than fire its action
+    // (e.g. messaging compose boxes that use a separate Send button).
+    val noEnterAction = (imeOptions and EditorInfo.IME_FLAG_NO_ENTER_ACTION) != 0
+
+    // A concrete editor action (Search / Go / Send / Next / Done) always wins —
+    // even when the field is also multiline — as long as the editor has NOT opted
+    // out via IME_FLAG_NO_ENTER_ACTION. This is what makes browser address bars,
+    // contact search, and web search boxes trigger their action instead of just
+    // inserting a newline. (Gboard behaves the same way.)
+    if (!noEnterAction &&
+        imeAction != EditorInfo.IME_ACTION_NONE &&
+        imeAction != EditorInfo.IME_ACTION_UNSPECIFIED) {
+        ic.performEditorAction(imeAction)
+        return
     }
+
+    // Multiline editor, or an editor that opted out of enter-for-action: newline.
+    if (isMultilineField || noEnterAction) {
+        ic.commitText("\n", 1)
+        return
+    }
+
+    // Single-line field with IME_ACTION_UNSPECIFIED (the common fallback for
+    // search/contact fields and WebView editable areas that don't set a concrete
+    // action): dispatch the action so the host app can react to Enter.
+    if (imeAction == EditorInfo.IME_ACTION_UNSPECIFIED) {
+        ic.performEditorAction(EditorInfo.IME_ACTION_UNSPECIFIED)
+        return
+    }
+
+    // IME_ACTION_NONE on a single-line field: nothing meaningful to do — a
+    // newline is harmless (single-line fields reject it).
+    ic.commitText("\n", 1)
 }
 
 internal fun NexKeyInputMethodService.handleShiftToggle() {
