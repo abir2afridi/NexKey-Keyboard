@@ -279,7 +279,13 @@ fun NexKeyApp() {
                     LanguageKeysSettingsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsLayout.route) {
-                    LayoutSettingsScreen(onBack = { navController.popBackStack() })
+                    LayoutSettingsScreen(
+                        onBack = { navController.popBackStack() },
+                        onNavigateToResize = { navController.navigate(Screen.SettingsResize.route) }
+                    )
+                }
+                composable(Screen.SettingsResize.route) {
+                    KeyboardResizeScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsSize.route) {
                     SizeSettingsScreen(onBack = { navController.popBackStack() })

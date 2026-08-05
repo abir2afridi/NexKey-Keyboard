@@ -394,16 +394,18 @@ fun SettingSliderItem(
     title: String,
     value: Float,
     range: ClosedFloatingPointRange<Float>,
+    enabled: Boolean = true,
     onValueChange: (Float) -> Unit
 ) {
     Column(modifier = Modifier.padding(vertical = 12.dp, horizontal = 4.dp)) {
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-            Text(text = title, color = MaterialTheme.colorScheme.onSurface, fontSize = 15.sp, fontWeight = FontWeight.Medium)
-            Text(text = value.toInt().toString(), color = MaterialTheme.colorScheme.primary, fontWeight = FontWeight.Bold)
+            Text(text = title, color = if (enabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant, fontSize = 15.sp, fontWeight = FontWeight.Medium)
+            Text(text = value.toInt().toString(), color = if (enabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant, fontWeight = FontWeight.Bold)
         }
         Slider(
             value = value,
             onValueChange = onValueChange,
+            enabled = enabled,
             valueRange = range,
             colors = SliderDefaults.colors(
                 thumbColor = MaterialTheme.colorScheme.primary,

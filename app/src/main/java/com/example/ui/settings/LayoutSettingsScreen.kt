@@ -25,14 +25,16 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun LayoutSettingsScreen(onBack: () -> Unit) {
+fun LayoutSettingsScreen(
+    onBack: () -> Unit,
+    onNavigateToResize: () -> Unit = {}
+) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
     val showNumRow by prefs.showNumberRow.collectAsState(initial = false)
     val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
     val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)
-    val enableResizing by prefs.enableKbResizing.collectAsState(initial = false)
     val splitKb by prefs.splitKeyboard.collectAsState(initial = false)
     val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
     val alwaysShowSuggestions by prefs.alwaysShowSuggestions.collectAsState(initial = false)
@@ -44,7 +46,7 @@ fun LayoutSettingsScreen(onBack: () -> Unit) {
         SettingSwitchItem(stringResource(R.string.layout_large_number_row), null, Icons.Default.ViewStream, largeNumRow) { scope.launch { prefs.setLargeNumberRow(it) } }
         SettingSwitchItem(stringResource(R.string.layout_hide_hints), stringResource(R.string.layout_hide_hints_desc), Icons.Default.VisibilityOff, hideHints) { scope.launch { prefs.setHideLongPressHints(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSwitchItem(stringResource(R.string.layout_resizing), null, Icons.Default.AspectRatio, enableResizing) { scope.launch { prefs.setEnableKbResizing(it) } }
+        SettingActionItem(stringResource(R.string.layout_resizing), stringResource(R.string.layout_resizing_desc), Icons.Default.AspectRatio, onNavigateToResize)
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingSwitchItem(stringResource(R.string.layout_split), stringResource(R.string.layout_split_desc), Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
         SettingSwitchItem(stringResource(R.string.layout_forced_enter), stringResource(R.string.layout_forced_enter_desc), Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }

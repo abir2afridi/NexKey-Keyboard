@@ -340,6 +340,11 @@
     <string name="layout_hide_hints">লং প্রেস হিন্ট লুকান</string>
     <string name="layout_hide_hints_desc">কী-এর কোণে থাকা ছোট লেবেলগুলো লুকান</string>
     <string name="layout_resizing">কীবোর্ড রিসাইজিং সক্রিয় করুন</string>
+    <string name="layout_resizing_desc">লাইভ কীবোর্ড প্রিভিউসহ রিসাইজিং স্ক্রিন খুলুন</string>
+    <string name="resize_title">কীবোর্ড রিসাইজিং</string>
+    <string name="resize_enable_desc">কীবোর্ডে আপনার কাস্টম উচ্চতা এবং প্রস্থ প্রয়োগ করে</string>
+    <string name="resize_preview_hint">লাইভ প্রিভিউ — পরিবর্তন সাথে সাথে প্রয়োগ হয়</string>
+    <string name="resize_reset">ডিফল্টে রিসেট করুন</string>
     <string name="layout_split">স্প্লিট কীবোর্ড সক্রিয় করুন</string>
     <string name="layout_split_desc">ফোল্ডেবল ফোনের জন্য</string>
     <string name="layout_forced_enter">ফোর্সড এন্টার বোতাম</string>
