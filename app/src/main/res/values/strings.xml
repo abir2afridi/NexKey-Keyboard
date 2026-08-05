@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Word Heatmap</string>
     <string name="home_heatmap_desc">A linguistic fingerprint of your vocabulary. Your top words are mapped onto a miniature layout. The darker the key, the more central that word is to your digital communication.</string>
     <string name="home_emojis_title">Emoji Leaderboard</string>
-    <string name="home_emojis_desc">Every emoji starts at score 0. Each time you use an emoji it gains +1 score, so the more you use it, the higher it ranks. This leaderboard shows your Top 10 most used emojis.</string>
+    <string name="home_emojis_desc">Every emoji starts at score 0. Each time you use an emoji it gains +1 score, so the more you use it, the higher it ranks. The Leaderboard tab shows your Top 10 most used emojis.</string>
     <string name="home_greeting_morning">Good Morning</string>
     <string name="home_greeting_afternoon">Good Afternoon</string>
     <string name="home_greeting_evening">Good Evening</string>
@@ -399,8 +399,17 @@
     <string name="all_emojis_score">Score</string>
     <string name="all_emojis_rank">#%1$d</string>
     <string name="all_emojis_info_title">How the emoji score works</string>
-    <string name="all_emojis_info_desc">Every time you use an emoji, it gains +1 score.\n\n• Never used = score 0\n• Used once = score 1\n• Used most = highest score\n\nThe emoji with the highest score is ranked #1 in the leaderboard. Your Top 10 most used emojis appear on the Home screen.</string>
+    <string name="all_emojis_info_desc">Every time you use an emoji, it gains +1 score.\n\n• Never used = score 0\n• Used once = score 1\n• Used most = highest score\n\nThe emoji with the highest score is ranked #1 in the leaderboard. Your Top 10 most used emojis appear in the Leaderboard tab.</string>
     <string name="home_emoji_empty">No emoji used yet — use some emojis while typing to fill the leaderboard!</string>
+    <string name="nav_leaderboard">Leaderboard</string>
+    <string name="lb_global_tab">Global</string>
+    <string name="lb_my_usage_tab">My Usage</string>
+    <string name="lb_coming_soon">Global leaderboard coming soon</string>
+    <string name="lb_coming_soon_desc">Compare your emoji scores with users around the world. This feature will arrive in a future update.</string>
+    <string name="lb_speed_tab">Speed</string>
+    <string name="lb_emoji_option_desc">Your top emojis, scores and global ranking</string>
+    <string name="lb_speed_option_desc">Your best auto-swipe speeds by interval</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Recent emoji retention</string>
     <string name="emoji_retention_desc">How long to remember recently used emojis</string>

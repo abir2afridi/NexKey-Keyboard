@@ -41,4 +41,6 @@ sealed class Screen(val route: String) {
     object SettingsInfoBox : Screen("settings_info_box")
     object SpeedRecords : Screen("speed_records")
     object SpeedLeaderboard : Screen("speed_leaderboard")
+    object EmojiLeaderboard : Screen("emoji_leaderboard")
+    object Leaderboard : Screen("leaderboard")
 }

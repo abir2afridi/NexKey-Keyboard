@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">لفظ ہیٹ میپ</string>
     <string name="home_heatmap_desc">آپ کے ذخیرہ الفاظ کا لسانی شناختی نشان۔ آپ کے اہم الفاظ ایک چھوٹے کی بورڈ پر نقش ہوتے ہیں۔ کلید جتنی گہری، لفظ اتنا ہی مرکزی۔</string>
     <string name="home_emojis_title">ایموجی لیڈر بورڈ</string>
-    <string name="home_emojis_desc">ہر ایموجی اسکور 0 سے شروع ہوتا ہے۔ ہر استعمال پر +1 اسکور ملتا ہے، لہٰذا جتنا زیادہ استعمال کریں گے رینک اتنی اونچی ہوگی۔ یہ لیڈر بورڈ آپ کے ٹاپ 10 سب سے زیادہ استعمال شدہ ایموجی دکھاتا ہے۔</string>
+    <string name="home_emojis_desc">ہر ایموجی اسکور 0 سے شروع ہوتا ہے۔ ہر استعمال پر +1 اسکور ملتا ہے، لہٰذا جتنا زیادہ استعمال کریں گے رینک اتنی اونچی ہوگی۔ لیڈر بورڈ ٹیب آپ کے ٹاپ 10 سب سے زیادہ استعمال شدہ ایموجی دکھاتا ہے۔</string>
     <string name="home_greeting_morning">صبح بخیر</string>
     <string name="home_greeting_afternoon">دوپہر بخیر</string>
     <string name="home_greeting_evening">شام بخیر</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">اسکور</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">ایموجی اسکور کیسے کام کرتا ہے</string>
-    <string name="all_emojis_info_desc">جب بھی آپ ایموجی استعمال کرتے ہیں، اسے +1 اسکور ملتا ہے۔\n\n• کبھی استعمال نہیں = اسکور 0\n• ایک بار استعمال = اسکور 1\n• زیادہ استعمال = زیادہ اسکور\n\nسب سے زیادہ اسکور والا ایموجی لیڈر بورڈ میں #1 رینک پاتا ہے۔ آپ کے ٹاپ 10 ایموجی ہوم اسکرین پر دکھتے ہیں۔</string>
+    <string name="all_emojis_info_desc">جب بھی آپ ایموجی استعمال کرتے ہیں، اسے +1 اسکور ملتا ہے۔\n\n• کبھی استعمال نہیں = اسکور 0\n• ایک بار استعمال = اسکور 1\n• زیادہ استعمال = زیادہ اسکور\n\nسب سے زیادہ اسکور والا ایموجی لیڈر بورڈ میں #1 رینک پاتا ہے۔ آپ کے ٹاپ 10 ایموجی لیڈر بورڈ ٹیب میں دکھائے جاتے ہیں۔</string>
     <string name="home_emoji_empty">ابھی کوئی ایموجی استعمال نہیں ہوا — ٹائپ کرتے وقت ایموجی استعمال کر کے لیڈر بورڈ بھریں!</string>
+    <string name="nav_leaderboard">لیڈر بورڈ</string>
+    <string name="lb_global_tab">عالمی</string>
+    <string name="lb_my_usage_tab">میرا استعمال</string>
+    <string name="lb_coming_soon">عالمی لیڈر بورڈ جلد آ رہا ہے</string>
+    <string name="lb_coming_soon_desc">دنیا بھر کے صارفین سے اپنے ایموجی اسکور کا موازنہ کریں۔ یہ فیچر مستقبل کی اپ ڈیٹ میں آئے گا۔</string>
+    <string name="lb_speed_tab">رفتار</string>
+    <string name="lb_emoji_option_desc">آپ کے ٹاپ ایموجیز، اسکور اور عالمی رینکنگ</string>
+    <string name="lb_speed_option_desc">انٹرویل کے مطابق آپ کی بہترین آٹو سوائپ رفتار</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">حالیہ ایموجی برقرار رکھنا</string>
     <string name="emoji_retention_desc">حالیہ استعمال شدہ ایموجیز کو کتنی دیر یاد رکھیں</string>

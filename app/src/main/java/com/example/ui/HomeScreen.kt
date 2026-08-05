@@ -90,7 +90,8 @@ fun HomeScreen(
     onNavigateToMoreLanguages: () -> Unit = {},
     onNavigateToGifQuality: () -> Unit = {},
     onNavigateToSpeedRecords: () -> Unit = {},
-    onNavigateToSpeedLeaderboard: () -> Unit = {}
+    onNavigateToSpeedLeaderboard: () -> Unit = {},
+    onNavigateToLeaderboard: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -404,7 +405,7 @@ fun HomeScreen(
             HomeSpeedTrendChart(speedRecords)
             Spacer(modifier = Modifier.height(10.dp))
             Card(
-                onClick = onNavigateToSpeedRecords,
+                onClick = onNavigateToLeaderboard,
                 modifier = Modifier.fillMaxWidth(),
                 shape = RoundedCornerShape(14.dp),
                 colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary)
@@ -532,7 +533,10 @@ fun HomeScreen(
 
             // EMOJI LEADERBOARD
             Row(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 12.dp, start = 4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 12.dp, start = 4.dp)
+                    .clickable { onNavigateToLeaderboard() },
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -941,5 +945,4 @@ private fun EmojiUsageChart(emojis: List<EmojiUsageEntity>) {
         }
     }
 }
-
 

@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Carte de chaleur des mots</string>
     <string name="home_heatmap_desc">Une empreinte linguistique de votre vocabulaire. Vos mots principaux sont mappés sur une disposition miniature. Plus la touche est sombre, plus ce mot est central dans votre communication numérique.</string>
     <string name="home_emojis_title">Classement des emojis</string>
-    <string name="home_emojis_desc">Chaque emoji commence avec 0 point. Chaque utilisation ajoute +1 point, donc plus vous l\'utilisez, plus son classement monte. Ce classement montre vos 10 emojis les plus utilisés.</string>
+    <string name="home_emojis_desc">Chaque emoji commence avec 0 point. Chaque utilisation ajoute +1 point, donc plus vous l\'utilisez, plus son classement monte. L\'onglet Classement montre vos 10 emojis les plus utilisés.</string>
     <string name="home_greeting_morning">Bonjour</string>
     <string name="home_greeting_afternoon">Bon après-midi</string>
     <string name="home_greeting_evening">Bonsoir</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">Score</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">Comment fonctionne le score des emojis</string>
-    <string name="all_emojis_info_desc">Chaque fois que vous utilisez un emoji, il gagne +1 point.\n\n• Jamais utilisé = score 0\n• Utilisé une fois = score 1\n• Le plus utilisé = le score le plus élevé\n\nL\'emoji avec le meilleur score est classé #1 au classement. Vos 10 emojis les plus utilisés apparaissent sur l\'écran d\'accueil.</string>
+    <string name="all_emojis_info_desc">Chaque fois que vous utilisez un emoji, il gagne +1 point.\n\n• Jamais utilisé = score 0\n• Utilisé une fois = score 1\n• Le plus utilisé = le score le plus élevé\n\nL\'emoji avec le meilleur score est classé #1 au classement. Vos 10 emojis les plus utilisés apparaissent dans l\'onglet Classement.</string>
     <string name="home_emoji_empty">Aucun emoji utilisé pour le moment — utilisez des emojis en tapant pour remplir le classement !</string>
+    <string name="nav_leaderboard">Classement</string>
+    <string name="lb_global_tab">Global</string>
+    <string name="lb_my_usage_tab">Mon usage</string>
+    <string name="lb_coming_soon">Classement global bientôt disponible</string>
+    <string name="lb_coming_soon_desc">Comparez vos scores d\'emojis avec des utilisateurs du monde entier. Cette fonctionnalité arrivera dans une prochaine mise à jour.</string>
+    <string name="lb_speed_tab">Vitesse</string>
+    <string name="lb_emoji_option_desc">Vos meilleurs emojis, scores et classement global</string>
+    <string name="lb_speed_option_desc">Vos meilleures vitesses de balayage auto par intervalle</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Rétention des emojis récents</string>
     <string name="emoji_retention_desc">Combien de temps se souvenir des emojis récemment utilisés</string>

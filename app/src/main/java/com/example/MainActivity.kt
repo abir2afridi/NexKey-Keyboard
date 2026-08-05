@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Keyboard
+import androidx.compose.material.icons.filled.Leaderboard
 import androidx.compose.material.icons.filled.Storefront
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -173,6 +174,25 @@ fun NexKeyApp() {
                         )
                     )
                     NavigationBarItem(
+                        icon = { Icon(Icons.Default.Leaderboard, contentDescription = null, modifier = Modifier.size(26.dp)) },
+                        label = { Text(stringResource(R.string.nav_leaderboard), fontSize = 12.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Leaderboard.route } == true,
+                        onClick = {
+                            navController.navigate(Screen.Leaderboard.route) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        },
+                        colors = NavigationBarItemDefaults.colors(
+                            selectedIconColor = MaterialTheme.colorScheme.primary,
+                            selectedTextColor = MaterialTheme.colorScheme.primary,
+                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    )
+                    NavigationBarItem(
                         icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(26.dp)) },
                         label = { Text(stringResource(R.string.app_settings_title), fontSize = 12.sp) },
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
@@ -234,7 +254,8 @@ fun NexKeyApp() {
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
                         onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToSpeedRecords = { navController.navigate(Screen.SpeedRecords.route) },
-                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) }
+                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) },
+                        onNavigateToLeaderboard = { navController.navigate(Screen.Leaderboard.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
@@ -316,6 +337,15 @@ fun NexKeyApp() {
                 }
                 composable(Screen.SpeedLeaderboard.route) {
                     SpeedLeaderboardScreen(onBack = { navController.popBackStack() })
+                }
+                composable(Screen.Leaderboard.route) {
+                    LeaderboardScreen(
+                        onNavigateToEmojiLeaderboard = { navController.navigate(Screen.EmojiLeaderboard.route) },
+                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) }
+                    )
+                }
+                composable(Screen.EmojiLeaderboard.route) {
+                    EmojiLeaderboardScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.SettingsAppLanguage.route) {
                     AppLanguageScreen(onBack = { navController.popBackStack() })
@@ -402,6 +432,18 @@ fun NexKeyApp() {
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Settings.route } == true,
                         onClick = {
                             navController.navigate(Screen.Settings.route) {
+                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
+                                launchSingleTop = true
+                                restoreState = true
+                            }
+                        }
+                    )
+                    FloatingNavigationBarItem(
+                        icon = { Icon(Icons.Default.Leaderboard, contentDescription = null, modifier = Modifier.size(24.dp)) },
+                        label = { Text(stringResource(R.string.nav_leaderboard), fontSize = 11.sp) },
+                        selected = currentDestination?.hierarchy?.any { it.route == Screen.Leaderboard.route } == true,
+                        onClick = {
+                            navController.navigate(Screen.Leaderboard.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true

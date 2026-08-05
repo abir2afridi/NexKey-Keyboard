@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">ワードヒートマップ</string>
     <string name="home_heatmap_desc">語彙の言語的な指紋。上位の単語がミニチュアレイアウトにマッピングされます。キーが暗いほど、その単語が重要です。</string>
     <string name="home_emojis_title">絵文字ランキング</string>
-    <string name="home_emojis_desc">すべての絵文字はスコア0から始まります。使うたびに +1 加算され、使うほど順位が上がります。このリーダーボードにはよく使う上位10個の絵文字が表示されます。</string>
+    <string name="home_emojis_desc">すべての絵文字はスコア0から始まります。使うたびに +1 加算され、使うほど順位が上がります。リーダーボードタブにはよく使う上位10個の絵文字が表示されます。</string>
     <string name="home_greeting_morning">おはようございます</string>
     <string name="home_greeting_afternoon">こんにちは</string>
     <string name="home_greeting_evening">こんばんは</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">スコア</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">絵文字スコアの仕組み</string>
-    <string name="all_emojis_info_desc">絵文字を使うたびに +1 スコアが加算されます。\n\n• 未使用 = スコア 0\n• 1回使用 = スコア 1\n• 最も使用 = 最高スコア\n\n最もスコアが高い絵文字がリーダーボードの #1 にランクインします。よく使う上位10個の絵文字がホーム画面に表示されます。</string>
+    <string name="all_emojis_info_desc">絵文字を使うたびに +1 スコアが加算されます。\n\n• 未使用 = スコア 0\n• 1回使用 = スコア 1\n• 最も使用 = 最高スコア\n\n最もスコアが高い絵文字がリーダーボードの #1 にランクインします。よく使う上位10個の絵文字はリーダーボードタブに表示されます。</string>
     <string name="home_emoji_empty">まだ絵文字が使われていません — 入力中に絵文字を使ってリーダーボードを埋めましょう！</string>
+    <string name="nav_leaderboard">リーダーボード</string>
+    <string name="lb_global_tab">グローバル</string>
+    <string name="lb_my_usage_tab">自分の使用</string>
+    <string name="lb_coming_soon">グローバルリーダーボード近日公開</string>
+    <string name="lb_coming_soon_desc">世界中のユーザーと絵文字スコアを比較できます。この機能は今後のアップデートで提供予定です。</string>
+    <string name="lb_speed_tab">スピード</string>
+    <string name="lb_emoji_option_desc">あなたのトップ絵文字、スコア、グローバル順位</string>
+    <string name="lb_speed_option_desc">間隔ごとの最高オートスワイプ速度</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">最近の絵文字の保持</string>
     <string name="emoji_retention_desc">最近使用した絵文字を覚えておく期間</string>

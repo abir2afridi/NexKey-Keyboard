@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">단어 히트맵</string>
     <string name="home_heatmap_desc">어휘의 언어적 지문. 상위 단어가 미니 레이아웃에 표시됩니다. 키가 어두울수록 그 단어가 더 중심적입니다.</string>
     <string name="home_emojis_title">이모지 리더보드</string>
-    <string name="home_emojis_desc">모든 이모지는 점수 0에서 시작합니다. 사용할 때마다 +1점이 쌓여 많이 사용할수록 순위가 올라갑니다. 이 리더보드에는 가장 많이 사용한 상위 10개 이모지가 표시됩니다.</string>
+    <string name="home_emojis_desc">모든 이모지는 점수 0에서 시작합니다. 사용할 때마다 +1점이 쌓여 많이 사용할수록 순위가 올라갑니다. 리더보드 탭에는 가장 많이 사용한 상위 10개 이모지가 표시됩니다.</string>
     <string name="home_greeting_morning">좋은 아침입니다</string>
     <string name="home_greeting_afternoon">안녕하세요</string>
     <string name="home_greeting_evening">좋은 저녁입니다</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">점수</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">이모지 점수 계산 방법</string>
-    <string name="all_emojis_info_desc">이모지를 사용할 때마다 +1점이 올라갑니다.\n\n• 사용한 적 없음 = 점수 0\n• 한 번 사용 = 점수 1\n• 가장 많이 사용 = 가장 높은 점수\n\n점수가 가장 높은 이모지가 리더보드에서 #1로 랭크됩니다. 가장 많이 사용한 상위 10개 이모지가 홈 화면에 표시됩니다.</string>
+    <string name="all_emojis_info_desc">이모지를 사용할 때마다 +1점이 올라갑니다.\n\n• 사용한 적 없음 = 점수 0\n• 한 번 사용 = 점수 1\n• 가장 많이 사용 = 가장 높은 점수\n\n점수가 가장 높은 이모지가 리더보드에서 #1로 랭크됩니다. 가장 많이 사용한 상위 10개 이모지가 리더보드 탭에 표시됩니다.</string>
     <string name="home_emoji_empty">아직 사용한 이모지가 없습니다 — 타이핑 중 이모지를 사용해 리더보드를 채워보세요!</string>
+    <string name="nav_leaderboard">리더보드</string>
+    <string name="lb_global_tab">글로벌</string>
+    <string name="lb_my_usage_tab">내 사용</string>
+    <string name="lb_coming_soon">글로벌 리더보드 곧 출시</string>
+    <string name="lb_coming_soon_desc">전 세계 사용자와 내 이모지 점수를 비교하세요. 이 기능은 향후 업데이트에서 제공될 예정입니다.</string>
+    <string name="lb_speed_tab">속도</string>
+    <string name="lb_emoji_option_desc">최고의 이모지, 점수 및 글로벌 순위</string>
+    <string name="lb_speed_option_desc">간격별 최고 자동 스와이프 속도</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">최근 이모지 보존</string>
     <string name="emoji_retention_desc">최근 사용한 이모지를 기억할 기간</string>

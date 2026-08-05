@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">خريطة الكلمات الحرارية</string>
     <string name="home_heatmap_desc">بصمة لغوية لمفرداتك. تُرسم كلماتك الأكثر استخدامًا على تخطيط مصغر. كلما كان المفتاح أغمق، كانت الكلمة أكثر مركزية في تواصلك الرقمي.</string>
     <string name="home_emojis_title">لوحة صدارة الرموز التعبيرية</string>
-    <string name="home_emojis_desc">يبدأ كل إيموجي بنقاط 0. كل مرة تستخدمه يحصل على نقطة +1، فكلما استخدمته أكثر ارتفع ترتيبه. تعرض لوحة الصدارة هذه إيموجياتك العشرة الأكثر استخداماً.</string>
+    <string name="home_emojis_desc">يبدأ كل إيموجي بنقاط 0. كل مرة تستخدمه يحصل على نقطة +1، فكلما استخدمته أكثر ارتفع ترتيبه. تعرض علامة تبويب لوحة الصدارة إيموجياتك العشرة الأكثر استخداماً.</string>
     <string name="home_greeting_morning">صباح الخير</string>
     <string name="home_greeting_afternoon">مساء الخير</string>
     <string name="home_greeting_evening">مساء الخير</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">النقاط</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">كيف تعمل نقاط الإيموجي</string>
-    <string name="all_emojis_info_desc">في كل مرة تستخدم إيموجي، يحصل على نقطة +1.\n\n• لم يُستخدم أبداً = نقاط 0\n• استُخدم مرة = نقطة 1\n• الأكثر استخداماً = أعلى نقاط\n\nالإيموجي الأعلى نقاطاً يحصل على المركز #1 في لوحة الصدارة. تظهر إيموجياتك العشرة الأكثر استخداماً في الشاشة الرئيسية.</string>
+    <string name="all_emojis_info_desc">في كل مرة تستخدم إيموجي، يحصل على نقطة +1.\n\n• لم يُستخدم أبداً = نقاط 0\n• استُخدم مرة = نقطة 1\n• الأكثر استخداماً = أعلى نقاط\n\nالإيموجي الأعلى نقاطاً يحصل على المركز #1 في لوحة الصدارة. تظهر إيموجياتك العشرة الأكثر استخداماً في علامة تبويب لوحة الصدارة.</string>
     <string name="home_emoji_empty">لم تُستخدم أي إيموجي بعد — استخدم بعض الإيموجيات أثناء الكتابة لملء لوحة الصدارة!</string>
+    <string name="nav_leaderboard">لوحة الصدارة</string>
+    <string name="lb_global_tab">عالمي</string>
+    <string name="lb_my_usage_tab">استخدامي</string>
+    <string name="lb_coming_soon">لوحة الصدارة العالمية قريباً</string>
+    <string name="lb_coming_soon_desc">قارن نقاط إيموجياتك مع مستخدمين حول العالم. هذه الميزة ستتوفر في تحديث قادم.</string>
+    <string name="lb_speed_tab">السرعة</string>
+    <string name="lb_emoji_option_desc">إيموجياتك الأعلى ونقاطك وترتيبك العالمي</string>
+    <string name="lb_speed_option_desc">أفضل سرعات التمرير التلقائي حسب الفاصل الزمني</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">الاحتفاظ بالرموز التعبيرية الحديثة</string>
     <string name="emoji_retention_desc">مدة تذكر الرموز التعبيرية المستخدمة حديثًا</string>

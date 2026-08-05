@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">শব্দ হিটম্যাপ</string>
     <string name="home_heatmap_desc">আপনার শব্দভান্ডারের ভাষাগত ফিঙ্গারপ্রিন্ট। আপনার শীর্ষ শব্দগুলো একটি ক্ষুদ্র লেআউটে ম্যাপ করা হয়। কী যত গাঢ়, আপনার ডিজিটাল যোগাযোগে শব্দটি তত কেন্দ্রীয়।</string>
     <string name="home_emojis_title">ইমোজি লিডারবোর্ড</string>
-    <string name="home_emojis_desc">প্রতিটি ইমোজি স্কোর 0 থেকে শুরু হয়। প্রতিবার ব্যবহার করলে +1 স্কোর যোগ হয়, তাই যত বেশি ব্যবহার করবেন তত উচ্চ র‍্যাংক পাবে। এই লিডারবোর্ডে আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি দেখানো হয়।</string>
+    <string name="home_emojis_desc">প্রতিটি ইমোজি স্কোর 0 থেকে শুরু হয়। প্রতিবার ব্যবহার করলে +1 স্কোর যোগ হয়, তাই যত বেশি ব্যবহার করবেন তত উচ্চ র‍্যাংক পাবে। লিডারবোর্ড ট্যাবে আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি দেখানো হয়।</string>
     <string name="home_greeting_morning">শুভ সকাল</string>
     <string name="home_greeting_afternoon">শুভ বিকাল</string>
     <string name="home_greeting_evening">শুভ সন্ধ্যা</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">স্কোর</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">ইমোজি স্কোর কিভাবে কাজ করে</string>
-    <string name="all_emojis_info_desc">প্রতিবার আপনি একটি ইমোজি ব্যবহার করলে এটি +1 স্কোর পায়।\n\n• কখনো ব্যবহার হয়নি = স্কোর 0\n• একবার ব্যবহার হয়েছে = স্কোর 1\n• বেশি ব্যবহার = বেশি স্কোর\n\nযে ইমোজির স্কোর সবচেয়ে বেশি সেটিই লিডারবোর্ডে #1 র‍্যাংকে থাকে। আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি হোম স্ক্রিনে দেখানো হয়।</string>
+    <string name="all_emojis_info_desc">প্রতিবার আপনি একটি ইমোজি ব্যবহার করলে এটি +1 স্কোর পায়।\n\n• কখনো ব্যবহার হয়নি = স্কোর 0\n• একবার ব্যবহার হয়েছে = স্কোর 1\n• বেশি ব্যবহার = বেশি স্কোর\n\nযে ইমোজির স্কোর সবচেয়ে বেশি সেটিই লিডারবোর্ডে #1 র‍্যাংকে থাকে। আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি লিডারবোর্ড ট্যাবে দেখানো হয়।</string>
     <string name="home_emoji_empty">এখনো কোনো ইমোজি ব্যবহার হয়নি — টাইপ করার সময় ইমোজি ব্যবহার করে লিডারবোর্ড পূরণ করুন!</string>
+    <string name="nav_leaderboard">লিডারবোর্ড</string>
+    <string name="lb_global_tab">গ্লোবাল</string>
+    <string name="lb_my_usage_tab">আমার ব্যবহার</string>
+    <string name="lb_coming_soon">গ্লোবাল লিডারবোর্ড শীঘ্রই আসছে</string>
+    <string name="lb_coming_soon_desc">সারা বিশ্বের ব্যবহারকারীদের সাথে আপনার ইমোজি স্কোর তুলনা করুন। এই ফিচারটি ভবিষ্যতের একটি আপডেটে আসবে।</string>
+    <string name="lb_speed_tab">গতি</string>
+    <string name="lb_emoji_option_desc">আপনার সেরা ইমোজি, স্কোর ও গ্লোবাল র‍্যাংকিং</string>
+    <string name="lb_speed_option_desc">ইন্টারভাল অনুযায়ী আপনার সেরা অটো-সোয়াইপ গতি</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">সাম্প্রতিক ইমোজি সংরক্ষণ</string>
     <string name="emoji_retention_desc">সম্প্রতি ব্যবহৃত ইমোজি কতক্ষণ মনে রাখবে</string>

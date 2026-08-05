@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">शब्द हीटमैप</string>
     <string name="home_heatmap_desc">आपकी शब्दावली की भाषाई छाप। आपके शीर्ष शब्द एक लघु लेआउट पर मैप किए जाते हैं। कुंजी जितनी गहरी, आपके डिजिटल संचार में वह शब्द उतना ही केंद्रीय।</string>
     <string name="home_emojis_title">इमोजी लीडरबोर्ड</string>
-    <string name="home_emojis_desc">हर इमोजी स्कोर 0 से शुरू होता है। हर बार उपयोग करने पर +1 स्कोर मिलता है, इसलिए जितना अधिक उपयोग करेंगे, रैंक उतनी ऊँची होगी। यह लीडरबोर्ड आपके शीर्ष 10 सबसे अधिक उपयोग किए गए इमोजी दिखाता है।</string>
+    <string name="home_emojis_desc">हर इमोजी स्कोर 0 से शुरू होता है। हर बार उपयोग करने पर +1 स्कोर मिलता है, इसलिए जितना अधिक उपयोग करेंगे, रैंक उतनी ऊँची होगी। लीडरबोर्ड टैब आपके शीर्ष 10 सबसे अधिक उपयोग किए गए इमोजी दिखाता है।</string>
     <string name="home_greeting_morning">सुप्रभात</string>
     <string name="home_greeting_afternoon">नमस्कार</string>
     <string name="home_greeting_evening">शुभ संध्या</string>
@@ -400,8 +400,17 @@
     <string name="all_emojis_score">स्कोर</string>
     <string name="all_emojis_rank">#%1</string>
     <string name="all_emojis_info_title">इमोजी स्कोर कैसे काम करता है</string>
-    <string name="all_emojis_info_desc">हर बार जब आप एक इमोजी उपयोग करते हैं, उसे +1 स्कोर मिलता है।\n\n• कभी उपयोग नहीं = स्कोर 0\n• एक बार उपयोग = स्कोर 1\n• सबसे अधिक उपयोग = सबसे अधिक स्कोर\n\nसबसे अधिक स्कोर वाला इमोजी लीडरबोर्ड में #1 रैंक पाता है। आपके शीर्ष 10 इमोजी होम स्क्रीन पर दिखते हैं।</string>
+    <string name="all_emojis_info_desc">हर बार जब आप एक इमोजी उपयोग करते हैं, उसे +1 स्कोर मिलता है।\n\n• कभी उपयोग नहीं = स्कोर 0\n• एक बार उपयोग = स्कोर 1\n• सबसे अधिक उपयोग = सबसे अधिक स्कोर\n\nसबसे अधिक स्कोर वाला इमोजी लीडरबोर्ड में #1 रैंक पाता है। आपके शीर्ष 10 इमोजी लीडरबोरड टैब मे दिखते हैं।</string>
     <string name="home_emoji_empty">अभी कोई इमोजी उपयोग नहीं हुआ — टाइप करते समय इमोजी उपयोग करके लीडरबोर्ड भरें!</string>
+    <string name="nav_leaderboard">लीडरबोर्ड</string>
+    <string name="lb_global_tab">वैश्विक</string>
+    <string name="lb_my_usage_tab">मेरा उपयोग</string>
+    <string name="lb_coming_soon">ग्लोबल लीडरबोर्ड जल्द आ रहा है</string>
+    <string name="lb_coming_soon_desc">दुनिया भर के उपयोगकर्ताओं से अपने इमोजी स्कोर की तुलना करें। यह सुविधा भविष्य के अपडेट में आएगी।</string>
+    <string name="lb_speed_tab">गति</string>
+    <string name="lb_emoji_option_desc">आपके शीर्ष इमोजी, स्कोर और वैश्विक रैंकिंग</string>
+    <string name="lb_speed_option_desc">अंतराल के अनुसार आपकी सर्वश्रेष्ठ ऑटो-स्वाइप गति</string>
+
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">हाल के इमोजी संग्रहण</string>
     <string name="emoji_retention_desc">हाल ही में उपयोग किए गए इमोजी कितनी देर याद रखें</string>
