@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Тепловая карта слов</string>
     <string name="home_heatmap_desc">Лингвистический отпечаток вашего словарного запаса. Ваши топ-слова отображаются на миниатюрной раскладке. Чем темнее клавиша, тем важнее слово.</string>
     <string name="home_emojis_title">Рейтинг эмодзи</string>
-    <string name="home_emojis_desc">Визуализирует ваши эмоциональные паттерны. Этот рейтинг показывает, какие эмодзи вы используете чаще всего.</string>
+    <string name="home_emojis_desc">Каждый эмодзи начинает с 0 очков. Каждое использование добавляет +1 очко, поэтому чем чаще вы его используете, тем выше его место. В этом рейтинге показаны ваши 10 самых используемых эмодзи.</string>
     <string name="home_greeting_morning">Доброе утро</string>
     <string name="home_greeting_afternoon">Добрый день</string>
     <string name="home_greeting_evening">Добрый вечер</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">Показать все эмодзи</string>
     <string name="all_emojis_view_desc">Просмотр всех эмодзи с названием и кодом</string>
     <string name="all_emojis_search_hint">Поиск эмодзи, названия или кода</string>
+    <string name="all_emojis_category">Категория</string>
+    <string name="all_emojis_category_all">Все</string>
+    <string name="all_emojis_sort_usage">Чаще всего</string>
+    <string name="all_emojis_sort_name_az">Имя A-Z</string>
+    <string name="all_emojis_sort_name_za">Имя Z-A</string>
+    <string name="all_emojis_sort_category">Категория</string>
+    <string name="all_emojis_score">Очки</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">Как работает подсчёт очков эмодзи</string>
+    <string name="all_emojis_info_desc">Каждый раз, когда вы используете эмодзи, он получает +1 очко.\n\n• Ни разу не использован = очков 0\n• Использован один раз = очков 1\n• Самый используемый = больше всего очков\n\nЭмодзи с наибольшим количеством очков занимает #1 место в рейтинге. Ваши 10 самых используемых эмодзи отображаются на главном экране.</string>
+    <string name="home_emoji_empty">Эмодзи ещё не использовались — используйте эмодзи при наборе, чтобы заполнить рейтинг!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Хранение недавних эмодзи</string>
     <string name="emoji_retention_desc">Как долго помнить недавно использованные эмодзи</string>

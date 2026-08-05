@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">शब्द हीटमैप</string>
     <string name="home_heatmap_desc">आपकी शब्दावली की भाषाई छाप। आपके शीर्ष शब्द एक लघु लेआउट पर मैप किए जाते हैं। कुंजी जितनी गहरी, आपके डिजिटल संचार में वह शब्द उतना ही केंद्रीय।</string>
     <string name="home_emojis_title">इमोजी लीडरबोर्ड</string>
-    <string name="home_emojis_desc">आपके भावनात्मक अभिव्यक्ति पैटर्न को दर्शाता है। यह रैंकिंग दिखाती है कि आप किन इमोजी पर सबसे अधिक निर्भर हैं, जो आपके डिजिटल व्यक्तित्व में एक मजेदार अंतर्दृष्टि देती है।</string>
+    <string name="home_emojis_desc">हर इमोजी स्कोर 0 से शुरू होता है। हर बार उपयोग करने पर +1 स्कोर मिलता है, इसलिए जितना अधिक उपयोग करेंगे, रैंक उतनी ऊँची होगी। यह लीडरबोर्ड आपके शीर्ष 10 सबसे अधिक उपयोग किए गए इमोजी दिखाता है।</string>
     <string name="home_greeting_morning">सुप्रभात</string>
     <string name="home_greeting_afternoon">नमस्कार</string>
     <string name="home_greeting_evening">शुभ संध्या</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">सभी इमोजी देखें</string>
     <string name="all_emojis_view_desc">नाम और कोड के साथ हर इमोजी देखें</string>
     <string name="all_emojis_search_hint">इमोजी, नाम या कोड खोजें</string>
+    <string name="all_emojis_category">श्रेणी</string>
+    <string name="all_emojis_category_all">सभी</string>
+    <string name="all_emojis_sort_usage">सबसे अधिक उपयोग</string>
+    <string name="all_emojis_sort_name_az">नाम A-Z</string>
+    <string name="all_emojis_sort_name_za">नाम Z-A</string>
+    <string name="all_emojis_sort_category">श्रेणी</string>
+    <string name="all_emojis_score">स्कोर</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">इमोजी स्कोर कैसे काम करता है</string>
+    <string name="all_emojis_info_desc">हर बार जब आप एक इमोजी उपयोग करते हैं, उसे +1 स्कोर मिलता है।\n\n• कभी उपयोग नहीं = स्कोर 0\n• एक बार उपयोग = स्कोर 1\n• सबसे अधिक उपयोग = सबसे अधिक स्कोर\n\nसबसे अधिक स्कोर वाला इमोजी लीडरबोर्ड में #1 रैंक पाता है। आपके शीर्ष 10 इमोजी होम स्क्रीन पर दिखते हैं।</string>
+    <string name="home_emoji_empty">अभी कोई इमोजी उपयोग नहीं हुआ — टाइप करते समय इमोजी उपयोग करके लीडरबोर्ड भरें!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">हाल के इमोजी संग्रहण</string>
     <string name="emoji_retention_desc">हाल ही में उपयोग किए गए इमोजी कितनी देर याद रखें</string>

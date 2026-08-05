@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Mapa de calor de palavras</string>
     <string name="home_heatmap_desc">Uma impressão linguística do seu vocabulário. Suas principais palavras são mapeadas em um layout em miniatura. Quanto mais escura a tecla, mais central é essa palavra na sua comunicação digital.</string>
     <string name="home_emojis_title">Classificação de emojis</string>
-    <string name="home_emojis_desc">Visualiza seus padrões de expressão emocional. Esta classificação mostra em quais emojis você mais confia, oferecendo uma visão divertida da sua personalidade digital.</string>
+    <string name="home_emojis_desc">Cada emoji começa com 0 pontos. Cada uso adiciona +1 ponto, então quanto mais você usar, maior a posição. Este ranking mostra seus 10 emojis mais usados.</string>
     <string name="home_greeting_morning">Bom dia</string>
     <string name="home_greeting_afternoon">Boa tarde</string>
     <string name="home_greeting_evening">Boa noite</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">Ver todos os emojis</string>
     <string name="all_emojis_view_desc">Navegue por cada emoji com nome e código</string>
     <string name="all_emojis_search_hint">Pesquisar emoji, nome ou código</string>
+    <string name="all_emojis_category">Categoria</string>
+    <string name="all_emojis_category_all">Todas</string>
+    <string name="all_emojis_sort_usage">Mais usados</string>
+    <string name="all_emojis_sort_name_az">Nome A-Z</string>
+    <string name="all_emojis_sort_name_za">Nome Z-A</string>
+    <string name="all_emojis_sort_category">Categoria</string>
+    <string name="all_emojis_score">Pontuação</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">Como funciona a pontuação de emojis</string>
+    <string name="all_emojis_info_desc">Cada vez que você usa um emoji, ele ganha +1 ponto.\n\n• Nunca usado = pontuação 0\n• Usado uma vez = pontuação 1\n• Mais usado = maior pontuação\n\nO emoji com maior pontuação fica em #1 no ranking. Seus 10 emojis mais usados aparecem na tela inicial.</string>
+    <string name="home_emoji_empty">Nenhum emoji usado ainda — use emojis ao digitar para preencher o ranking!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Retenção de emojis recentes</string>
     <string name="emoji_retention_desc">Por quanto tempo lembrar dos emojis usados recentemente</string>

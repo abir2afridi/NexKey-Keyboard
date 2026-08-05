@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Wort-Heatmap</string>
     <string name="home_heatmap_desc">Ein sprachlicher Fingerabdruck deines Wortschatzes. Deine Top-Wörter werden auf einem Miniatur-Layout abgebildet. Je dunkler die Taste, desto zentraler ist das Wort für deine digitale Kommunikation.</string>
     <string name="home_emojis_title">Emoji-Rangliste</string>
-    <string name="home_emojis_desc">Visualisiert deine emotionalen Ausdrucksmuster. Diese Rangliste zeigt, auf welche Emojis du dich am meisten verlässt, und bietet einen unterhaltsamen Einblick in deine digitale Persönlichkeit.</string>
+    <string name="home_emojis_desc">Jedes Emoji startet mit 0 Punkten. Jede Verwendung gibt +1 Punkt – je öfter du es nutzt, desto höher sein Rang. Dieses Ranking zeigt deine 10 meistgenutzten Emojis.</string>
     <string name="home_greeting_morning">Guten Morgen</string>
     <string name="home_greeting_afternoon">Guten Tag</string>
     <string name="home_greeting_evening">Guten Abend</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">Alle Emojis ansehen</string>
     <string name="all_emojis_view_desc">Jedes Emoji mit Name und Code durchsuchen</string>
     <string name="all_emojis_search_hint">Emoji, Name oder Code suchen</string>
+    <string name="all_emojis_category">Kategorie</string>
+    <string name="all_emojis_category_all">Alle</string>
+    <string name="all_emojis_sort_usage">Am häufigsten</string>
+    <string name="all_emojis_sort_name_az">Name A-Z</string>
+    <string name="all_emojis_sort_name_za">Name Z-A</string>
+    <string name="all_emojis_sort_category">Kategorie</string>
+    <string name="all_emojis_score">Punktzahl</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">So funktioniert die Emoji-Punktzahl</string>
+    <string name="all_emojis_info_desc">Jedes Mal, wenn du ein Emoji verwendest, erhält es +1 Punkt.\n\n• Nie verwendet = Punktzahl 0\n• Einmal verwendet = Punktzahl 1\n• Am häufigsten verwendet = höchste Punktzahl\n\nDas Emoji mit der höchsten Punktzahl belegt Platz #1 im Ranking. Deine 10 meistgenutzten Emojis erscheinen auf dem Startbildschirm.</string>
+    <string name="home_emoji_empty">Noch kein Emoji verwendet – nutze beim Tippen Emojis, um das Ranking zu füllen!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Aufbewahrung letzter Emojis</string>
     <string name="emoji_retention_desc">Wie lange zuletzt verwendete Emojis gespeichert bleiben</string>

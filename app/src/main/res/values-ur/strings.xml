@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">لفظ ہیٹ میپ</string>
     <string name="home_heatmap_desc">آپ کے ذخیرہ الفاظ کا لسانی شناختی نشان۔ آپ کے اہم الفاظ ایک چھوٹے کی بورڈ پر نقش ہوتے ہیں۔ کلید جتنی گہری، لفظ اتنا ہی مرکزی۔</string>
     <string name="home_emojis_title">ایموجی لیڈر بورڈ</string>
-    <string name="home_emojis_desc">آپ کے جذباتی اظہار کے نمونوں کو دکھاتا ہے۔ یہ درجہ بندی دکھاتی ہے کہ آپ کن ایموجیز پر سب سے زیادہ انحصار کرتے ہیں۔</string>
+    <string name="home_emojis_desc">ہر ایموجی اسکور 0 سے شروع ہوتا ہے۔ ہر استعمال پر +1 اسکور ملتا ہے، لہٰذا جتنا زیادہ استعمال کریں گے رینک اتنی اونچی ہوگی۔ یہ لیڈر بورڈ آپ کے ٹاپ 10 سب سے زیادہ استعمال شدہ ایموجی دکھاتا ہے۔</string>
     <string name="home_greeting_morning">صبح بخیر</string>
     <string name="home_greeting_afternoon">دوپہر بخیر</string>
     <string name="home_greeting_evening">شام بخیر</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">تمام ایموجی دیکھیں</string>
     <string name="all_emojis_view_desc">نام اور کوڈ کے ساتھ ہر ایموجی دیکھیں</string>
     <string name="all_emojis_search_hint">ایموجی، نام یا کوڈ تلاش کریں</string>
+    <string name="all_emojis_category">زمرہ</string>
+    <string name="all_emojis_category_all">تمام</string>
+    <string name="all_emojis_sort_usage">سب سے زیادہ استعمال</string>
+    <string name="all_emojis_sort_name_az">نام A-Z</string>
+    <string name="all_emojis_sort_name_za">نام Z-A</string>
+    <string name="all_emojis_sort_category">زمرہ</string>
+    <string name="all_emojis_score">اسکور</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">ایموجی اسکور کیسے کام کرتا ہے</string>
+    <string name="all_emojis_info_desc">جب بھی آپ ایموجی استعمال کرتے ہیں، اسے +1 اسکور ملتا ہے۔\n\n• کبھی استعمال نہیں = اسکور 0\n• ایک بار استعمال = اسکور 1\n• زیادہ استعمال = زیادہ اسکور\n\nسب سے زیادہ اسکور والا ایموجی لیڈر بورڈ میں #1 رینک پاتا ہے۔ آپ کے ٹاپ 10 ایموجی ہوم اسکرین پر دکھتے ہیں۔</string>
+    <string name="home_emoji_empty">ابھی کوئی ایموجی استعمال نہیں ہوا — ٹائپ کرتے وقت ایموجی استعمال کر کے لیڈر بورڈ بھریں!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">حالیہ ایموجی برقرار رکھنا</string>
     <string name="emoji_retention_desc">حالیہ استعمال شدہ ایموجیز کو کتنی دیر یاد رکھیں</string>

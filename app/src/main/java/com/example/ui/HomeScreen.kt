@@ -913,22 +913,29 @@ private fun EmojiUsageChart(emojis: List<EmojiUsageEntity>) {
     val maxFreq = (emojis.maxOfOrNull { it.frequency } ?: 1).coerceAtLeast(1)
     Surface(shape = RoundedCornerShape(24.dp), color = MaterialTheme.colorScheme.surface, shadowElevation = 1.dp, modifier = Modifier.fillMaxWidth()) {
         Column(modifier = Modifier.padding(20.dp)) {
-            emojis.take(6).forEach { emoji -> // Top 6 for cleaner view
-                Row(modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text(emoji.emoji, fontSize = 24.sp)
-                    Spacer(modifier = Modifier.width(16.dp))
-                    Box(modifier = Modifier.weight(1f).height(28.dp).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
-                        val fraction = emoji.frequency.toFloat() / maxFreq
-                        Box(
-                            modifier = Modifier
-                                .fillMaxHeight()
-                                .fillMaxWidth(fraction)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f))))
-                        )
+            if (emojis.isEmpty()) {
+                Text(stringResource(R.string.home_emoji_empty), fontSize = 12.sp, color = MaterialTheme.colorScheme.onSurfaceVariant)
+            } else {
+                emojis.take(10).forEachIndexed { i, emoji ->
+                    Row(modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = Modifier.width(32.dp)) {
+                            Text("#${i + 1}", fontSize = 11.sp, fontWeight = FontWeight.Black, color = if (i == 0) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant)
+                            Text(emoji.emoji, fontSize = 22.sp)
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Box(modifier = Modifier.weight(1f).height(24.dp).clip(RoundedCornerShape(8.dp)).background(MaterialTheme.colorScheme.surfaceVariant)) {
+                            val fraction = emoji.frequency.toFloat() / maxFreq
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxHeight()
+                                    .fillMaxWidth(fraction)
+                                    .clip(RoundedCornerShape(8.dp))
+                                    .background(Brush.horizontalGradient(listOf(MaterialTheme.colorScheme.secondary, MaterialTheme.colorScheme.secondary.copy(alpha = 0.6f))))
+                            )
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text("${emoji.frequency}", fontSize = 13.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurfaceVariant)
                     }
-                    Spacer(modifier = Modifier.width(12.dp))
-                    Text("${emoji.frequency}", fontSize = 13.sp, fontWeight = FontWeight.Black, color = MaterialTheme.colorScheme.onSurfaceVariant)
                 }
             }
         }

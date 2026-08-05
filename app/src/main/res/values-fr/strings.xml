@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Carte de chaleur des mots</string>
     <string name="home_heatmap_desc">Une empreinte linguistique de votre vocabulaire. Vos mots principaux sont mappés sur une disposition miniature. Plus la touche est sombre, plus ce mot est central dans votre communication numérique.</string>
     <string name="home_emojis_title">Classement des emojis</string>
-    <string name="home_emojis_desc">Visualise vos schémas d\'expression émotionnelle. Ce classement montre les emojis dont vous dépendez le plus, offrant un aperçu amusant de votre personnalité numérique.</string>
+    <string name="home_emojis_desc">Chaque emoji commence avec 0 point. Chaque utilisation ajoute +1 point, donc plus vous l\'utilisez, plus son classement monte. Ce classement montre vos 10 emojis les plus utilisés.</string>
     <string name="home_greeting_morning">Bonjour</string>
     <string name="home_greeting_afternoon">Bon après-midi</string>
     <string name="home_greeting_evening">Bonsoir</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">Voir tous les emojis</string>
     <string name="all_emojis_view_desc">Parcourir chaque emoji avec son nom et son code</string>
     <string name="all_emojis_search_hint">Rechercher un emoji, un nom ou un code</string>
+    <string name="all_emojis_category">Catégorie</string>
+    <string name="all_emojis_category_all">Toutes</string>
+    <string name="all_emojis_sort_usage">Plus utilisés</string>
+    <string name="all_emojis_sort_name_az">Nom A-Z</string>
+    <string name="all_emojis_sort_name_za">Nom Z-A</string>
+    <string name="all_emojis_sort_category">Catégorie</string>
+    <string name="all_emojis_score">Score</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">Comment fonctionne le score des emojis</string>
+    <string name="all_emojis_info_desc">Chaque fois que vous utilisez un emoji, il gagne +1 point.\n\n• Jamais utilisé = score 0\n• Utilisé une fois = score 1\n• Le plus utilisé = le score le plus élevé\n\nL\'emoji avec le meilleur score est classé #1 au classement. Vos 10 emojis les plus utilisés apparaissent sur l\'écran d\'accueil.</string>
+    <string name="home_emoji_empty">Aucun emoji utilisé pour le moment — utilisez des emojis en tapant pour remplir le classement !</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Rétention des emojis récents</string>
     <string name="emoji_retention_desc">Combien de temps se souvenir des emojis récemment utilisés</string>

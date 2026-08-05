@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">詞語熱力圖</string>
     <string name="home_heatmap_desc">您詞彙量的語言指紋。您的常用詞會對應到迷你鍵盤。按鍵越深，該詞越重要。</string>
     <string name="home_emojis_title">表情符號排行榜</string>
-    <string name="home_emojis_desc">將您的情緒表達模式視覺化。此排行榜顯示您最依賴的表情符號。</string>
+    <string name="home_emojis_desc">每個表情符號從 0 分開始。每次使用加 1 分，用得越多排名越高。該排行榜顯示你使用最多的 10 個表情符號。</string>
     <string name="home_greeting_morning">早安</string>
     <string name="home_greeting_afternoon">午安</string>
     <string name="home_greeting_evening">晚上好</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">查看所有表情符號</string>
     <string name="all_emojis_view_desc">瀏覽每個表情符號的名稱和代碼</string>
     <string name="all_emojis_search_hint">搜尋表情符號、名稱或代碼</string>
+    <string name="all_emojis_category">分類</string>
+    <string name="all_emojis_category_all">全部</string>
+    <string name="all_emojis_sort_usage">最常用</string>
+    <string name="all_emojis_sort_name_az">名稱 A-Z</string>
+    <string name="all_emojis_sort_name_za">名稱 Z-A</string>
+    <string name="all_emojis_sort_category">分類</string>
+    <string name="all_emojis_score">分數</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">表情符號分數如何計算</string>
+    <string name="all_emojis_info_desc">每使用一次表情符號，就獲得 +1 分。\n\n• 從未使用 = 0 分\n• 使用一次 = 1 分\n• 使用最多 = 分數最高\n\n分數最高的表情符號在排行榜中排名第 1。你使用最多的 10 個表情符號會顯示在主螢幕上。</string>
+    <string name="home_emoji_empty">還沒有使用過表情符號——打字時使用表情符號來填充排行榜吧！</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">最近表情符號保留</string>
     <string name="emoji_retention_desc">記住最近使用的表情符號的時長</string>

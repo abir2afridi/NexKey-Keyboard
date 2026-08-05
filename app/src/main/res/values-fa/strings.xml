@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">نقشه حرارتی واژهها</string>
     <string name="home_heatmap_desc">اثر انگشت زبانی واژگان شما. پرکاربردترین واژههای شما روی صفحهکلید کوچک نگاشت میشوند. هرچه کلید تیرهتر باشد، آن واژه محوریتر است.</string>
     <string name="home_emojis_title">جدول ردهبندی ایموجی</string>
-    <string name="home_emojis_desc">الگوهای بیان احساسی شما را تجسم میبخشد. این رتبهبندی نشان میدهد به کدام ایموجیها بیشتر تکیه دارید.</string>
+    <string name="home_emojis_desc">هر ایموجی از امتیاز 0 شروع می‌شود. هر بار که استفاده شود یک امتیاز +1 می‌گیرد، پس هرچه بیشتر استفاده کنید رتبه بالاتر می‌رود. این جدول ده ایموجی پراستفاده شما را نشان می‌دهد.</string>
     <string name="home_greeting_morning">صبح بخیر</string>
     <string name="home_greeting_afternoon">ظهر بخیر</string>
     <string name="home_greeting_evening">عصر بخیر</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">مشاهده همه ایموجی‌ها</string>
     <string name="all_emojis_view_desc">مرور هر ایموجی با نام و کد</string>
     <string name="all_emojis_search_hint">جستجوی ایموجی، نام یا کد</string>
+    <string name="all_emojis_category">دسته‌بندی</string>
+    <string name="all_emojis_category_all">همه</string>
+    <string name="all_emojis_sort_usage">پراستفاده‌ترین</string>
+    <string name="all_emojis_sort_name_az">نام A-Z</string>
+    <string name="all_emojis_sort_name_za">نام Z-A</string>
+    <string name="all_emojis_sort_category">دسته‌بندی</string>
+    <string name="all_emojis_score">امتیاز</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">امتیاز ایموجی چگونه کار می‌کند</string>
+    <string name="all_emojis_info_desc">هر بار که از یک ایموجی استفاده کنید، یک امتیاز +1 می‌گیرد.\n\n• هرگز استفاده نشده = امتیاز 0\n• یک بار استفاده شده = امتیاز 1\n• بیشترین استفاده = بالاترین امتیاز\n\nایموجی با بیشترین امتیاز در جدول رتبه‌بندی #1 می‌شود. ده ایموجی پراستفاده شما در صفحه اصلی نشان داده می‌شود.</string>
+    <string name="home_emoji_empty">هنوز هیچ ایموجی استفاده نشده — هنگام تایپ ایموجی استفاده کنید تا جدول رتبه‌بندی پر شود!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">نگهداری ایموجیهای اخیر</string>
     <string name="emoji_retention_desc">مدت به خاطر سپردن ایموجیهای اخیر</string>

@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">Word Heatmap</string>
     <string name="home_heatmap_desc">A linguistic fingerprint of your vocabulary. Your top words are mapped onto a miniature layout. The darker the key, the more central that word is to your digital communication.</string>
     <string name="home_emojis_title">Emoji Leaderboard</string>
-    <string name="home_emojis_desc">Visualizes your emotional expression patterns. This ranking shows which emojis you rely on most, providing a fun insight into your digital personality.</string>
+    <string name="home_emojis_desc">Every emoji starts at score 0. Each time you use an emoji it gains +1 score, so the more you use it, the higher it ranks. This leaderboard shows your Top 10 most used emojis.</string>
     <string name="home_greeting_morning">Good Morning</string>
     <string name="home_greeting_afternoon">Good Afternoon</string>
     <string name="home_greeting_evening">Good Evening</string>
@@ -390,6 +390,17 @@
     <string name="all_emojis_view">View All Emoji</string>
     <string name="all_emojis_view_desc">Browse every emoji with name and code</string>
     <string name="all_emojis_search_hint">Search emoji, name or code</string>
+    <string name="all_emojis_category">Category</string>
+    <string name="all_emojis_category_all">All</string>
+    <string name="all_emojis_sort_usage">Most Used</string>
+    <string name="all_emojis_sort_name_az">Name A-Z</string>
+    <string name="all_emojis_sort_name_za">Name Z-A</string>
+    <string name="all_emojis_sort_category">Category</string>
+    <string name="all_emojis_score">Score</string>
+    <string name="all_emojis_rank">#%1$d</string>
+    <string name="all_emojis_info_title">How the emoji score works</string>
+    <string name="all_emojis_info_desc">Every time you use an emoji, it gains +1 score.\n\n• Never used = score 0\n• Used once = score 1\n• Used most = highest score\n\nThe emoji with the highest score is ranked #1 in the leaderboard. Your Top 10 most used emojis appear on the Home screen.</string>
+    <string name="home_emoji_empty">No emoji used yet — use some emojis while typing to fill the leaderboard!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">Recent emoji retention</string>
     <string name="emoji_retention_desc">How long to remember recently used emojis</string>

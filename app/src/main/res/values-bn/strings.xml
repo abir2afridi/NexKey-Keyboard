@@ -31,7 +31,7 @@
     <string name="home_heatmap_title">শব্দ হিটম্যাপ</string>
     <string name="home_heatmap_desc">আপনার শব্দভান্ডারের ভাষাগত ফিঙ্গারপ্রিন্ট। আপনার শীর্ষ শব্দগুলো একটি ক্ষুদ্র লেআউটে ম্যাপ করা হয়। কী যত গাঢ়, আপনার ডিজিটাল যোগাযোগে শব্দটি তত কেন্দ্রীয়।</string>
     <string name="home_emojis_title">ইমোজি লিডারবোর্ড</string>
-    <string name="home_emojis_desc">আপনার আবেগ প্রকাশের ধরণগুলো প্রদর্শন করে। এই র্যাঙ্কিং দেখায় কোন ইমোজিগুলোর উপর আপনি সবচেয়ে বেশি নির্ভর করেন, যা আপনার ডিজিটাল ব্যক্তিত্ব সম্পর্কে মজার অন্তর্দৃষ্টি দেয়।</string>
+    <string name="home_emojis_desc">প্রতিটি ইমোজি স্কোর 0 থেকে শুরু হয়। প্রতিবার ব্যবহার করলে +1 স্কোর যোগ হয়, তাই যত বেশি ব্যবহার করবেন তত উচ্চ র‍্যাংক পাবে। এই লিডারবোর্ডে আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি দেখানো হয়।</string>
     <string name="home_greeting_morning">শুভ সকাল</string>
     <string name="home_greeting_afternoon">শুভ বিকাল</string>
     <string name="home_greeting_evening">শুভ সন্ধ্যা</string>
@@ -391,6 +391,17 @@
     <string name="all_emojis_view">সব ইমোজি দেখুন</string>
     <string name="all_emojis_view_desc">প্রতিটি ইমোজি নাম ও কোডসহ দেখুন</string>
     <string name="all_emojis_search_hint">ইমোজি, নাম বা কোড খুঁজুন</string>
+    <string name="all_emojis_category">বিভাগ</string>
+    <string name="all_emojis_category_all">সব</string>
+    <string name="all_emojis_sort_usage">সবচেয়ে ব্যবহৃত</string>
+    <string name="all_emojis_sort_name_az">নাম A-Z</string>
+    <string name="all_emojis_sort_name_za">নাম Z-A</string>
+    <string name="all_emojis_sort_category">বিভাগ</string>
+    <string name="all_emojis_score">স্কোর</string>
+    <string name="all_emojis_rank">#%1</string>
+    <string name="all_emojis_info_title">ইমোজি স্কোর কিভাবে কাজ করে</string>
+    <string name="all_emojis_info_desc">প্রতিবার আপনি একটি ইমোজি ব্যবহার করলে এটি +1 স্কোর পায়।\n\n• কখনো ব্যবহার হয়নি = স্কোর 0\n• একবার ব্যবহার হয়েছে = স্কোর 1\n• বেশি ব্যবহার = বেশি স্কোর\n\nযে ইমোজির স্কোর সবচেয়ে বেশি সেটিই লিডারবোর্ডে #1 র‍্যাংকে থাকে। আপনার সবচেয়ে ব্যবহৃত ১০টি ইমোজি হোম স্ক্রিনে দেখানো হয়।</string>
+    <string name="home_emoji_empty">এখনো কোনো ইমোজি ব্যবহার হয়নি — টাইপ করার সময় ইমোজি ব্যবহার করে লিডারবোর্ড পূরণ করুন!</string>
     <string name="all_emojis_count">%1$d emojis</string>
     <string name="emoji_retention">সাম্প্রতিক ইমোজি সংরক্ষণ</string>
     <string name="emoji_retention_desc">সম্প্রতি ব্যবহৃত ইমোজি কতক্ষণ মনে রাখবে</string>

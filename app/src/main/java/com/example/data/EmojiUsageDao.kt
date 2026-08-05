@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface EmojiUsageDao {
@@ -15,6 +16,12 @@ interface EmojiUsageDao {
 
     @Query("SELECT * FROM emoji_usage ORDER BY frequency DESC LIMIT :limit")
     suspend fun getTopEmojis(limit: Int = 20): List<EmojiUsageEntity>
+
+    @Query("SELECT * FROM emoji_usage WHERE emoji = :emoji")
+    suspend fun getUsage(emoji: String): EmojiUsageEntity?
+
+    @Query("SELECT * FROM emoji_usage")
+    fun observeAll(): Flow<List<EmojiUsageEntity>>
 
     @Query("SELECT COUNT(*) FROM emoji_usage")
     suspend fun getEmojiCount(): Int
