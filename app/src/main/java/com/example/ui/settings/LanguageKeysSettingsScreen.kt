@@ -27,11 +27,13 @@ fun LanguageKeysSettingsScreen(onBack: () -> Unit) {
     val showEmojiKey by prefs.showEmojiKey.collectAsState(initial = true)
     val showGlobeKey by prefs.showGlobeKey.collectAsState(initial = true)
     val allowOtherKeyboards by prefs.allowOtherKeyboards.collectAsState(initial = true)
+    val spacebarLanguageSwitch by prefs.spacebarLanguageSwitch.collectAsState(initial = false)
 
     SettingsSubScaffold(title = stringResource(R.string.settings_language_keys), onBack = onBack) {
         SettingSwitchItem(stringResource(R.string.langkeys_voice), null, Icons.Default.Mic, voiceInputKey) { scope.launch { prefs.setVoiceInputKey(it) } }
         SettingSwitchItem(stringResource(R.string.langkeys_emoji), stringResource(R.string.langkeys_emoji_desc), Icons.Default.EmojiEmotions, showEmojiKey) { scope.launch { prefs.setShowEmojiKey(it) } }
         SettingSwitchItem(stringResource(R.string.langkeys_globe), stringResource(R.string.langkeys_globe_desc), Icons.Default.Language, showGlobeKey) { scope.launch { prefs.setShowGlobeKey(it) } }
+        SettingSwitchItem(stringResource(R.string.langkeys_spacebar_switch), stringResource(R.string.langkeys_spacebar_switch_desc), Icons.Default.Language, spacebarLanguageSwitch) { scope.launch { prefs.setSpacebarLanguageSwitch(it) } }
         SettingSwitchItem(stringResource(R.string.langkeys_other_kb), stringResource(R.string.langkeys_other_kb_desc), Icons.Default.Keyboard, allowOtherKeyboards) { scope.launch { prefs.setAllowOtherKeyboards(it) } }
         Spacer(modifier = Modifier.height(32.dp))
     }

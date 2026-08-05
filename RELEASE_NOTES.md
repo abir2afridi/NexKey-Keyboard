@@ -22,6 +22,7 @@ NexKey Keyboard v1.5.0 is a minor release centered on what you see while you typ
 - Speed meter settings consolidated; bundled DSEG fonts wired up so the meter styles actually render
 - Info Box color/font/frame settings decoupled from the speed meter theme config
 - Tap-popup anchored to the tapped key with faster auto-dismiss
+- Spacebar long-press cycles through enabled languages (English → Bangla → Avro → Arabic)
 
 ## Files
 

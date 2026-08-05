@@ -220,7 +220,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 | File | SHA256 | MD5 |
 | --- | --- | --- |
-| NexKey-Keyboard-v1.5.0.apk | `77ebb9bfb43595f5ec1624d02bdec651adb1e1f3424b6e5f5e2d6bce7f715ea6` | `59e5bd22b7f9c52293499fa5a9d82331` |
+| NexKey-Keyboard-v1.5.0.apk | `4c95b1ed4b0a71c99e199dbf03e2986a168b1a8567ee64b59496f32df66655a0` | `cc448d31b3f611305c76c55b5cc21bcb` |
 
 [View all releases →](../releases)
 

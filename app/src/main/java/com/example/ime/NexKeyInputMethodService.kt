@@ -92,6 +92,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var showGlobeKeyEnabled by mutableStateOf(true)
     internal var allowOtherKeyboardsEnabled by mutableStateOf(true)
     internal var moveCursorSpaceEnabled by mutableStateOf(true)
+    internal var spacebarLanguageSwitchEnabled by mutableStateOf(false)
     internal var volumeCursorEnabled by mutableStateOf(false)
     internal var smartVolumeControlEnabled by mutableStateOf(true)
     internal var popupOnKeypressEnabled by mutableStateOf(true)
@@ -202,6 +203,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     showEmojiKey = showEmojiKeyEnabled,
                     showGlobeKey = showGlobeKeyEnabled,
                     moveCursorSpaceEnabled = moveCursorSpaceEnabled,
+                    spacebarLanguageSwitchEnabled = spacebarLanguageSwitchEnabled,
                     popupOnKeypressEnabled = popupOnKeypressEnabled,
                     largeNumberRowEnabled = largeNumberRowEnabled,
                     longPressDelayMs = longPressDelayMsState.toLong(),

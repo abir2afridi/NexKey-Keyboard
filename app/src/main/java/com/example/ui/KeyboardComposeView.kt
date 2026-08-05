@@ -133,6 +133,7 @@ fun KeyboardComposeView(
     showEmojiKey: Boolean = true,
     showGlobeKey: Boolean = true,
     moveCursorSpaceEnabled: Boolean = true,
+    spacebarLanguageSwitchEnabled: Boolean = false,
     popupOnKeypressEnabled: Boolean = true,
     largeNumberRowEnabled: Boolean = false,
     longPressDelayMs: Long = 300L,
@@ -491,6 +492,7 @@ fun KeyboardComposeView(
                             showNumberRow = showNumberRow,
                             hideLongPressHints = hideLongPressHints,
                             moveCursorSpaceEnabled = moveCursorSpaceEnabled,
+                            spacebarLanguageSwitchEnabled = spacebarLanguageSwitchEnabled,
                             largeNumberRowEnabled = largeNumberRowEnabled,
                             longPressDelayMs = longPressDelayMs,
                             spaceCursorSpeed = spaceCursorSpeed,
@@ -528,6 +530,17 @@ fun KeyboardComposeView(
                                 } else {
                                     longPressKey = key
                                 }
+                            },
+                            onSpacebarLongPress = {
+                                val enabledModes = mutableListOf(
+                                    KeyboardMode.ENGLISH,
+                                    KeyboardMode.BANGLA_JATIYO,
+                                    KeyboardMode.AVRO,
+                                    KeyboardMode.ARABIC
+                                )
+                                val currentIndex = enabledModes.indexOf(mode).coerceAtLeast(0)
+                                val nextMode = enabledModes[(currentIndex + 1) % enabledModes.size]
+                                onModeChange(nextMode)
                             }
                         )
                     }
@@ -1248,6 +1261,7 @@ fun KeyboardKeysGrid(
     showNumberRow: Boolean = false,
     hideLongPressHints: Boolean = false,
     moveCursorSpaceEnabled: Boolean = true,
+    spacebarLanguageSwitchEnabled: Boolean = false,
     largeNumberRowEnabled: Boolean = false,
     longPressDelayMs: Long = 300L,
     spaceCursorSpeed: Int = 150,
@@ -1269,6 +1283,7 @@ fun KeyboardKeysGrid(
     onModeChange: (KeyboardMode) -> Unit,
     onCursorMove: (Int) -> Unit = {},
     onLongPress: (KeyModel) -> Unit = {},
+    onSpacebarLongPress: () -> Unit = {},
     onKeyTapWithCoords: (String, LayoutCoordinates) -> Unit = { _, _ -> }
 ) {
     var totalDragX by remember { mutableStateOf(0f) }
@@ -1454,7 +1469,9 @@ fun KeyboardKeysGrid(
                         })
                     } else Modifier
                 ),
-                theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = onSpaceTap
+                theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs,
+                onClick = onSpaceTap,
+                onLongClick = if (spacebarLanguageSwitchEnabled) onSpacebarLongPress else null
             ) {
                 Text(text = when (mode) { KeyboardMode.BANGLA_JATIYO -> "বাংলা"; KeyboardMode.BANGLA_PHONETIC -> "Phonetic"; KeyboardMode.AVRO -> "Avro"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
             }

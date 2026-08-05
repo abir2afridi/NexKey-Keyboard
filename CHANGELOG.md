@@ -17,6 +17,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - Info Box further customization — custom text color, font selection, additional frame presets, and a dedicated Info Box settings screen with live preview
 - Speed Meter expanded — configurable display modes (meter/count) and record tracking, with all meter settings consolidated into a dedicated Speed Meter screen
 - App Settings moved from the bottom bar to top actions for more keyboard space
+- Spacebar language quick-switcher — long-press the spacebar to cycle through enabled languages (toggle in Language Keys settings)
 
 ### Fixed
 - Letter preview popup appearing over the wrong key — the popup is now anchored to the actual tapped key and auto-dismisses faster

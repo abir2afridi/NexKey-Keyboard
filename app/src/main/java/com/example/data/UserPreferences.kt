@@ -141,6 +141,7 @@ class UserPreferences(private val context: Context) {
         private val KEY_CUSTOM_POPUP_BG_COLOR = stringPreferencesKey("custom_popup_bg_color")
         private val KEY_CUSTOM_POPUP_TEXT_COLOR = stringPreferencesKey("custom_popup_text_color")
         private val KEY_CUSTOM_KEY_HINT_COLOR = stringPreferencesKey("custom_key_hint_color")
+        private val KEY_SPACEBAR_LANGUAGE_SWITCH = booleanPreferencesKey("spacebar_language_switch")
     }
 
     val theme: Flow<String> = context.dataStore.data.map { it[KEY_THEME] ?: ThemePreset.DARK_NEON.name }
@@ -256,6 +257,7 @@ class UserPreferences(private val context: Context) {
     val customPopupBgColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_POPUP_BG_COLOR] ?: "#FF2A2E4B" }
     val customPopupTextColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_POPUP_TEXT_COLOR] ?: "#FF00E5FF" }
     val customKeyHintColor: Flow<String> = context.dataStore.data.map { it[KEY_CUSTOM_KEY_HINT_COLOR] ?: "#66F1F3FB" }
+    val spacebarLanguageSwitch: Flow<Boolean> = context.dataStore.data.map { it[KEY_SPACEBAR_LANGUAGE_SWITCH] ?: false }
 
     // Setters
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
@@ -267,6 +269,7 @@ class UserPreferences(private val context: Context) {
     suspend fun setShowEmojiKey(enabled: Boolean) = context.dataStore.edit { it[KEY_SHOW_EMOJI_KEY] = enabled }
     suspend fun setShowGlobeKey(enabled: Boolean) = context.dataStore.edit { it[KEY_SHOW_GLOBE_KEY] = enabled }
     suspend fun setAllowOtherKeyboards(enabled: Boolean) = context.dataStore.edit { it[KEY_ALLOW_OTHER_KEYBOARDS] = enabled }
+    suspend fun setSpacebarLanguageSwitch(enabled: Boolean) = context.dataStore.edit { it[KEY_SPACEBAR_LANGUAGE_SWITCH] = enabled }
     suspend fun setMoveCursorSpace(enabled: Boolean) = context.dataStore.edit { it[KEY_MOVE_CURSOR_SPACE] = enabled }
     suspend fun setVolumeCursor(enabled: Boolean) = context.dataStore.edit { it[KEY_VOLUME_CURSOR] = enabled }
     suspend fun setSmartVolumeControl(enabled: Boolean) = context.dataStore.edit { it[KEY_SMART_VOLUME_CONTROL] = enabled }

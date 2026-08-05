@@ -336,6 +336,8 @@
     <string name="langkeys_globe_desc">কীবোর্ডের ভাষা পরিবর্তন করুন</string>
     <string name="langkeys_other_kb">অন্য কীবোর্ড অনুমতি দিন</string>
     <string name="langkeys_other_kb_desc">গ্লোব কী অন্যগুলোতে স্যুইচ করে</string>
+    <string name="langkeys_spacebar_switch">স্পেসবার ভাষা স্যুইচ</string>
+    <string name="langkeys_spacebar_switch_desc">ভাষা পরিবর্তন করতে স্পেসবার লং-প্রেস করুন</string>
 
     <!-- Layout -->
     <string name="layout_number_row">নাম্বার রো সক্রিয় করুন</string>
