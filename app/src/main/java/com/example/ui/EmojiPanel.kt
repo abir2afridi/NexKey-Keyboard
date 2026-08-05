@@ -1026,7 +1026,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                         }
                     } else {
                         LazyVerticalGrid(
-                            columns = GridCells.Fixed(8),
+                            columns = GridCells.Fixed(6),
                             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 6.dp),
                             verticalArrangement = Arrangement.spacedBy(4.dp),
                             horizontalArrangement = Arrangement.spacedBy(4.dp),
@@ -1037,7 +1037,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                             items(displayEmojis) { emoji ->
                                 Box(
                                     modifier = Modifier
-                                        .size(36.dp)
+                                        .size(46.dp)
                                         .clip(RoundedCornerShape(8.dp))
                                         .background(theme.keyBackgroundColor)
                                         .clickable(role = Role.Button, onClick = {
@@ -1049,7 +1049,7 @@ fun EmojiPanel(theme: KeyboardTheme, onEmojiClick: (String) -> Unit, onBackspace
                                         }),
                                     contentAlignment = Alignment.Center
                                 ) {
-                                    Text(text = emoji, fontSize = 20.sp)
+                                    Text(text = emoji, fontSize = 24.sp)
                                 }
                             }
                     }
