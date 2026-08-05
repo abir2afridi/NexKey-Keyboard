@@ -52,6 +52,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -62,6 +63,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalConfiguration
@@ -74,6 +76,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.res.stringResource
 import com.example.R
 import com.example.clipboard.ClipItem
@@ -85,6 +88,11 @@ import com.example.theme.KeyboardTheme
 import com.example.theme.MeterTheme
 import com.example.theme.MeterThemePreset
 import androidx.compose.animation.AnimatedContent
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.AnimationVector1D
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateTo
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -695,8 +703,13 @@ fun SmartToolbar(
             )
         }
 
-        IconButton(onClick = onOpenSettings) {
-            Icon(imageVector = Icons.Default.Settings, contentDescription = stringResource(R.string.kb_settings), tint = theme.keySpecialTextColor)
+        AnimatedTapIcon(
+            icon = Icons.Default.Settings,
+            contentDescription = stringResource(R.string.kb_settings),
+            tint = theme.keySpecialTextColor,
+            modifier = Modifier.size(40.dp)
+        ) {
+            onOpenSettings()
         }
     }
 }
@@ -904,18 +917,51 @@ fun InfoBox(
 }
 
 @Composable
-fun ToolbarIcon(icon: ImageVector, contentDescription: String, active: Boolean, theme: KeyboardTheme, onClick: () -> Unit) {
+fun AnimatedTapIcon(
+    icon: ImageVector,
+    contentDescription: String?,
+    tint: Color,
+    modifier: Modifier = Modifier,
+    iconSize: Dp = 20.dp,
+    onClick: () -> Unit
+) {
+    val scope = rememberCoroutineScope()
+    val scale = remember { Animatable(1f) }
     Box(
-        modifier = Modifier
-            .size(34.dp)
+        modifier = modifier
             .clip(RoundedCornerShape(8.dp))
-            .background(if (active) theme.accentColor.copy(alpha = 0.25f) else Color.Transparent)
-            .clickable(role = Role.Button, onClick = onClick)
-            .semantics { this.contentDescription = contentDescription; role = Role.Button },
+            .clickable(role = Role.Button, onClick = {
+                onClick()
+                scope.launch { scale.playIconPop() }
+            })
+            .graphicsLayer {
+                scaleX = scale.value
+                scaleY = scale.value
+            }
+            .semantics { this.contentDescription = contentDescription ?: ""; role = Role.Button },
         contentAlignment = Alignment.Center
     ) {
-        Icon(imageVector = icon, contentDescription = null, tint = if (active) theme.accentColor else theme.keyTextColor.copy(alpha = 0.8f), modifier = Modifier.size(20.dp))
+        Icon(imageVector = icon, contentDescription = null, tint = tint, modifier = Modifier.size(iconSize))
     }
+}
+
+suspend fun Animatable<Float, AnimationVector1D>.playIconPop() {
+    snapTo(1f)
+    animateTo(0.82f, tween(durationMillis = 70))
+    animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
+}
+
+@Composable
+fun ToolbarIcon(icon: ImageVector, contentDescription: String, active: Boolean, theme: KeyboardTheme, onClick: () -> Unit) {
+    AnimatedTapIcon(
+        icon = icon,
+        contentDescription = contentDescription,
+        tint = if (active) theme.accentColor else theme.keyTextColor.copy(alpha = 0.8f),
+        modifier = Modifier
+            .size(34.dp)
+            .background(if (active) theme.accentColor.copy(alpha = 0.25f) else Color.Transparent),
+        onClick = onClick
+    )
 }
 
 @Composable
@@ -1119,6 +1165,9 @@ fun KeyboardKeysGrid(
 ) {
     var totalDragX by remember { mutableStateOf(0f) }
     val dragThreshold = ((200f - spaceCursorSpeed * 0.35f) + spaceCursorDelay * 0.02f).coerceIn(15f, 180f)
+    val iconAnimationScope = rememberCoroutineScope()
+    val shiftIconScale = remember { Animatable(1f) }
+    val backspaceIconScale = remember { Animatable(1f) }
 
     Column(
         modifier = Modifier
@@ -1187,8 +1236,19 @@ fun KeyboardKeysGrid(
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, longPressDelayMs = longPressDelayMs, onClick = onShiftTap) {
-                Icon(imageVector = Icons.Default.KeyboardArrowUp, contentDescription = null, tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor)
+            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, longPressDelayMs = longPressDelayMs, onClick = {
+                iconAnimationScope.launch { shiftIconScale.playIconPop() }
+                onShiftTap()
+            }) {
+                Icon(
+                    imageVector = Icons.Default.KeyboardArrowUp,
+                    contentDescription = null,
+                    tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor,
+                    modifier = Modifier.graphicsLayer {
+                        scaleX = shiftIconScale.value
+                        scaleY = shiftIconScale.value
+                    }
+                )
             }
             rows.getOrNull(2)?.forEach { keyModel ->
                 KeyItem(
@@ -1217,6 +1277,7 @@ fun KeyboardKeysGrid(
                                     delay(backspaceRepeatDelayMs)
                                     didRepeat = true
                                     while (isActive) {
+                                        iconAnimationScope.launch { backspaceIconScale.playIconPop() }
                                         onBackspaceTap()
                                         delay(backspaceRepeatSpeedMs)
                                     }
@@ -1229,13 +1290,24 @@ fun KeyboardKeysGrid(
                                 }
                                 repeatJob.cancel()
                             }
-                            if (!didRepeat) onBackspaceTap()
+                            if (!didRepeat) {
+                                iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                onBackspaceTap()
+                            }
                         }
                     }
                     .semantics { contentDescription = deleteLabel; role = Role.Button },
                 contentAlignment = Alignment.Center
             ) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.Backspace, contentDescription = null, tint = theme.keySpecialTextColor)
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Backspace,
+                    contentDescription = null,
+                    tint = theme.keySpecialTextColor,
+                    modifier = Modifier.graphicsLayer {
+                        scaleX = backspaceIconScale.value
+                        scaleY = backspaceIconScale.value
+                    }
+                )
             }
         }
 

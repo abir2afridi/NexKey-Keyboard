@@ -1,8 +1,10 @@
+# NexKey Keyboard
+
+<!-- markdownlint-disable MD033 -->
 <p align="center">
   <img src="https://github.com/abir2afridi/NexKey-Keyboard/blob/main/app/src/main/res/drawable/icon_header.png" alt="NexKey Logo" width="128" height="128">
 </p>
-
-# NexKey Keyboard
+<!-- markdownlint-enable MD033 -->
 
 **Original Multilingual Android Keyboard** — Ridmik-class Bangla phonetic typing + English + Arabic + unlimited language support, with the app itself localized into 15 languages.
 
@@ -102,7 +104,7 @@
 
 ## Architecture
 
-```
+```text
 app/
 └── src/main/java/com/example/
     ├── MainActivity.kt                     — Navigation host, bottom nav, route registration, locale-aware composition (createConfigurationContext + composition locals)
@@ -206,6 +208,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
+
 - ✅ Full internationalization — every string extracted; complete translations for 14 languages (Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese Simplified/Traditional, Urdu, Persian)
 - ✅ Instant language switching — all screens update in place with no activity recreation, no display flash, and RTL mirrors immediately
 - ✅ No more black screen when switching apps
@@ -214,8 +217,9 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - ✅ Stored-label i18n bug fixed (popup dismiss delay settings persist correctly)
 
 **Checksums:**
+
 | File | SHA256 | MD5 |
-|------|--------|-----|
+| --- | --- | --- |
 | NexKey-Keyboard-v1.4.0.apk | `520174e0df4310eae22725621724c20b2ec4213c9a670f7f00d02df2162db3a3` | `2cba33d980265bff349cddd4ff1c1c67` |
 
 [View all releases →](../releases)
@@ -225,18 +229,21 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 ## How to Use
 
 ### Install Latest Release
+
 1. Download the APK from the [Latest Release](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 2. Enable "Unknown sources" in Android settings
 3. Tap the downloaded APK to install
 4. Open NexKey and follow the setup wizard
 
 ### From the App
+
 1. Install the APK and open the NexKey app.
 2. Follow the in-app setup wizard to enable and select NexKey.
 3. Open any app with a text field — NexKey appears automatically.
 4. Use the bottom navigation bar to access **Keyboard Settings** (grouped screens for Typing, Feedback, Layout, Size, etc.) and **App Settings** (theme, language, about).
 
 ### Manually from Settings
+
 1. Go to **Settings → System → Languages & input → On-screen keyboard**.
 2. Tap **NexKey** and enable it.
 3. Go back and tap **Default keyboard** → select **NexKey**.
@@ -249,7 +256,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 NexKey implements a full Ridmik-class phonetic transliteration engine from first principles. Type Latin phonetically and the engine converts to correct Unicode Bengali:
 
 | Input | Output |
-|---|---|
+| --- | --- |
 | `ami banglay likhi` | `আমি বাংলায় লিখি` |
 | `sUNy khAd` | `শূন্য খাদ` |
 | `kSiti` | `ক্ষিতি` |
@@ -266,7 +273,7 @@ NexKey implements a full Ridmik-class phonetic transliteration engine from first
 NexKey includes a dedicated Avro phonetic engine that provides a distinct typing experience from the standard Bangla phonetic mode. The Avro engine uses Avro-style transliteration rules for a more familiar experience for Avro users.
 
 | Feature | Description |
-|---|---|
+| --- | --- |
 | Avro phonetic engine | Dedicated `AvroPhoneticEngine` with Avro-specific transliteration rules |
 | Avro-specific layouts | Dedicated `AvroRow` layouts in `BanglaLayout` |
 | Popup candidates | Expanded popup candidates for English and Bangla layouts |
@@ -277,11 +284,13 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 ## Troubleshooting
 
 ### Keyboard does not appear when tapping a text field
+
 - Ensure NexKey is both **enabled** and **selected as default** in system settings.
 - On emulators: the Android emulator often detects a "hardware keyboard" and suppresses the soft keyboard. NexKey overrides `onEvaluateInputViewShown()` to force the keyboard to show.
 - Rarely, a reboot may be required after first-time setup.
 
 ### Setup wizard does not detect enabled/selected state
+
 - The wizard polls every 500ms automatically — wait a moment after returning from settings.
 - On Android 14+: the old `Settings.Secure.ENABLED_INPUT_METHODS` key is restricted. NexKey uses `InputMethodManager.getEnabledInputMethodList()` and `InputMethodManager.getCurrentInputMethodInfo()` instead.
 
@@ -340,7 +349,7 @@ All contributors must follow our [Code of Conduct](.github/CODE_OF_CONDUCT.md).
 
 ## License
 
-```
+```text
 Copyright 2026 NexKey Contributors
 
 Licensed under the Apache License, Version 2.0 (the "License");
