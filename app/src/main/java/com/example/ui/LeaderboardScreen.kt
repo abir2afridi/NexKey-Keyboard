@@ -9,6 +9,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Face
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.Speed
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -28,7 +29,8 @@ fun LeaderboardScreen(
     onNavigateToEmojiLeaderboard: () -> Unit,
     onNavigateToSpeedLeaderboard: () -> Unit,
     appTheme: String = "SYSTEM",
-    onToggleTheme: () -> Unit = {}
+    onToggleTheme: () -> Unit = {},
+    onNavigateToAppSettings: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
@@ -36,6 +38,9 @@ fun LeaderboardScreen(
                 title = { Text(stringResource(R.string.nav_leaderboard), fontWeight = FontWeight.Bold) },
                 actions = {
                     ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
+                    IconButton(onClick = onNavigateToAppSettings) {
+                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.app_settings_title), tint = MaterialTheme.colorScheme.primary)
+                    }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,

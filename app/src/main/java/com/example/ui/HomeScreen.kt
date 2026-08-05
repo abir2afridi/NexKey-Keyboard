@@ -91,7 +91,8 @@ fun HomeScreen(
     onNavigateToGifQuality: () -> Unit = {},
     onNavigateToSpeedRecords: () -> Unit = {},
     onNavigateToSpeedLeaderboard: () -> Unit = {},
-    onNavigateToLeaderboard: () -> Unit = {}
+    onNavigateToLeaderboard: () -> Unit = {},
+    onNavigateToAppSettings: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val isEnabled = checkIsKeyboardEnabled(context)
@@ -217,6 +218,14 @@ fun HomeScreen(
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
+                IconButton(onClick = onNavigateToAppSettings) {
+                    Icon(
+                        imageVector = Icons.Default.Settings,
+                        contentDescription = stringResource(R.string.app_settings_title),
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp)
+                    )
+                }
                 IconButton(onClick = onToggleTheme) {
                     Icon(
                         imageVector = if (appTheme == "DARK") Icons.Default.DarkMode else Icons.Default.LightMode,

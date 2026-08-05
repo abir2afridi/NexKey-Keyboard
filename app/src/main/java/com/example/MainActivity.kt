@@ -199,25 +199,6 @@ fun NexKeyApp() {
                             unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     )
-                    NavigationBarItem(
-                        icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(26.dp)) },
-                        label = { Text(stringResource(R.string.app_settings_title), fontSize = 12.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
-                        onClick = {
-                            navController.navigate(Screen.AppSettings.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        },
-                        colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = MaterialTheme.colorScheme.primary,
-                            selectedTextColor = MaterialTheme.colorScheme.primary,
-                            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                            unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                            unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    )
                 }
             }
         }
@@ -261,7 +242,8 @@ fun NexKeyApp() {
                         onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToSpeedRecords = { navController.navigate(Screen.SpeedRecords.route) },
                         onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) },
-                        onNavigateToLeaderboard = { navController.navigate(Screen.Leaderboard.route) }
+                        onNavigateToLeaderboard = { navController.navigate(Screen.Leaderboard.route) },
+                        onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) }
                     )
                 }
                 composable(Screen.Settings.route) {
@@ -283,7 +265,8 @@ fun NexKeyApp() {
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
                         onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) },
                         appTheme = appTheme,
-                        onToggleTheme = toggleTheme
+                        onToggleTheme = toggleTheme,
+                        onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) }
                     )
                 }
                 composable(Screen.SettingsTyping.route) {
@@ -351,7 +334,8 @@ fun NexKeyApp() {
                         onNavigateToEmojiLeaderboard = { navController.navigate(Screen.EmojiLeaderboard.route) },
                         onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) },
                         appTheme = appTheme,
-                        onToggleTheme = toggleTheme
+                        onToggleTheme = toggleTheme,
+                        onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) }
                     )
                 }
                 composable(Screen.EmojiLeaderboard.route) {
@@ -403,7 +387,8 @@ fun NexKeyApp() {
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
                         onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) },
                         appTheme = appTheme,
-                        onToggleTheme = toggleTheme
+                        onToggleTheme = toggleTheme,
+                        onNavigateToAppSettings = { navController.navigate(Screen.AppSettings.route) }
                     )
                 }
             }
@@ -456,18 +441,6 @@ fun NexKeyApp() {
                         selected = currentDestination?.hierarchy?.any { it.route == Screen.Leaderboard.route } == true,
                         onClick = {
                             navController.navigate(Screen.Leaderboard.route) {
-                                popUpTo(navController.graph.findStartDestination().id) { saveState = true }
-                                launchSingleTop = true
-                                restoreState = true
-                            }
-                        }
-                    )
-                    FloatingNavigationBarItem(
-                        icon = { Icon(Icons.Default.Settings, contentDescription = null, modifier = Modifier.size(24.dp)) },
-                        label = { Text(stringResource(R.string.app_settings_title), fontSize = 11.sp) },
-                        selected = currentDestination?.hierarchy?.any { it.route == Screen.AppSettings.route } == true,
-                        onClick = {
-                            navController.navigate(Screen.AppSettings.route) {
                                 popUpTo(navController.graph.findStartDestination().id) { saveState = true }
                                 launchSingleTop = true
                                 restoreState = true
