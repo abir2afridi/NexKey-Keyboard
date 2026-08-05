@@ -36,6 +36,36 @@ internal fun NexKeyInputMethodService.handleBackspace() {
     }
 }
 
+internal fun NexKeyInputMethodService.handleBackspaceWord() {
+    playFeedback()
+
+    if (emojiSearchActive) {
+        emojiSearchQuery = ""
+        return
+    }
+
+    val ic = currentInputConnection ?: return
+
+    if (composingBuffer.isNotEmpty()) {
+        composingBuffer = ""
+        lastPressedWord = ""
+        ic.finishComposingText()
+        candidates = emptyList()
+    } else {
+        val before = ic.getTextBeforeCursor(256, 0)?.toString() ?: return
+        if (before.isEmpty()) return
+        val wordEnd = before.length
+        var wordStart = wordEnd
+        while (wordStart > 0 && before[wordStart - 1].isWhitespace()) wordStart--
+        while (wordStart > 0 && !before[wordStart - 1].isWhitespace()) wordStart--
+        val deleteCount = wordEnd - wordStart
+        if (deleteCount > 0) {
+            ic.deleteSurroundingText(deleteCount, 0)
+        }
+        lastPressedWord = ""
+    }
+}
+
 // FIX (selection-delete bug): deleteSurroundingText(1, 0) only deletes ONE char BEFORE the
 // cursor and completely ignores an active text selection. If the user selected text
 // (e.g. long-press select-all) and presses delete, nothing was removed. A selection must

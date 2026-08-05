@@ -183,6 +183,7 @@ fun KeyboardComposeView(
     onEmojiSearchQueryChange: (String) -> Unit = {},
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
+    onBackspaceWord: () -> Unit = {},
     onSpaceTap: () -> Unit,
     onEnterTap: () -> Unit,
     onShiftTap: () -> Unit,
@@ -514,6 +515,7 @@ fun KeyboardComposeView(
                                 tappedKeyCoords = coords
                             },
                             onBackspaceTap = onBackspaceTap,
+                            onBackspaceWord = onBackspaceWord,
                             onSpaceTap = onSpaceTap,
                             onEnterTap = onEnterTap,
                             onShiftTap = onShiftTap,
@@ -1260,6 +1262,7 @@ fun KeyboardKeysGrid(
     meterFont: String = "DIGITAL",
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
+    onBackspaceWord: () -> Unit = {},
     onSpaceTap: () -> Unit,
     onEnterTap: () -> Unit,
     onShiftTap: () -> Unit,
@@ -1386,7 +1389,7 @@ fun KeyboardKeysGrid(
                                     didRepeat = true
                                     while (isActive) {
                                         iconAnimationScope.launch { backspaceIconScale.playIconPop() }
-                                        onBackspaceTap()
+                                        onBackspaceWord()
                                         delay(backspaceRepeatSpeedMs)
                                     }
                                 }

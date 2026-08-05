@@ -252,6 +252,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onEmojiSearchQueryChange = { query -> emojiSearchQuery = query },
                     onKeyTap = { key -> handleKeyTap(key) },
                     onBackspaceTap = { handleBackspace() },
+                    onBackspaceWord = { handleBackspaceWord() },
                     onSpaceTap = { handleSpace() },
                     onEnterTap = { handleEnter() },
                     onShiftTap = { handleShiftToggle() },
