@@ -15,6 +15,7 @@
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
+[![Changelog](https://img.shields.io/badge/changelog-1.4.0-A97BFF)](CHANGELOG.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
 [![Releases](https://img.shields.io/badge/releases-1.4.0-ff69b4)](../releases)
 
@@ -24,66 +25,78 @@
 
 | Feature | Status |
 |---|---|---|
+| **Typing & Languages** | |
 | QWERTY & Bangla Phonetic typing | ✅ |
 | Bangla Jatiyo (National) layout | ✅ |
 | Bangla Avro phonetic layout | ✅ |
 | Avro phonetic engine (Avro-style transliteration) | ✅ |
 | Arabic layout | ✅ |
+| 80+ Bangla conjunct (juktakkhor) rules | ✅ |
+| 46+ language support | ✅ |
+| More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
+| App Language selector | ✅ |
+| **Text Input** | |
 | Symbols & Numbers panels | ✅ |
+| Auto-capitalization | ✅ |
+| Caps lock (double-tap shift) | ✅ |
+| Smart punctuation (double-space period) | ✅ |
+| Double-space tab | ✅ |
 | Composing-region state machine | ✅ |
 | EditorInfo.inputType handling | ✅ |
 | IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
+| Space bar cursor move (swipe to position caret) | ✅ |
+| **Prediction & Correction** | |
 | Trie-based prediction engine | ✅ |
 | Persistent learned words (Room DB) | ✅ |
+| Always-show suggestion strip | ✅ |
+| Autocorrect with undo-on-backspace | 🚧 Planned |
+| DAWG dictionary | 🚧 Planned |
+| **Voice, Clipboard & Paste** | |
 | Voice typing (Android SpeechRecognizer) with permission handling | ✅ |
 | Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
 | Hold-to-paste (configurable trigger key & duration) | ✅ |
-| Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
-| Bottom navigation (Home, Store, Keyboard, App Settings) | ✅ |
+| **Emoji & Stickers** | |
 | Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
 | Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
 | Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
 | Recent emoji retention (configurable expiry) | ✅ |
 | GIF/Sticker tabs (placeholder) | ✅ |
+| **Themes & Appearance** | |
 | Theme system (4 presets, DataStore) | ✅ |
 | Custom theme engine (11 color groups + live preview) | ✅ |
+| HSV color picker (theme creator) | ✅ |
 | App theme (System/Light/Dark) | ✅ |
-| Auto-capitalization | ✅ |
-| Caps lock (double-tap shift) | ✅ |
-| Smart punctuation (double-space period) | ✅ |
-| Double-space tab | ✅ |
+| Unified animated header (auto-show/hide) | ✅ |
+| Auto-hide toolbar | ✅ |
+| **Speed Meter & Info Box** | |
+| Typing speed meter (CPS / words / keys counts, themes, fonts, intervals) | ✅ |
+| Info Box with selectable frames & swipe text color | ✅ |
+| Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
+| **Privacy & Security** | |
 | Incognito mode (no learning, no clipboard) | ✅ |
 | Password/sensitive field detection | ✅ |
+| **Accessibility & Input Feedback** | |
 | TalkBack accessibility labels (all keys) | ✅ |
+| Key long-press hint popups (numbers for top row, accents for others) | ✅ |
+| Long-press backspace continuous delete (customizable speed & delay) | ✅ |
+| **IME & System** | |
 | Lifecycle-aware IME for Jetpack Compose | ✅ |
 | In-app Setup Wizard (enable + select) | ✅ |
 | Continuous IME state polling for robust detection | ✅ |
+| Instant flicker-free language switching (no activity recreation) | ✅ |
+| Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
+| Bottom navigation (Home, Store, Keyboard, Leaderboard) + App Settings in page headers | ✅ |
 | Gradle wrapper (CI-ready) | ✅ |
-| Long-press backspace continuous delete (customizable speed & delay) | ✅ |
-| Always-show suggestion strip | ✅ |
-| Auto-hide toolbar | ✅ |
-| Key long-press hint popups (numbers for top row, accents for others) | ✅ |
-| 80+ Bangla conjunct (juktakkhor) rules | ✅ |
-| More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
-| Space bar cursor move (swipe to position caret) | ✅ |
+| **App Localization** | |
+| App localization (14 languages + English) | ✅ |
+| **Planned** | |
 | Gesture/swipe typing | 🚧 Planned |
-| DAWG dictionary | 🚧 Planned |
-| Autocorrect with undo-on-backspace | 🚧 Planned |
 | Text expansion / shortcuts | 🚧 Planned |
 | Physical keyboard support | 🚧 Planned |
 | Foldable & stylus support | 🚧 Planned |
 | Handwriting interface | 🚧 Planned |
-| App localization (14 languages + English) | ✅ |
-| HSV color picker (theme creator) | ✅ |
-| Unified animated header (auto-show/hide) | ✅ |
-| Instant flicker-free language switching (no activity recreation) | ✅ |
-| Typing speed meter (CPS / words / keys counts, themes, fonts, intervals) | ✅ |
-| Info Box with selectable frames & swipe text color | ✅ |
-| Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
 | In-app updates | 🚧 Planned |
 | Crash watchdog | 🚧 Planned |
-| 46+ language support | ✅ |
-| App Language selector | ✅ |
 
 ---
 
@@ -293,78 +306,9 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 
 ---
 
-## Recent Fixes
+## Changelog
 
-### v1.4.0
-- Added full internationalization — all hardcoded strings extracted to resources; complete translations for 14 languages: Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese (Simplified & Traditional), Urdu, Persian
-- Added HSV color picker dialog to the theme creator (independent hue/saturation/value sliders, correct hue gradient, custom button first)
-- Added unified header with auto-show/auto-hide and animated transitions
-- Fixed black screen when switching between apps — removed blocking DataStore read from `onCreate`; themed window background
-- Fixed language switch requiring a second click — locale applied from a single source of truth (DataStore)
-- Fixed display flashing off/on during language switch — locale context wrapping (`createConfigurationContext` + composition locals) replaces activity recreation; strings and RTL update instantly in place, navigation state preserved
-- Fixed stored-label i18n bug — `popupDismissDelay` persists stable keys instead of Android resource IDs
-- Fixed voice error message formatting (`%1$s` → `%1$d`) and added missing Arabic `zero` plural quantity
-- Added Info Box customization — swipe info (In/words/keys/speed/records) with selectable frames, swipe text color, and configurable swipe timeout
-- Added Info Box custom texts — add/delete text entries with Off/Timed/Always modes, show duration, and an independent custom text color with live preview
-- Fixed custom texts never appearing — configured texts now display immediately (Always loops, Timed replays once) instead of waiting behind the swipe-info lines
-- Fixed custom texts not being added — the input is captured before the field clears, so the text at tap time is persisted correctly
-- Fixed blank entries showing as delete-only rows — blank strings are filtered on load and legacy entries render a visible placeholder
-- Fixed swipe text color not applying — color swatches now use a correct hex conversion
-
-### v1.3.0
-- Added Custom Theme Engine — customize background, primary keys, key text, special keys, accent color, suggestion strip, key popup, and sub-character hints
-- Added live keyboard preview pinned at top of the custom theme screen while pickers scroll below
-- Fixed cursor jumping to end when moving mid-word (composing buffer commits before cursor movement)
-- Fixed content hidden behind the floating navigation bar — standardized 120dp bottom clearance on all screens
-- Refactored the IME service into per-feature modules: `TextInputHandler`, `TextDeletion`, `SuggestionHandler`, `ImePreferenceCollector`, and per-language mode files
-- Split the monolith settings file into one screen per file under `ui/settings/`
-
-### v1.2.0
-- Added emoji search with 400+ keyword mappings across all categories
-- Added horizontal scrollable search results (configurable 1–2 rows)
-- Added compact keyboard during emoji search (65% height)
-- Added blinking cursor indicator in emoji search bar
-- Added recent emoji retention with configurable expiry (1/7/30/90 days, forever)
-- Added emoji settings screen (retention, search layout, visible rows)
-- Added GIF/Sticker tabs in emoji panel (placeholder for future support)
-- Added delete button in emoji category label row
-- Added customizable speed meter fonts (DIGITAL, LCD, SEGMENT, MODERN)
-- Added digital speed meter for real-time typing metrics
-- Fixed popup candidates expanding keyboard to full screen
-- Fixed duplicate close/clear buttons in emoji search bar
-- Fixed keyboard staying in compact mode after switching modes via toolbar
-- Fixed keyboard mode not restoring after closing emoji search
-- Fixed cursor position lost when moving cursor mid-word (space bar swipe / volume keys now commit composing text first)
-- Removed offensive word filtering (was deprecated)
-- Enhanced keyboard mode switching with `lastTextMode` tracking
-- Gboard/Ridmik-style Bangla Jatiyo and Avro keyboard arrangements
-- CI: removed instrumentation test job (no KVM/HVF on runners)
-- CI: switched to macOS runner, fixed ARM64 emulator config
-
-### v1.1.0
-- Added Avro phonetic engine (`AvroPhoneticEngine`) for Avro-style transliteration
-- Implemented dedicated AvroRow layouts in BanglaLayout
-- Enhanced EnglishLayout and BanglaLayout with expanded popup candidates
-- Updated KeyboardComposeView to support Avro mode UI and punctuation logic
-- Removed custom debug signing config for CI compatibility (CI uses Android's auto-generated debug keystore)
-- Fixed CI emulator: removed instrumentation test job (GitHub Actions lacks KVM/HVF for hardware-accelerated emulation)
-- Added `MissingGoogleServicesStrategy.WARN` so builds succeed without `google-services.json` in CI
-
-### IME Lifecycle for Compose (v1.0)
-- `ViewTreeLifecycleOwner`, `ViewModelStoreOwner`, and `SavedStateRegistryOwner` are now set on **both** the input view and the window's DecorView, fixing Compose-in-IME crashes.
-- Lifecycle dispatch moved from `onWindowShown()`/`onWindowHidden()` to `onStartInputView()`/`onFinishInputView()` for correct timing.
-- `onEvaluateInputViewShown()` overridden to return `true`, ensuring the keyboard appears on emulators and devices with hardware keyboards.
-
-### Setup Wizard Detection (v1.0)
-- Step 2 now uses `InputMethodManager.showInputMethodPicker()` instead of opening settings again.
-- Continuous polling (every 500ms) detects state changes that lifecycle events miss.
-- `checkIsKeyboardSelected()` uses `InputMethodManager.getCurrentInputMethodInfo()` on API 34+, falls back to `Settings.Secure.DEFAULT_INPUT_METHOD` on older versions.
-
-### App Theme Across All Screens (v1.0)
-- All screens now use `MaterialTheme.colorScheme.*` instead of hardcoded `Color.White`.
-- App theme (System/Light/Dark) setting in `AppSettingsScreen` persists via DataStore and updates every screen in real time.
-- `key(appTheme)` forces recomposition when theme changes, ensuring NavHost destinations reflect the new theme.
-
+See [CHANGELOG.md](CHANGELOG.md) for the full release history.
 
 ---
 
