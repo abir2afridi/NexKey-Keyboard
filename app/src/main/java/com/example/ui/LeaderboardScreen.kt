@@ -26,12 +26,17 @@ import com.example.R
 @Composable
 fun LeaderboardScreen(
     onNavigateToEmojiLeaderboard: () -> Unit,
-    onNavigateToSpeedLeaderboard: () -> Unit
+    onNavigateToSpeedLeaderboard: () -> Unit,
+    appTheme: String = "SYSTEM",
+    onToggleTheme: () -> Unit = {}
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.nav_leaderboard), fontWeight = FontWeight.Bold) },
+                actions = {
+                    ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface

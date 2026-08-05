@@ -12,6 +12,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.ChevronRight
+import androidx.compose.material.icons.filled.DarkMode
+import androidx.compose.material.icons.filled.LightMode
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.Composable
@@ -440,6 +442,18 @@ fun SettingSwitchItem(title: String, subtitle: String?, icon: ImageVector, check
                 uncheckedThumbColor = Color.White, 
                 uncheckedTrackColor = Color(0xFFBDC1C6)
             )
+        )
+    }
+}
+
+@Composable
+fun ThemeToggleButton(appTheme: String, onToggleTheme: () -> Unit) {
+    IconButton(onClick = onToggleTheme) {
+        Icon(
+            imageVector = if (appTheme == "DARK") Icons.Default.DarkMode else Icons.Default.LightMode,
+            contentDescription = stringResource(R.string.home_toggle_theme),
+            tint = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.size(20.dp)
         )
     }
 }

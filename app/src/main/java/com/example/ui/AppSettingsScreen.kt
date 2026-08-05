@@ -83,6 +83,16 @@ fun AppSettingsScreen(
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.back))
                     }
                 },
+                actions = {
+                    ThemeToggleButton(
+                        appTheme = appTheme,
+                        onToggleTheme = {
+                            scope.launch {
+                                prefs.setAppTheme(if (appTheme == "DARK") "LIGHT" else "DARK")
+                            }
+                        }
+                    )
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface,

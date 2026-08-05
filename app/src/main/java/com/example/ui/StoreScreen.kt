@@ -38,7 +38,9 @@ fun StoreScreen(
     onBack: () -> Unit = {},
     onNavigateToCustomTheme: () -> Unit = {},
     onNavigateToSpeedMeter: () -> Unit = {},
-    onNavigateToInfoBox: () -> Unit = {}
+    onNavigateToInfoBox: () -> Unit = {},
+    appTheme: String = "SYSTEM",
+    onToggleTheme: () -> Unit = {}
 ) {
     var selectedTab by remember { mutableStateOf(0) }
 
@@ -46,6 +48,9 @@ fun StoreScreen(
         topBar = {
             TopAppBar(
                 title = { Text(stringResource(R.string.store_title), fontWeight = FontWeight.Bold) },
+                actions = {
+                    ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
+                },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
                     titleContentColor = MaterialTheme.colorScheme.onSurface

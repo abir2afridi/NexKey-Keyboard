@@ -219,11 +219,7 @@ fun HomeScreen(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 IconButton(onClick = onToggleTheme) {
                     Icon(
-                        imageVector = when (appTheme) {
-                            "DARK" -> Icons.Default.DarkMode
-                            "LIGHT" -> Icons.Default.LightMode
-                            else -> Icons.Default.BrightnessAuto
-                        },
+                        imageVector = if (appTheme == "DARK") Icons.Default.DarkMode else Icons.Default.LightMode,
                         contentDescription = stringResource(R.string.home_toggle_theme),
                         tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.size(20.dp)

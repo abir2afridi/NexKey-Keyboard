@@ -98,6 +98,13 @@ fun NexKeyApp() {
     val navigationStyle by prefs.navigationStyle.collectAsState(initial = "STANDARD")
     val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
 
+    val toggleThemeScope = rememberCoroutineScope()
+    val toggleTheme: () -> Unit = {
+        toggleThemeScope.launch {
+            prefs.setAppTheme(if (appTheme == "DARK") "LIGHT" else "DARK")
+        }
+    }
+
     val startDestination = if (checkIsKeyboardEnabled(context) && checkIsKeyboardSelected(context)) {
         Screen.Home.route
     } else {
@@ -238,9 +245,8 @@ fun NexKeyApp() {
                             scope.launch {
                                 prefs.setAppTheme(
                                     when (appTheme) {
-                                        "SYSTEM" -> "DARK"
                                         "DARK" -> "LIGHT"
-                                        else -> "SYSTEM"
+                                        else -> "DARK"
                                     }
                                 )
                             }
@@ -275,7 +281,9 @@ fun NexKeyApp() {
                         onNavigateToHeaderAnimation = { navController.navigate(Screen.SettingsHeaderAnimation.route) },
                         onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) },
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
-                        onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) }
+                        onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) },
+                        appTheme = appTheme,
+                        onToggleTheme = toggleTheme
                     )
                 }
                 composable(Screen.SettingsTyping.route) {
@@ -341,7 +349,9 @@ fun NexKeyApp() {
                 composable(Screen.Leaderboard.route) {
                     LeaderboardScreen(
                         onNavigateToEmojiLeaderboard = { navController.navigate(Screen.EmojiLeaderboard.route) },
-                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) }
+                        onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) },
+                        appTheme = appTheme,
+                        onToggleTheme = toggleTheme
                     )
                 }
                 composable(Screen.EmojiLeaderboard.route) {
@@ -391,7 +401,9 @@ fun NexKeyApp() {
                     StoreScreen(
                         onNavigateToCustomTheme = { navController.navigate(Screen.CustomTheme.route) },
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
-                        onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) }
+                        onNavigateToInfoBox = { navController.navigate(Screen.SettingsInfoBox.route) },
+                        appTheme = appTheme,
+                        onToggleTheme = toggleTheme
                     )
                 }
             }

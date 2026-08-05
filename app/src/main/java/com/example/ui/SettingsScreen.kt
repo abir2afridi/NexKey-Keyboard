@@ -34,7 +34,9 @@ fun SettingsScreen(
     onNavigateToHeaderAnimation: () -> Unit = {},
     onNavigateToEmoji: () -> Unit = {},
     onNavigateToSpeedMeter: () -> Unit = {},
-    onNavigateToInfoBox: () -> Unit = {}
+    onNavigateToInfoBox: () -> Unit = {},
+    appTheme: String = "SYSTEM",
+    onToggleTheme: () -> Unit = {}
 ) {
     val settingsItems =
         listOf(
@@ -63,6 +65,9 @@ fun SettingsScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                     }
+                },
+                actions = {
+                    ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
                     containerColor = MaterialTheme.colorScheme.surface,
