@@ -6,6 +6,29 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [1.5.0] — August 5, 2026
+
+### Added
+- Keyboard Resizing screen — unlock resizing from Layout settings, then adjust keyboard height and width for portrait and landscape with a live keyboard preview (real theme, current presets) and a one-tap reset
+- Emoji Leaderboard — usage tracking and a multi-tab leaderboard screen ranking your most-used emojis
+- All Emojis browsing screen with search and full localization
+- App theme toggling (System/Light/Dark) applied live across every screen
+- Store expanded with new tabs and localization for all new sections
+- Info Box further customization — custom text color, font selection, additional frame presets, and a dedicated Info Box settings screen with live preview
+- Speed Meter expanded — configurable display modes (meter/count) and record tracking, with all meter settings consolidated into a dedicated Speed Meter screen
+- App Settings moved from the bottom bar to top actions for more keyboard space
+
+### Fixed
+- Letter preview popup appearing over the wrong key — the popup is now anchored to the actual tapped key and auto-dismisses faster
+- Speed meter font styles not applying — bundled DSEG fonts are now actually wired up
+
+### Refactored
+- Emoji panel grid layout and sizing
+- Emoji usage tracking logic optimized
+- Info Box and speed meter theme configurations decoupled
+
+---
+
 ## [1.4.0] — August 2, 2026
 
 ### Added

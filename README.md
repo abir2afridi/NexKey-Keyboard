@@ -12,14 +12,14 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.4.0-blue)
+![Version](https://img.shields.io/badge/version-1.5.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
-[![Changelog](https://img.shields.io/badge/changelog-1.4.0-A97BFF)](CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/changelog-1.5.0-A97BFF)](CHANGELOG.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.4.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.5.0-ff69b4)](../releases)
 
 ---
 
@@ -202,25 +202,25 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.4.0 | **Published:** August 2, 2026
+**Version:** 1.5.0 | **Published:** August 5, 2026
 
-- **APK:** [Download v1.4.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.5.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
 
-- ✅ Full internationalization — every string extracted; complete translations for 14 languages (Bengali, Hindi, Arabic, Spanish, French, German, Portuguese, Russian, Japanese, Korean, Chinese Simplified/Traditional, Urdu, Persian)
-- ✅ Instant language switching — all screens update in place with no activity recreation, no display flash, and RTL mirrors immediately
-- ✅ No more black screen when switching apps
-- ✅ HSV color picker dialog in the theme creator (independent H/S/V sliders, correct hue gradient)
-- ✅ Unified header with auto-show and animated transitions
-- ✅ Stored-label i18n bug fixed (popup dismiss delay settings persist correctly)
+- ✅ Keyboard resizing — adjust keyboard height/width for portrait and landscape with a live preview
+- ✅ Emoji leaderboard and all-emoji browsing screen with search
+- ✅ App theme (System/Light/Dark) applied live across every screen
+- ✅ Info Box and Speed Meter customization — colors, fonts, frames, display modes, record tracking
+- ✅ Key press popup now anchored to the exact tapped key with fast auto-dismiss
+- ✅ App settings moved from the bottom bar to top actions
 
 **Checksums:**
 
 | File | SHA256 | MD5 |
 | --- | --- | --- |
-| NexKey-Keyboard-v1.4.0.apk | `520174e0df4310eae22725621724c20b2ec4213c9a670f7f00d02df2162db3a3` | `2cba33d980265bff349cddd4ff1c1c67` |
+| NexKey-Keyboard-v1.5.0.apk | `4dcfbdcc145042b0ad8bc581eb6247786cc5b679e28e0fced4b46beae67a9f9d` | `13ab459ffb274048092d57731ff8cf86` |
 
 [View all releases →](../releases)
 
