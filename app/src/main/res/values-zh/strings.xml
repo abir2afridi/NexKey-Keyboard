@@ -84,6 +84,10 @@
     <string name="settings_title">键盘设置</string>
     <string name="settings_back">返回</string>
     <string name="settings_customization">键盘自定义</string>
+    <string name="settings_search">搜索设置</string>
+    <string name="settings_search_hint">搜索设置…</string>
+    <string name="settings_search_clear">清除搜索</string>
+    <string name="settings_search_no_results">没有匹配的设置</string>
     <string name="settings_typing">输入</string>
     <string name="settings_typing_desc">自动大写、双击空格、制表符</string>
     <string name="settings_feedback">反馈</string>

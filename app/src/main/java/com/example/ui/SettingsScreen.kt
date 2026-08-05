@@ -3,11 +3,13 @@ package com.example.ui
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -39,6 +41,9 @@ fun SettingsScreen(
     onToggleTheme: () -> Unit = {},
     onNavigateToAppSettings: () -> Unit = {}
 ) {
+    var searchActive by remember { mutableStateOf(false) }
+    var query by remember { mutableStateOf("") }
+
     val settingsItems =
         listOf(
             SettingCategory(stringResource(R.string.settings_typing), stringResource(R.string.settings_typing_desc), Icons.Default.TextFormat, onNavigateToTyping),
@@ -58,19 +63,58 @@ fun SettingsScreen(
             SettingCategory(stringResource(R.string.settings_info_box), stringResource(R.string.settings_info_box_desc), Icons.Default.Info, onNavigateToInfoBox)
         )
 
+    val searchQuery = query.trim().lowercase()
+    val filteredItems = if (searchQuery.isEmpty()) settingsItems
+        else settingsItems.filter {
+            it.title.lowercase().contains(searchQuery) || it.description.lowercase().contains(searchQuery)
+        }
+
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Bold) },
+                title = {
+                    if (searchActive) {
+                        OutlinedTextField(
+                            value = query,
+                            onValueChange = { query = it },
+                            modifier = Modifier.fillMaxWidth(),
+                            placeholder = { Text(stringResource(R.string.settings_search_hint)) },
+                            leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                            trailingIcon = {
+                                if (query.isNotEmpty()) {
+                                    IconButton(onClick = { query = "" }) {
+                                        Icon(Icons.Default.Clear, contentDescription = stringResource(R.string.settings_search_clear))
+                                    }
+                                }
+                            },
+                            singleLine = true,
+                            shape = RoundedCornerShape(16.dp)
+                        )
+                    } else {
+                        Text(stringResource(R.string.settings_title), fontWeight = FontWeight.Bold)
+                    }
+                },
                 navigationIcon = {
-                    IconButton(onClick = onBack) {
+                    IconButton(onClick = {
+                        if (searchActive) {
+                            searchActive = false
+                            query = ""
+                        } else {
+                            onBack()
+                        }
+                    }) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = stringResource(R.string.settings_back))
                     }
                 },
                 actions = {
-                    ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
-                    IconButton(onClick = onNavigateToAppSettings) {
-                        Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.app_settings_title), tint = MaterialTheme.colorScheme.primary)
+                    if (!searchActive) {
+                        IconButton(onClick = { searchActive = true }) {
+                            Icon(Icons.Default.Search, contentDescription = stringResource(R.string.settings_search), tint = MaterialTheme.colorScheme.primary)
+                        }
+                        ThemeToggleButton(appTheme = appTheme, onToggleTheme = onToggleTheme)
+                        IconButton(onClick = onNavigateToAppSettings) {
+                            Icon(Icons.Default.Settings, contentDescription = stringResource(R.string.app_settings_title), tint = MaterialTheme.colorScheme.primary)
+                        }
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -101,14 +145,31 @@ fun SettingsScreen(
                 )
             }
 
-            items(settingsItems.size) { index ->
-                val item = settingsItems[index]
-                SettingGridItem(
-                    title = item.title,
-                    subtitle = item.description,
-                    icon = item.icon,
-                    onClick = item.onClick
-                )
+            if (filteredItems.isEmpty()) {
+                item(span = { androidx.compose.foundation.lazy.grid.GridItemSpan(2) }) {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(32.dp),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            text = stringResource(R.string.settings_search_no_results),
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            fontSize = 14.sp
+                        )
+                    }
+                }
+            } else {
+                items(filteredItems.size) { index ->
+                    val item = filteredItems[index]
+                    SettingGridItem(
+                        title = item.title,
+                        subtitle = item.description,
+                        icon = item.icon,
+                        onClick = item.onClick
+                    )
+                }
             }
             
         }

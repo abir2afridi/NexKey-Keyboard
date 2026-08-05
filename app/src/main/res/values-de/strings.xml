@@ -84,6 +84,10 @@
     <string name="settings_title">Tastatureinstellungen</string>
     <string name="settings_back">Zurück</string>
     <string name="settings_customization">Tastatur-Anpassung</string>
+    <string name="settings_search">Einstellungen suchen</string>
+    <string name="settings_search_hint">Einstellungen suchen…</string>
+    <string name="settings_search_clear">Suche löschen</string>
+    <string name="settings_search_no_results">Keine übereinstimmenden Einstellungen</string>
     <string name="settings_typing">Tippen</string>
     <string name="settings_typing_desc">Auto-Großschreibung, Doppelleertaste, Tabulator</string>
     <string name="settings_feedback">Feedback</string>

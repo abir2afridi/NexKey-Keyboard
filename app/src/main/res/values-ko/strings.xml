@@ -84,6 +84,10 @@
     <string name="settings_title">키보드 설정</string>
     <string name="settings_back">뒤로</string>
     <string name="settings_customization">키보드 사용자 지정</string>
+    <string name="settings_search">설정 검색</string>
+    <string name="settings_search_hint">설정 검색…</string>
+    <string name="settings_search_clear">검색 지우기</string>
+    <string name="settings_search_no_results">일치하는 설정이 없습니다</string>
     <string name="settings_typing">입력</string>
     <string name="settings_typing_desc">자동 대문자, 더블 스페이스, 탭</string>
     <string name="settings_feedback">피드백</string>

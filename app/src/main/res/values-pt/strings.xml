@@ -84,6 +84,10 @@
     <string name="settings_title">Configurações do teclado</string>
     <string name="settings_back">Voltar</string>
     <string name="settings_customization">Personalização do teclado</string>
+    <string name="settings_search">Pesquisar configurações</string>
+    <string name="settings_search_hint">Pesquisar configurações…</string>
+    <string name="settings_search_clear">Limpar pesquisa</string>
+    <string name="settings_search_no_results">Nenhuma configuração correspondente</string>
     <string name="settings_typing">Digitação</string>
     <string name="settings_typing_desc">Maiúsculas automáticas, espaço duplo, tabulação</string>
     <string name="settings_feedback">Feedback</string>

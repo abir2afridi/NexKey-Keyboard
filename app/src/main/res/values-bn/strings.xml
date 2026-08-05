@@ -84,6 +84,10 @@
     <string name="settings_title">কীবোর্ড সেটিংস</string>
     <string name="settings_back">ফিরে যান</string>
     <string name="settings_customization">কীবোর্ড কাস্টমাইজেশন</string>
+    <string name="settings_search">সেটিংস খুঁজুন</string>
+    <string name="settings_search_hint">সেটিংস খুঁজুন…</string>
+    <string name="settings_search_clear">অনুসন্ধান মুছুন</string>
+    <string name="settings_search_no_results">কোনো মিল পাওয়া যায়নি</string>
     <string name="settings_typing">টাইপিং</string>
     <string name="settings_typing_desc">অটো-ক্যাপ, ডাবল-স্পেস, ট্যাব</string>
     <string name="settings_feedback">ফিডব্যাক</string>

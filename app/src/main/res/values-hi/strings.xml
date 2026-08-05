@@ -84,6 +84,10 @@
     <string name="settings_title">कीबोर्ड सेटिंग्स</string>
     <string name="settings_back">वापस</string>
     <string name="settings_customization">कीबोर्ड अनुकूलन</string>
+    <string name="settings_search">सेटिंग्स खोजें</string>
+    <string name="settings_search_hint">सेटिंग्स खोजें…</string>
+    <string name="settings_search_clear">खोज साफ़ करें</string>
+    <string name="settings_search_no_results">कोई मिलान सेटिंग्स नहीं</string>
     <string name="settings_typing">टाइपिंग</string>
     <string name="settings_typing_desc">ऑटो-कैप, डबल-स्पेस, टैब</string>
     <string name="settings_feedback">फीडबैक</string>

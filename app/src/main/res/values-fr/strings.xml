@@ -84,6 +84,10 @@
     <string name="settings_title">Paramètres du clavier</string>
     <string name="settings_back">Retour</string>
     <string name="settings_customization">Personnalisation du clavier</string>
+    <string name="settings_search">Rechercher des paramètres</string>
+    <string name="settings_search_hint">Rechercher des paramètres…</string>
+    <string name="settings_search_clear">Effacer la recherche</string>
+    <string name="settings_search_no_results">Aucun paramètre correspondant</string>
     <string name="settings_typing">Saisie</string>
     <string name="settings_typing_desc">Majuscules auto, double espace, tabulation</string>
     <string name="settings_feedback">Retour</string>

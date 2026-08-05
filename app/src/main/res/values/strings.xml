@@ -84,6 +84,10 @@
     <string name="settings_title">Keyboard Settings</string>
     <string name="settings_back">Back</string>
     <string name="settings_customization">Keyboard Customization</string>
+    <string name="settings_search">Search settings</string>
+    <string name="settings_search_hint">Search settings…</string>
+    <string name="settings_search_clear">Clear search</string>
+    <string name="settings_search_no_results">No matching settings</string>
     <string name="settings_typing">Typing</string>
     <string name="settings_typing_desc">Auto-cap, double-space, tab</string>
     <string name="settings_feedback">Feedback</string>

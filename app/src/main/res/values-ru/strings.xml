@@ -84,6 +84,10 @@
     <string name="settings_title">Настройки клавиатуры</string>
     <string name="settings_back">Назад</string>
     <string name="settings_customization">Настройка клавиатуры</string>
+    <string name="settings_search">Поиск настроек</string>
+    <string name="settings_search_hint">Поиск настроек…</string>
+    <string name="settings_search_clear">Очистить поиск</string>
+    <string name="settings_search_no_results">Нет совпадающих настроек</string>
     <string name="settings_typing">Ввод</string>
     <string name="settings_typing_desc">Автозаглавные, двойной пробел, таб</string>
     <string name="settings_feedback">Обратная связь</string>

@@ -84,6 +84,10 @@
     <string name="settings_title">إعدادات لوحة المفاتيح</string>
     <string name="settings_back">رجوع</string>
     <string name="settings_customization">تخصيص لوحة المفاتيح</string>
+    <string name="settings_search">البحث في الإعدادات</string>
+    <string name="settings_search_hint">ابحث في الإعدادات…</string>
+    <string name="settings_search_clear">مسح البحث</string>
+    <string name="settings_search_no_results">لا توجد إعدادات مطابقة</string>
     <string name="settings_typing">الكتابة</string>
     <string name="settings_typing_desc">أحرف كبيرة تلقائية، مسافة مزدوجة، تبويب</string>
     <string name="settings_feedback">الملاحظات</string>

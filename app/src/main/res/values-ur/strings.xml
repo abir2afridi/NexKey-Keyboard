@@ -84,6 +84,10 @@
     <string name="settings_title">کی بورڈ سیٹنگز</string>
     <string name="settings_back">واپس</string>
     <string name="settings_customization">کی بورڈ حسب ضرورت</string>
+    <string name="settings_search">سیٹنگز تلاش کریں</string>
+    <string name="settings_search_hint">سیٹنگز تلاش کریں…</string>
+    <string name="settings_search_clear">تلاش صاف کریں</string>
+    <string name="settings_search_no_results">کوئی مماثل سیٹنگز نہیں</string>
     <string name="settings_typing">ٹائپنگ</string>
     <string name="settings_typing_desc">خودکار بڑے حروف، ڈبل اسپیس، ٹیب</string>
     <string name="settings_feedback">فیڈ بیک</string>

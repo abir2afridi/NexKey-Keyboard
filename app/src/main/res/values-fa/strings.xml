@@ -84,6 +84,10 @@
     <string name="settings_title">تنظیمات صفحهکلید</string>
     <string name="settings_back">بازگشت</string>
     <string name="settings_customization">سفارشیسازی صفحهکلید</string>
+    <string name="settings_search">جستجوی تنظیمات</string>
+    <string name="settings_search_hint">جستجوی تنظیمات…</string>
+    <string name="settings_search_clear">پاک کردن جستجو</string>
+    <string name="settings_search_no_results">تنظیمات منطبق یافت نشد</string>
     <string name="settings_typing">تایپ</string>
     <string name="settings_typing_desc">حروف بزرگ خودکار، فاصله دوبل، تب</string>
     <string name="settings_feedback">بازخورد</string>

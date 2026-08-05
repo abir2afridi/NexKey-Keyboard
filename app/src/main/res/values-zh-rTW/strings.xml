@@ -84,6 +84,10 @@
     <string name="settings_title">鍵盤設定</string>
     <string name="settings_back">返回</string>
     <string name="settings_customization">鍵盤自訂</string>
+    <string name="settings_search">搜尋設定</string>
+    <string name="settings_search_hint">搜尋設定…</string>
+    <string name="settings_search_clear">清除搜尋</string>
+    <string name="settings_search_no_results">沒有符合的設定</string>
     <string name="settings_typing">輸入</string>
     <string name="settings_typing_desc">自動大寫、雙擊空格、定位鍵</string>
     <string name="settings_feedback">回饋</string>
