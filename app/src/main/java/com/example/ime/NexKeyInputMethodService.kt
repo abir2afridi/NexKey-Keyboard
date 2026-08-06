@@ -75,6 +75,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var hapticsEnabled by mutableStateOf(true)
     internal var soundEnabled by mutableStateOf(true)
     internal var autoCapEnabled by mutableStateOf(true)
+
+    // Sentence-start hint for auto-capitalize. Keeping this flag lets handleKeyTap SKIP the
+    // getTextBeforeCursor() IPC on every letter while mid-word — that cross-process call on
+    // each keypress is what makes fast typing feel laggy (especially in Flutter-hosted
+    // editors like Notecraft, which answer selection queries slowly).
+    internal var mayStartSentence = true
     internal var smartPuncEnabled by mutableStateOf(true)
     internal var keyHeight by mutableStateOf(54)
     internal var keyRadius by mutableStateOf(10)
@@ -302,6 +308,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         TypingAnalytics.startSession()
         composingBuffer = ""
         candidates = emptyList()
+        mayStartSentence = true
 
         burstKeyCount = 0
         burstWordCount = 0
@@ -379,8 +386,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     internal fun playFeedback() {
-        if (hapticsEnabled) {
-            if (hapticLevel > 0) {
+        if (hapticsEnabled && hapticLevel > 0) {
+            // vibrator.vibrate() is a SYNCHRONOUS binder call to the system VibratorService;
+            // under fast multi-finger typing the queued calls stall the UI thread and make
+            // the keyboard feel laggy. Run it off the main thread — haptics are fire-and-forget.
+            scope.launch(Dispatchers.IO) {
                 try {
                     val duration = (hapticLevel * 2).toLong()
                     val amplitude = ((hapticLevel / 100f) * 255).toInt().coerceIn(1, 255)
@@ -392,9 +402,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 } catch (_: Exception) {
                     keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                 }
-            } else {
-                keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
             }
+        } else if (hapticsEnabled) {
+            keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
         }
         if (soundEnabled) {
             // playSoundEffect can stall the UI thread (binder + audio flinger) and is the

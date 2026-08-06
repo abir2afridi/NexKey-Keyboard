@@ -5,6 +5,7 @@ import com.example.ui.KeyboardMode
 
 internal fun NexKeyInputMethodService.handleBackspace() {
     playFeedback()
+    mayStartSentence = true
 
     if (emojiSearchActive) {
         if (emojiSearchQuery.isNotEmpty()) {
@@ -43,6 +44,7 @@ internal fun NexKeyInputMethodService.handleBackspace() {
 
 internal fun NexKeyInputMethodService.handleBackspaceWord() {
     playFeedback()
+    mayStartSentence = true
 
     if (emojiSearchActive) {
         emojiSearchQuery = ""

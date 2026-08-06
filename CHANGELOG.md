@@ -30,6 +30,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - Spacebar language switch now shows a popup with the new language above the spacebar, and both swipe directions work (left = next language, right = previous), like Gboard
 - Fixed: repeated spacebar swipes in the same direction now keep cycling through languages (previously the gesture handler kept a stale mode, so the language appeared stuck after the first swipe)
 - Smoother typing: key press animation no longer bounces (quick tween like Gboard), and keypress sound no longer runs on the UI thread — fixes the laggy feel while typing
+- Even faster fast-typing: keypress vibration now runs off the UI thread too, and auto-capitalize no longer queries the editor on every letter mid-word (that cross-process call was the main lag source, especially in Flutter apps) — one-shot Shift also now applies at input time so the first letter is always capitalized
 
 ### Refactored
 - Emoji panel grid layout and sizing

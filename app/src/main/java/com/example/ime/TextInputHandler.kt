@@ -17,6 +17,18 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
         return
     }
 
+    // Shift safety net: the key label's case is decided at COMPOSITION time. If the user
+    // taps the next key before the keyboard recomposes (fast typing, or a slow host app
+    // like Flutter), the label would still be lowercase. Apply shift at INPUT time too,
+    // so one-shot SHIFT (and CAPS_LOCK) ALWAYS capitalizes the next letter.
+    val outputKey = if ((shiftState == ShiftState.SHIFT || shiftState == ShiftState.CAPS_LOCK) &&
+        key.length == 1 && key[0].isLetter()
+    ) {
+        key.uppercase()
+    } else {
+        key
+    }
+
     if (!isIncognito && !isSensitiveField) {
         TypingAnalytics.trackKeyPress()
 
@@ -45,11 +57,11 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
             }
 
             meterPhase = SpeedMeterPhase.LIVE
-            burstLastChar = key
+            burstLastChar = outputKey
             // Live pressed word for the Info Box: accumulate the word while typing,
             // clear on any non-letter key (space, punctuation, symbol, emoji...).
-            val wordChar = key.length == 1 && key[0].isLetter()
-            lastPressedWord = if (wordChar) lastPressedWord + key else ""
+            val wordChar = outputKey.length == 1 && outputKey[0].isLetter()
+            lastPressedWord = if (wordChar) lastPressedWord + outputKey else ""
 
             // Elapsed-seconds ticker for the meter's Counter display mode.
             elapsedTickerJob?.cancel()
@@ -79,7 +91,7 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
         // the word). Do NOT "protect" that clearing logic or restore the old
         // "inside-composing" check — without it, editing mid-word (e.g. "aple" + cursor
         // after "p" + "p") replaces the whole composed word and jumps the cursor to the end.
-        composingBuffer += key
+        composingBuffer += outputKey
         val parsed = parseComposing(currentMode, composingBuffer)
         ic.setComposingText(parsed, 1)
         updateCandidates(composingBuffer)
@@ -89,10 +101,10 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
         }
         ic.beginBatchEdit()
 
-        val textToCommit = if (autoCapEnabled && key.length == 1 && isNewSentence()) {
-            key.uppercase()
+        val textToCommit = if (autoCapEnabled && outputKey.length == 1 && mayStartSentence && isNewSentence()) {
+            outputKey.uppercase()
         } else {
-            key
+            outputKey
         }
 
         ic.commitText(textToCommit, 1)
@@ -108,14 +120,18 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
             }
         }
 
-        if (key.length > 5 && !isSensitiveField) {
-            com.example.clipboard.ClipboardManager.addClip(key)
+        if (outputKey.length > 5 && !isSensitiveField) {
+            com.example.clipboard.ClipboardManager.addClip(outputKey)
         }
     }
 
     if (shiftState == ShiftState.SHIFT) {
         shiftState = ShiftState.OFF
     }
+
+    // Mid-word now: the next letter can only be a sentence start after space/enter/
+    // backspace/field start (see those handlers). Skipping the IPC otherwise.
+    mayStartSentence = false
 }
 
 internal fun isEmojiKey(key: String): Boolean {
@@ -186,12 +202,14 @@ internal fun NexKeyInputMethodService.handleSpace() {
         }
     }
     lastSpaceTime = System.currentTimeMillis()
+    mayStartSentence = true
 }
 
 internal fun NexKeyInputMethodService.handleEnter() {
     playFeedback()
     val ic = currentInputConnection ?: return
     lastPressedWord = ""
+    mayStartSentence = true
 
     if (composingBuffer.isNotEmpty()) {
         commitComposingBuffer()
