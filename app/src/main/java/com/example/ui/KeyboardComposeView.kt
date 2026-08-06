@@ -1515,9 +1515,19 @@ fun KeyboardKeysGrid(
                                 val repeatJob = launch {
                                     delay(backspaceRepeatDelayMs)
                                     didRepeat = true
+                                    // Gboard-style repeat: after the hold-delay, keys repeat
+                                    // CHARACTER by CHARACTER at backspaceRepeatSpeedMs so the
+                                    // speed setting is clearly visible. Holding much longer
+                                    // (1500 ms past the delay) switches to word-by-word so a
+                                    // long sentence can still be cleared fast.
+                                    val wordPhaseStart = System.currentTimeMillis() + 1500L
                                     while (isActive) {
                                         iconAnimationScope.launch { backspaceIconScale.playIconPop() }
-                                        onBackspaceWord()
+                                        if (System.currentTimeMillis() >= wordPhaseStart) {
+                                            onBackspaceWord()
+                                        } else {
+                                            onBackspaceTap()
+                                        }
                                         delay(backspaceRepeatSpeedMs)
                                     }
                                 }

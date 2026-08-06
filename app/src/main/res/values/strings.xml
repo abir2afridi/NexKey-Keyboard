@@ -452,7 +452,9 @@
     <string name="adv_typed_first">Show typed word first</string>
     <string name="adv_typed_first_desc">Exact typed word appears as first suggestion</string>
     <string name="adv_backspace_delay">Backspace repeat delay (ms)</string>
+    <string name="adv_backspace_delay_desc">How long to hold Backspace before letters start deleting. Default 400 ms is fast — slide right to add a longer pause.</string>
     <string name="adv_backspace_speed">Backspace repeat speed (ms)</string>
+    <string name="adv_backspace_speed_desc">How quickly letters repeat while holding. Default 50 ms is fast — slide right to slow down. Hold longer to switch to word-by-word deletion.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Auto-correction</string>

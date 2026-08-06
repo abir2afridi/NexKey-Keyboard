@@ -56,8 +56,22 @@ fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
         SettingSwitchItem(stringResource(R.string.adv_physical_emoji), stringResource(R.string.adv_physical_emoji_desc), Icons.Default.Keyboard, physicalKbEmoji) { scope.launch { prefs.setPhysicalKbEmoji(it) } }
         SettingSwitchItem(stringResource(R.string.adv_typed_first), stringResource(R.string.adv_typed_first_desc), Icons.Default.Title, typedWordFirst) { scope.launch { prefs.setShowTypedWordFirst(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSliderItem(stringResource(R.string.adv_backspace_delay), backspaceDelay.toFloat(), 200f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
-        SettingSliderItem(stringResource(R.string.adv_backspace_speed), backspaceSpeed.toFloat(), 20f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
+        // Backspace repeat: the slider's minimum IS the default (400 ms / 50 ms) — a fast,
+        // comfortable start like other keyboards. Users can only slow it down from there.
+        SettingSliderItem(stringResource(R.string.adv_backspace_delay), backspaceDelay.toFloat(), 400f..1000f) { scope.launch { prefs.setBackspaceRepeatDelay(it.toInt()) } }
+        Text(
+            text = stringResource(R.string.adv_backspace_delay_desc),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
+        SettingSliderItem(stringResource(R.string.adv_backspace_speed), backspaceSpeed.toFloat(), 50f..200f) { scope.launch { prefs.setBackspaceRepeatSpeed(it.toInt()) } }
+        Text(
+            text = stringResource(R.string.adv_backspace_speed_desc),
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            fontSize = 12.sp,
+            modifier = Modifier.padding(horizontal = 4.dp)
+        )
         Spacer(modifier = Modifier.height(32.dp))
     }
 }
