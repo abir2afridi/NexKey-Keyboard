@@ -28,6 +28,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - Spacebar language switcher now supports swipe (left/right, the quick default) in addition to long-press when enabled
 - Spacebar swipe gesture rebuilt to fire instantly on a quick flick (previously the tap detector cancelled the drag, so it only worked after holding)
 - Spacebar language switch now shows a popup with the new language above the spacebar, and both swipe directions work (left = next language, right = previous), like Gboard
+- Fixed: repeated spacebar swipes in the same direction now keep cycling through languages (previously the gesture handler kept a stale mode, so the language appeared stuck after the first swipe)
 
 ### Refactored
 - Emoji panel grid layout and sizing

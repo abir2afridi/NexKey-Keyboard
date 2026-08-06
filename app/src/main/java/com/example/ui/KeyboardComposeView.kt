@@ -57,6 +57,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.coroutineScope
@@ -224,6 +225,12 @@ fun KeyboardComposeView(
     // seconds (no typing), the toolbar auto-appears again. One header at a time.
     var isToolbarHeaderVisible by remember { mutableStateOf(true) }
     val isTyping = composingText.isNotEmpty() || suggestions.isNotEmpty()
+    // The spacebar swipe/long-press gesture handler lives for the whole keyboard session
+    // (its pointerInput key never changes), so it captures the language-switch callback
+    // ONCE. Without this, every later swipe would keep using the ORIGINAL mode and the
+    // language would appear "stuck" (swipe left once, then nothing; reverse swipe needed).
+    // rememberUpdatedState keeps the captured callback reading the CURRENT mode.
+    val currentModeState by rememberUpdatedState(mode)
     // Language-switch popup: shows the new language above the spacebar (like Gboard)
     // whenever the spacebar swipe/long-press switches languages. Auto-hides after ~1s.
     var languageSwitchPopupLabel by remember { mutableStateOf<String?>(null) }
@@ -503,7 +510,7 @@ fun KeyboardComposeView(
                                 KeyboardMode.AVRO,
                                 KeyboardMode.ARABIC
                             )
-                            val currentIndex = enabledModes.indexOf(mode).coerceAtLeast(0)
+                            val currentIndex = enabledModes.indexOf(currentModeState).coerceAtLeast(0)
                             val nextMode = enabledModes[
                                 ((currentIndex + direction) % enabledModes.size + enabledModes.size) % enabledModes.size
                             ]
