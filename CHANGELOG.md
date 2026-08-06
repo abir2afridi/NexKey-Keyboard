@@ -27,6 +27,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - Last character of a word surviving delete — backspace now truly deletes the final composing character/word instead of committing it into the editor, so single words delete with one press and hold-delete clears the whole sentence
 - Spacebar language switcher now supports swipe (left/right, the quick default) in addition to long-press when enabled
 - Spacebar swipe gesture rebuilt to fire instantly on a quick flick (previously the tap detector cancelled the drag, so it only worked after holding)
+- Spacebar language switch now shows a popup with the new language above the spacebar, and both swipe directions work (left = next language, right = previous), like Gboard
 
 ### Refactored
 - Emoji panel grid layout and sizing

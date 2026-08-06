@@ -14,7 +14,7 @@ NexKey Keyboard v1.5.0 is a minor release centered on what you see while you typ
 - **Every key responds to your touch** — letter, space, enter, and all other keys now have a press-and-bounce animation, just like the delete key
 - **Faster sentence clearing** — hold backspace and it switches to word-by-word deletion after the initial delay, just like Gboard
 - **Delete always deletes** — the final composing character/word is removed from the editor instead of being committed, so a word never survives the backspace that was meant to remove it
-- **Quick language switcher** — with Spacebar Language Switch on, swipe left/right on the spacebar (or long-press it) to flip between English, বাংলা, Avro and عربي. The swipe now responds instantly to a quick flick — no holding required.
+- **Quick language switcher** — with Spacebar Language Switch on, swipe left **or** right on the spacebar (or long-press it) to flip between English, বাংলা, Avro and عربي. Swipe left = next language, right = previous, and a popup above the spacebar shows the language you just switched to — just like Gboard.
 - **Cleaner Settings** — app settings moved from the bottom bar to top actions
 
 ## What's Changed

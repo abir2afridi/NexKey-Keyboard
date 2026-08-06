@@ -224,6 +224,16 @@ fun KeyboardComposeView(
     // seconds (no typing), the toolbar auto-appears again. One header at a time.
     var isToolbarHeaderVisible by remember { mutableStateOf(true) }
     val isTyping = composingText.isNotEmpty() || suggestions.isNotEmpty()
+    // Language-switch popup: shows the new language above the spacebar (like Gboard)
+    // whenever the spacebar swipe/long-press switches languages. Auto-hides after ~1s.
+    var languageSwitchPopupLabel by remember { mutableStateOf<String?>(null) }
+    LaunchedEffect(languageSwitchPopupLabel) {
+        val label = languageSwitchPopupLabel
+        if (label != null) {
+            delay(1000)
+            languageSwitchPopupLabel = null
+        }
+    }
     LaunchedEffect(isTyping, unifiedHeader, toolbarAutoShowDelay) {
         if (!unifiedHeader) return@LaunchedEffect
         if (isTyping) {
@@ -484,7 +494,9 @@ fun KeyboardComposeView(
                         contentAlignment = Alignment.Center
                     ) {
                         // Language quick-switcher: swipe (default) or long-press on the
-                        // spacebar cycles through the enabled languages.
+                        // spacebar cycles through the enabled languages. Both swipe
+                        // directions work: left = next language, right = previous.
+                        // The new language is shown in a popup above the spacebar.
                         val cycleLanguage: (Int) -> Unit = { direction ->
                             val enabledModes = mutableListOf(
                                 KeyboardMode.ENGLISH,
@@ -497,6 +509,12 @@ fun KeyboardComposeView(
                                 ((currentIndex + direction) % enabledModes.size + enabledModes.size) % enabledModes.size
                             ]
                             onModeChange(nextMode)
+                            languageSwitchPopupLabel = when (nextMode) {
+                                KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                                KeyboardMode.AVRO -> "Avro"
+                                KeyboardMode.ARABIC -> "عربي"
+                                else -> "English"
+                            }
                         }
                         KeyboardKeysGrid(
                             mode = mode,
@@ -551,6 +569,35 @@ fun KeyboardComposeView(
                             },
                             onSpacebarSwipe = { direction -> cycleLanguage(direction) }
                         )
+
+                        // Language-switch popup — shows the current language above the
+                        // spacebar when the language changes via spacebar swipe/long-press
+                        // (like Gboard). The wrapper Box has no pointer handlers, so it
+                        // does not block touches to the keys underneath.
+                        if (spacebarLanguageSwitchEnabled) {
+                            languageSwitchPopupLabel?.let { popupLabel ->
+                                Box(
+                                    modifier = Modifier.matchParentSize(),
+                                    contentAlignment = Alignment.BottomCenter
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(bottom = (adjustedTheme.keyHeightDp + 6).dp)
+                                            .clip(RoundedCornerShape(12.dp))
+                                            .background(theme.popupBackgroundColor)
+                                            .padding(horizontal = 16.dp, vertical = 8.dp),
+                                        contentAlignment = Alignment.Center
+                                    ) {
+                                        Text(
+                                            text = popupLabel,
+                                            color = theme.popupTextColor,
+                                            fontSize = 14.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -1495,10 +1542,15 @@ fun KeyboardKeysGrid(
                         .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
                         .background(if (spacebarPressed) theme.keyBackgroundColor.copy(alpha = 0.8f) else theme.keyBackgroundColor)
                         .pointerInput(longPressDelayMs) {
-                            val swipeThreshold = 24.dp.toPx()
+                            // Gesture structure identical to the proven backspace key
+                            // handler: no event consumption, plain event-loop tracking.
+                            // Down -> track horizontal movement -> swipe fires the moment
+                            // the finger passes the threshold (no holding needed);
+                            // quick release without movement = space tap;
+                            // holding still past the delay = language switch too.
+                            val swipeThreshold = 20.dp.toPx()
                             while (true) {
                                 val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                                down.consume()
                                 spacebarPressed = true
                                 coroutineScope {
                                     var handled = false
@@ -1515,11 +1567,9 @@ fun KeyboardKeysGrid(
                                             val change = event.changes.firstOrNull { it.id == down.id } ?: break
                                             if (!change.pressed) {
                                                 if (!handled) onSpaceTap()
-                                                change.consume()
                                                 break
                                             }
                                             val totalX = change.position.x - down.position.x
-                                            change.consume()
                                             if (!handled && abs(totalX) > swipeThreshold) {
                                                 handled = true
                                                 longPressJob.cancel()
