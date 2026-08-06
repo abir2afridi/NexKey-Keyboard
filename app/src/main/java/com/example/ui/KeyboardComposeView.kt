@@ -135,6 +135,7 @@ fun KeyboardComposeView(
     showGlobeKey: Boolean = true,
     moveCursorSpaceEnabled: Boolean = true,
     spacebarLanguageSwitchEnabled: Boolean = false,
+    enableArabic: Boolean = true,
     popupOnKeypressEnabled: Boolean = true,
     largeNumberRowEnabled: Boolean = false,
     longPressDelayMs: Long = 300L,
@@ -245,6 +246,11 @@ fun KeyboardComposeView(
             delay(1000)
             languageSwitchPopupLabel = null
         }
+    }
+    LaunchedEffect(enableArabic) {
+        // If Arabic is turned off while the Arabic layout is on screen, jump back
+        // to Bangla so a disabled language never stays visible on the keyboard.
+        if (!enableArabic && mode == KeyboardMode.ARABIC) onModeChange(KeyboardMode.BANGLA_JATIYO)
     }
     LaunchedEffect(isTyping, unifiedHeader, toolbarAutoShowDelay) {
         if (!unifiedHeader) return@LaunchedEffect
@@ -412,6 +418,7 @@ fun KeyboardComposeView(
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             infoBoxFont = infoBoxFont,
+                            enableArabic = enableArabic,
                             onModeChange = onModeChange,
                             onVoiceClick = onVoiceClick,
                             onThemeToggle = onThemeToggle,
@@ -509,12 +516,16 @@ fun KeyboardComposeView(
                         // directions work: left = next language, right = previous.
                         // The new language is shown in a popup above the spacebar.
                         val cycleLanguage: (Int) -> Unit = { direction ->
+                            // NOTE: Arabic is only offered when the user enables it in
+                            // Settings -> More Languages -> Arabic. Keep this conditional —
+                            // without it, disabling Arabic would still let the spacebar
+                            // cycle into the Arabic layout.
                             val enabledModes = mutableListOf(
                                 KeyboardMode.ENGLISH,
                                 KeyboardMode.BANGLA_JATIYO,
-                                KeyboardMode.AVRO,
-                                KeyboardMode.ARABIC
+                                KeyboardMode.AVRO
                             )
+                            if (enableArabic) enabledModes.add(KeyboardMode.ARABIC)
                             val currentIndex = enabledModes.indexOf(currentModeState).coerceAtLeast(0)
                             val nextMode = enabledModes[
                                 ((currentIndex + direction) % enabledModes.size + enabledModes.size) % enabledModes.size
@@ -755,6 +766,7 @@ fun SmartToolbar(
     showVoiceKey: Boolean = true,
     showEmojiKey: Boolean = true,
     showGlobeKey: Boolean = true,
+    enableArabic: Boolean = true,
     liveCps: Float = 0f,
     maxBurstCps: Float = 0f,
     isSpeedActive: Boolean = false,
@@ -823,14 +835,17 @@ fun SmartToolbar(
                     active = currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
                     theme = theme
                 ) {
-                    onModeChange(
-                        when (currentMode) {
-                            KeyboardMode.ENGLISH -> KeyboardMode.BANGLA_JATIYO
-                            KeyboardMode.BANGLA_JATIYO -> KeyboardMode.AVRO
-                            KeyboardMode.AVRO -> KeyboardMode.ARABIC
-                            else -> KeyboardMode.ENGLISH
-                        }
+                    // Same rule as the spacebar cycle: skip Arabic entirely when the
+                    // user has disabled it in Settings -> More Languages.
+                    val cycleModes = mutableListOf(
+                        KeyboardMode.ENGLISH,
+                        KeyboardMode.BANGLA_JATIYO,
+                        KeyboardMode.AVRO
                     )
+                    if (enableArabic) cycleModes.add(KeyboardMode.ARABIC)
+                    val currentIdx = cycleModes.indexOf(currentMode).coerceAtLeast(0)
+                    val nextMode = cycleModes[(currentIdx + 1) % cycleModes.size]
+                    onModeChange(nextMode)
                 }
             }
             item {

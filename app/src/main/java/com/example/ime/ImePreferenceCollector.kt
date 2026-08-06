@@ -107,6 +107,7 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.oneHandedWidthLandscape.collectLatest { oneHandedWidthLandscape = it } }
         launch { userPreferences.splitKeyboard.collectLatest { splitKeyboardEnabled = it } }
         launch { userPreferences.spacebarLanguageSwitch.collectLatest { spacebarLanguageSwitchEnabled = it } }
+        launch { userPreferences.enableArabic.collectLatest { enableArabic = it } }
         launch { userPreferences.forcedEnter.collectLatest { forcedEnterEnabled = it } }
         launch { userPreferences.longPressDelayMs.collectLatest { longPressDelayMsState = it } }
         launch { userPreferences.spaceCursorDelay.collectLatest { spaceCursorDelayState = it } }
