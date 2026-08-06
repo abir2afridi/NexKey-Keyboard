@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import com.example.R
 import androidx.compose.ui.text.font.FontWeight
@@ -63,8 +64,10 @@ fun AboutScreen(
                     .background(Color(0xFFE8F5E9)),
                 contentAlignment = Alignment.Center
             ) {
+                // App logo — same drawable as the Home screen header (icon_header),
+                // not a generic Material library icon.
                 Icon(
-                    imageVector = Icons.Default.Keyboard,
+                    painter = painterResource(R.drawable.icon_header),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier.size(56.dp)
