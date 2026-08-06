@@ -256,17 +256,30 @@ fun KeyboardComposeView(
         // to Bangla so a disabled language never stays visible on the keyboard.
         if (!enableArabic && mode == KeyboardMode.ARABIC) onModeChange(KeyboardMode.BANGLA_JATIYO)
     }
-    LaunchedEffect(isUserTyping, isToolbarHeaderVisible, unifiedHeader, toolbarAutoShowDelay) {
+    // Pinned state: when the user taps the strip's toggle button WHILE typing, the
+    // toolbar must stay up even though composing is active (otherwise the auto-hide
+    // effect immediately reverts the toggle and the toolbar icons feel dead while
+    // typing). Pinning only lasts until a NEW typing burst starts (idle -> typing);
+    // a burst that starts while already typing is NOT new (the user may have pinned
+    // the toolbar mid-word), so the toolbar stays.
+    var toolbarPinned by remember { mutableStateOf(false) }
+    var prevUserTyping by remember { mutableStateOf(false) }
+    LaunchedEffect(isUserTyping, isToolbarHeaderVisible, unifiedHeader, toolbarAutoShowDelay, toolbarPinned) {
         if (!unifiedHeader) return@LaunchedEffect
         if (isUserTyping) {
-            // Actively composing -> hide the toolbar, the suggestion strip takes over.
-            isToolbarHeaderVisible = false
-        } else if (!isToolbarHeaderVisible) {
-            // Not composing: if the toolbar is currently hidden, bring it back after
-            // toolbarAutoShowDelay seconds of idle (checked again before showing so a
-            // keystroke right before the timeout cancels the auto-show).
-            delay(toolbarAutoShowDelay * 1000L)
-            if (composingText.isEmpty()) isToolbarHeaderVisible = true
+            // Actively composing -> hide the toolbar (unless pinned), the strip takes over.
+            if (!prevUserTyping) toolbarPinned = false
+            prevUserTyping = true
+            if (!toolbarPinned) isToolbarHeaderVisible = false
+        } else {
+            prevUserTyping = false
+            if (!isToolbarHeaderVisible) {
+                // Not composing: if the toolbar is currently hidden, bring it back after
+                // toolbarAutoShowDelay seconds of idle (checked again before showing so a
+                // keystroke right before the timeout cancels the auto-show).
+                delay(toolbarAutoShowDelay * 1000L)
+                if (composingText.isEmpty()) isToolbarHeaderVisible = true
+            }
         }
     }
     val orientation = config.orientation
@@ -457,7 +470,7 @@ fun KeyboardComposeView(
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             infoBoxFont = infoBoxFont,
-                            onShowToolbar = { isToolbarHeaderVisible = true }
+                            onShowToolbar = { toolbarPinned = true; isToolbarHeaderVisible = true }
                         )
                     }
                 )
