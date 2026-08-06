@@ -25,7 +25,12 @@ internal fun NexKeyInputMethodService.handleBackspace() {
             ic.setComposingText(parsed, 1)
             updateCandidates(composingBuffer)
         } else {
-            ic.finishComposingText()
+            // FIX (double-press delete bug): finishComposingText() commits the last composing
+            // character into the editor instead of deleting it, so the final character (or the
+            // final word during hold-delete) always survived and needed one extra press.
+            // setComposingText("", 1) replaces the composing region with nothing — it actually
+            // removes the last character from the editor.
+            ic.setComposingText("", 1)
             candidates = emptyList()
         }
     } else {
@@ -49,8 +54,12 @@ internal fun NexKeyInputMethodService.handleBackspaceWord() {
     if (composingBuffer.isNotEmpty()) {
         composingBuffer = ""
         lastPressedWord = ""
-        ic.finishComposingText()
+        // FIX (words left behind during hold-delete): finishComposingText() kept the composing
+        // word in the editor, so the next repeat tick (or a finger release) left it behind.
+        // setComposingText("", 1) removes the whole composing word from the editor in one tick.
+        ic.setComposingText("", 1)
         candidates = emptyList()
+        return
     } else {
         val before = ic.getTextBeforeCursor(256, 0)?.toString() ?: return
         if (before.isEmpty()) return

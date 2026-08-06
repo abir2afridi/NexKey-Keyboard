@@ -13,6 +13,7 @@ NexKey Keyboard v1.5.0 is a minor release centered on what you see while you typ
 - **Correct key popup** — the letter preview now pops up over the exact key you tapped and dismisses quickly
 - **Every key responds to your touch** — letter, space, enter, and all other keys now have a press-and-bounce animation, just like the delete key
 - **Faster sentence clearing** — hold backspace and it switches to word-by-word deletion after the initial delay, just like Gboard
+- **Delete always deletes** — the final composing character/word is removed from the editor instead of being committed, so a word never survives the backspace that was meant to remove it
 - **Cleaner Settings** — app settings moved from the bottom bar to top actions
 
 ## What's Changed
