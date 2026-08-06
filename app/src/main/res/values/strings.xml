@@ -563,6 +563,7 @@
     <string name="kb_suggestions">Suggestions</string>
     <string name="kb_show_toolbar">Show toolbar</string>
     <string name="kb_delete">Delete</string>
+    <string name="kb_space">Space</string>
 
     <!-- Speed Meter / Auto-Swipe Records -->
     <string name="meter_unit_cps">CPS</string>

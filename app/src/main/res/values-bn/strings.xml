@@ -564,6 +564,7 @@
     <string name="kb_suggestions">সাজেশন</string>
     <string name="kb_show_toolbar">টুলবার দেখান</string>
     <string name="kb_delete">মুছুন</string>
+    <string name="kb_space">স্পেস</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">সেকেন্ড</string>

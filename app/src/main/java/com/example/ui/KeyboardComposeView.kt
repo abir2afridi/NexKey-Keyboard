@@ -1469,38 +1469,93 @@ fun KeyboardKeysGrid(
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
                 Text(text = ",", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
-            KeyButton(
-                modifier = Modifier.weight(4f).then(
-                    // When the spacebar language switcher is ON, a horizontal swipe on the
-                    // spacebar cycles languages (swipe left = next, swipe right = previous);
-                    // this replaces the drag-to-move-cursor gesture on the spacebar.
-                    if (spacebarLanguageSwitchEnabled) Modifier.pointerInput(Unit) {
-                        var swipeDragX = 0f
-                        val swipeThreshold = 40.dp.toPx()
-                        detectDragGestures(
-                            onDragStart = { swipeDragX = 0f },
-                            onDrag = { change, dragAmount ->
-                                change.consume()
-                                swipeDragX += dragAmount.x
-                            },
-                            onDragEnd = {
-                                if (abs(swipeDragX) > swipeThreshold) {
-                                    onSpacebarSwipe(if (swipeDragX < 0) 1 else -1)
+            val spacebarLabel = when (mode) {
+                KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                KeyboardMode.BANGLA_PHONETIC -> "Phonetic"
+                KeyboardMode.AVRO -> "Avro"
+                KeyboardMode.ARABIC -> "عربي"
+                else -> "English"
+            }
+            if (spacebarLanguageSwitchEnabled) {
+                // Custom spacebar with FULL gesture ownership — a single pointer handler
+                // drives tap / swipe / long-press so swiping works instantly, like
+                // professional keyboards. (combinedClickable consumed the down event,
+                // which silently cancelled the drag detector — that's why the old
+                // swipe only worked after holding long enough to long-press.)
+                var spacebarPressed by remember { mutableStateOf(false) }
+                val spacebarScale by animateFloatAsState(
+                    targetValue = if (spacebarPressed) 0.92f else 1f,
+                    animationSpec = if (spacebarPressed) tween(70) else spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+                )
+                val spaceContentDescription = stringResource(R.string.kb_space)
+                Box(
+                    modifier = Modifier
+                        .weight(4f)
+                        .height(theme.keyHeightDp.dp)
+                        .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
+                        .background(if (spacebarPressed) theme.keyBackgroundColor.copy(alpha = 0.8f) else theme.keyBackgroundColor)
+                        .pointerInput(longPressDelayMs) {
+                            val swipeThreshold = 24.dp.toPx()
+                            while (true) {
+                                val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                                down.consume()
+                                spacebarPressed = true
+                                coroutineScope {
+                                    var handled = false
+                                    val longPressJob = launch {
+                                        delay(longPressDelayMs)
+                                        if (!handled) {
+                                            handled = true
+                                            onSpacebarLongPress()
+                                        }
+                                    }
+                                    awaitPointerEventScope {
+                                        while (true) {
+                                            val event = awaitPointerEvent()
+                                            val change = event.changes.firstOrNull { it.id == down.id } ?: break
+                                            if (!change.pressed) {
+                                                if (!handled) onSpaceTap()
+                                                change.consume()
+                                                break
+                                            }
+                                            val totalX = change.position.x - down.position.x
+                                            change.consume()
+                                            if (!handled && abs(totalX) > swipeThreshold) {
+                                                handled = true
+                                                longPressJob.cancel()
+                                                onSpacebarSwipe(if (totalX < 0) 1 else -1)
+                                            }
+                                        }
+                                    }
+                                    longPressJob.cancel()
                                 }
+                                spacebarPressed = false
                             }
-                        )
-                    } else if (moveCursorSpaceEnabled) Modifier.pointerInput(Unit) {
-                        detectDragGestures(onDragStart = { totalDragX = 0f }, onDrag = { change, dragAmount ->
-                            change.consume(); totalDragX += dragAmount.x
-                            if (abs(totalDragX) > dragThreshold) { onCursorMove(if (totalDragX > 0) 1 else -1); totalDragX = 0f }
-                        })
-                    } else Modifier
-                ),
-                theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs,
-                onClick = onSpaceTap,
-                onLongClick = if (spacebarLanguageSwitchEnabled) onSpacebarLongPress else null
-            ) {
-                Text(text = when (mode) { KeyboardMode.BANGLA_JATIYO -> "বাংলা"; KeyboardMode.BANGLA_PHONETIC -> "Phonetic"; KeyboardMode.AVRO -> "Avro"; KeyboardMode.ARABIC -> "عربي"; else -> "English" }, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                        }
+                        .graphicsLayer {
+                            scaleX = spacebarScale
+                            scaleY = spacebarScale
+                        }
+                        .semantics { this.contentDescription = spaceContentDescription; role = Role.Button },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(text = spacebarLabel, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                }
+            } else {
+                KeyButton(
+                    modifier = Modifier.weight(4f).then(
+                        if (moveCursorSpaceEnabled) Modifier.pointerInput(Unit) {
+                            detectDragGestures(onDragStart = { totalDragX = 0f }, onDrag = { change, dragAmount ->
+                                change.consume(); totalDragX += dragAmount.x
+                                if (abs(totalDragX) > dragThreshold) { onCursorMove(if (totalDragX > 0) 1 else -1); totalDragX = 0f }
+                            })
+                        } else Modifier
+                    ),
+                    theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs,
+                    onClick = onSpaceTap
+                ) {
+                    Text(text = spacebarLabel, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                }
             }
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
                 Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
