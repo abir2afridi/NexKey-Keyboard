@@ -600,12 +600,22 @@ fun KeyboardComposeView(
                                                 .padding(horizontal = 20.dp, vertical = 10.dp),
                                             contentAlignment = Alignment.Center
                                         ) {
-                                            Text(
-                                                text = popupLabel,
-                                                color = theme.popupTextColor,
-                                                fontSize = 16.sp,
-                                                fontWeight = FontWeight.ExtraBold
-                                            )
+                                            androidx.compose.animation.AnimatedContent(
+                                                targetState = popupLabel,
+                                                transitionSpec = {
+                                                    (androidx.compose.animation.slideInHorizontally { width -> width } + fadeIn()).togetherWith(
+                                                        androidx.compose.animation.slideOutHorizontally { width -> -width } + fadeOut())
+                                                        .using(androidx.compose.animation.SizeTransform(clip = false))
+                                                },
+                                                label = "popupLabelAnimation"
+                                            ) { labelText ->
+                                                Text(
+                                                    text = labelText,
+                                                    color = theme.popupTextColor,
+                                                    fontSize = 16.sp,
+                                                    fontWeight = FontWeight.ExtraBold
+                                                )
+                                            }
                                         }
                                     }
                                 }
@@ -1615,7 +1625,13 @@ fun KeyboardKeysGrid(
                         },
                         label = "spacebarLabel"
                     ) { label ->
-                        Text(text = label, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text(text = "‹", color = theme.keyTextColor.copy(alpha = 0.3f), fontSize = 14.sp)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = label, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "›", color = theme.keyTextColor.copy(alpha = 0.3f), fontSize = 14.sp)
+                        }
                     }
                 }
             } else {
