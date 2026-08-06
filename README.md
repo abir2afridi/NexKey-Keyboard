@@ -12,14 +12,14 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.5.0-blue)
+![Version](https://img.shields.io/badge/version-1.6.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
-[![Changelog](https://img.shields.io/badge/changelog-1.5.0-A97BFF)](CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/changelog-1.6.0-A97BFF)](CHANGELOG.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.5.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.6.0-ff69b4)](../releases)
 
 ---
 
@@ -202,9 +202,9 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.5.0 | **Published:** August 5, 2026
+**Version:** 1.6.0 | **Published:** August 7, 2026
 
-- **APK:** [Download v1.5.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.6.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
@@ -220,7 +220,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 | File | SHA256 | MD5 |
 | --- | --- | --- |
-| NexKey-Keyboard-v1.5.0.apk | `f5a715e20988c564047f7f244a6f8e907f8e643b06dbd1dc373154862dc2fee6` | `8b5bd44319884fc7f40202cf1120dec8` |
+| NexKey-Keyboard-v1.6.0.apk | `5e4628dd90a748e56dec454e06c285e3974a2cf40242402f51be1db6f696a70a` | `556ed4c886415f1d7a5ce4cbaf27589b` |
 
 [View all releases →](../releases)
 

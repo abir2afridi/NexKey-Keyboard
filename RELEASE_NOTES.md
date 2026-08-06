@@ -1,44 +1,38 @@
-# NexKey Keyboard v1.5.0 - Release Notes
+# NexKey Keyboard v1.6.0 — Release Notes
 
 ## Overview
 
-NexKey Keyboard v1.5.0 is a minor release centered on what you see while you type: a keyboard you can resize to fit your hands, a leaderboard for your most-used emojis, live app-wide theming, and a richer Info Box and Speed Meter. It also fixes the key-popup that could show in the wrong place.
+NexKey Keyboard v1.6.0 replaces the old hardcoded prediction seed with a real, data-driven prediction engine. The keyboard now ships with an actual English + Bangla word-frequency dictionary, learns what *you* type, fixes your typos, and predicts your next word — all offline on-device, with privacy gates and live toggles for every feature.
 
 ## Highlights
 
-- **Resize your keyboard** — from Layout settings, open "Enable keyboard resizing" and fine-tune height and width for portrait and landscape on a new Resize screen with a live keyboard preview and instant reset
-- **Emoji Leaderboard & All Emojis** — track and rank your most-used emojis, and browse/search the full emoji set with its own screen
-- **Theme everywhere** — switch System / Light / Dark and every screen updates live
-- **Rich Info Box & Speed Meter** — custom text color, font selection, extra frame styles, display modes (meter/count), record tracking, and dedicated settings screens for each
-- **Correct key popup** — the letter preview now pops up over the exact key you tapped and dismisses quickly
-- **Every key responds to your touch** — letter, space, enter, and all other keys now have a press-and-bounce animation, just like the delete key
-- **Faster sentence clearing** — hold backspace and it switches to word-by-word deletion after the initial delay, just like Gboard
-- **Delete always deletes** — the final composing character/word is removed from the editor instead of being committed, so a word never survives the backspace that was meant to remove it
-- **Buttery fast typing** — every remaining main-thread stall is gone: vibration is now fire-and-forget (off the UI thread), and auto-capitalize no longer queries the editor on every single letter mid-word — that cross-process call was the real culprit behind the laggy feel during fast typing (most noticeable in Flutter apps). Shift also applies at input time now, so the first letter after pressing Shift is always capitalized.
-- **Smoother typing** — key presses respond instantly: the press animation is now a quick, non-bouncy tween (like Gboard), and the keypress sound was moved off the UI thread so it can no longer stall typing
-- **Quick language switcher** — with Spacebar Language Switch on, swipe left **or** right on the spacebar (or long-press it) to flip between English, বাংলা, Avro and عربي. Swipe left = next language, right = previous, and a popup above the spacebar shows the language you just switched to — just like Gboard. Repeated swipes keep cycling without getting stuck.
-- **Cleaner Settings** — app settings moved from the bottom bar to top actions
+- **Real dictionary, real speed** — a new `:feature:prediction-engine` module packs the dictionary into a minimized DAWG (directed acyclic word graph): ~46,467 English words in ~797 KB, ~45,757 Bangla words in ~546 KB, both loading in tens of milliseconds. The old hardcoded ~100-word seed trie is gone.
+- **Typo auto-correction** — `recive`→`receive`, `beleive`→`believe`, `definately`→`definitely`, `enviroment`→`environment`, plus swapped (`hte`), extra (`thhe`), missing (`god`), and repeated (`goodd`) letters. Correctly-typed words are never touched.
+- **Learns like you do** — after committing a word a few times it jumps to the front of the strip, and it remembers phrases: after "thank you" it already suggests "so"-style continuations long before you finish typing.
+- **Banglish aware** — `vhalo`/`vhalo` style Bangla text typed in Latin is learned independently (vhal→vhalo first, "vhalo lagtase" completes), and the Banglish word variants `korbo` / `korteci` / `korsi` are never confused with each other.
+- **Emoji on the strip** — start typing "happy", "love", "fire", or "birthday" and the keyboard's suggestion strip offers the matching emoji alongside word candidates.
+- **Autocorrect OFF is honest** — what you type is committed exactly as typed, but the strip still shows the corrected spelling so you can pick it if you want.
+- **Settings take effect instantly** — every prediction toggle (autocorrect, typo correction, next-word, personal learning, emoji, incognito) is read live, so flipping a switch works on the very next keystroke.
+- **Privacy** — password and sensitive fields (email/URI) never learn; incognito mode blocks all learning; your learned data lives in its own `nexkey_prediction_database` separate from app data.
 
 ## What's Changed
 
-- New `KeyboardResizeScreen` with live `KeyboardComposeView` preview and portrait/landscape height & width sliders
-- Emoji usage tracking and a multi-tab leaderboard; full emoji browsing screen with localization
-- Speed meter settings consolidated; bundled DSEG fonts wired up so the meter styles actually render
-- Info Box color/font/frame settings decoupled from the speed meter theme config
-- Tap-popup anchored to the tapped key with faster auto-dismiss
-- Spacebar long-press cycles through enabled languages (English → Bangla → Avro → Arabic)
+- New Gradle module `:feature:prediction-engine` (DAWG lookup, weighted Damerau-Levenshtein correction with QWERTY key-proximity costs, interpolated bigram/trigram backoff, personal trie + Room persistence, Banglish detection, CLDR emoji keywords, LRU cache)
+- The IME suggestion strip now runs on the new `PredictionProvider` engine, merging builtin dictionary, personal learning, next-word n-grams, and emoji into one ranked strip
+- `com.example.engine.PredictionEngine` removed; Sandbox shares the same engine
+- 56 new unit tests covering the scenario spec (learning, Banglish disambiguation, toggle enforcement, privacy, n-gram context, DAWG round-trip, asset load times)
 
 ## Files
 
-- `NexKey-Keyboard-v1.5.0.apk` — installable debug build
-- `NexKey-Keyboard-v1.5.0.apk.sha256` / `.md5` — integrity checksums
+- `NexKey-Keyboard-v1.6.0.apk` — installable debug build
+- `NexKey-Keyboard-v1.6.0.apk.sha256` / `.md5` — integrity checksums
 
 ## Installation
 
 Download the APK and enable "Install unknown apps" for your file manager or browser. Or install via ADB:
 
 ```
-adb install NexKey-Keyboard-v1.5.0.apk
+adb install NexKey-Keyboard-v1.6.0.apk
 ```
 
 Then enable the keyboard in **Settings → System → Languages & input → NexKey Keyboard**.

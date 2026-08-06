@@ -6,6 +6,29 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [1.6.0] — August 7, 2026
+
+### Added
+- Real predictive dictionary engine: new `:feature:prediction-engine` module with a minimized DAWG (Direct Acyclic Word Graph) over real English and Bangla word-frequency data, replacing the old seeded trie. ~795 KB English (46,717 words) and ~546 KB Bangla (45,757 words) assets load in ~54 ms / ~37 ms respectively
+- Typo auto-correction derived generically from the dictionary: recive→receive, beleive→believe, definately→definitely, enviroment→environment, plus swapped (hte→the), extra (thhe→the), missing (god→good) and repeated (goodd→good) letter cases — no hardcoded pairs, weighted by QWERTY key distance
+- Next-word prediction from a learned bigram/trigram model with interpolated backoff — after "thank you" the keyboard offers "so" long before it is typed
+- Personal learning with a confidence threshold (3 uses): "vhal" quickly surfaces "vhalo" first, and after committing "vhalo" the next-word strip offers "lagtase"
+- Banglish disambiguation: korbo/korteci/korsi are ranked and corrected independently and never cross-corrected; a personal Banglish word at the threshold is protected from auto-correction
+- Emoji prediction by keyword on the suggestion strip (happy/birthday/love/fire/laugh), toggleable like the other providers
+- Live feature-flag gating for autocorrect, typo correction, next-word, personal learning, personalized suggestions, emoji prediction, and incognito — a Settings change takes effect on the next keystroke
+- Autocorrect OFF now leaves committed text exactly as typed while the strip still offers the corrected spelling; ON rewrites it at the word boundary
+
+### Changed
+- Suggestion strip in the IME now runs on the new PredictionProvider (DictionaryManager): prefix-ranked candidates merge builtin dictionary, personal learning, next-word n-grams and emoji into one list
+- The hardcoded English/Bangla seed dictionaries in `PredictionEngine` are gone — suggestions come from real frequency data
+- Personal data (learned words, phrases, recents, favorites) is stored in its own Room database (`nexkey_prediction_database`) separate from app data
+- Sandbox and IME screens share the same prediction engine instance; privacy gate applies to password/sensitive fields
+
+### Fixed
+- Learned bigrams never surface after restart: the n-gram index is now rebuilt from persisted Room phrases on init, matching the module's own tests
+
+---
+
 ## [1.5.0] — August 5, 2026
 
 ### Added
