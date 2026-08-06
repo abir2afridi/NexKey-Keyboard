@@ -1144,8 +1144,8 @@ fun AnimatedTapIcon(
 
 suspend fun Animatable<Float, AnimationVector1D>.playIconPop() {
     snapTo(1f)
-    animateTo(0.82f, tween(durationMillis = 70))
-    animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium))
+    animateTo(0.82f, tween(durationMillis = 60))
+    animateTo(1f, tween(durationMillis = 90))
 }
 
 @Composable
@@ -1556,7 +1556,7 @@ fun KeyboardKeysGrid(
                 var spacebarPressed by remember { mutableStateOf(false) }
                 val spacebarScale by animateFloatAsState(
                     targetValue = if (spacebarPressed) 0.92f else 1f,
-                    animationSpec = if (spacebarPressed) tween(70) else spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+                    animationSpec = if (spacebarPressed) tween(60) else tween(90)
                 )
                 val spaceContentDescription = stringResource(R.string.kb_space)
                 Box(
@@ -1727,9 +1727,11 @@ fun KeyButton(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    // Snappy press feedback (no bounce): a long spring tail after EVERY key press is
+    // what makes rapid typing feel laggy/floaty. Quick tweens like Gboard instead.
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.92f else 1f,
-        animationSpec = if (isPressed) tween(70) else spring(dampingRatio = Spring.DampingRatioMediumBouncy, stiffness = Spring.StiffnessMedium)
+        animationSpec = if (isPressed) tween(60) else tween(90)
     )
     val bgColor = if (isSpecial) theme.keySpecialColor else theme.keyBackgroundColor
     val pressedBg = if (isSpecial) theme.keySpecialColor.copy(alpha = 0.7f) else theme.keyBackgroundColor.copy(alpha = 0.8f)

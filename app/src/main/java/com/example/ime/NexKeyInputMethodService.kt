@@ -397,12 +397,19 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
             }
         }
         if (soundEnabled) {
-            val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
-            val volume = (soundLevel / 100f).coerceIn(0f, 1f)
-            try {
-                am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD, volume)
-            } catch (_: Exception) {
-                am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD)
+            // playSoundEffect can stall the UI thread (binder + audio flinger) and is the
+            // main cause of the "laggy" feel on every key press. Run it off the main thread.
+            scope.launch(Dispatchers.IO) {
+                try {
+                    val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
+                    val volume = (soundLevel / 100f).coerceIn(0f, 1f)
+                    am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD, volume)
+                } catch (_: Exception) {
+                    try {
+                        val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
+                        am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD)
+                    } catch (_: Exception) {}
+                }
             }
         }
     }
