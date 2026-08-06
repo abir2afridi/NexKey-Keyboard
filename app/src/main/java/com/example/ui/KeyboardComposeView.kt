@@ -225,7 +225,11 @@ fun KeyboardComposeView(
     // toggle button brings it back. If the keyboard stays idle for toolbarAutoShowDelay
     // seconds (no typing), the toolbar auto-appears again. One header at a time.
     var isToolbarHeaderVisible by remember { mutableStateOf(true) }
-    val isTyping = composingText.isNotEmpty() || suggestions.isNotEmpty()
+    // IMPORTANT: "typing" here means the user is actively composing text. It MUST NOT be
+    // driven by the suggestions list — the IME keeps next-word predictions non-empty even
+    // when idle, so a suggestions-based check would keep isTyping true forever and the
+    // toolbar would never auto-show.
+    val isUserTyping = composingText.isNotEmpty()
     // The spacebar swipe/long-press gesture handler lives for the whole keyboard session
     // (its pointerInput key never changes), so it captures the language-switch callback
     // ONCE. Without this, every later swipe would keep using the ORIGINAL mode and the
@@ -252,13 +256,17 @@ fun KeyboardComposeView(
         // to Bangla so a disabled language never stays visible on the keyboard.
         if (!enableArabic && mode == KeyboardMode.ARABIC) onModeChange(KeyboardMode.BANGLA_JATIYO)
     }
-    LaunchedEffect(isTyping, unifiedHeader, toolbarAutoShowDelay) {
+    LaunchedEffect(isUserTyping, isToolbarHeaderVisible, unifiedHeader, toolbarAutoShowDelay) {
         if (!unifiedHeader) return@LaunchedEffect
-        if (isTyping) {
+        if (isUserTyping) {
+            // Actively composing -> hide the toolbar, the suggestion strip takes over.
             isToolbarHeaderVisible = false
-        } else {
+        } else if (!isToolbarHeaderVisible) {
+            // Not composing: if the toolbar is currently hidden, bring it back after
+            // toolbarAutoShowDelay seconds of idle (checked again before showing so a
+            // keystroke right before the timeout cancels the auto-show).
             delay(toolbarAutoShowDelay * 1000L)
-            isToolbarHeaderVisible = true
+            if (composingText.isEmpty()) isToolbarHeaderVisible = true
         }
     }
     val orientation = config.orientation
