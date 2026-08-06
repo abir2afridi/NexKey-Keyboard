@@ -361,7 +361,6 @@ fun KeyboardComposeView(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = 8.dp)
             ) {
                 val isToolbarCollapsed = unifiedHeader && !isToolbarHeaderVisible
                 val showSuggestionBar = alwaysShowSuggestions && mode != KeyboardMode.EMOJI && mode != KeyboardMode.CLIPBOARD
@@ -580,20 +579,27 @@ fun KeyboardComposeView(
                                     modifier = Modifier.matchParentSize(),
                                     contentAlignment = Alignment.BottomCenter
                                 ) {
-                                    Box(
-                                        modifier = Modifier
-                                            .padding(bottom = (adjustedTheme.keyHeightDp + 6).dp)
-                                            .clip(RoundedCornerShape(12.dp))
-                                            .background(theme.popupBackgroundColor)
-                                            .padding(horizontal = 16.dp, vertical = 8.dp),
-                                        contentAlignment = Alignment.Center
+                                    androidx.compose.animation.AnimatedVisibility(
+                                        visible = languageSwitchPopupLabel != null,
+                                        enter = fadeIn() + androidx.compose.animation.scaleIn(initialScale = 0.8f),
+                                        exit = fadeOut() + androidx.compose.animation.scaleOut(targetScale = 0.8f)
                                     ) {
-                                        Text(
-                                            text = popupLabel,
-                                            color = theme.popupTextColor,
-                                            fontSize = 14.sp,
-                                            fontWeight = FontWeight.Bold
-                                        )
+                                        Box(
+                                            modifier = Modifier
+                                                .padding(bottom = (adjustedTheme.keyHeightDp + 12).dp)
+                                                .shadow(12.dp, RoundedCornerShape(16.dp))
+                                                .clip(RoundedCornerShape(16.dp))
+                                                .background(theme.popupBackgroundColor)
+                                                .padding(horizontal = 20.dp, vertical = 10.dp),
+                                            contentAlignment = Alignment.Center
+                                        ) {
+                                            Text(
+                                                text = popupLabel,
+                                                color = theme.popupTextColor,
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
+                                        }
                                     }
                                 }
                             }
@@ -1348,12 +1354,13 @@ fun KeyboardKeysGrid(
     val shiftIconScale = remember { Animatable(1f) }
     val backspaceIconScale = remember { Animatable(1f) }
 
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 3.dp, vertical = 2.dp),
-        verticalArrangement = Arrangement.spacedBy(6.dp)
-    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 3.dp, vertical = 2.dp)
+                .padding(bottom = 6.dp),
+            verticalArrangement = Arrangement.spacedBy(6.dp)
+        ) {
         if (showNumberRow && mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS) {
             val numRowHeight = if (largeNumberRowEnabled) 48.dp else 36.dp
             val activeNumberRow = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) {
@@ -1589,7 +1596,20 @@ fun KeyboardKeysGrid(
                         .semantics { this.contentDescription = spaceContentDescription; role = Role.Button },
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(text = spacebarLabel, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                    androidx.compose.animation.AnimatedContent(
+                        targetState = spacebarLabel,
+                        transitionSpec = {
+                            if (targetState != initialState) {
+                                (androidx.compose.animation.slideInHorizontally { width -> width } + fadeIn()).togetherWith(
+                                    androidx.compose.animation.slideOutHorizontally { width -> -width } + fadeOut())
+                            } else {
+                                fadeIn() togetherWith fadeOut()
+                            }.using(androidx.compose.animation.SizeTransform(clip = false))
+                        },
+                        label = "spacebarLabel"
+                    ) { label ->
+                        Text(text = label, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
+                    }
                 }
             } else {
                 KeyButton(
