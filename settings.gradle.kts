@@ -25,3 +25,4 @@ dependencyResolutionManagement {
 rootProject.name = "NexKey"
 
 include(":app")
+include(":feature:prediction-engine")

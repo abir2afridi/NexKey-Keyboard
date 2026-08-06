@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.engine.BanglaPhoneticEngine
-import com.example.engine.PredictionEngine
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
 
@@ -40,7 +39,11 @@ fun SandboxScreen(
     var sandboxTheme by remember { mutableStateOf(KeyboardTheme.DarkNeon) }
     var sandboxComposing by remember { mutableStateOf("") }
     var sandboxSuggestions by remember { mutableStateOf<List<String>>(emptyList()) }
-    val predictionEngine = remember { PredictionEngine() }
+    val predictionEngine = remember {
+        com.example.prediction.engine.DictionaryManager(
+            com.example.data.PreferenceFeatureFlags(com.example.data.UserPreferences(context))
+        ).also { it.init(context) }
+    }
 
     Scaffold(
         topBar = {
@@ -109,7 +112,10 @@ fun SandboxScreen(
                     onKeyTap = { key ->
                         if (sandboxMode == KeyboardMode.BANGLA_PHONETIC && key.all { it.isLetter() || it == '.' || it == '^' }) {
                             sandboxComposing += key
-                            sandboxSuggestions = predictionEngine.getPredictions(sandboxComposing, isBangla = true)
+                            sandboxSuggestions = predictionEngine.getSuggestions(
+                                sandboxComposing, isBangla = true, previousWords = emptyList(),
+                                showTypedWordFirst = false, limit = 4, now = System.currentTimeMillis()
+                            ).map { it.word }
                         } else {
                             if (sandboxComposing.isNotEmpty()) {
                                 testInputText += BanglaPhoneticEngine.parse(sandboxComposing)
@@ -123,7 +129,10 @@ fun SandboxScreen(
                         if (sandboxComposing.isNotEmpty()) {
                             sandboxComposing = sandboxComposing.dropLast(1)
                             sandboxSuggestions = if (sandboxComposing.isNotEmpty()) {
-                                predictionEngine.getPredictions(sandboxComposing, isBangla = true)
+                                predictionEngine.getSuggestions(
+                                    sandboxComposing, isBangla = true, previousWords = emptyList(),
+                                    showTypedWordFirst = false, limit = 4, now = System.currentTimeMillis()
+                                ).map { it.word }
                             } else {
                                 emptyList()
                             }

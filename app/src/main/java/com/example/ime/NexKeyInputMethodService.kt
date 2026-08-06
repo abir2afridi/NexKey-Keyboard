@@ -21,8 +21,10 @@ import androidx.compose.ui.platform.ComposeView
 import com.example.R
 import com.example.clipboard.ClipboardManager
 import com.example.data.TypingAnalytics
+import com.example.data.PreferenceFeatureFlags
 import com.example.data.UserPreferences
-import com.example.engine.PredictionEngine
+import com.example.prediction.PredictionProvider
+import com.example.prediction.engine.DictionaryManager
 import com.example.theme.KeyboardTheme
 import com.example.theme.ThemePreset
 import com.example.theme.MeterTheme
@@ -155,7 +157,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var emojiSearchVisibleRows by mutableStateOf(2)
     internal var emojiSearchHorizontal by mutableStateOf(true)
 
-    internal val predictionEngine = PredictionEngine()
+    internal val predictionEngine: PredictionProvider by lazy {
+        DictionaryManager(PreferenceFeatureFlags(UserPreferences(applicationContext)))
+    }
+
+    /** Last few committed words, used as previous-word context for n-gram prediction. */
+    internal val recentCommittedWords = ArrayDeque<String>()
     private var speechRecognizer: SpeechRecognizer? = null
     internal lateinit var userPreferences: UserPreferences
     internal val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
@@ -443,10 +450,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
         if (isPassword || isSensitive) {
             candidates = emptyList()
-            predictionEngine.setIncognito(true)
             ClipboardManager.setIncognito(true)
         } else if (!isIncognito) {
-            predictionEngine.setIncognito(false)
             ClipboardManager.setIncognito(false)
         }
     }

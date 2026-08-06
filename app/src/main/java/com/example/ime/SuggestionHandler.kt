@@ -2,17 +2,26 @@ package com.example.ime
 
 import kotlinx.coroutines.launch
 
+internal fun NexKeyInputMethodService.rememberCommittedWord(word: String) {
+    if (word.isBlank()) return
+    recentCommittedWords.addLast(word)
+    while (recentCommittedWords.size > 3) recentCommittedWords.removeFirst()
+}
+
 internal fun NexKeyInputMethodService.updateCandidates(query: String) {
     if (isPasswordField || isSensitiveField) {
         candidates = emptyList()
         return
     }
-    val predictions = predictionEngine.getPredictions(
+    val predictions = predictionEngine.getSuggestions(
         prefix = query,
         isBangla = isBanglaMode(currentMode),
-        showTypedWordFirst = showTypedWordFirstEnabled
+        previousWords = recentCommittedWords.toList(),
+        showTypedWordFirst = showTypedWordFirstEnabled,
+        limit = 4,
+        now = System.currentTimeMillis()
     )
-    candidates = predictions
+    candidates = predictions.map { it.word }
 }
 
 internal fun NexKeyInputMethodService.commitSuggestion(word: String) {
@@ -25,11 +34,15 @@ internal fun NexKeyInputMethodService.commitSuggestion(word: String) {
     ic.commitText("$word ", 1)
     ic.endBatchEdit()
     countMeteredWord()
-    if (!isSensitiveField && personalizedSuggestionsEnabled) {
-        predictionEngine.learnWord(word, isBangla = isBanglaMode(currentMode))
-        predictionEngine.setLastTypedWord(word)
+    if (!isSensitiveField) {
+        predictionEngine.onWordCommitted(
+            word, isBanglaMode(currentMode), recentCommittedWords.toList(), System.currentTimeMillis()
+        )
+        rememberCommittedWord(word)
         if (nextWordSuggestionsEnabled) {
-            candidates = predictionEngine.getNextWordPredictions(isBanglaMode(currentMode))
+            candidates = predictionEngine.getNextWordPredictions(
+                recentCommittedWords.toList(), isBanglaMode(currentMode), 3, System.currentTimeMillis()
+            ).map { it.word }
         }
     }
     composingBuffer = ""
@@ -48,7 +61,10 @@ internal fun NexKeyInputMethodService.commitComposingBuffer() {
         ic.commitText(word, 1)
         ic.endBatchEdit()
         if (!isSensitiveField && !isIncognito) {
-            predictionEngine.learnWord(word, isBangla = isBanglaMode(currentMode))
+            predictionEngine.onWordCommitted(
+                word, isBanglaMode(currentMode), recentCommittedWords.toList(), System.currentTimeMillis()
+            )
+            rememberCommittedWord(word)
             scope.launch { userPreferences.incrementStats(words = 1, chars = word.length) }
         }
         composingBuffer = ""

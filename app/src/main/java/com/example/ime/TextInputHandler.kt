@@ -161,7 +161,7 @@ internal fun NexKeyInputMethodService.handleSpace() {
         val rawWord = parseComposing(currentMode, composingBuffer)
         val isBangla = isBanglaMode(currentMode)
         val correctedWord = if (autoCorrectionEnabled && !isSensitiveField) {
-            val correction = predictionEngine.getCorrection(rawWord, isBangla)
+            val correction = predictionEngine.getCorrection(rawWord, isBangla, System.currentTimeMillis())?.correction
             if (correction != null && rawWord.length > 2) correction else rawWord
         } else {
             rawWord
@@ -171,13 +171,17 @@ internal fun NexKeyInputMethodService.handleSpace() {
         ic.endBatchEdit()
         countMeteredWord()
         if (!isSensitiveField) {
-            predictionEngine.learnWord(correctedWord, isBangla = isBangla)
-            predictionEngine.setLastTypedWord(correctedWord)
+            predictionEngine.onWordCommitted(
+                correctedWord, isBangla, recentCommittedWords.toList(), System.currentTimeMillis()
+            )
+            rememberCommittedWord(correctedWord)
             if (!isIncognito) {
                 scope.launch { userPreferences.incrementStats(words = 1, chars = correctedWord.length + 1) }
             }
             if (nextWordSuggestionsEnabled) {
-                candidates = predictionEngine.getNextWordPredictions(isBangla)
+                candidates = predictionEngine.getNextWordPredictions(
+                    recentCommittedWords.toList(), isBangla, 3, System.currentTimeMillis()
+                ).map { it.word }
             }
         }
         composingBuffer = ""

@@ -74,7 +74,6 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
             userPreferences.incognito.collectLatest { incognitoEnabled ->
                 isIncognito = incognitoEnabled
                 ClipboardManager.setIncognito(incognitoEnabled)
-                predictionEngine.setIncognito(incognitoEnabled)
             }
         }
         launch { userPreferences.haptics.collectLatest { hapticsEnabled = it } }
