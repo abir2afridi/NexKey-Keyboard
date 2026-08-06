@@ -25,80 +25,68 @@
 
 ## Features
 
-| Feature | Status |
+| Category | Feature | Status |
 |---|---|---|
-| **Typing & Languages** | |
-| QWERTY & Bangla Phonetic typing | ✅ |
-| Bangla Jatiyo (National) layout | ✅ |
-| Bangla Avro phonetic layout | ✅ |
-| Avro phonetic engine (Avro-style transliteration) | ✅ |
-| Arabic layout | ✅ |
-| 80+ Bangla conjunct (juktakkhor) rules | ✅ |
-| 46+ language support | ✅ |
-| More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
-| App Language selector | ✅ |
-| **Text Input** | |
-| Symbols & Numbers panels | ✅ |
-| Auto-capitalization | ✅ |
-| Caps lock (double-tap shift) | ✅ |
-| Smart punctuation (double-space period) | ✅ |
-| Double-space tab | ✅ |
-| Composing-region state machine | ✅ |
-| EditorInfo.inputType handling | ✅ |
-| IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
-| Space bar cursor move (swipe to position caret) | ✅ |
-| **Prediction & Correction** | |
-| Trie-based prediction engine | ✅ |
-| Persistent learned words (Room DB) | ✅ |
-| Always-show suggestion strip | ✅ |
-| Autocorrect with undo-on-backspace | 🚧 Planned |
-| DAWG dictionary | 🚧 Planned |
-| **Voice, Clipboard & Paste** | |
-| Voice typing (Android SpeechRecognizer) with permission handling | ✅ |
-| Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
-| Hold-to-paste (configurable trigger key & duration) | ✅ |
-| **Emoji & Stickers** | |
-| Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
-| Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
-| Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
-| Recent emoji retention (configurable expiry) | ✅ |
-| GIF/Sticker tabs (placeholder) | ✅ |
-| **Themes & Appearance** | |
-| Theme system (4 presets, DataStore) | ✅ |
-| Custom theme engine (11 color groups + live preview) | ✅ |
-| HSV color picker (theme creator) | ✅ |
-| App theme (System/Light/Dark) | ✅ |
-| Unified animated header (auto-show/hide) | ✅ |
-| Auto-hide toolbar | ✅ |
-| **Speed Meter & Info Box** | |
-| Typing speed meter (CPS / words / keys counts, themes, fonts, intervals) | ✅ |
-| Info Box with selectable frames & swipe text color | ✅ |
-| Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
-| **Privacy & Security** | |
-| Incognito mode (no learning, no clipboard) | ✅ |
-| Password/sensitive field detection | ✅ |
-| **Accessibility & Input Feedback** | |
-| TalkBack accessibility labels (all keys) | ✅ |
-| Key long-press hint popups (numbers for top row, accents for others) | ✅ |
-| Long-press backspace continuous delete (customizable speed & delay) | ✅ |
-| **IME & System** | |
-| Lifecycle-aware IME for Jetpack Compose | ✅ |
-| In-app Setup Wizard (enable + select) | ✅ |
-| Continuous IME state polling for robust detection | ✅ |
-| Instant flicker-free language switching (no activity recreation) | ✅ |
-| Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
-| Bottom navigation (Home, Store, Keyboard, Leaderboard) + App Settings in page headers | ✅ |
-| Gradle wrapper (CI-ready) | ✅ |
-| **App Localization** | |
-| App localization (14 languages + English) | ✅ |
-| **Planned** | |
-| Gesture/swipe typing | 🚧 Planned |
-| Text expansion / shortcuts | 🚧 Planned |
-| Physical keyboard support | 🚧 Planned |
-| Foldable & stylus support | 🚧 Planned |
-| Handwriting interface | 🚧 Planned |
-| In-app updates | 🚧 Planned |
-| Crash watchdog | 🚧 Planned |
+| Typing & Languages | QWERTY & Bangla Phonetic typing | ✅ |
+| Typing & Languages | Bangla Jatiyo (National) layout | ✅ |
+| Typing & Languages | Bangla Avro phonetic layout | ✅ |
+| Typing & Languages | Avro phonetic engine (Avro-style transliteration) | ✅ |
+| Typing & Languages | Arabic layout | ✅ |
+| Typing & Languages | 80+ Bangla conjunct (juktakkhor) rules | ✅ |
+| Typing & Languages | 46+ language support | ✅ |
+| Typing & Languages | More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
+| Typing & Languages | App Language selector | ✅ |
+| Text Input | Symbols & Numbers panels | ✅ |
+| Text Input | Auto-capitalization | ✅ |
+| Text Input | Caps lock (double-tap shift) | ✅ |
+| Text Input | Smart punctuation (double-space period) | ✅ |
+| Text Input | Double-space tab | ✅ |
+| Text Input | Composing-region state machine | ✅ |
+| Text Input | EditorInfo.inputType handling | ✅ |
+| Text Input | IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
+| Text Input | Space bar cursor move (swipe to position caret) | ✅ |
+| Prediction & Correction | Trie-based prediction engine | ✅ |
+| Prediction & Correction | Persistent learned words (Room DB) | ✅ |
+| Prediction & Correction | Always-show suggestion strip | ✅ |
+| Prediction & Correction | Autocorrect with undo-on-backspace | 🚧 Planned |
+| Prediction & Correction | DAWG dictionary | 🚧 Planned |
+| Voice, Clipboard & Paste | Voice typing (Android SpeechRecognizer) with permission handling | ✅ |
+| Voice, Clipboard & Paste | Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
+| Voice, Clipboard & Paste | Hold-to-paste (configurable trigger key & duration) | ✅ |
+| Emoji & Stickers | Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
+| Emoji & Stickers | Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
+| Emoji & Stickers | Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
+| Emoji & Stickers | Recent emoji retention (configurable expiry) | ✅ |
+| Emoji & Stickers | GIF/Sticker tabs (placeholder) | ✅ |
+| Themes & Appearance | Theme system (4 presets, DataStore) | ✅ |
+| Themes & Appearance | Custom theme engine (11 color groups + live preview) | ✅ |
+| Themes & Appearance | HSV color picker (theme creator) | ✅ |
+| Themes & Appearance | App theme (System/Light/Dark) | ✅ |
+| Themes & Appearance | Unified animated header (auto-show/hide) | ✅ |
+| Themes & Appearance | Auto-hide toolbar | ✅ |
+| Speed Meter & Info Box | Typing speed meter (CPS / words / keys counts, themes, fonts, intervals) | ✅ |
+| Speed Meter & Info Box | Info Box with selectable frames & swipe text color | ✅ |
+| Speed Meter & Info Box | Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
+| Privacy & Security | Incognito mode (no learning, no clipboard) | ✅ |
+| Privacy & Security | Password/sensitive field detection | ✅ |
+| Accessibility & Input Feedback | TalkBack accessibility labels (all keys) | ✅ |
+| Accessibility & Input Feedback | Key long-press hint popups (numbers for top row, accents for others) | ✅ |
+| Accessibility & Input Feedback | Long-press backspace continuous delete (customizable speed & delay) | ✅ |
+| IME & System | Lifecycle-aware IME for Jetpack Compose | ✅ |
+| IME & System | In-app Setup Wizard (enable + select) | ✅ |
+| IME & System | Continuous IME state polling for robust detection | ✅ |
+| IME & System | Instant flicker-free language switching (no activity recreation) | ✅ |
+| IME & System | Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
+| IME & System | Bottom navigation (Home, Store, Keyboard, Leaderboard) + App Settings in page headers | ✅ |
+| IME & System | Gradle wrapper (CI-ready) | ✅ |
+| App Localization | App localization (14 languages + English) | ✅ |
+| Planned | Gesture/swipe typing | 🚧 Planned |
+| Planned | Text expansion / shortcuts | 🚧 Planned |
+| Planned | Physical keyboard support | 🚧 Planned |
+| Planned | Foldable & stylus support | 🚧 Planned |
+| Planned | Handwriting interface | 🚧 Planned |
+| Planned | In-app updates | 🚧 Planned |
+| Planned | Crash watchdog | 🚧 Planned |
 
 ---
 
