@@ -234,9 +234,14 @@ fun KeyboardComposeView(
     // Language-switch popup: shows the new language above the spacebar (like Gboard)
     // whenever the spacebar swipe/long-press switches languages. Auto-hides after ~1s.
     var languageSwitchPopupLabel by remember { mutableStateOf<String?>(null) }
+    var lastSwipeDirection by remember { mutableIntStateOf(1) } // 1: Next (from Right), -1: Prev (from Left)
+    
+    // We keep a persistent copy of the label for the sliding animation in the popup
+    // so it doesn't reset when languageSwitchPopupLabel briefly becomes null or new.
+    var persistentPopupLabel by remember { mutableStateOf("") }
     LaunchedEffect(languageSwitchPopupLabel) {
-        val label = languageSwitchPopupLabel
-        if (label != null) {
+        languageSwitchPopupLabel?.let { persistentPopupLabel = it }
+        if (languageSwitchPopupLabel != null) {
             delay(1000)
             languageSwitchPopupLabel = null
         }
@@ -514,6 +519,11 @@ fun KeyboardComposeView(
                             val nextMode = enabledModes[
                                 ((currentIndex + direction) % enabledModes.size + enabledModes.size) % enabledModes.size
                             ]
+                            
+                            // Capture direction for animation:
+                            // direction 1 = Next (Enter from Right), direction -1 = Prev (Enter from Left)
+                            lastSwipeDirection = direction
+                            
                             onModeChange(nextMode)
                             languageSwitchPopupLabel = when (nextMode) {
                                 KeyboardMode.BANGLA_JATIYO -> "বাংলা"
@@ -539,6 +549,7 @@ fun KeyboardComposeView(
                             splitKeyboardEnabled = splitKeyboardEnabled,
                             backspaceRepeatDelayMs = backspaceRepeatDelayMs,
                             backspaceRepeatSpeedMs = backspaceRepeatSpeedMs,
+                            lastSwipeDirection = lastSwipeDirection,
                             // Tap popup trigger. onKeyTap fires for the letter itself; we ALSO
                             // bump tapPopupSeq + set tapPopupChar (toggle on) so the bubble
                             // shows. Real input still goes through onKeyTap(char).
@@ -578,44 +589,42 @@ fun KeyboardComposeView(
 
                         // Language-switch popup — shows the current language above the
                         // spacebar when the language changes via spacebar swipe/long-press
-                        // (like Gboard). The wrapper Box has no pointer handlers, so it
-                        // does not block touches to the keys underneath.
+                        // (like Gboard).
                         if (spacebarLanguageSwitchEnabled) {
-                            languageSwitchPopupLabel?.let { popupLabel ->
-                                Box(
-                                    modifier = Modifier.matchParentSize(),
-                                    contentAlignment = Alignment.BottomCenter
+                            Box(
+                                modifier = Modifier.matchParentSize(),
+                                contentAlignment = Alignment.BottomCenter
+                            ) {
+                                androidx.compose.animation.AnimatedVisibility(
+                                    visible = languageSwitchPopupLabel != null,
+                                    enter = fadeIn() + androidx.compose.animation.scaleIn(initialScale = 0.8f),
+                                    exit = fadeOut() + androidx.compose.animation.scaleOut(targetScale = 0.8f)
                                 ) {
-                                    androidx.compose.animation.AnimatedVisibility(
-                                        visible = languageSwitchPopupLabel != null,
-                                        enter = fadeIn() + androidx.compose.animation.scaleIn(initialScale = 0.8f),
-                                        exit = fadeOut() + androidx.compose.animation.scaleOut(targetScale = 0.8f)
+                                    Box(
+                                        modifier = Modifier
+                                            .padding(bottom = (adjustedTheme.keyHeightDp + 12).dp)
+                                            .shadow(12.dp, RoundedCornerShape(16.dp))
+                                            .clip(RoundedCornerShape(16.dp))
+                                            .background(theme.popupBackgroundColor)
+                                            .padding(horizontal = 20.dp, vertical = 10.dp),
+                                        contentAlignment = Alignment.Center
                                     ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .padding(bottom = (adjustedTheme.keyHeightDp + 12).dp)
-                                                .shadow(12.dp, RoundedCornerShape(16.dp))
-                                                .clip(RoundedCornerShape(16.dp))
-                                                .background(theme.popupBackgroundColor)
-                                                .padding(horizontal = 20.dp, vertical = 10.dp),
-                                            contentAlignment = Alignment.Center
-                                        ) {
-                                            androidx.compose.animation.AnimatedContent(
-                                                targetState = popupLabel,
-                                                transitionSpec = {
-                                                    (androidx.compose.animation.slideInHorizontally { width -> width } + fadeIn()).togetherWith(
-                                                        androidx.compose.animation.slideOutHorizontally { width -> -width } + fadeOut())
-                                                        .using(androidx.compose.animation.SizeTransform(clip = false))
-                                                },
-                                                label = "popupLabelAnimation"
-                                            ) { labelText ->
-                                                Text(
-                                                    text = labelText,
-                                                    color = theme.popupTextColor,
-                                                    fontSize = 16.sp,
-                                                    fontWeight = FontWeight.ExtraBold
-                                                )
-                                            }
+                                        androidx.compose.animation.AnimatedContent(
+                                            targetState = persistentPopupLabel,
+                                            transitionSpec = {
+                                                val direction = lastSwipeDirection
+                                                (androidx.compose.animation.slideInHorizontally { width -> direction * width } + fadeIn()).togetherWith(
+                                                    androidx.compose.animation.slideOutHorizontally { width -> -direction * width } + fadeOut())
+                                                    .using(androidx.compose.animation.SizeTransform(clip = false))
+                                            },
+                                            label = "popupLabelAnimation"
+                                        ) { labelText ->
+                                            Text(
+                                                text = labelText,
+                                                color = theme.popupTextColor,
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.ExtraBold
+                                            )
                                         }
                                     }
                                 }
@@ -1352,6 +1361,7 @@ fun KeyboardKeysGrid(
     isSpeedActive: Boolean = false,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
+    lastSwipeDirection: Int = 1,
     onKeyTap: (String) -> Unit,
     onBackspaceTap: () -> Unit,
     onBackspaceWord: () -> Unit = {},
@@ -1616,9 +1626,10 @@ fun KeyboardKeysGrid(
                     androidx.compose.animation.AnimatedContent(
                         targetState = spacebarLabel,
                         transitionSpec = {
+                            val direction = lastSwipeDirection
                             if (targetState != initialState) {
-                                (androidx.compose.animation.slideInHorizontally { width -> width } + fadeIn()).togetherWith(
-                                    androidx.compose.animation.slideOutHorizontally { width -> -width } + fadeOut())
+                                (androidx.compose.animation.slideInHorizontally { width -> direction * width } + fadeIn()).togetherWith(
+                                    androidx.compose.animation.slideOutHorizontally { width -> -direction * width } + fadeOut())
                             } else {
                                 fadeIn() togetherWith fadeOut()
                             }.using(androidx.compose.animation.SizeTransform(clip = false))
@@ -1626,11 +1637,11 @@ fun KeyboardKeysGrid(
                         label = "spacebarLabel"
                     ) { label ->
                         Row(verticalAlignment = Alignment.CenterVertically) {
-                            Text(text = "‹", color = theme.keyTextColor.copy(alpha = 0.3f), fontSize = 14.sp)
-                            Spacer(modifier = Modifier.width(8.dp))
+                            Text(text = "⟨", color = theme.keyTextColor.copy(alpha = 0.35f), fontSize = 14.sp)
+                            Spacer(modifier = Modifier.width(10.dp))
                             Text(text = label, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
-                            Spacer(modifier = Modifier.width(8.dp))
-                            Text(text = "›", color = theme.keyTextColor.copy(alpha = 0.3f), fontSize = 14.sp)
+                            Spacer(modifier = Modifier.width(10.dp))
+                            Text(text = "⟩", color = theme.keyTextColor.copy(alpha = 0.35f), fontSize = 14.sp)
                         }
                     }
                 }
