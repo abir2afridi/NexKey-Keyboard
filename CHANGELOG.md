@@ -25,6 +25,7 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - No visual feedback when pressing letter/space/enter keys — every key now has a press-and-bounce animation matching the delete key style
 - Holding delete to clear text was slow and left words behind — now switches to word-by-word deletion after the initial repeat delay
 - Last character of a word surviving delete — backspace now truly deletes the final composing character/word instead of committing it into the editor, so single words delete with one press and hold-delete clears the whole sentence
+- Spacebar language switcher now supports swipe (left/right, the quick default) in addition to long-press when enabled
 
 ### Refactored
 - Emoji panel grid layout and sizing

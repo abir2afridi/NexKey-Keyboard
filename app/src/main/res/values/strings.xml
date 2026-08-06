@@ -336,7 +336,7 @@
     <string name="langkeys_other_kb">Allow Other Keyboards</string>
     <string name="langkeys_other_kb_desc">Globe key switches to others</string>
     <string name="langkeys_spacebar_switch">Spacebar Language Switch</string>
-    <string name="langkeys_spacebar_switch_desc">Long-press spacebar to switch languages</string>
+    <string name="langkeys_spacebar_switch_desc">Swipe (quick) or long-press the spacebar to switch languages</string>
 
     <!-- Layout -->
     <string name="layout_number_row">Enable number row</string>

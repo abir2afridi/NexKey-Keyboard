@@ -483,6 +483,21 @@ fun KeyboardComposeView(
                             .padding(horizontal = ((100 - effectiveOneHanded) / 2f).dp),
                         contentAlignment = Alignment.Center
                     ) {
+                        // Language quick-switcher: swipe (default) or long-press on the
+                        // spacebar cycles through the enabled languages.
+                        val cycleLanguage: (Int) -> Unit = { direction ->
+                            val enabledModes = mutableListOf(
+                                KeyboardMode.ENGLISH,
+                                KeyboardMode.BANGLA_JATIYO,
+                                KeyboardMode.AVRO,
+                                KeyboardMode.ARABIC
+                            )
+                            val currentIndex = enabledModes.indexOf(mode).coerceAtLeast(0)
+                            val nextMode = enabledModes[
+                                ((currentIndex + direction) % enabledModes.size + enabledModes.size) % enabledModes.size
+                            ]
+                            onModeChange(nextMode)
+                        }
                         KeyboardKeysGrid(
                             mode = mode,
                             lastTextMode = lastTextMode,
@@ -532,16 +547,9 @@ fun KeyboardComposeView(
                                 }
                             },
                             onSpacebarLongPress = {
-                                val enabledModes = mutableListOf(
-                                    KeyboardMode.ENGLISH,
-                                    KeyboardMode.BANGLA_JATIYO,
-                                    KeyboardMode.AVRO,
-                                    KeyboardMode.ARABIC
-                                )
-                                val currentIndex = enabledModes.indexOf(mode).coerceAtLeast(0)
-                                val nextMode = enabledModes[(currentIndex + 1) % enabledModes.size]
-                                onModeChange(nextMode)
-                            }
+                                cycleLanguage(1)
+                            },
+                            onSpacebarSwipe = { direction -> cycleLanguage(direction) }
                         )
                     }
                 }
@@ -1284,6 +1292,7 @@ fun KeyboardKeysGrid(
     onCursorMove: (Int) -> Unit = {},
     onLongPress: (KeyModel) -> Unit = {},
     onSpacebarLongPress: () -> Unit = {},
+    onSpacebarSwipe: (Int) -> Unit = {},
     onKeyTapWithCoords: (String, LayoutCoordinates) -> Unit = { _, _ -> }
 ) {
     var totalDragX by remember { mutableStateOf(0f) }
@@ -1462,7 +1471,25 @@ fun KeyboardKeysGrid(
             }
             KeyButton(
                 modifier = Modifier.weight(4f).then(
-                    if (moveCursorSpaceEnabled) Modifier.pointerInput(Unit) {
+                    // When the spacebar language switcher is ON, a horizontal swipe on the
+                    // spacebar cycles languages (swipe left = next, swipe right = previous);
+                    // this replaces the drag-to-move-cursor gesture on the spacebar.
+                    if (spacebarLanguageSwitchEnabled) Modifier.pointerInput(Unit) {
+                        var swipeDragX = 0f
+                        val swipeThreshold = 40.dp.toPx()
+                        detectDragGestures(
+                            onDragStart = { swipeDragX = 0f },
+                            onDrag = { change, dragAmount ->
+                                change.consume()
+                                swipeDragX += dragAmount.x
+                            },
+                            onDragEnd = {
+                                if (abs(swipeDragX) > swipeThreshold) {
+                                    onSpacebarSwipe(if (swipeDragX < 0) 1 else -1)
+                                }
+                            }
+                        )
+                    } else if (moveCursorSpaceEnabled) Modifier.pointerInput(Unit) {
                         detectDragGestures(onDragStart = { totalDragX = 0f }, onDrag = { change, dragAmount ->
                             change.consume(); totalDragX += dragAmount.x
                             if (abs(totalDragX) > dragThreshold) { onCursorMove(if (totalDragX > 0) 1 else -1); totalDragX = 0f }
