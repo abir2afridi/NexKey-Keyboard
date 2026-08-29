@@ -24,7 +24,7 @@ NexKey Keyboard v1.6.0 replaces the old hardcoded prediction seed with a real, d
 
 ## Files
 
-- `NexKey-Keyboard-v1.6.0.apk` — installable debug build
+- `NexKey-Keyboard-v1.6.0.apk` — signed production release
 - `NexKey-Keyboard-v1.6.0.apk.sha256` / `.md5` — integrity checksums
 
 ## Installation

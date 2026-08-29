@@ -30,3 +30,5 @@ docs/
 /inspector.jar
 /lint.jar
 /res/
+
+key.properties
