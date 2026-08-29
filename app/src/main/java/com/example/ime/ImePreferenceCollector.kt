@@ -191,6 +191,8 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
                 } catch (_: Exception) {
                     emptyList()
                 }
+                recentEmojisList.clear()
+                recentEmojisList.addAll(recentEmojis)
             }
         }
     }

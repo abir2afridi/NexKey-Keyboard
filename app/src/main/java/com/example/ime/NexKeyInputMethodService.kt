@@ -64,12 +64,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var burstWordCount = 0
     internal var lastKeyPressTime = 0L
     internal var typingStopJob: kotlinx.coroutines.Job? = null
-    internal var elapsedTickerJob: kotlinx.coroutines.Job? = null
     internal var meterIdleMsState by mutableStateOf(5000)
     internal var meterIntervalState by mutableStateOf("5s")
     internal var meterDisplayModeState by mutableStateOf("speed")
     internal var meterCountModeState by mutableStateOf("keys")
-    internal var liveElapsedSec by mutableStateOf(0)
     internal var burstLastChar by mutableStateOf("")
     internal val streakCounter = mutableMapOf<String, Int>()
 
@@ -152,6 +150,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var infoBoxEnabledState by mutableStateOf(true)
     internal var infoBoxFontState by mutableStateOf("DEFAULT")
     internal var recentEmojis by mutableStateOf<List<String>>(emptyList())
+    internal val recentEmojisList = androidx.compose.runtime.mutableStateListOf<String>()
     internal var recentEmojiExpiryDays by mutableStateOf(30)
     internal var emojiSearchActive by mutableStateOf(false)
     internal var emojiSearchQuery by mutableStateOf("")
@@ -256,10 +255,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     infoBoxFont = infoBoxFontState,
                     meterDisplayMode = meterDisplayModeState,
                     meterInterval = meterIntervalState,
-                    liveElapsedSec = liveElapsedSec,
                     meterTheme = currentMeterTheme,
                     meterFont = currentMeterFont,
-                    recentEmojis = androidx.compose.runtime.mutableStateListOf<String>().also { it.addAll(recentEmojis) },
+                    recentEmojis = recentEmojisList,
                     onRecentEmojisChanged = { emojis -> saveRecentEmojis(emojis) },
                     emojiSearchActive = emojiSearchActive,
                     emojiSearchQuery = emojiSearchQuery,
@@ -323,12 +321,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         burstKeyCount = 0
         burstWordCount = 0
         typingStopJob?.cancel()
-        elapsedTickerJob?.cancel()
         isTypingActive = false
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
         lastPressedWord = ""
-        liveElapsedSec = 0
 
         detectSensitiveField(info)
 

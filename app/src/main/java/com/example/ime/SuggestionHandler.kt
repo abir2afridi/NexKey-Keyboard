@@ -1,6 +1,8 @@
 package com.example.ime
 
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal fun NexKeyInputMethodService.rememberCommittedWord(word: String) {
     if (word.isBlank()) return
@@ -13,15 +15,19 @@ internal fun NexKeyInputMethodService.updateCandidates(query: String) {
         candidates = emptyList()
         return
     }
-    val predictions = predictionEngine.getSuggestions(
-        prefix = query,
-        isBangla = isBanglaMode(currentMode),
-        previousWords = recentCommittedWords.toList(),
-        showTypedWordFirst = showTypedWordFirstEnabled,
-        limit = 4,
-        now = System.currentTimeMillis()
-    )
-    candidates = predictions.map { it.word }
+    scope.launch {
+        val predictions = withContext(Dispatchers.Default) {
+            predictionEngine.getSuggestions(
+                prefix = query,
+                isBangla = isBanglaMode(currentMode),
+                previousWords = recentCommittedWords.toList(),
+                showTypedWordFirst = showTypedWordFirstEnabled,
+                limit = 4,
+                now = System.currentTimeMillis()
+            )
+        }
+        candidates = predictions.map { it.word }
+    }
 }
 
 internal fun NexKeyInputMethodService.commitSuggestion(word: String) {

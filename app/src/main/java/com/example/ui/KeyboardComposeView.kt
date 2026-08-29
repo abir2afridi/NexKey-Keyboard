@@ -164,7 +164,6 @@ fun KeyboardComposeView(
     meterPosition: String = "right",
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
-    liveElapsedSec: Int = 0,
     meterPhase: SpeedMeterPhase = SpeedMeterPhase.WAITING,
     meterResultLines: List<String> = emptyList(),
     lastPressedWord: String = "",
@@ -441,7 +440,6 @@ fun KeyboardComposeView(
                             infoBoxEnabled = infoBoxEnabled,
                             meterDisplayMode = meterDisplayMode,
                             meterInterval = meterInterval,
-                            liveElapsedSec = liveElapsedSec,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
                             infoBoxFont = infoBoxFont,
@@ -471,7 +469,6 @@ fun KeyboardComposeView(
                             infoBoxEnabled = infoBoxEnabled,
                             meterDisplayMode = meterDisplayMode,
                             meterInterval = meterInterval,
-                            liveElapsedSec = liveElapsedSec,
                             liveCps = if (isSpeedActive) liveCps else 0f,
                             meterTheme = meterTheme,
                             meterFont = meterFont,
@@ -817,7 +814,6 @@ fun SmartToolbar(
     infoBoxEnabled: Boolean = true,
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
-    liveElapsedSec: Int = 0,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     infoBoxFont: String = "DEFAULT",
@@ -850,8 +846,7 @@ fun SmartToolbar(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
         }
 
@@ -935,8 +930,7 @@ fun SmartToolbar(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -957,8 +951,7 @@ fun SmartToolbar(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
         }
 
@@ -980,10 +973,22 @@ fun DigitalSpeedMeter(
     phase: SpeedMeterPhase = SpeedMeterPhase.LIVE,
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
-    liveElapsedSec: Int = 0,
     meterTheme: MeterTheme,
     fontStyle: String = "DIGITAL"
 ) {
+    var localElapsedSec by remember { mutableIntStateOf(0) }
+    var burstStart by remember { mutableStateOf(0L) }
+    LaunchedEffect(isLive) {
+        if (isLive) {
+            burstStart = System.currentTimeMillis()
+            while (isActive) {
+                localElapsedSec = ((System.currentTimeMillis() - burstStart) / 1000L).toInt()
+                delay(200)
+            }
+        } else {
+            localElapsedSec = 0
+        }
+    }
     val textStyle = remember(fontStyle, meterTheme) {
         when (fontStyle) {
             "LCD" -> androidx.compose.ui.text.TextStyle(
@@ -1043,7 +1048,7 @@ fun DigitalSpeedMeter(
                 if (phase == SpeedMeterPhase.LIVE || phase == SpeedMeterPhase.RESULT) {
                     val isCounter = phase == SpeedMeterPhase.LIVE && meterDisplayMode == "counter"
                     Text(
-                        text = if (isCounter) "$liveElapsedSec" else String.format(Locale.US, "%.1f", cps),
+                        text = if (isCounter) "$localElapsedSec" else String.format(Locale.US, "%.1f", cps),
                         color = meterTheme.textColor,
                         fontSize = 12.sp,
                         style = textStyle.merge(
@@ -1098,7 +1103,6 @@ fun MeterHeaderPair(
     infoBoxEnabled: Boolean,
     meterDisplayMode: String,
     meterInterval: String,
-    liveElapsedSec: Int,
     infoBoxFont: String = "DEFAULT"
 ) {
     Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.widthIn(max = 180.dp)) {
@@ -1108,7 +1112,6 @@ fun MeterHeaderPair(
             phase = meterPhase,
             meterDisplayMode = meterDisplayMode,
             meterInterval = meterInterval,
-            liveElapsedSec = liveElapsedSec,
             meterTheme = meterTheme,
             fontStyle = meterFont
         )
@@ -1255,7 +1258,6 @@ fun CandidateStrip(
     infoBoxEnabled: Boolean = true,
     meterDisplayMode: String = "speed",
     meterInterval: String = "5s",
-    liveElapsedSec: Int = 0,
     liveCps: Float = 0f,
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
@@ -1288,8 +1290,7 @@ fun CandidateStrip(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
             Spacer(modifier = Modifier.width(6.dp))
         }
@@ -1350,8 +1351,7 @@ fun CandidateStrip(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
             Spacer(modifier = Modifier.weight(1f))
         }
@@ -1373,8 +1373,7 @@ fun CandidateStrip(
                 infoCustomActive = infoCustomActive,
                 infoBoxEnabled = infoBoxEnabled,
                 meterDisplayMode = meterDisplayMode,
-                meterInterval = meterInterval,
-                liveElapsedSec = liveElapsedSec
+                meterInterval = meterInterval
             )
         }
 
