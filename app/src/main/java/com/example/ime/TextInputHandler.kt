@@ -318,6 +318,25 @@ internal fun NexKeyInputMethodService.handleModeChange(newMode: KeyboardMode) {
     scope.launch { userPreferences.setLanguage(targetMode) }
 }
 
+internal fun NexKeyInputMethodService.handleSymbolToggle() {
+    if (emojiSearchActive) {
+        emojiSearchActive = false
+        emojiSearchQuery = ""
+    }
+    if (currentMode == KeyboardMode.SYMBOLS || currentMode == KeyboardMode.NUMBERS) {
+        // Return to text mode — restore exactly what was active before symbols.
+        // Save DataStore FIRST so ImePreferenceCollector doesn't override with a stale value.
+        scope.launch { userPreferences.setLanguage(lastTextMode) }
+        currentMode = lastTextMode
+    } else {
+        // Entering symbols — remember current text mode for return.
+        if (currentMode != KeyboardMode.EMOJI && currentMode != KeyboardMode.CLIPBOARD) {
+            lastTextMode = currentMode
+        }
+        currentMode = KeyboardMode.SYMBOLS
+    }
+}
+
 internal fun NexKeyInputMethodService.handleCursorMove(direction: Int) {
     val ic = currentInputConnection ?: return
     // Commit composing buffer before moving cursor so typing resumes at new position

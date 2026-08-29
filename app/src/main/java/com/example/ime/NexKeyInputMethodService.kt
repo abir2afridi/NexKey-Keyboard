@@ -274,6 +274,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onEnterTap = { handleEnter() },
                     onShiftTap = { handleShiftToggle() },
                     onModeChange = { newMode -> handleModeChange(newMode) },
+                    onSymbolToggle = { handleSymbolToggle() },
                     onSuggestionSelect = { word -> commitSuggestion(word) },
                     onVoiceClick = { startVoiceInput() },
                     onThemeToggle = { toggleTheme() },

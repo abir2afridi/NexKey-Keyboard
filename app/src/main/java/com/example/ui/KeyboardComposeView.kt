@@ -193,6 +193,7 @@ fun KeyboardComposeView(
     onEnterTap: () -> Unit,
     onShiftTap: () -> Unit,
     onModeChange: (KeyboardMode) -> Unit,
+    onSymbolToggle: () -> Unit = {},
     onSuggestionSelect: (String) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -627,7 +628,8 @@ fun KeyboardComposeView(
                             onSpacebarSwipe = { direction -> cycleLanguage(direction) },
                             onSpacebarHold = {
                                 // Hold alone no longer shows language — only swipe shows new language
-                            }
+                            },
+                            onSymbolToggle = onSymbolToggle
                         )
 
                         // Language-switch popup — shows the current language above the
@@ -1418,6 +1420,7 @@ fun KeyboardKeysGrid(
     onEnterTap: () -> Unit,
     onShiftTap: () -> Unit,
     onModeChange: (KeyboardMode) -> Unit,
+    onSymbolToggle: () -> Unit = {},
     onCursorMove: (Int) -> Unit = {},
     onLongPress: (KeyModel) -> Unit = {},
     onSpacebarLongPress: () -> Unit = {},
@@ -1596,11 +1599,10 @@ fun KeyboardKeysGrid(
                 longPressDelayMs = longPressDelayMs,
                 onClick = {
                     hapticKeys.performHapticFeedback(HapticFeedbackType.LongPress)
-                    val isSymbolMode = mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS
-                    onModeChange(if (isSymbolMode) effectiveTextMode else KeyboardMode.SYMBOLS)
+                    onSymbolToggle()
                 }
             ) {
-                // Smooth animated switch between ?123 and ABC/বাংলা so the toggle feels responsive
+                // Show return language so user knows where ?123 will go back to
                 val buttonText = if (mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS) {
                     when (effectiveTextMode) {
                         KeyboardMode.BANGLA_JATIYO -> "বাংলা"
