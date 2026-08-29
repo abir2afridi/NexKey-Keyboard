@@ -49,6 +49,7 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -60,6 +61,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.setValue
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
@@ -1533,6 +1535,10 @@ fun KeyboardKeysGrid(
                 )
             }
             val deleteLabel = stringResource(R.string.kb_delete)
+            var backspaceRepeatJob by remember { mutableStateOf<Job?>(null) }
+            DisposableEffect(Unit) {
+                onDispose { backspaceRepeatJob?.cancel() }
+            }
             Box(
                 modifier = Modifier.weight(1.3f)
                     .height(theme.keyHeightDp.dp)
@@ -1541,34 +1547,36 @@ fun KeyboardKeysGrid(
                     .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
                         while (true) {
                             awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                            backspaceRepeatJob?.cancel()
                             var didRepeat = false
-                            coroutineScope {
-                                val repeatJob = launch {
-                                    delay(backspaceRepeatDelayMs)
-                                    didRepeat = true
-                                    // Gboard-style repeat: after the hold-delay, keys repeat
-                                    // CHARACTER by CHARACTER at backspaceRepeatSpeedMs so the
-                                    // speed setting is clearly visible. Holding much longer
-                                    // (1500 ms past the delay) switches to word-by-word so a
-                                    // long sentence can still be cleared fast.
-                                    val wordPhaseStart = System.currentTimeMillis() + 1500L
-                                    while (isActive) {
-                                        iconAnimationScope.launch { backspaceIconScale.playIconPop() }
-                                        if (System.currentTimeMillis() >= wordPhaseStart) {
-                                            onBackspaceWord()
-                                        } else {
-                                            onBackspaceTap()
+                            try {
+                                coroutineScope {
+                                    val repeatJob = launch {
+                                        delay(backspaceRepeatDelayMs)
+                                        didRepeat = true
+                                        val wordPhaseStart = System.currentTimeMillis() + 1500L
+                                        while (isActive) {
+                                            iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                            if (System.currentTimeMillis() >= wordPhaseStart) {
+                                                onBackspaceWord()
+                                            } else {
+                                                onBackspaceTap()
+                                            }
+                                            delay(backspaceRepeatSpeedMs)
                                         }
-                                        delay(backspaceRepeatSpeedMs)
                                     }
-                                }
-                                awaitPointerEventScope {
-                                    while (true) {
-                                        val event = awaitPointerEvent()
-                                        if (event.changes.all { !it.pressed }) break
+                                    backspaceRepeatJob = repeatJob
+                                    awaitPointerEventScope {
+                                        while (true) {
+                                            val event = awaitPointerEvent()
+                                            if (event.changes.all { !it.pressed }) break
+                                        }
                                     }
+                                    repeatJob.cancel()
                                 }
-                                repeatJob.cancel()
+                            } finally {
+                                backspaceRepeatJob?.cancel()
+                                backspaceRepeatJob = null
                             }
                             if (!didRepeat) {
                                 iconAnimationScope.launch { backspaceIconScale.playIconPop() }
