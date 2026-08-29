@@ -78,6 +78,8 @@ import androidx.compose.ui.layout.boundsInRoot
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
@@ -204,6 +206,7 @@ fun KeyboardComposeView(
         else -> Long.MAX_VALUE
     }
     val config = LocalConfiguration.current
+    val haptic = LocalHapticFeedback.current
     val hasPhysicalKeyboard = config.keyboard == android.content.res.Configuration.KEYBOARD_QWERTY
     val effectiveShowEmojiKey = showEmojiKey || (physicalKbEmojiEnabled && hasPhysicalKeyboard)
     // TAP POPUP state (letter-preview bubble on key press):
@@ -532,10 +535,11 @@ fun KeyboardComposeView(
                             .padding(horizontal = ((100 - effectiveOneHanded) / 2f).dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        // Language quick-switcher: swipe (default) or long-press on the
-                        // spacebar cycles through the enabled languages. Both swipe
-                        // directions work: left = next language, right = previous.
-                        // The new language is shown in a popup above the spacebar.
+                        // Language quick-switcher: hold-then-swipe ONLY on the spacebar
+                        // cycles through enabled languages. Hold briefly (~180ms) then
+                        // swipe left/right; both directions work (left = next, right =
+                        // previous). Holding without swiping does NOT change language;
+                        // quick flick without hold is ignored. Popup shows above spacebar.
                         val cycleLanguage: (Int) -> Unit = { direction ->
                             // NOTE: Arabic is only offered when the user enables it in
                             // Settings -> More Languages -> Arabic. Keep this conditional —
@@ -556,6 +560,8 @@ fun KeyboardComposeView(
                             // direction 1 = Next (Enter from Right), direction -1 = Prev (Enter from Left)
                             lastSwipeDirection = direction
                             
+                            // Smooth haptic + visual feedback for language switch
+                            haptic.performHapticFeedback(HapticFeedbackType.TextHandleMove)
                             onModeChange(nextMode)
                             languageSwitchPopupLabel = when (nextMode) {
                                 KeyboardMode.BANGLA_JATIYO -> "বাংলা"
@@ -614,9 +620,19 @@ fun KeyboardComposeView(
                                 }
                             },
                             onSpacebarLongPress = {
-                                cycleLanguage(1)
+                                // Hold-alone no longer changes language — only hold+swipe does.
+                                // Kept as no-op to satisfy the parameter; swipe handles cycling.
                             },
-                            onSpacebarSwipe = { direction -> cycleLanguage(direction) }
+                            onSpacebarSwipe = { direction -> cycleLanguage(direction) },
+                            onSpacebarHold = {
+                                // Like others apk (Gboard): holding spacebar shows current language
+                                languageSwitchPopupLabel = when (currentModeState) {
+                                    KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                                    KeyboardMode.AVRO -> "Avro"
+                                    KeyboardMode.ARABIC -> "عربي"
+                                    else -> "English"
+                                }
+                            }
                         )
 
                         // Language-switch popup — shows the current language above the
@@ -1409,8 +1425,10 @@ fun KeyboardKeysGrid(
     onLongPress: (KeyModel) -> Unit = {},
     onSpacebarLongPress: () -> Unit = {},
     onSpacebarSwipe: (Int) -> Unit = {},
+    onSpacebarHold: () -> Unit = {},
     onKeyTapWithCoords: (String, LayoutCoordinates) -> Unit = { _, _ -> }
 ) {
+    val hapticKeys = LocalHapticFeedback.current
     var totalDragX by remember { mutableStateOf(0f) }
     val dragThreshold = ((200f - spaceCursorSpeed * 0.35f) + spaceCursorDelay * 0.02f).coerceIn(15f, 180f)
     val iconAnimationScope = rememberCoroutineScope()
@@ -1579,9 +1597,14 @@ fun KeyboardKeysGrid(
                 theme = theme,
                 isSpecial = true,
                 longPressDelayMs = longPressDelayMs,
-                onClick = { onModeChange(if (mode == KeyboardMode.SYMBOLS) effectiveTextMode else KeyboardMode.SYMBOLS) }
+                onClick = {
+                    hapticKeys.performHapticFeedback(HapticFeedbackType.LongPress)
+                    val isSymbolMode = mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS
+                    onModeChange(if (isSymbolMode) effectiveTextMode else KeyboardMode.SYMBOLS)
+                }
             ) {
-                val buttonText = if (mode == KeyboardMode.SYMBOLS) {
+                // Smooth animated switch between ?123 and ABC/বাংলা so the toggle feels responsive
+                val buttonText = if (mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS) {
                     when (effectiveTextMode) {
                         KeyboardMode.BANGLA_JATIYO -> "বাংলা"
                         KeyboardMode.AVRO -> "Avro"
@@ -1591,7 +1614,13 @@ fun KeyboardKeysGrid(
                 } else {
                     "?123"
                 }
-                Text(text = buttonText, color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                androidx.compose.animation.AnimatedContent(
+                    targetState = buttonText,
+                    transitionSpec = { fadeIn(tween(120)) togetherWith fadeOut(tween(120)) },
+                    label = "symbolToggle"
+                ) { text ->
+                    Text(text = text, color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
+                }
             }
             KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
                 Text(text = ",", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
@@ -1605,10 +1634,10 @@ fun KeyboardKeysGrid(
             }
             if (spacebarLanguageSwitchEnabled) {
                 // Custom spacebar with FULL gesture ownership — a single pointer handler
-                // drives tap / swipe / long-press so swiping works instantly, like
-                // professional keyboards. (combinedClickable consumed the down event,
-                // which silently cancelled the drag detector — that's why the old
-                // swipe only worked after holding long enough to long-press.)
+                // drives tap / hold-then-swipe ONLY. Hold briefly (~180ms) then swipe
+                // to change language; hold alone does NOT change language (prevents
+                // accidental switches). Quick flick without hold is ignored. Uses
+                // plain event-loop tracking, not combinedClickable.
                 var spacebarPressed by remember { mutableStateOf(false) }
                 val spacebarScale by animateFloatAsState(
                     targetValue = if (spacebarPressed) 0.92f else 1f,
@@ -1622,24 +1651,26 @@ fun KeyboardKeysGrid(
                         .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
                         .background(if (spacebarPressed) theme.keyBackgroundColor.copy(alpha = 0.8f) else theme.keyBackgroundColor)
                         .pointerInput(longPressDelayMs) {
-                            // Gesture structure identical to the proven backspace key
-                            // handler: no event consumption, plain event-loop tracking.
-                            // Down -> track horizontal movement -> swipe fires the moment
-                            // the finger passes the threshold (no holding needed);
-                            // quick release without movement = space tap;
-                            // holding still past the delay = language switch too.
-                            val swipeThreshold = 20.dp.toPx()
+                            // Hold-then-swipe ONLY: language changes ONLY when you hold
+                            // the spacebar briefly (~180ms or ~60% of longPressDelayMs)
+                            // and THEN swipe. Holding without swiping does NOT change
+                            // language (just inserts space on release). Quick flick
+                            // without hold is ignored to prevent accidental switches.
+                            val swipeThreshold = 24.dp.toPx()
+                            val holdGateMs = (longPressDelayMs * 0.6).toLong().coerceIn(150L, 250L)
                             while (true) {
                                 val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
                                 spacebarPressed = true
                                 coroutineScope {
                                     var handled = false
-                                    val longPressJob = launch {
-                                        delay(longPressDelayMs)
-                                        if (!handled) {
-                                            handled = true
-                                            onSpacebarLongPress()
-                                        }
+                                    var hasHeld = false
+                                    val holdGateJob = launch {
+                                        delay(holdGateMs)
+                                        hasHeld = true
+                                        // Hold registered — show current language like others apk (Gboard style)
+                                        // + subtle tick so user knows swipe is now enabled
+                                        try { hapticKeys.performHapticFeedback(HapticFeedbackType.LongPress) } catch (_: Exception) {}
+                                        try { onSpacebarHold() } catch (_: Exception) {}
                                     }
                                     awaitPointerEventScope {
                                         while (true) {
@@ -1650,14 +1681,15 @@ fun KeyboardKeysGrid(
                                                 break
                                             }
                                             val totalX = change.position.x - down.position.x
-                                            if (!handled && abs(totalX) > swipeThreshold) {
+                                            // Only allow swipe AFTER the hold gate — hold alone does nothing.
+                                            if (!handled && hasHeld && abs(totalX) > swipeThreshold) {
                                                 handled = true
-                                                longPressJob.cancel()
+                                                holdGateJob.cancel()
                                                 onSpacebarSwipe(if (totalX < 0) 1 else -1)
                                             }
                                         }
                                     }
-                                    longPressJob.cancel()
+                                    holdGateJob.cancel()
                                 }
                                 spacebarPressed = false
                             }
