@@ -331,12 +331,12 @@
     <string name="langkeys_voice">Voice input key</string>
     <string name="langkeys_emoji">Show Emoji Key</string>
     <string name="langkeys_emoji_desc">Switch to Emoji button</string>
-    <string name="langkeys_globe">Show Globe Key</string>
-    <string name="langkeys_globe_desc">Switch keyboard language</string>
+    <string name="langkeys_globe">Header Language Switch</string>
+    <string name="langkeys_globe_desc">Show language badge in keyboard header — tap to cycle languages</string>
     <string name="langkeys_other_kb">Allow Other Keyboards</string>
     <string name="langkeys_other_kb_desc">Globe key switches to others</string>
     <string name="langkeys_spacebar_switch">Spacebar Language Switch</string>
-    <string name="langkeys_spacebar_switch_desc">Swipe (quick) or long-press the spacebar to switch languages</string>
+    <string name="langkeys_spacebar_switch_desc">Hold spacebar (~380ms) then swipe to switch — current language shows while holding</string>
 
     <!-- Layout -->
     <string name="layout_number_row">Enable number row</string>

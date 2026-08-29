@@ -536,10 +536,11 @@ fun KeyboardComposeView(
                         contentAlignment = Alignment.Center
                     ) {
                         // Language quick-switcher: hold-then-swipe ONLY on the spacebar
-                        // cycles through enabled languages. Hold briefly (~180ms) then
-                        // swipe left/right; both directions work (left = next, right =
-                        // previous). Holding without swiping does NOT change language;
-                        // quick flick without hold is ignored. Popup shows above spacebar.
+                        // cycles through enabled languages. Hold firmly (~380ms, like
+                        // Gboard/others apk) then swipe left/right; both directions work
+                        // (left = next, right = previous). Holding without swiping does
+                        // NOT change language; quick flick without proper hold is ignored.
+                        // Popup shows above spacebar.
                         val cycleLanguage: (Int) -> Unit = { direction ->
                             // NOTE: Arabic is only offered when the user enables it in
                             // Settings -> More Languages -> Arabic. Keep this conditional —
@@ -625,13 +626,7 @@ fun KeyboardComposeView(
                             },
                             onSpacebarSwipe = { direction -> cycleLanguage(direction) },
                             onSpacebarHold = {
-                                // Like others apk (Gboard): holding spacebar shows current language
-                                languageSwitchPopupLabel = when (currentModeState) {
-                                    KeyboardMode.BANGLA_JATIYO -> "বাংলা"
-                                    KeyboardMode.AVRO -> "Avro"
-                                    KeyboardMode.ARABIC -> "عربي"
-                                    else -> "English"
-                                }
+                                // Hold alone no longer shows language — only swipe shows new language
                             }
                         )
 
@@ -861,28 +856,30 @@ fun SmartToolbar(
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            item {
-                ToolbarBadge(
-                    label = when (currentMode) {
-                        KeyboardMode.BANGLA_JATIYO -> "বাংলা"
-                        KeyboardMode.AVRO -> "Avro"
-                        KeyboardMode.ARABIC -> "عربي"
-                        else -> "EN"
-                    },
-                    active = currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
-                    theme = theme
-                ) {
-                    // Same rule as the spacebar cycle: skip Arabic entirely when the
-                    // user has disabled it in Settings -> More Languages.
-                    val cycleModes = mutableListOf(
-                        KeyboardMode.ENGLISH,
-                        KeyboardMode.BANGLA_JATIYO,
-                        KeyboardMode.AVRO
-                    )
-                    if (enableArabic) cycleModes.add(KeyboardMode.ARABIC)
-                    val currentIdx = cycleModes.indexOf(currentMode).coerceAtLeast(0)
-                    val nextMode = cycleModes[(currentIdx + 1) % cycleModes.size]
-                    onModeChange(nextMode)
+            if (showGlobeKey) {
+                item {
+                    ToolbarBadge(
+                        label = when (currentMode) {
+                            KeyboardMode.BANGLA_JATIYO -> "বাংলা"
+                            KeyboardMode.AVRO -> "Avro"
+                            KeyboardMode.ARABIC -> "عربي"
+                            else -> "EN"
+                        },
+                        active = currentMode == KeyboardMode.BANGLA_JATIYO || currentMode == KeyboardMode.AVRO,
+                        theme = theme
+                    ) {
+                        // Same rule as the spacebar cycle: skip Arabic entirely when the
+                        // user has disabled it in Settings -> More Languages.
+                        val cycleModes = mutableListOf(
+                            KeyboardMode.ENGLISH,
+                            KeyboardMode.BANGLA_JATIYO,
+                            KeyboardMode.AVRO
+                        )
+                        if (enableArabic) cycleModes.add(KeyboardMode.ARABIC)
+                        val currentIdx = cycleModes.indexOf(currentMode).coerceAtLeast(0)
+                        val nextMode = cycleModes[(currentIdx + 1) % cycleModes.size]
+                        onModeChange(nextMode)
+                    }
                 }
             }
             item {
@@ -1634,10 +1631,11 @@ fun KeyboardKeysGrid(
             }
             if (spacebarLanguageSwitchEnabled) {
                 // Custom spacebar with FULL gesture ownership — a single pointer handler
-                // drives tap / hold-then-swipe ONLY. Hold briefly (~180ms) then swipe
-                // to change language; hold alone does NOT change language (prevents
-                // accidental switches). Quick flick without hold is ignored. Uses
-                // plain event-loop tracking, not combinedClickable.
+                // drives tap / hold-then-swipe ONLY. Hold firmly (~380ms, like
+                // Gboard/others apk) then swipe to change language; hold alone does
+                // NOT change language (prevents accidental switches). Quick flick
+                // without proper hold is ignored. Uses plain event-loop tracking,
+                // not combinedClickable.
                 var spacebarPressed by remember { mutableStateOf(false) }
                 val spacebarScale by animateFloatAsState(
                     targetValue = if (spacebarPressed) 0.92f else 1f,
@@ -1652,12 +1650,13 @@ fun KeyboardKeysGrid(
                         .background(if (spacebarPressed) theme.keyBackgroundColor.copy(alpha = 0.8f) else theme.keyBackgroundColor)
                         .pointerInput(longPressDelayMs) {
                             // Hold-then-swipe ONLY: language changes ONLY when you hold
-                            // the spacebar briefly (~180ms or ~60% of longPressDelayMs)
-                            // and THEN swipe. Holding without swiping does NOT change
+                            // the spacebar firmly (~380ms, like Gboard/others apk) and
+                            // THEN swipe. Holding without swiping does NOT change
                             // language (just inserts space on release). Quick flick
-                            // without hold is ignored to prevent accidental switches.
+                            // without proper hold is ignored to prevent accidental
+                            // switches — matches professional keyboards.
                             val swipeThreshold = 24.dp.toPx()
-                            val holdGateMs = (longPressDelayMs * 0.6).toLong().coerceIn(150L, 250L)
+                            val holdGateMs = longPressDelayMs.coerceIn(380L, 500L)
                             while (true) {
                                 val down = awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
                                 spacebarPressed = true
@@ -1667,10 +1666,8 @@ fun KeyboardKeysGrid(
                                     val holdGateJob = launch {
                                         delay(holdGateMs)
                                         hasHeld = true
-                                        // Hold registered — show current language like others apk (Gboard style)
-                                        // + subtle tick so user knows swipe is now enabled
+                                        // Hold registered subtly — tick only, no language popup on hold alone
                                         try { hapticKeys.performHapticFeedback(HapticFeedbackType.LongPress) } catch (_: Exception) {}
-                                        try { onSpacebarHold() } catch (_: Exception) {}
                                     }
                                     awaitPointerEventScope {
                                         while (true) {
