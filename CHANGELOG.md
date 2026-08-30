@@ -6,6 +6,18 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [1.7.1] — August 31, 2026
+
+### Fixed
+- **CRITICAL: Keyboard auto-closes while typing** — added `CoroutineExceptionHandler` to IME service scope; any uncaught exception in 13+ coroutine launch sites now logs and continues instead of killing the entire IME process
+- `onDestroy()` cleanup ordering — `scope.cancel()` moved after `super.onDestroy()` to prevent DataStore corruption during Compose teardown
+- `Color.parseColor()` crash in ImePreferenceCollector — corrupted custom theme hex strings now fall back to `Color.White` instead of killing the process
+- `SpeedMeterHandler` Room database operations wrapped in try-catch — corrupted speed records don't crash the keyboard
+- `TypingAnalytics.endSession()` database write failure now logged and caught
+- `DictionaryManager.init()` and `onWordCommitted()` wrapped in try-catch — prediction engine init failure no longer kills the keyboard
+
+---
+
 ## [1.7.0] — August 30, 2026
 
 ### Added

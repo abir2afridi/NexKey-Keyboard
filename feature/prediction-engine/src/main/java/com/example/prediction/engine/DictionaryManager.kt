@@ -66,26 +66,34 @@ class DictionaryManager(
     }
 
     override fun init(context: Context) {
-        database = AppDatabase.getInstance(context.applicationContext)
-        builtin.load(context.applicationContext)
-        englishLoadMs = builtin.englishLoadMs
-        banglaLoadMs = builtin.banglaLoadMs
+        try {
+            database = AppDatabase.getInstance(context.applicationContext)
+            builtin.load(context.applicationContext)
+            englishLoadMs = builtin.englishLoadMs
+            banglaLoadMs = builtin.banglaLoadMs
 
-        val db = database!!
-        learningEngine = LearningEngine(
-            learnedWordDao = db.learnedWordDao(),
-            learnedPhraseDao = db.learnedPhraseDao(),
-            personalWordDao = db.personalWordDao(),
-            recentWordDao = db.recentWordDao(),
-            personalTrie = personalTrie,
-            learningEnabled = { liveFlag { flags.personalLearningEnabled.first() } },
-            incognitoEnabled = { liveFlag { flags.incognito.first() } }
-        )
-        scope.launch {
-            learningEngine?.loadExistingIntoMemory()
-            for (phrase in db.learnedPhraseDao().getTopPhrases(2000)) {
-                ngram.learn(phrase.firstWord, phrase.secondWord, phrase.thirdWord)
+            val db = database!!
+            learningEngine = LearningEngine(
+                learnedWordDao = db.learnedWordDao(),
+                learnedPhraseDao = db.learnedPhraseDao(),
+                personalWordDao = db.personalWordDao(),
+                recentWordDao = db.recentWordDao(),
+                personalTrie = personalTrie,
+                learningEnabled = { liveFlag { flags.personalLearningEnabled.first() } },
+                incognitoEnabled = { liveFlag { flags.incognito.first() } }
+            )
+            scope.launch {
+                try {
+                    learningEngine?.loadExistingIntoMemory()
+                    for (phrase in db.learnedPhraseDao().getTopPhrases(2000)) {
+                        ngram.learn(phrase.firstWord, phrase.secondWord, phrase.thirdWord)
+                    }
+                } catch (e: Exception) {
+                    android.util.Log.e("DictionaryManager", "Failed to load learning data", e)
+                }
             }
+        } catch (e: Exception) {
+            android.util.Log.e("DictionaryManager", "Failed to initialize prediction engine", e)
         }
     }
 
@@ -151,7 +159,11 @@ class DictionaryManager(
         if (word.isEmpty()) return
         val tag = detector.classify(word).tag
         scope.launch {
-            learningEngine?.onCommit(word, isBangla, tag, previousWords, now, sensitiveField = false)
+            try {
+                learningEngine?.onCommit(word, isBangla, tag, previousWords, now, sensitiveField = false)
+            } catch (e: Exception) {
+                android.util.Log.e("DictionaryManager", "onWordCommitted failed", e)
+            }
         }
     }
 

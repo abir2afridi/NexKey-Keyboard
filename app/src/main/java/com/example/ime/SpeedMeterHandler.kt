@@ -49,53 +49,59 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     val lineSpeed = service.getString(R.string.meter_swipe_speed, String.format(Locale.US, "%.1f %s", speed, unit))
 
     scope.launch {
-        val dao = TypingAnalytics.getDatabase()?.speedRecordDao()
-        val best = dao?.bestForInterval(label)
-        val isRecord = best == null || speed > best.speed
+        try {
+            val dao = TypingAnalytics.getDatabase()?.speedRecordDao()
+            val best = dao?.bestForInterval(label)
+            val isRecord = best == null || speed > best.speed
 
-        if (isRecord) {
-            val streak = (streakCounter[label] ?: 0) + 1
-            streakCounter[label] = streak
-            dao?.insert(
-                SpeedRecordEntity(
-                    intervalLabel = label,
-                    intervalMs = windowSec.toInt() * 1000L,
-                    recordAt = System.currentTimeMillis(),
-                    wordCount = words,
-                    keyCount = keys,
-                    speed = speed,
-                    streak = streak
+            if (isRecord) {
+                val streak = (streakCounter[label] ?: 0) + 1
+                streakCounter[label] = streak
+                dao?.insert(
+                    SpeedRecordEntity(
+                        intervalLabel = label,
+                        intervalMs = windowSec.toInt() * 1000L,
+                        recordAt = System.currentTimeMillis(),
+                        wordCount = words,
+                        keyCount = keys,
+                        speed = speed,
+                        streak = streak
+                    )
                 )
-            )
-            val bestLine = String.format(Locale.US, "%.1f %s", speed, unit)
-            meterResultLines = listOf(
-                lineIn,
-                lineCount,
-                lineSpeed,
-                service.getString(R.string.meter_swipe_best, bestLine)
-            )
-            meterPhase = SpeedMeterPhase.RESULT
-            if (dao != null) {
-                Toast.makeText(
-                    service,
-                    service.getString(R.string.meter_result_record, bestLine, streak),
-                    Toast.LENGTH_SHORT
-                ).show()
+                val bestLine = String.format(Locale.US, "%.1f %s", speed, unit)
+                meterResultLines = listOf(
+                    lineIn,
+                    lineCount,
+                    lineSpeed,
+                    service.getString(R.string.meter_swipe_best, bestLine)
+                )
+                meterPhase = SpeedMeterPhase.RESULT
+                if (dao != null) {
+                    Toast.makeText(
+                        service,
+                        service.getString(R.string.meter_result_record, bestLine, streak),
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } else {
+                streakCounter[label] = 0
+                val bestUnit = if (best.intervalMs >= 60000)
+                    service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
+                meterResultLines = listOf(
+                    lineIn,
+                    lineCount,
+                    lineSpeed,
+                    service.getString(
+                        R.string.meter_swipe_best,
+                        String.format(Locale.US, "%.1f %s", best.speed, bestUnit)
+                    )
+                )
+                meterPhase = SpeedMeterPhase.RESULT
             }
-        } else {
-            streakCounter[label] = 0
-            val bestUnit = if (best.intervalMs >= 60000)
-                service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
-            meterResultLines = listOf(
-                lineIn,
-                lineCount,
-                lineSpeed,
-                service.getString(
-                    R.string.meter_swipe_best,
-                    String.format(Locale.US, "%.1f %s", best.speed, bestUnit)
-                )
-            )
-            meterPhase = SpeedMeterPhase.RESULT
+        } catch (e: Exception) {
+            android.util.Log.e("SpeedMeter", "DB operation failed", e)
+            meterPhase = SpeedMeterPhase.WAITING
+            meterResultLines = emptyList()
         }
     }
 }

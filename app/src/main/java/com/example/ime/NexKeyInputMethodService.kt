@@ -167,7 +167,12 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal val recentCommittedWords = ArrayDeque<String>()
     private var speechRecognizer: SpeechRecognizer? = null
     internal lateinit var userPreferences: UserPreferences
-    internal val scope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
+    internal val scope = CoroutineScope(
+        SupervisorJob() + Dispatchers.Main +
+            kotlinx.coroutines.CoroutineExceptionHandler { _, t ->
+                android.util.Log.e("NexKey", "Uncaught coroutine exception", t)
+            }
+    )
 
     private var keyboardView: View? = null
     private var vibrator: Vibrator? = null
@@ -615,9 +620,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     override fun onDestroy() {
-        scope.cancel()
         speechRecognizer?.destroy()
         speechRecognizer = null
         super.onDestroy()
+        scope.cancel()
     }
 }

@@ -33,19 +33,22 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
                 val preset = try { ThemePreset.valueOf(savedTheme) } catch (e: Exception) { ThemePreset.DARK_NEON }
 
                 if (preset == ThemePreset.CUSTOM) {
+                    fun parseColor(s: Any): Color {
+                        return try { Color(android.graphics.Color.parseColor(s as String)) } catch (_: Exception) { Color.White }
+                    }
                     KeyboardTheme(
                         preset = ThemePreset.CUSTOM,
-                        backgroundColor = Color(android.graphics.Color.parseColor(values[1] as String)),
-                        keyBackgroundColor = Color(android.graphics.Color.parseColor(values[2] as String)),
-                        keySpecialColor = Color(android.graphics.Color.parseColor(values[3] as String)),
-                        keyTextColor = Color(android.graphics.Color.parseColor(values[4] as String)),
-                        keySpecialTextColor = Color(android.graphics.Color.parseColor(values[5] as String)),
-                        accentColor = Color(android.graphics.Color.parseColor(values[6] as String)),
-                        suggestionBgColor = Color(android.graphics.Color.parseColor(values[7] as String)),
-                        suggestionTextColor = Color(android.graphics.Color.parseColor(values[8] as String)),
-                        popupBackgroundColor = Color(android.graphics.Color.parseColor(values[9] as String)),
-                        popupTextColor = Color(android.graphics.Color.parseColor(values[10] as String)),
-                        keyHintColor = Color(android.graphics.Color.parseColor(values[11] as String))
+                        backgroundColor = parseColor(values[1]),
+                        keyBackgroundColor = parseColor(values[2]),
+                        keySpecialColor = parseColor(values[3]),
+                        keyTextColor = parseColor(values[4]),
+                        keySpecialTextColor = parseColor(values[5]),
+                        accentColor = parseColor(values[6]),
+                        suggestionBgColor = parseColor(values[7]),
+                        suggestionTextColor = parseColor(values[8]),
+                        popupBackgroundColor = parseColor(values[9]),
+                        popupTextColor = parseColor(values[10]),
+                        keyHintColor = parseColor(values[11])
                     )
                 } else {
                     KeyboardTheme.fromPreset(preset)

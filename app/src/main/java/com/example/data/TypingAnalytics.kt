@@ -39,35 +39,39 @@ object TypingAnalytics {
         val date = dateFormat.format(Date(now))
 
         scope.launch {
-            db?.typingSessionDao()?.insert(
-                TypingSessionEntity(
-                    startTime = sessionStartTime,
-                    endTime = now,
-                    keyCount = sessionKeyCount,
-                    wordCount = sessionWordCount,
-                    emojiCount = sessionEmojiCount
-                )
-            )
-
-            if (db?.typingSessionDao()?.dailyStatsExist(date) == true) {
-                db?.typingSessionDao()?.updateDailyStats(
-                    date = date,
-                    keys = sessionKeyCount,
-                    words = sessionWordCount,
-                    emojis = sessionEmojiCount,
-                    minutes = minutes
-                )
-            } else {
-                db?.typingSessionDao()?.insertDailyStats(
-                    DailyStatsEntity(
-                        date = date,
-                        sessionCount = 1,
-                        totalKeys = sessionKeyCount,
-                        totalWords = sessionWordCount,
-                        totalEmojis = sessionEmojiCount,
-                        usageMinutes = minutes
+            try {
+                db?.typingSessionDao()?.insert(
+                    TypingSessionEntity(
+                        startTime = sessionStartTime,
+                        endTime = now,
+                        keyCount = sessionKeyCount,
+                        wordCount = sessionWordCount,
+                        emojiCount = sessionEmojiCount
                     )
                 )
+
+                if (db?.typingSessionDao()?.dailyStatsExist(date) == true) {
+                    db?.typingSessionDao()?.updateDailyStats(
+                        date = date,
+                        keys = sessionKeyCount,
+                        words = sessionWordCount,
+                        emojis = sessionEmojiCount,
+                        minutes = minutes
+                    )
+                } else {
+                    db?.typingSessionDao()?.insertDailyStats(
+                        DailyStatsEntity(
+                            date = date,
+                            sessionCount = 1,
+                            totalKeys = sessionKeyCount,
+                            totalWords = sessionWordCount,
+                            totalEmojis = sessionEmojiCount,
+                            usageMinutes = minutes
+                        )
+                    )
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("TypingAnalytics", "endSession DB write failed", e)
             }
         }
     }
@@ -83,16 +87,20 @@ object TypingAnalytics {
     fun trackEmoji(emoji: String) {
         sessionEmojiCount++
         scope.launch {
-            val dao = db?.emojiUsageDao() ?: return@launch
-            val updated = dao.increment(emoji)
-            if (updated == 0) {
-                dao.upsert(
-                    EmojiUsageEntity(
-                        emoji = emoji,
-                        frequency = 1,
-                        lastUsedAt = System.currentTimeMillis()
+            try {
+                val dao = db?.emojiUsageDao() ?: return@launch
+                val updated = dao.increment(emoji)
+                if (updated == 0) {
+                    dao.upsert(
+                        EmojiUsageEntity(
+                            emoji = emoji,
+                            frequency = 1,
+                            lastUsedAt = System.currentTimeMillis()
+                        )
                     )
-                )
+                }
+            } catch (e: Exception) {
+                android.util.Log.e("TypingAnalytics", "trackEmoji DB write failed", e)
             }
         }
     }
