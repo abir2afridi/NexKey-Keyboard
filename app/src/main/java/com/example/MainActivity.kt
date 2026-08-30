@@ -346,8 +346,12 @@ fun NexKeyApp() {
                     AppSettingsScreen(
                         onBack = { navController.popBackStack() },
                         onNavigateToAppLanguage = { navController.navigate(Screen.SettingsAppLanguage.route) },
-                        onNavigateToAbout = { navController.navigate(Screen.About.route) }
+                        onNavigateToAbout = { navController.navigate(Screen.About.route) },
+                        onNavigateToSystemLogs = { navController.navigate(Screen.SystemLogs.route) }
                     )
+                }
+                composable(Screen.SystemLogs.route) {
+                    SystemLogsScreen(onBack = { navController.popBackStack() })
                 }
                 composable(Screen.Developer.route) {
                     DeveloperScreen(onBack = { navController.popBackStack() })

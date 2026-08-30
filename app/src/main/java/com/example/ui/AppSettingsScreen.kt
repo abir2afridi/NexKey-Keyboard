@@ -58,7 +58,8 @@ private fun accentColorLabel(code: String): String = stringResource(
 fun AppSettingsScreen(
     onBack: () -> Unit,
     onNavigateToAppLanguage: () -> Unit = {},
-    onNavigateToAbout: () -> Unit = {}
+    onNavigateToAbout: () -> Unit = {},
+    onNavigateToSystemLogs: () -> Unit = {}
 ) {
     val context = LocalContext.current
     val prefs = remember { UserPreferences(context) }
@@ -273,6 +274,16 @@ fun AppSettingsScreen(
                         subtitle = stringResource(R.string.app_settings_app_language_sub),
                         icon = Icons.Default.Translate,
                         onClick = onNavigateToAppLanguage
+                    )
+                    HorizontalDivider(
+                        modifier = Modifier.padding(horizontal = 16.dp),
+                        color = MaterialTheme.colorScheme.outlineVariant
+                    )
+                    SettingItem(
+                        title = stringResource(R.string.logs_settings_title),
+                        subtitle = stringResource(R.string.logs_settings_sub),
+                        icon = Icons.Default.BugReport,
+                        onClick = onNavigateToSystemLogs
                     )
                     HorizontalDivider(
                         modifier = Modifier.padding(horizontal = 16.dp),

@@ -24,6 +24,7 @@ sealed class Screen(val route: String) {
     object SettingsAllEmojis : Screen("settings_all_emojis")
     object SettingsAppLanguage : Screen("settings_app_language")
     object AppSettings : Screen("app_settings")
+    object SystemLogs : Screen("system_logs")
     object Developer : Screen("developer")
 
     // Settings group screens

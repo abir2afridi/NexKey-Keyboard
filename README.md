@@ -72,6 +72,11 @@
 | Speed Meter & Info Box | Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
 | Privacy & Security | Incognito mode (no learning, no clipboard) | ✅ |
 | Privacy & Security | Password/sensitive field detection | ✅ |
+| Debug & Monitoring | System Logs — in-memory circular buffer (500 entries) | ✅ |
+| Debug & Monitoring | Error & crash capture with expandable stack traces | ✅ |
+| Debug & Monitoring | Process monitoring (PID, memory, heap, threads, device info) | ✅ |
+| Debug & Monitoring | IME lifecycle logging (init, view create, start, finish) | ✅ |
+| Debug & Monitoring | Log search, level filter (DEBUG/INFO/WARN/ERROR/CRASH), copy & clear | ✅ |
 | Accessibility & Input Feedback | TalkBack accessibility labels (all keys, toolbar, clipboard) | ✅ |
 | Accessibility & Input Feedback | Language switch accessibility announcement | ✅ |
 | Accessibility & Input Feedback | Key long-press hint popups (numbers for top row, accents for others) | ✅ |
@@ -142,13 +147,16 @@ app/
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
     │   ├── HomeScreen.kt                   — Dashboard home with status card
     │   ├── StoreScreen.kt                  — Store (Shop / Themes / Meter / Info Box tabs)
-    │   ├── AppSettingsScreen.kt            — App theme, language, about
+    │   ├── AppSettingsScreen.kt            — App theme, language, system logs, about
     │   ├── SettingsScreen.kt               — Keyboard Settings hub (groups index)
     │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels, text editing toolbar, voice mic animation
     │   ├── KeyboardLayouts.kt              — Layout data models & key maps
     │   ├── Components.kt                   — Reusable composables (SettingItem, etc.)
     │   ├── ClipboardScreen.kt              — Full-screen clipboard history manager
-    │   └── ClipboardPanel.kt               — Inline keyboard clipboard panel
+    │   ├── ClipboardPanel.kt               — Inline keyboard clipboard panel
+    │   └── SystemLogsScreen.kt             — Debug logs, errors, process monitoring UI
+    ├── debug/
+    │   └── AppLogger.kt                    — Centralized in-memory logger, error capture, process info
     ├── data/
     │   ├── AppDatabase.kt                  — Room database (clips, learned words)
     │   ├── ClipEntity.kt / ClipDao.kt              — Clipboard persistence
@@ -218,6 +226,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - ✅ Accessibility improvements — key content descriptions, TalkBack language switch announcement
 - ✅ ProGuard/R8 enabled for smaller APK size
 - ✅ Unused dependencies removed
+- ✅ System Logs — debug details & process monitoring in App Settings
 
 **Checksums:**
 
@@ -243,7 +252,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 1. Install the APK and open the NexKey app.
 2. Follow the in-app setup wizard to enable and select NexKey.
 3. Open any app with a text field — NexKey appears automatically.
-4. Use the bottom navigation bar to access **Keyboard Settings** (grouped screens for Typing, Feedback, Layout, Size, etc.) and **App Settings** (theme, language, about).
+4. Use the bottom navigation bar to access **Keyboard Settings** (grouped screens for Typing, Feedback, Layout, Size, etc.) and **App Settings** (theme, language, system logs, about).
 
 ### Manually from Settings
 
@@ -304,6 +313,19 @@ NexKey includes a dedicated Avro phonetic engine that provides a distinct typing
 - **Full TalkBack support** — Every key, toolbar icon, emoji, and clipboard item has a proper `contentDescription`. Shift state is announced dynamically.
 - **Role semantics** — All interactive elements use `Role.Button` for correct screen-reader navigation.
 - System font scale respected at up to 200%.
+
+---
+
+## Debug & Monitoring
+
+Access from **App Settings → System Logs** inside the NexKey app:
+
+- **Logs tab** — Live in-memory log buffer (500 entries max) with search, level filter chips, and expandable stack traces.
+- **Errors tab** — Dedicated error + crash history (200 entries max) with full stack trace expansion.
+- **Process tab** — Real-time app info (PID, version, threads, Java), memory usage with color-coded progress bar, device info, and log summary counters.
+- **Copy & Clear** — Export logs to clipboard or clear them from the toolbar.
+- **IME lifecycle logging** — Initialization, view creation, input start/finish, and all catch blocks log to the buffer.
+- **No network** — All logs are in-memory only; nothing leaves the device.
 
 ---
 

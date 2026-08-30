@@ -39,6 +39,7 @@ import kotlinx.coroutines.launch
 import android.Manifest
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
+import com.example.debug.AppLogger
 
 class NexKeyInputMethodService : LifecycleInputMethodService() {
 
@@ -172,6 +173,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     override fun onCreate() {
         super.onCreate()
+        AppLogger.i("IME", getString(R.string.logs_ime_init))
         ClipboardManager.init(this)
         TypingAnalytics.init(this)
         predictionEngine.init(this)
@@ -188,6 +190,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     override fun onCreateInputView(): View {
+        AppLogger.i("IME", getString(R.string.logs_ime_view_created))
         val composeView = ComposeView(this).apply {
             setLifecycleOwners()
             setContent {
@@ -348,6 +351,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     override fun onStartInputView(info: EditorInfo?, restarting: Boolean) {
         super.onStartInputView(info, restarting)
+        AppLogger.d("IME", getString(R.string.logs_ime_started))
         TypingAnalytics.startSession()
         composingBuffer = ""
         candidates = emptyList()
@@ -391,6 +395,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     override fun onFinishInputView(finishingInput: Boolean) {
+        AppLogger.d("IME", getString(R.string.logs_ime_finished))
         TypingAnalytics.endSession()
         finalizeSpeedWindow()
         super.onFinishInputView(finishingInput)
@@ -442,7 +447,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     } else {
                         keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                     }
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    AppLogger.e("IME", getString(R.string.logs_feedback_error, e.message ?: "Unknown"), e)
                     keyboardView?.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP)
                 }
             }
@@ -457,7 +463,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
                     val volume = (soundLevel / 100f).coerceIn(0f, 1f)
                     am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD, volume)
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    AppLogger.e("IME", getString(R.string.logs_feedback_error, e.message ?: "Unknown"), e)
                     try {
                         val am = getSystemService(android.content.Context.AUDIO_SERVICE) as android.media.AudioManager
                         am.playSoundEffect(android.media.AudioManager.FX_KEYPRESS_STANDARD)
@@ -534,7 +541,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     addFlags(android.content.Intent.FLAG_ACTIVITY_NEW_TASK)
                 }
                 startActivity(intent)
-            } catch (_: Exception) {}
+            } catch (e: Exception) {
+                AppLogger.e("IME", getString(R.string.logs_settings_error, e.message ?: "Unknown"), e)
+            }
             return
         }
 
@@ -544,6 +553,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         }
 
         try {
+            AppLogger.i("IME", getString(R.string.logs_voice_started))
             speechRecognizer?.destroy()
             speechRecognizer = SpeechRecognizer.createSpeechRecognizer(this)
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
@@ -579,6 +589,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                         9 -> getString(R.string.ime_permission_denied)
                         else -> getString(R.string.ime_voice_error, error)
                     }
+                    AppLogger.e("IME", getString(R.string.logs_voice_error, msg))
                     Toast.makeText(this@NexKeyInputMethodService, msg, Toast.LENGTH_SHORT).show()
                 }
 
@@ -592,6 +603,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
             speechRecognizer?.startListening(intent)
         } catch (e: Exception) {
+            AppLogger.e("IME", getString(R.string.logs_voice_error, e.message ?: "Unknown"), e)
             Toast.makeText(this, getString(R.string.ime_voice_start_failed, e.message ?: ""), Toast.LENGTH_SHORT).show()
         }
     }
