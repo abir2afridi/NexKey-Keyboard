@@ -24,7 +24,7 @@ import kotlinx.coroutines.launch
 fun LanguageKeysSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val voiceInputKey by prefs.voiceInputKey.collectAsState(initial = true)
     val showEmojiKey by prefs.showEmojiKey.collectAsState(initial = true)
     val showGlobeKey by prefs.showGlobeKey.collectAsState(initial = true)

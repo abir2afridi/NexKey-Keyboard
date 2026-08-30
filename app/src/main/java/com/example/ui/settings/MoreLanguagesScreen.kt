@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 fun MoreLanguagesScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val enableBanglaJatiyo by prefs.enableBanglaJatiyo.collectAsState(initial = true)
     val enableAvro by prefs.enableAvro.collectAsState(initial = true)
     val enableArabic by prefs.enableArabic.collectAsState(initial = true)

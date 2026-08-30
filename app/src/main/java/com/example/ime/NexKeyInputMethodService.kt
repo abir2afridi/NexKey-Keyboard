@@ -35,6 +35,7 @@ import com.example.ui.ShiftState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import android.Manifest
 import android.content.pm.PackageManager
@@ -72,7 +73,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var meterDisplayModeState by mutableStateOf("speed")
     internal var meterCountModeState by mutableStateOf("keys")
     internal var burstLastChar by mutableStateOf("")
-    internal val streakCounter = mutableMapOf<String, Int>()
+    internal val streakCounter = java.util.concurrent.ConcurrentHashMap<String, Int>()
 
     // Live Preferences
     internal var hapticsEnabled by mutableStateOf(true)
@@ -159,7 +160,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var emojiSearchHorizontal by mutableStateOf(true)
 
     internal val predictionEngine: PredictionProvider by lazy {
-        DictionaryManager(PreferenceFeatureFlags(UserPreferences(applicationContext)))
+        DictionaryManager(PreferenceFeatureFlags(UserPreferences.getInstance(applicationContext)))
     }
 
     /** Last few committed words, used as previous-word context for n-gram prediction. */
@@ -177,7 +178,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         ClipboardManager.init(this)
         TypingAnalytics.init(this)
         predictionEngine.init(this)
-        userPreferences = UserPreferences(this)
+        userPreferences = UserPreferences.getInstance(this)
         vibrator = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val vm = getSystemService(VIBRATOR_MANAGER_SERVICE) as VibratorManager
             vm.defaultVibrator
@@ -364,8 +365,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
         lastPressedWord = ""
-
-        detectSensitiveField(info)
 
         // Compute the label shown on the Enter key so it matches what Enter will
         // actually DO (see handleEnter() in TextInputHandler.kt). We only show a
@@ -616,7 +615,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     }
 
     override fun onDestroy() {
-        super.onDestroy()
+        scope.cancel()
         speechRecognizer?.destroy()
+        speechRecognizer = null
+        super.onDestroy()
     }
 }

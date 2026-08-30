@@ -51,7 +51,7 @@ fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
             Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) { Text(stringResource(R.string.clipboard_panel_empty), color = theme.keyTextColor.copy(alpha = 0.5f)) }
         } else {
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(clips) { clip ->
+                items(clips, key = { it.id }) { clip ->
                     Box(modifier = Modifier.width(160.dp).height(130.dp).clip(RoundedCornerShape(10.dp)).background(theme.keyBackgroundColor).border(width = 1.dp, color = if (clip.isPinned) theme.accentColor else Color.Transparent, shape = RoundedCornerShape(10.dp)).clickable(role = Role.Button, onClick = { onClipClick(clip.text) }).padding(8.dp)) {
                         Column(modifier = Modifier.fillMaxSize()) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {

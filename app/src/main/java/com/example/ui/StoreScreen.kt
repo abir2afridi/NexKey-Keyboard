@@ -135,7 +135,7 @@ private fun ShopTab() {
 @Composable
 private fun KeyboardThemesTab(onNavigateToCustomTheme: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val prefs = remember { com.example.data.UserPreferences(context) }
+    val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
 
@@ -344,7 +344,7 @@ private fun MeterStoreTab(onNavigateToSpeedMeter: () -> Unit) {
 @Composable
 private fun InfoBoxStoreTab(onNavigateToInfoBox: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val prefs = remember { com.example.data.UserPreferences(context) }
+    val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
     val currentInfoBoxFont by prefs.infoBoxFont.collectAsState(initial = "DEFAULT")
 

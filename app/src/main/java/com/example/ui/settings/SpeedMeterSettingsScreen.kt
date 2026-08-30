@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 fun SettingsSpeedMeterScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val interval by prefs.meterInterval.collectAsState(initial = "5s")
     val meterEnabled by prefs.meterEnabled.collectAsState(initial = true)
     val meterPosition by prefs.meterPosition.collectAsState(initial = "right")

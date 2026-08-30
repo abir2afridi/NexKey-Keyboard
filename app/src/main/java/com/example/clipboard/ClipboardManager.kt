@@ -58,11 +58,12 @@ object ClipboardManager {
 
     private fun startClipboardListener(ctx: Context) {
         if (incognito || clipboardListener != null) return
-        context = ctx
+        val appContext = ctx.applicationContext
+        context = appContext
         clipboardListener = OnPrimaryClipChangedListener {
             val clip = systemClipboard?.primaryClip ?: return@OnPrimaryClipChangedListener
             if (clip.itemCount > 0) {
-                val text = clip.getItemAt(0).coerceToText(ctx)?.toString() ?: return@OnPrimaryClipChangedListener
+                val text = clip.getItemAt(0).coerceToText(appContext)?.toString() ?: return@OnPrimaryClipChangedListener
                 addClip(text)
             }
         }

@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 fun TextCorrectionSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val autoCorrection by prefs.autoCorrection.collectAsState(initial = true)
     val phoneticAutoCorrect by prefs.phoneticAutoCorrection.collectAsState(initial = true)
     val showSuggestions by prefs.showSuggestions.collectAsState(initial = true)

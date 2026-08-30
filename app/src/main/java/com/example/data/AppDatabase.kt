@@ -26,7 +26,7 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "nexkey_database"
-                ).fallbackToDestructiveMigration()
+                ).fallbackToDestructiveMigrationOnDowngrade()
                     .build().also { INSTANCE = it }
             }
         }

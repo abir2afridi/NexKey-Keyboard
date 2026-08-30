@@ -10,15 +10,6 @@
 -keep @androidx.room.Dao class *
 -dontwarn androidx.room.paging.**
 
-# Moshi (if re-added later)
--keep class com.squareup.moshi.** { *; }
--keepclassmembers class * {
-    @com.squareup.moshi.Json <fields>;
-}
--dontwarn javax.annotation.**
--dontwarn sun.misc.Unsafe
--dontwarn okio.**
-
 # Kotlin coroutines
 -keepnames class kotlinx.coroutines.internal.MainDispatcherFactory {}
 -keepnames class kotlinx.coroutines.CoroutineExceptionHandler {}
@@ -34,4 +25,5 @@
 -dontwarn com.google.firebase.**
 
 # Prediction engine data classes
--keep class com.example.feature.prediction.engine.** { *; }
+-keep class com.example.prediction.engine.** { *; }
+-keep class com.example.prediction.data.** { *; }

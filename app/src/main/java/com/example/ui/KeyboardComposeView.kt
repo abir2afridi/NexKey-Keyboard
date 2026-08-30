@@ -1422,7 +1422,7 @@ fun CandidateStrip(
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                items(suggestions) { candidate ->
+                items(suggestions, key = { it }) { candidate ->
                     Box(
                         modifier = Modifier
                             .clip(RoundedCornerShape(8.dp))
@@ -1570,22 +1570,24 @@ fun KeyboardKeysGrid(
 
         val effectiveTextMode = if (mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS || mode == KeyboardMode.EMOJI || mode == KeyboardMode.CLIPBOARD) lastTextMode else mode
 
-        val rows = when (mode) {
-            KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
-            KeyboardMode.AVRO -> listOf(BanglaLayout.AvroRow1, BanglaLayout.AvroRow2, BanglaLayout.AvroRow3)
-            KeyboardMode.BANGLA_JATIYO -> if (shiftState != ShiftState.OFF) {
-                listOf(BanglaLayout.JatiyoShiftRow1, BanglaLayout.JatiyoShiftRow2, BanglaLayout.JatiyoShiftRow3)
-            } else {
-                listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
+        val rows = remember(mode, shiftState, effectiveTextMode) {
+            when (mode) {
+                KeyboardMode.BANGLA_PHONETIC -> listOf(BanglaLayout.PhoneticRow1, BanglaLayout.PhoneticRow2, BanglaLayout.PhoneticRow3)
+                KeyboardMode.AVRO -> listOf(BanglaLayout.AvroRow1, BanglaLayout.AvroRow2, BanglaLayout.AvroRow3)
+                KeyboardMode.BANGLA_JATIYO -> if (shiftState != ShiftState.OFF) {
+                    listOf(BanglaLayout.JatiyoShiftRow1, BanglaLayout.JatiyoShiftRow2, BanglaLayout.JatiyoShiftRow3)
+                } else {
+                    listOf(BanglaLayout.JatiyoRow1, BanglaLayout.JatiyoRow2, BanglaLayout.JatiyoRow3)
+                }
+                KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
+                KeyboardMode.SYMBOLS -> if (effectiveTextMode == KeyboardMode.BANGLA_JATIYO || effectiveTextMode == KeyboardMode.AVRO || effectiveTextMode == KeyboardMode.BANGLA_PHONETIC) {
+                    listOf(KeyboardLayouts.BanglaNumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                } else {
+                    listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                }
+                KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                else -> listOf(EnglishLayout.Row1, EnglishLayout.Row2, EnglishLayout.Row3)
             }
-            KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
-            KeyboardMode.SYMBOLS -> if (effectiveTextMode == KeyboardMode.BANGLA_JATIYO || effectiveTextMode == KeyboardMode.AVRO || effectiveTextMode == KeyboardMode.BANGLA_PHONETIC) {
-                listOf(KeyboardLayouts.BanglaNumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
-            } else {
-                listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
-            }
-            KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
-            else -> listOf(EnglishLayout.Row1, EnglishLayout.Row2, EnglishLayout.Row3)
         }
 
         rows.take(2).forEach { rowKeys ->

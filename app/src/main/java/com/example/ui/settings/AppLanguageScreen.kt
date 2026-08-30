@@ -46,7 +46,7 @@ private val appLanguages = listOf(
 @Composable
 fun AppLanguageScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val prefs = remember { UserPreferences(context.applicationContext) }
+    val prefs = remember { UserPreferences.getInstance(context.applicationContext) }
     val scope = rememberCoroutineScope()
     var selectedLanguage by remember { mutableStateOf("en") }
     var loaded by remember { mutableStateOf(false) }

@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 fun NavigationSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val moveCursorSpace by prefs.moveCursorSpace.collectAsState(initial = true)
     val volumeCursor by prefs.volumeCursor.collectAsState(initial = false)
     val smartVolumeControl by prefs.smartVolumeControl.collectAsState(initial = true)

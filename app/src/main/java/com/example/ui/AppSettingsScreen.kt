@@ -62,7 +62,7 @@ fun AppSettingsScreen(
     onNavigateToSystemLogs: () -> Unit = {}
 ) {
     val context = LocalContext.current
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
     val navigationStyle by prefs.navigationStyle.collectAsState(initial = "STANDARD")
     val accentColorHex by prefs.accentColor.collectAsState(initial = "#FF2E7D32")

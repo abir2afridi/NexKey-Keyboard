@@ -26,12 +26,30 @@ import kotlinx.coroutines.launch
 fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val holdPasteEnabled by prefs.holdPasteEnabled.collectAsState(initial = false)
     val holdPasteDuration by prefs.holdPasteDuration.collectAsState(initial = 400)
     val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
     val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 120)
     val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
+    var showDeleteDialog by remember { mutableStateOf(false) }
+
+    if (showDeleteDialog) {
+        AlertDialog(
+            onDismissRequest = { showDeleteDialog = false },
+            title = { Text(stringResource(R.string.paste_delete_all)) },
+            text = { Text(stringResource(R.string.paste_delete_all_desc)) },
+            confirmButton = {
+                TextButton(onClick = {
+                    ClipboardManager.clearAllUnpinned()
+                    showDeleteDialog = false
+                }) { Text(stringResource(R.string.clipboard_delete)) }
+            },
+            dismissButton = {
+                TextButton(onClick = { showDeleteDialog = false }) { Text(stringResource(R.string.back)) }
+            }
+        )
+    }
 
     SettingsSubScaffold(title = stringResource(R.string.settings_paste), onBack = onBack) {
         SettingSwitchItem(stringResource(R.string.paste_hold_paste), stringResource(R.string.paste_hold_paste_desc), Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
@@ -68,7 +86,7 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(vertical = 12.dp, horizontal = 4.dp)
-                .clickable { ClipboardManager.clearAllUnpinned() },
+                .clickable { showDeleteDialog = true },
             verticalAlignment = Alignment.CenterVertically
         ) {
             Box(

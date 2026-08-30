@@ -99,7 +99,7 @@ fun HomeScreen(
     val isSelected = checkIsKeyboardSelected(context)
     val isActive = isEnabled && isSelected
 
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val haptics by prefs.haptics.collectAsState(initial = true)
     val sound by prefs.sound.collectAsState(initial = true)
     val autoCorrection by prefs.autoCorrection.collectAsState(initial = true)

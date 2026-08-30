@@ -35,11 +35,11 @@ fun ClipboardScreen(
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val clipboardRecentEnabled by prefs.clipboardRecent.collectAsState(initial = true)
     val allClips by ClipboardManager.clips.collectAsState()
-    val clips = allClips.filter { c ->
-        clipboardRecentEnabled || c.isPinned
+    val clips = remember(allClips, clipboardRecentEnabled) {
+        allClips.filter { c -> clipboardRecentEnabled || c.isPinned }
     }
     
     Scaffold(

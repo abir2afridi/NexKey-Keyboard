@@ -30,7 +30,7 @@ fun LayoutSettingsScreen(
 ) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
     val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
     val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)

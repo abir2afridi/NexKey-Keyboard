@@ -34,7 +34,7 @@ import org.json.JSONArray
 @Composable
 fun SettingsInfoBoxScreen(onBack: () -> Unit) {
     val context = androidx.compose.ui.platform.LocalContext.current
-    val prefs = remember { com.example.data.UserPreferences(context) }
+    val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
 
     val frames = remember { InfoBoxFrame.allPresets() }
