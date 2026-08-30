@@ -23,7 +23,7 @@ import kotlinx.coroutines.launch
 fun EmojiSettingsScreen(onBack: () -> Unit, onNavigateToAllEmojis: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val recentEmojiExpiry by prefs.recentEmojiExpiry.collectAsState(initial = 30)
     val emojiSearchVisibleRows by prefs.emojiSearchVisibleRows.collectAsState(initial = 2)
     val emojiSearchHorizontal by prefs.emojiSearchHorizontal.collectAsState(initial = true)

@@ -30,7 +30,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun KeyboardResizeScreen(onBack: () -> Unit) {
     val context = LocalContext.current
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
 
     val resizingEnabled by prefs.enableKbResizing.collectAsState(initial = false)

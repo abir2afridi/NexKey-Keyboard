@@ -5,6 +5,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.example.theme.ThemePreset
@@ -14,9 +15,18 @@ import kotlinx.coroutines.flow.map
 
 private val Context.dataStore by preferencesDataStore(name = "nexkey_preferences")
 
-class UserPreferences(private val context: Context) {
+class UserPreferences private constructor(private val context: Context) {
 
     companion object {
+        @Volatile
+        private var instance: UserPreferences? = null
+
+        fun getInstance(context: Context): UserPreferences {
+            return instance ?: synchronized(this) {
+                instance ?: UserPreferences(context.applicationContext).also { instance = it }
+            }
+        }
+
         private val KEY_THEME = stringPreferencesKey("theme")
         private val KEY_LANGUAGE = stringPreferencesKey("language")
         private val KEY_KEY_HEIGHT = intPreferencesKey("key_height")
@@ -29,8 +39,8 @@ class UserPreferences(private val context: Context) {
         private val KEY_SHOW_NUMBER_ROW = booleanPreferencesKey("show_number_row")
         private val KEY_HAPTIC_INTENSITY = intPreferencesKey("haptic_intensity")
         private val KEY_SOUND_VOLUME = intPreferencesKey("sound_volume")
-        private val KEY_TOTAL_WORDS = intPreferencesKey("total_words_typed")
-        private val KEY_TOTAL_CHARS = intPreferencesKey("total_chars_typed")
+        private val KEY_TOTAL_WORDS = longPreferencesKey("total_words_typed")
+        private val KEY_TOTAL_CHARS = longPreferencesKey("total_chars_typed")
         private val KEY_APP_THEME = stringPreferencesKey("app_theme")
         private val KEY_APP_LANGUAGE = stringPreferencesKey("app_language")
         private val KEY_NAV_STYLE = stringPreferencesKey("nav_style")
@@ -151,8 +161,8 @@ class UserPreferences(private val context: Context) {
     val showNumberRow: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_NUMBER_ROW] ?: true }
     val hapticIntensity: Flow<Int> = context.dataStore.data.map { it[KEY_HAPTIC_INTENSITY] ?: 50 }
     val soundVolume: Flow<Int> = context.dataStore.data.map { it[KEY_SOUND_VOLUME] ?: 50 }
-    val totalWords: Flow<Int> = context.dataStore.data.map { it[KEY_TOTAL_WORDS] ?: 0 }
-    val totalChars: Flow<Int> = context.dataStore.data.map { it[KEY_TOTAL_CHARS] ?: 0 }
+    val totalWords: Flow<Long> = context.dataStore.data.map { it[KEY_TOTAL_WORDS] ?: 0L }
+    val totalChars: Flow<Long> = context.dataStore.data.map { it[KEY_TOTAL_CHARS] ?: 0L }
     val appTheme: Flow<String> = context.dataStore.data.map { it[KEY_APP_THEME] ?: "SYSTEM" }
     val appLanguage: Flow<String> = context.dataStore.data.map { it[KEY_APP_LANGUAGE] ?: "en" }
     val navigationStyle: Flow<String> = context.dataStore.data.map { it[KEY_NAV_STYLE] ?: "STANDARD" }
@@ -407,10 +417,10 @@ class UserPreferences(private val context: Context) {
 
     suspend fun incrementStats(words: Int, chars: Int) {
         context.dataStore.edit {
-            val currentWords = it[KEY_TOTAL_WORDS] ?: 0
-            val currentChars = it[KEY_TOTAL_CHARS] ?: 0
-            it[KEY_TOTAL_WORDS] = currentWords + words
-            it[KEY_TOTAL_CHARS] = currentChars + chars
+            val currentWords = it[KEY_TOTAL_WORDS] ?: 0L
+            val currentChars = it[KEY_TOTAL_CHARS] ?: 0L
+            it[KEY_TOTAL_WORDS] = currentWords + words.toLong()
+            it[KEY_TOTAL_CHARS] = currentChars + chars.toLong()
         }
     }
 

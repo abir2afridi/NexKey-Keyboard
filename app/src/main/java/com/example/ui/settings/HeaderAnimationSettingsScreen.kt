@@ -36,7 +36,7 @@ import kotlinx.coroutines.launch
 fun HeaderAnimationSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val headerAnimation by prefs.headerAnimation.collectAsState(initial = HeaderAnimation.FADE.name)
 
     SettingsSubScaffold(title = stringResource(R.string.settings_header_animation), onBack = onBack) {

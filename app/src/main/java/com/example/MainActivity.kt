@@ -57,7 +57,7 @@ class MainActivity : AppCompatActivity() {
         ClipboardManager.init(applicationContext)
         setContent {
             val context = LocalContext.current
-            val prefs = remember { com.example.data.UserPreferences(context) }
+            val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
             val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
             val accentColor by prefs.accentColor.collectAsState(initial = "#FF2E7D32")
             val appLanguage: String? by prefs.appLanguage.collectAsState(initial = null)
@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity() {
 fun NexKeyApp() {
     val navController = rememberNavController()
     val context = androidx.compose.ui.platform.LocalContext.current
-    val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences(context) }
+    val prefs = androidx.compose.runtime.remember { com.example.data.UserPreferences.getInstance(context) }
     val navigationStyle by prefs.navigationStyle.collectAsState(initial = "STANDARD")
     val appTheme by prefs.appTheme.collectAsState(initial = "SYSTEM")
 

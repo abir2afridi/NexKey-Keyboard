@@ -41,7 +41,7 @@ fun SandboxScreen(
     var sandboxSuggestions by remember { mutableStateOf<List<String>>(emptyList()) }
     val predictionEngine = remember {
         com.example.prediction.engine.DictionaryManager(
-            com.example.data.PreferenceFeatureFlags(com.example.data.UserPreferences(context))
+            com.example.data.PreferenceFeatureFlags(com.example.data.UserPreferences.getInstance(context))
         ).also { it.init(context) }
     }
 

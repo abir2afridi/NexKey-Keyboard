@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 fun AdvancedGroupSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val longPressDelay by prefs.longPressDelayMs.collectAsState(initial = 300)
     val popupDismiss by prefs.popupDismissDelay.collectAsState(initial = "Default")
     val spaceDelay by prefs.spaceCursorDelay.collectAsState(initial = 1000)

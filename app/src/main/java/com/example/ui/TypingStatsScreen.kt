@@ -33,7 +33,7 @@ fun TypingStatsScreen(
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val totalWords by prefs.totalWords.collectAsState(initial = 0)
     val totalChars by prefs.totalChars.collectAsState(initial = 0)
 

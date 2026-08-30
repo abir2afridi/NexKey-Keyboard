@@ -21,7 +21,7 @@ import kotlinx.coroutines.launch
 fun TypingSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val autoCap by prefs.autoCapitalize.collectAsState(initial = true)
     val doubleSpacePeriod by prefs.smartPunctuation.collectAsState(initial = true)
     val doubleSpaceTab by prefs.doubleSpaceTab.collectAsState(initial = false)

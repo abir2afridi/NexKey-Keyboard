@@ -72,6 +72,14 @@
 | Speed Meter & Info Box | Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
 | Privacy & Security | Incognito mode (no learning, no clipboard) | ✅ |
 | Privacy & Security | Password/sensitive field detection | ✅ |
+| Privacy & Security | Clipboard delete confirmation dialog | ✅ |
+| Performance | Keyboard layout rows cached with `remember` | ✅ |
+| Performance | Suggestion strip LazyRow keyed items | ✅ |
+| Performance | Clipboard filter memoized | ✅ |
+| Reliability | Thread-safe streak counter (ConcurrentHashMap) | ✅ |
+| Reliability | Long overflow-safe stats (Long not Int) | ✅ |
+| Reliability | R8 ProGuard rules correct for prediction engine | ✅ |
+| Reliability | Room destructive migration only on downgrade | ✅ |
 | Debug & Monitoring | System Logs — in-memory circular buffer (500 entries) | ✅ |
 | Debug & Monitoring | Error & crash capture with expandable stack traces | ✅ |
 | Debug & Monitoring | Process monitoring (PID, memory, heap, threads, device info) | ✅ |
@@ -87,6 +95,8 @@
 | IME & System | Instant flicker-free language switching (no activity recreation) | ✅ |
 | IME & System | Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
 | IME & System | Physical keyboard Ctrl+A/C/V/X/Z shortcuts | ✅ |
+| IME & System | Coroutine scope properly cancelled on destroy (no leak) | ✅ |
+| IME & System | Shared singleton UserPreferences (no DataStore crash) | ✅ |
 | IME & System | Bottom navigation (Home, Store, Keyboard, Leaderboard) + App Settings in page headers | ✅ |
 | IME & System | Gradle wrapper (CI-ready) | ✅ |
 | App Localization | App localization (14 languages + English) | ✅ |
@@ -227,6 +237,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - ✅ ProGuard/R8 enabled for smaller APK size
 - ✅ Unused dependencies removed
 - ✅ System Logs — debug details & process monitoring in App Settings
+- ✅ Stability fixes — coroutine scope leak, DataStore singleton, context leak, thread-safe counters
+- ✅ Performance — memoized keyboard rows, keyed LazyRow items, cached clipboard filter
 
 **Checksums:**
 

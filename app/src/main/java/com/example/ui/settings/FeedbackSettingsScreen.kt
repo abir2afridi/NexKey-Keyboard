@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 fun FeedbackSettingsScreen(onBack: () -> Unit) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
-    val prefs = remember { UserPreferences(context) }
+    val prefs = remember { UserPreferences.getInstance(context) }
     val haptics by prefs.haptics.collectAsState(initial = true)
     val sound by prefs.sound.collectAsState(initial = true)
     val popupOnKeypress by prefs.popupOnKeypress.collectAsState(initial = true)
