@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">Кнопка переключения на эмодзи</string>
     <string name="langkeys_globe">Показать клавишу глобуса</string>
     <string name="langkeys_globe_desc">Переключение языка клавиатуры</string>
+    <string name="langkeys_spacebar_switch">Переключение языка пробелом</string>
+    <string name="langkeys_spacebar_switch_desc">Удерживайте пробел (~380 мс) и проведите пальцем для переключения — текущий язык показывается при удержании</string>
     <string name="langkeys_other_kb">Разрешить другие клавиатуры</string>
     <string name="langkeys_other_kb_desc">Клавиша глобуса переключает на другие</string>
 
@@ -453,7 +455,9 @@
     <string name="adv_typed_first">Сначала показывать введённое слово</string>
     <string name="adv_typed_first_desc">Точно введённое слово появляется первой подсказкой</string>
     <string name="adv_backspace_delay">Задержка повтора backspace (мс)</string>
+    <string name="adv_backspace_delay_desc">Как долго удерживать Backspace перед началом удаления. По умолчанию 400 мс — быстро; проведите вправо для более длинной паузы.</string>
     <string name="adv_backspace_speed">Скорость повтора backspace (мс)</string>
+    <string name="adv_backspace_speed_desc">Как быстро повторяются буквы при удержании. По умолчанию 50 мс — быстро; проведите вправо для замедления. Удерживайте дольше для посимвольного удаления.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Автоисправление</string>
@@ -564,6 +568,7 @@
     <string name="kb_suggestions">Подсказки</string>
     <string name="kb_show_toolbar">Показать панель</string>
     <string name="kb_delete">Удалить</string>
+    <string name="kb_space">Пробел</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Сек</string>

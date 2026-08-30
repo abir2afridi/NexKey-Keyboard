@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">ایموجی بٹن پر سوئچ کریں</string>
     <string name="langkeys_globe">گلوب کلید دکھائیں</string>
     <string name="langkeys_globe_desc">کی بورڈ زبان تبدیل کریں</string>
+    <string name="langkeys_spacebar_switch">اسپیس بار زبان سوئچ</string>
+    <string name="langkeys_spacebar_switch_desc">اسپیس بار (~380ms) دبا کر سوائپ کریں تبدیل کرنے کے لیے — دبانے پر موجودہ زبان دکھاتا ہے</string>
     <string name="langkeys_other_kb">دیگر کی بورڈز کی اجازت دیں</string>
     <string name="langkeys_other_kb_desc">گلوب کلید دوسروں پر سوئچ کرتی ہے</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">پہلے ٹائپ شدہ لفظ دکھائیں</string>
     <string name="adv_typed_first_desc">درست ٹائپ شدہ لفظ پہلی تجویز کے طور پر ظاہر ہوتا ہے</string>
     <string name="adv_backspace_delay">بیک اسپیس ریپیٹ تاخیر (ملی سیکنڈ)</string>
+    <string name="adv_backspace_delay_desc">حروف حذف ہونے سے پہلے بیک اسپیس کو کتنی دیر دبایا جائے۔ ڈیفالٹ 400 ملی سیکنڈ تیز ہے — زیادہ وقفے کے لیے دائیں طرف سلائیڈ کریں۔</string>
     <string name="adv_backspace_speed">بیک اسپیس ریپیٹ رفتار (ملی سیکنڈ)</string>
+    <string name="adv_backspace_speed_desc">دبائے رکھنے پر حروف کتنی جلدی دہراتے ہیں۔ ڈیفالٹ 50 ملی سیکنڈ تیز ہے — سست کرنے کے لیے دائیں طرف سلائیڈ کریں۔ الفاظ کے مطابق حذف کرنے کے لیے زیادہ دیر دبائیں۔</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">خودکار تصحیح</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">تجاویز</string>
     <string name="kb_show_toolbar">ٹول بار دکھائیں</string>
     <string name="kb_delete">حذف کریں</string>
+    <string name="kb_space">اسپیس</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">سیکنڈ</string>

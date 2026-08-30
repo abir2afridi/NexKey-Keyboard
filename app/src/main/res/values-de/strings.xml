@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">Zur Emoji-Schaltfläche wechseln</string>
     <string name="langkeys_globe">Globus-Taste anzeigen</string>
     <string name="langkeys_globe_desc">Tastatursprache wechseln</string>
+    <string name="langkeys_spacebar_switch">Leertaste Sprache wechseln</string>
+    <string name="langkeys_spacebar_switch_desc">Leertaste gedrückt halten (~380 ms) und wischen, um zu wechseln – aktuelle Sprache wird beim Halten angezeigt</string>
     <string name="langkeys_other_kb">Andere Tastaturen zulassen</string>
     <string name="langkeys_other_kb_desc">Globus-Taste wechselt zu anderen</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">Getipptes Wort zuerst anzeigen</string>
     <string name="adv_typed_first_desc">Das exakt getippte Wort erscheint als erste Empfehlung</string>
     <string name="adv_backspace_delay">Rücktaste-Wiederholungsverzögerung (ms)</string>
+    <string name="adv_backspace_delay_desc">Wie lang Rücktaste gedrückt gehalten werden muss, bevor die Löschroutine beginnt. Standard 400 ms ist schnell — nach rechts schieben für längere Pause.</string>
     <string name="adv_backspace_speed">Rücktaste-Wiederholungsgeschwindigkeit (ms)</string>
+    <string name="adv_backspace_speed_desc">Wie schnell Buchstaben beim Halten wiederholt werden. Standard 50 ms ist schnell — nach rechts schieben zum Verlangsamen. Länger halten für Wort-für-Wort-Löschung.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Autokorrektur</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">Vorschläge</string>
     <string name="kb_show_toolbar">Symbolleiste anzeigen</string>
     <string name="kb_delete">Löschen</string>
+    <string name="kb_space">Leertaste</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Sek</string>

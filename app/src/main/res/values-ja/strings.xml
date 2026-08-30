@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">絵文字ボタンに切り替え</string>
     <string name="langkeys_globe">グローブキーを表示</string>
     <string name="langkeys_globe_desc">キーボード言語を切り替え</string>
+    <string name="langkeys_spacebar_switch">スペースバーで言語切替</string>
+    <string name="langkeys_spacebar_switch_desc">スペースバーを長押し（~380ms）してスワイプで切替 — 押している間は現在の言語を表示</string>
     <string name="langkeys_other_kb">他のキーボードを許可</string>
     <string name="langkeys_other_kb_desc">グローブキーで他に切り替え</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">入力した単語を最初に表示</string>
     <string name="adv_typed_first_desc">入力した正確な単語が最初の候補として表示</string>
     <string name="adv_backspace_delay">バックスペース繰り返し遅延（ms）</string>
+    <string name="adv_backspace_delay_desc">バックスペースを長押ししてから文字の削除を開始するまでの時間。デフォルトの400msは速い — 右にスワイプでより長いポーズを追加。</string>
     <string name="adv_backspace_speed">バックスペース繰り返し速度（ms）</string>
+    <string name="adv_backspace_speed_desc">長押し中の文字リピート速度。デフォルトの50msは速い — 右にスワイプで减速。より長押しで単語ごとの削除に切替。</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">自動修正</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">候補</string>
     <string name="kb_show_toolbar">ツールバーを表示</string>
     <string name="kb_delete">削除</string>
+    <string name="kb_space">スペース</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">秒</string>

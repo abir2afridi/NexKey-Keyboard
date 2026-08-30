@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">इमोजी बटन पर स्विच करें</string>
     <string name="langkeys_globe">ग्लोब कुंजी दिखाएँ</string>
     <string name="langkeys_globe_desc">कीबोर्ड भाषा बदलें</string>
+    <string name="langkeys_spacebar_switch">स्पेसबार भाषा स्विच</string>
+    <string name="langkeys_spacebar_switch_desc">स्पेसबार (~380ms) दबाकर स्वाइप करें भाषा बदलने के लिए — दबाने पर वर्तमान भाषा दिखती है</string>
     <string name="langkeys_other_kb">अन्य कीबोर्ड की अनुमति दें</string>
     <string name="langkeys_other_kb_desc">ग्लोब कुंजी दूसरों पर स्विच करती है</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">टाइप किया गया शब्द पहले दिखाएँ</string>
     <string name="adv_typed_first_desc">सटीक टाइप किया गया शब्द पहले सुझाव के रूप में दिखता है</string>
     <string name="adv_backspace_delay">बैकस्पेस रिपीट विलंब (ms)</string>
+    <string name="adv_backspace_delay_desc">अक्षर हटाना शुरू करने से पहले बैकस्पेस को कितनी देर तक दबाकर रखें। डिफ़ॉल्ट 400 मिलीसेकंड तेज़ है — लंबा ब्रेक जोड़ने के लिए दाईं ओर स्लाइड करें।</string>
     <string name="adv_backspace_speed">बैकस्पेस रिपीट गति (ms)</string>
+    <string name="adv_backspace_speed_desc">दबाकर रखने पर अक्षर कितनी जल्दी दोहराते हैं। डिफ़ॉल्ट 50 मिलीसेकंड तेज़ है — धीमा करने के लिए दाईं ओर स्लाइड करें। शब्द-दर-शब्द हटाने के लिए लंबे समय तक दबाएं।</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">ऑटो-सुधार</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">सुझाव</string>
     <string name="kb_show_toolbar">टूलबार दिखाएँ</string>
     <string name="kb_delete">हटाएँ</string>
+    <string name="kb_space">स्पेस</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">सेकंड</string>

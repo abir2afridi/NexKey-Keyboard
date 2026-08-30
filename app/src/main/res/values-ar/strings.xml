@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">التبديل إلى زر الرموز التعبيرية</string>
     <string name="langkeys_globe">إظهار مفتاح الكوكب</string>
     <string name="langkeys_globe_desc">تبديل لغة لوحة المفاتيح</string>
+    <string name="langkeys_spacebar_switch">تبديل اللغة بمسافة</string>
+    <string name="langkeys_spacebar_switch_desc">اضغط مع الاستمرار على مسافة (~380 مللي ثانية) ثم اسحب للتبديل — اللغة الحالية تظهر أثناء الضغط</string>
     <string name="langkeys_other_kb">السماح بلوحات مفاتيح أخرى</string>
     <string name="langkeys_other_kb_desc">مفتاح الكوكب يبدل إلى الأخرى</string>
 
@@ -455,7 +457,9 @@
     <string name="adv_typed_first">إظهار الكلمة المكتوبة أولاً</string>
     <string name="adv_typed_first_desc">الكلمة المكتوبة بالضبط تظهر كأول اقتراح</string>
     <string name="adv_backspace_delay">تأخير تكرار مسافة الحذف (ملي ثانية)</string>
+    <string name="adv_backspace_delay_desc">مدة الضغط على مفتاح المسح قبل بدء الحذف. الافتراضي 400 مللي ثانية سريع — اسحب لليمين لإضافة توقف أطول.</string>
     <string name="adv_backspace_speed">سرعة تكرار مسافة الحذف (ملي ثانية)</string>
+    <string name="adv_backspace_speed_desc">سرعة تكرار الحروف أثناء الضغط. الافتراضي 50 مللي ثانية سريع — اسحب لليمين للإبطاء. اضغط مع الاستمرار أطول للتبديل إلى الحذف كلمة بكلمة.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">التصحيح التلقائي</string>
@@ -566,6 +570,7 @@
     <string name="kb_suggestions">اقتراحات</string>
     <string name="kb_show_toolbar">إظهار شريط الأدوات</string>
     <string name="kb_delete">حذف</string>
+    <string name="kb_space">مسافة</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">ثانية</string>

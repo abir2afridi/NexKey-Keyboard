@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">Cambiar al botón de emojis</string>
     <string name="langkeys_globe">Mostrar tecla de globo</string>
     <string name="langkeys_globe_desc">Cambiar idioma del teclado</string>
+    <string name="langkeys_spacebar_switch">Cambiar idioma con la barra espaciadora</string>
+    <string name="langkeys_spacebar_switch_desc">Mantén la barra espaciadora (~380ms) y desliza para cambiar — el idioma actual se muestra al mantener</string>
     <string name="langkeys_other_kb">Permitir otros teclados</string>
     <string name="langkeys_other_kb_desc">La tecla de globo cambia a otros</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">Mostrar primero la palabra escrita</string>
     <string name="adv_typed_first_desc">La palabra escrita exacta aparece como primera sugerencia</string>
     <string name="adv_backspace_delay">Retraso de repetición de retroceso (ms)</string>
+    <string name="adv_backspace_delay_desc">Cuánto mantener Retroceder antes de que empiece a borrar. Por defecto 400 ms es rápido — desliza a la derecha para añadir una pausa más larga.</string>
     <string name="adv_backspace_speed">Velocidad de repetición de retroceso (ms)</string>
+    <string name="adv_backspace_speed_desc">Qué tan rápido se repiten las letras al mantener. Por defecto 50 ms es rápido — desliza a la derecha para ralentizar. Mantén más para cambiar a eliminación palabra por palabra.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Autocorrección</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">Sugerencias</string>
     <string name="kb_show_toolbar">Mostrar barra de herramientas</string>
     <string name="kb_delete">Eliminar</string>
+    <string name="kb_space">Espacio</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Seg</string>

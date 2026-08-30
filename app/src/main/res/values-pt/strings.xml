@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">Alternar para o botão de emojis</string>
     <string name="langkeys_globe">Mostrar tecla de globo</string>
     <string name="langkeys_globe_desc">Alternar idioma do teclado</string>
+    <string name="langkeys_spacebar_switch">Alternar idioma com a barra de espaço</string>
+    <string name="langkeys_spacebar_switch_desc">Segure a barra de espaço (~380ms) e deslize para alternar — o idioma atual é exibido ao segurar</string>
     <string name="langkeys_other_kb">Permitir outros teclados</string>
     <string name="langkeys_other_kb_desc">A tecla de globo alterna para outros</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">Mostrar palavra digitada primeiro</string>
     <string name="adv_typed_first_desc">A palavra exata digitada aparece como primeira sugestão</string>
     <string name="adv_backspace_delay">Atraso de repetição do backspace (ms)</string>
+    <string name="adv_backspace_delay_desc">Quanto tempo segurar o Backspace antes de iniciar a exclusão. Padrão 400 ms é rápido — deslize para a direita para adicionar uma pausa mais longa.</string>
     <string name="adv_backspace_speed">Velocidade de repetição do backspace (ms)</string>
+    <string name="adv_backspace_speed_desc">Quão rápido as letras se repetem ao segurar. Padrão 50 ms é rápido — deslize para a direita para desacelerar. Segure mais para alternar para exclusão palavra por palavra.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Autocorreção</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">Sugestões</string>
     <string name="kb_show_toolbar">Mostrar barra de ferramentas</string>
     <string name="kb_delete">Excluir</string>
+    <string name="kb_space">Espaço</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Seg</string>

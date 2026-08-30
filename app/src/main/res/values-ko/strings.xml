@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">이모지 버튼으로 전환</string>
     <string name="langkeys_globe">지구본 키 표시</string>
     <string name="langkeys_globe_desc">키보드 언어 전환</string>
+    <string name="langkeys_spacebar_switch">스페이스바 언어 전환</string>
+    <string name="langkeys_spacebar_switch_desc">스페이스바를 (~380ms) 길게 누르고 스와이프하여 전환 — 누르고 있는 동안 현재 언어 표시</string>
     <string name="langkeys_other_kb">다른 키보드 허용</string>
     <string name="langkeys_other_kb_desc">지구본 키로 다른 키보드로 전환</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">입력한 단어를 먼저 표시</string>
     <string name="adv_typed_first_desc">입력한 정확한 단어가 첫 번째 추천으로 표시</string>
     <string name="adv_backspace_delay">백스페이스 반복 지연(ms)</string>
+    <string name="adv_backspace_delay_desc">문자를 삭제하기 전에 백스페이스를 길게 누르는 시간. 기본값 400ms는 빠름 — 더 긴 대기 시간으로 설정하려면 오른쪽으로 슬라이드하세요.</string>
     <string name="adv_backspace_speed">백스페이스 반복 속도(ms)</string>
+    <string name="adv_backspace_speed_desc">누르고 있을 때 문자가 반복되는 속도. 기본값 50ms는 빠름 — 느리게 하려면 오른쪽으로 슬라이드. 단어 단위 삭제로 전환하려면 더 길게 누르세요.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">자동 수정</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">추천</string>
     <string name="kb_show_toolbar">도구 모음 표시</string>
     <string name="kb_delete">삭제</string>
+    <string name="kb_space">스페이스</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">초</string>

@@ -453,7 +453,9 @@
     <string name="adv_typed_first">টাইপ করা শব্দ আগে দেখান</string>
     <string name="adv_typed_first_desc">সঠিক টাইপ করা শব্দ প্রথম সাজেশন হিসেবে দেখায়</string>
     <string name="adv_backspace_delay">ব্যাকস্পেস রিপিট বিলম্ব (মি.সে.)</string>
+    <string name="adv_backspace_delay_desc">ব্যাকস্পেস চাপা ধরে রাখার পরে অক্ষর মুছে ফেলা শুরু হবে। ডিফল্ট ৪০০ মিলিসেকেন্ড দ্রুত — আরও বেশি বিরতির জন্য ডানদিকে স্লাইড করুন।</string>
     <string name="adv_backspace_speed">ব্যাকস্পেস রিপিট গতি (মি.সে.)</string>
+    <string name="adv_backspace_speed_desc">ধরে রাখলে অক্ষর কত দ্রুত পুনরাবৃত্তি হয়। ডিফল্ট ৫০ মিলিসেকেন্ড দ্রুত — ধীর করতে ডানদিকে স্লাইড করুন। শব্দে শব্দে মুছে ফেলতে আরও বেশি ধরে রাখুন।</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">অটো-সংশোধন</string>

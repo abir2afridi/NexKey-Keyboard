@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">تغییر به دکمه ایموجی</string>
     <string name="langkeys_globe">نمایش کلید کره زمین</string>
     <string name="langkeys_globe_desc">تغییر زبان صفحهکلید</string>
+    <string name="langkeys_spacebar_switch">تغییر زبان با فاصله</string>
+    <string name="langkeys_spacebar_switch_desc">کلید فاصله (~380 میلی‌ثانیه) را نگه دارید و بکشید تا تغییر کند — زبان فعلی هنگام نگه‌داشتن نمایش داده می‌شود</string>
     <string name="langkeys_other_kb">اجازه دادن به صفحهکلیدهای دیگر</string>
     <string name="langkeys_other_kb_desc">کلید کره زمین به دیگران تغییر میدهد</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">ابتدا کلمه تایپشده را نشان بده</string>
     <string name="adv_typed_first_desc">کلمه دقیق تایپشده به عنوان اولین پیشنهاد ظاهر میشود</string>
     <string name="adv_backspace_delay">تأخیر تکرار بکاسپیس (میلیثانیه)</string>
+    <string name="adv_backspace_delay_desc">مدت زمان نگه داشتن باک‌اسپیس قبل از شروع حذف حروف. پیش‌فرض 400 میلی‌ثانیه سریع است — به سمت راست بکشید تا مکث بیشتری اضافه شود.</string>
     <string name="adv_backspace_speed">سرعت تکرار بکاسپیس (میلیثانیه)</string>
+    <string name="adv_backspace_speed_desc">سرعت تکرار حروف هنگام نگه داشتن. پیش‌فرض 50 میلی‌ثانیه سریع است — به سمت راست بکشید تا کندتر شود. بیشتر نگه دارید تا به حذف کلمه به کلمه تغییر کند.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">تصحیح خودکار</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">پیشنهادها</string>
     <string name="kb_show_toolbar">نمایش نوار ابزار</string>
     <string name="kb_delete">حذف</string>
+    <string name="kb_space">فاصله</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">ثانیه</string>

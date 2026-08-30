@@ -334,6 +334,8 @@
     <string name="langkeys_emoji_desc">Passer au bouton emoji</string>
     <string name="langkeys_globe">Afficher la touche globe</string>
     <string name="langkeys_globe_desc">Changer la langue du clavier</string>
+    <string name="langkeys_spacebar_switch">Changer la langue avec la barre d\'espace</string>
+    <string name="langkeys_spacebar_switch_desc">Maintenez la barre d\'espace (~380 ms) et glissez pour changer — la langue actuelle s\'affiche en maintenant</string>
     <string name="langkeys_other_kb">Autoriser d\'autres claviers</string>
     <string name="langkeys_other_kb_desc">La touche globe passe aux autres</string>
 
@@ -451,7 +453,9 @@
     <string name="adv_typed_first">Afficher le mot tapé en premier</string>
     <string name="adv_typed_first_desc">Le mot exact tapé apparaît comme première suggestion</string>
     <string name="adv_backspace_delay">Délai de répétition du retour arrière (ms)</string>
+    <string name="adv_backspace_delay_desc">Durée de maintien de Retour arrière avant la suppression des lettres. Par défaut 400 ms est rapide — glissez vers la droite pour une pause plus longue.</string>
     <string name="adv_backspace_speed">Vitesse de répétition du retour arrière (ms)</string>
+    <string name="adv_backspace_speed_desc">Vitesse de répétition des lettres en maintenant. Par défaut 50 ms est rapide — glissez vers la droite pour ralentir. Maintenez plus longtemps pour la suppression mot par mot.</string>
 
     <!-- Text correction -->
     <string name="tc_auto_correct">Correction automatique</string>
@@ -562,6 +566,7 @@
     <string name="kb_suggestions">Suggestions</string>
     <string name="kb_show_toolbar">Afficher la barre d\'outils</string>
     <string name="kb_delete">Supprimer</string>
+    <string name="kb_space">Espace</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Sec</string>
