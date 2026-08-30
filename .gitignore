@@ -19,7 +19,7 @@ debug.keystore
 *.jks
 *.keystore
 .history/
-docs/
+docs+/
 .artifacts/
 .vscode
 # aapt2 / build artifacts accidentally extracted at project root
