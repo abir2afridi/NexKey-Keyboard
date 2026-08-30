@@ -6,6 +6,35 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [1.7.0] — August 30, 2026
+
+### Added
+- Symbol mode toggle (`?123` button) — pure symbol toggle that no longer triggers language switching on tap; toggles between text and symbol modes cleanly
+- Independent language-switch settings — `showGlobeKey` and `spacebarLanguageSwitch` can now be toggled separately with minimum-one enforcement
+- Arabic keyboard layout enable/disable option
+- Toolbar pinning — typing keeps the toolbar open until a new typing burst begins, preventing toolbar flicker during fast input
+- Release signing with a dedicated keystore (`key.properties`)
+
+### Fixed
+- Backspace ghost repeat — rapid backspace taps no longer trigger phantom repeats after finger lift; the repeat job lifecycle is now properly managed with a remembered state variable and DisposableEffect cleanup
+- Toolbar visibility decoupled from suggestion state — the toolbar no longer collapses when suggestions clear
+- Spacebar hold-then-swipe — hold gate only activates language switch on swipe, not on hold alone
+- `?123` button no longer changes keyboard language — bypasses `handleModeChange` language logic via dedicated `handleSymbolToggle()`
+- Language switch DataStore sync — returning from symbol mode no longer reverts to the wrong language via `ImePreferenceCollector`
+
+### Refactored
+- Keyboard ComposeView — unified header state management with `toolbarPinned` + `prevUserTyping` flags
+- Speed meter elapsed timer computed locally in Compose via `LaunchedEffect` instead of a background ticker job
+- Suggestion engine (`updateCandidates`) moved to `Dispatchers.Default` to unblock the UI thread during fast typing
+- `recentEmojis` list stability — a single reusable `mutableStateListOf` replaces per-recomposition allocation
+- Removed `elapsedTickerJob` that caused 5 unnecessary recompositions/sec across the entire keyboard grid
+
+### Performance
+- Eliminated per-keypress recomposition cascade: removing the 200ms elapsed ticker and stabilizing the emoji list significantly reduced unnecessary keyboard re-renders during fast multi-finger typing
+- Prediction engine suggestions now run off the main thread, preventing UI stalls on every letter
+
+---
+
 ## [1.6.0] — August 7, 2026
 
 ### Added
