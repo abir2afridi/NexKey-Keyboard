@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">الرئيسية</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">رمال ذهبية</string>
     <string name="theme_lavender_dream">حلم الخزامى</string>
     <string name="theme_light_minimal">فاتح بسيط</string>
-    <string name="theme_material_you">ماتيريال يو</string>
+
     <string name="theme_amoled_black">أسود أموليد</string>
     <string name="theme_retro_grey">رمادي رجعي</string>
     <string name="theme_cyberpunk">سايبربانك</string>
@@ -571,6 +571,10 @@
     <string name="kb_show_toolbar">إظهار شريط الأدوات</string>
     <string name="kb_delete">حذف</string>
     <string name="kb_space">مسافة</string>
+    <string name="kb_enter">إدخال</string>
+    <string name="kb_shift">Shift</string>
+    <string name="kb_backspace">مسح</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">ثانية</string>
@@ -644,3 +648,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">السلسلة هي كسر السجلات المتتالية. تزداد كلما كسرت رقمك القياسي وتعود إلى 1 حال عدم كسره في نافذة.</string>
 </resources>
+

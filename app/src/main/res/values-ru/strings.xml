@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Главная</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">Золотой песок</string>
     <string name="theme_lavender_dream">Лавандовая мечта</string>
     <string name="theme_light_minimal">Светлый минимализм</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">AMOLED чёрный</string>
     <string name="theme_retro_grey">Ретро-серый</string>
     <string name="theme_cyberpunk">Киберпанк</string>
@@ -569,6 +569,10 @@
     <string name="kb_show_toolbar">Показать панель</string>
     <string name="kb_delete">Удалить</string>
     <string name="kb_space">Пробел</string>
+    <string name="kb_enter">Ввод</string>
+    <string name="kb_shift">Shift</string>
+    <string name="kb_backspace">Backspace</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Сек</string>
@@ -642,3 +646,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Серия — это подряд записанные рекорды. Она растёт, пока вы бьёте свой рекорд, и сбрасывается, если рекорд не побит.</string>
 </resources>
+

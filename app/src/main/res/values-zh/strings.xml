@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">首页</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">金沙</string>
     <string name="theme_lavender_dream">薰衣草之梦</string>
     <string name="theme_light_minimal">浅色极简</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">AMOLED 黑</string>
     <string name="theme_retro_grey">复古灰</string>
     <string name="theme_cyberpunk">赛博朋克</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">显示工具栏</string>
     <string name="kb_delete">删除</string>
     <string name="kb_space">空格</string>
+    <string name="kb_enter">回车</string>
+    <string name="kb_shift">Shift</string>
+    <string name="kb_backspace">退格</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">秒</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">连胜 = 连续刷最新纪录。持续刷新自己的最高成绩就增加；在该窗口中失去纪录时重置为 1。</string>
 </resources>
+

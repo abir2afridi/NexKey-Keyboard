@@ -285,7 +285,6 @@ fun themePresetLabel(preset: ThemePreset): String = stringResource(
         ThemePreset.LAVENDER_DREAM -> R.string.theme_lavender_dream
         ThemePreset.FOREST_MOSS -> R.string.theme_forest_moss
         ThemePreset.GOLDEN_SAND -> R.string.theme_golden_sand
-        ThemePreset.MATERIAL_YOU -> R.string.theme_material_you
         ThemePreset.CUSTOM -> R.string.theme_custom
     }
 )

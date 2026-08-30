@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Accueil</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">Sable doré</string>
     <string name="theme_lavender_dream">Rêve lavande</string>
     <string name="theme_light_minimal">Minimal clair</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">Noir amoled</string>
     <string name="theme_retro_grey">Gris rétro</string>
     <string name="theme_cyberpunk">Cyberpunk</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">Afficher la barre d\'outils</string>
     <string name="kb_delete">Supprimer</string>
     <string name="kb_space">Espace</string>
+    <string name="kb_enter">Entrée</string>
+    <string name="kb_shift">Majuscule</string>
+    <string name="kb_backspace">Retour</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Sec</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = records battus consécutifs. Il augmente tant que vous battez votre meilleur record et revient à 1 si vous manquez un record.</string>
 </resources>
+

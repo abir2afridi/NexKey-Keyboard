@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">হোম</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">গোল্ডেন স্যান্ড</string>
     <string name="theme_lavender_dream">ল্যাভেন্ডার ড্রিম</string>
     <string name="theme_light_minimal">লাইট মিনিমাল</string>
-    <string name="theme_material_you">ম্যাটেরিয়াল ইউ</string>
+
     <string name="theme_amoled_black">অ্যামোলেড ব্ল্যাক</string>
     <string name="theme_retro_grey">রেট্রো গ্রে</string>
     <string name="theme_cyberpunk">সাইবারপাংক</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">টুলবার দেখান</string>
     <string name="kb_delete">মুছুন</string>
     <string name="kb_space">স্পেস</string>
+    <string name="kb_enter">এন্টার</string>
+    <string name="kb_shift">শিফট</string>
+    <string name="kb_backspace">ব্যাকস্পেস</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">সেকেন্ড</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">স্ট্রিক = ধারাবাহিক রেকর্ড-ব্রেক। নিজের সেরাটি ভাঙার সময় এটি বাড়ে এবং একটি উইন্ডোতে রেকর্ড না ভাঙলে ১-এ রিসেট হয়।</string>
 </resources>
+

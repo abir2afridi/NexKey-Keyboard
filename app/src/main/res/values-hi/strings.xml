@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">होम</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">गोल्डन सैंड</string>
     <string name="theme_lavender_dream">लैवेंडर ड्रीम</string>
     <string name="theme_light_minimal">लाइट मिनिमल</string>
-    <string name="theme_material_you">मटेरियल यू</string>
+
     <string name="theme_amoled_black">एमोलेड ब्लैक</string>
     <string name="theme_retro_grey">रेट्रो ग्रे</string>
     <string name="theme_cyberpunk">साइबरपंक</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">टूलबार दिखाएँ</string>
     <string name="kb_delete">हटाएँ</string>
     <string name="kb_space">स्पेस</string>
+    <string name="kb_enter">दर्ज करें</string>
+    <string name="kb_shift">शिफ्ट</string>
+    <string name="kb_backspace">बैकस्पेस</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">सेकंड</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">स्ट्रीक = लगातार रिकॉर्ड तोड़ना। जब तक अपना बेस्ट तोड़ते हैं बढ़ती है; किसी विंडो में रिकॉर्ड न तोड़ने पर 1 पर रीसेट हो जाती है।</string>
 </resources>
+

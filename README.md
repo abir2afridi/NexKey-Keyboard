@@ -12,14 +12,14 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.6.0-blue)
+![Version](https://img.shields.io/badge/version-1.7.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
-[![Changelog](https://img.shields.io/badge/changelog-1.6.0-A97BFF)](CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/changelog-1.7.0-A97BFF)](CHANGELOG.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.6.0-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.7.0-ff69b4)](../releases)
 
 ---
 
@@ -45,20 +45,23 @@
 | Text Input | EditorInfo.inputType handling | ✅ |
 | Text Input | IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
 | Text Input | Space bar cursor move (swipe to position caret) | ✅ |
-| Prediction & Correction | Trie-based prediction engine | ✅ |
+| Text Input | Text editing toolbar (Select All / Copy / Cut / Paste / Undo) | ✅ |
+| Prediction & Correction | DAWG dictionary engine (46K English + 45K Bangla words) | ✅ |
+| Prediction & Correction | Typo auto-correction (weighted Damerau-Levenshtein + QWERTY distance) | ✅ |
+| Prediction & Correction | Next-word prediction (bigram/trigram with interpolated backoff) | ✅ |
+| Prediction & Correction | Personal learning with confidence threshold | ✅ |
+| Prediction & Correction | Banglish disambiguation | ✅ |
+| Prediction & Correction | Emoji prediction by keyword on suggestion strip | ✅ |
 | Prediction & Correction | Persistent learned words (Room DB) | ✅ |
 | Prediction & Correction | Always-show suggestion strip | ✅ |
-| Prediction & Correction | Autocorrect with undo-on-backspace | 🚧 Planned |
-| Prediction & Correction | DAWG dictionary | 🚧 Planned |
-| Voice, Clipboard & Paste | Voice typing (Android SpeechRecognizer) with permission handling | ✅ |
+| Voice, Clipboard & Paste | Voice typing (Android SpeechRecognizer) with visual mic state | ✅ |
 | Voice, Clipboard & Paste | Clipboard manager (history, pin, Room DB, auto-expiry, system listener) | ✅ |
 | Voice, Clipboard & Paste | Hold-to-paste (configurable trigger key & duration) | ✅ |
 | Emoji & Stickers | Emoji panel (500+ emojis, 8 categories, category tabs) | ✅ |
 | Emoji & Stickers | Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
 | Emoji & Stickers | Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
 | Emoji & Stickers | Recent emoji retention (configurable expiry) | ✅ |
-| Emoji & Stickers | GIF/Sticker tabs (placeholder) | ✅ |
-| Themes & Appearance | Theme system (4 presets, DataStore) | ✅ |
+| Themes & Appearance | Theme system (16 presets + custom, DataStore) | ✅ |
 | Themes & Appearance | Custom theme engine (11 color groups + live preview) | ✅ |
 | Themes & Appearance | HSV color picker (theme creator) | ✅ |
 | Themes & Appearance | App theme (System/Light/Dark) | ✅ |
@@ -69,7 +72,8 @@
 | Speed Meter & Info Box | Info Box custom texts (Off / Timed / Always modes, show duration, custom color) | ✅ |
 | Privacy & Security | Incognito mode (no learning, no clipboard) | ✅ |
 | Privacy & Security | Password/sensitive field detection | ✅ |
-| Accessibility & Input Feedback | TalkBack accessibility labels (all keys) | ✅ |
+| Accessibility & Input Feedback | TalkBack accessibility labels (all keys, toolbar, clipboard) | ✅ |
+| Accessibility & Input Feedback | Language switch accessibility announcement | ✅ |
 | Accessibility & Input Feedback | Key long-press hint popups (numbers for top row, accents for others) | ✅ |
 | Accessibility & Input Feedback | Long-press backspace continuous delete (customizable speed & delay) | ✅ |
 | IME & System | Lifecycle-aware IME for Jetpack Compose | ✅ |
@@ -77,12 +81,12 @@
 | IME & System | Continuous IME state polling for robust detection | ✅ |
 | IME & System | Instant flicker-free language switching (no activity recreation) | ✅ |
 | IME & System | Settings group screens (Typing, Feedback, Layout, Advanced, etc.) | ✅ |
+| IME & System | Physical keyboard Ctrl+A/C/V/X/Z shortcuts | ✅ |
 | IME & System | Bottom navigation (Home, Store, Keyboard, Leaderboard) + App Settings in page headers | ✅ |
 | IME & System | Gradle wrapper (CI-ready) | ✅ |
 | App Localization | App localization (14 languages + English) | ✅ |
 | Planned | Gesture/swipe typing | 🚧 Planned |
 | Planned | Text expansion / shortcuts | 🚧 Planned |
-| Planned | Physical keyboard support | 🚧 Planned |
 | Planned | Foldable & stylus support | 🚧 Planned |
 | Planned | Handwriting interface | 🚧 Planned |
 | Planned | In-app updates | 🚧 Planned |
@@ -97,11 +101,11 @@ app/
 └── src/main/java/com/example/
     ├── MainActivity.kt                     — Navigation host, bottom nav, route registration, locale-aware composition (createConfigurationContext + composition locals)
     ├── ime/
-    │   ├── NexKeyInputMethodService.kt     — Core IME service (state, lifecycle, view wiring)
+    │   ├── NexKeyInputMethodService.kt     — Core IME service (state, lifecycle, view wiring, physical keyboard shortcuts)
     │   ├── LifecycleInputMethodService.kt  — Compose-host IME base with LifecycleOwner
     │   ├── TextInputHandler.kt             — Key tap, space, enter, shift, mode change, cursor
     │   ├── TextDeletion.kt                 — Backspace / text deletion logic
-    │   ├── SuggestionHandler.kt            — Candidate updates, suggestion commit, composing commit
+    │   ├── SuggestionHandler.kt            — DAWG prediction, typo auto-correction, next-word bigrams, Banglish disambiguation, emoji
     │   ├── SpeedMeterHandler.kt            — Typing speed window, burst stats, swipe info lines
     │   ├── ImePreferenceCollector.kt       — All DataStore preference collection
     │   └── modes/
@@ -114,7 +118,10 @@ app/
     ├── engine/
     │   ├── BanglaPhoneticEngine.kt         — Phonetic transliteration (80+ conjuncts)
     │   ├── AvroPhoneticEngine.kt           — Avro-style transliteration (distinct from phonetic)
-    │   └── PredictionEngine.kt             — Trie-based prediction & Room-backed learning
+    │   ├── DAWGDictionary.kt              — DAWG-based dictionary with BF/BH cover editing
+    │   ├── DAWGAutocorrect.kt             — Typo correction using weighted Damerau-Levenshtein
+    │   ├── DAWGNextWordPredictor.kt        — Bigram/trigram next-word prediction with interpolated backoff
+    │   └── PredictionEngine.kt             — Layered prediction pipeline (DAWG + personal learning + Banglish)
     ├── ui/
     │   ├── navigation/
     │   │   └── NavGraph.kt                 — Screen route definitions
@@ -123,14 +130,13 @@ app/
     │   │   ├── TypingSettingsScreen.kt     — Auto-cap, double-space period/tab
     │   │   ├── FeedbackSettingsScreen.kt   — Haptics, sound, popup, intensity sliders
     │   │   ├── LanguageKeysSettingsScreen.kt — Voice/emoji/globe keys
-    │   │   ├── LayoutSettingsScreen.kt     — Number row, split keyboard, suggestions bar
-    │   │   ├── SizeSettingsScreen.kt       — Height/width sliders
+    │   │   ├── LayoutSettingsScreen.kt     — Number row, suggestions bar
+    │   │   ├── KeyboardResizeScreen.kt     — Height/width sliders with live preview
     │   │   ├── NavigationSettingsScreen.kt — Space & volume cursor control
     │   │   ├── PasteSettingsScreen.kt      — Hold-to-paste, clipboard expiry
     │   │   ├── AdvancedGroupSettingsScreen.kt — Long-press delay, backspace repeat
     │   │   ├── TextCorrectionSettingsScreen.kt — Autocorrect, suggestions toggles
     │   │   ├── MoreLanguagesScreen.kt      — Enable/disable keyboard languages
-    │   │   ├── GifQualitySettingsScreen.kt — GIF quality options
     │   │   ├── EmojiSettingsScreen.kt      — Recent emoji, search layout
     │   │   └── AppLanguageScreen.kt        — App interface language selector
     │   ├── SetupScreen.kt                  — In-app setup wizard (enable + select steps)
@@ -138,7 +144,7 @@ app/
     │   ├── StoreScreen.kt                  — Store (Shop / Themes / Meter / Info Box tabs)
     │   ├── AppSettingsScreen.kt            — App theme, language, about
     │   ├── SettingsScreen.kt               — Keyboard Settings hub (groups index)
-    │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels
+    │   ├── KeyboardComposeView.kt          — Keyboard UI, toolbar, panels, text editing toolbar, voice mic animation
     │   ├── KeyboardLayouts.kt              — Layout data models & key maps
     │   ├── Components.kt                   — Reusable composables (SettingItem, etc.)
     │   ├── ClipboardScreen.kt              — Full-screen clipboard history manager
@@ -190,25 +196,34 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.6.0 | **Published:** August 7, 2026
+**Version:** 1.7.0 | **Published:** August 30, 2026
 
-- **APK:** [Download v1.6.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.7.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
 
+- ✅ DAWG dictionary engine — 46K English + 45K Bangla words with compressed trie
+- ✅ Typo auto-correction — weighted Damerau-Levenshtein + QWERTY physical distance
+- ✅ Next-word prediction — bigram/trigram with interpolated backoff
+- ✅ Personal learning with confidence threshold
+- ✅ Banglish disambiguation (common abbreviation expansion)
+- ✅ Text editing toolbar — Select All / Copy / Cut / Paste / Undo when text is selected
+- ✅ Physical keyboard Ctrl+A/C/V/X/Z shortcuts
+- ✅ Voice input visual state — pulsing red mic icon when listening
 - ✅ Keyboard resizing — adjust keyboard height/width for portrait and landscape with a live preview
 - ✅ Emoji leaderboard and all-emoji browsing screen with search
 - ✅ App theme (System/Light/Dark) applied live across every screen
-- ✅ Info Box and Speed Meter customization — colors, fonts, frames, display modes, record tracking
-- ✅ Key press popup now anchored to the exact tapped key with fast auto-dismiss
-- ✅ App settings moved from the bottom bar to top actions
+- ✅ Number row default ON
+- ✅ Accessibility improvements — key content descriptions, TalkBack language switch announcement
+- ✅ ProGuard/R8 enabled for smaller APK size
+- ✅ Unused dependencies removed
 
 **Checksums:**
 
 | File | SHA256 | MD5 |
 | --- | --- | --- |
-| NexKey-Keyboard-v1.6.0.apk | `5e4628dd90a748e56dec454e06c285e3974a2cf40242402f51be1db6f696a70a` | `556ed4c886415f1d7a5ce4cbaf27589b` |
+| NexKey-Keyboard-v1.7.0.apk | `de7f922ed3300060ed814289d7c775f27e0336689ec78f68fa3784c8a1f76f37` | `14d869dc3a41bb8118a6b8891fd41b64` |
 
 [View all releases →](../releases)
 

@@ -105,7 +105,6 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.largeNumberRow.collectLatest { largeNumberRowEnabled = it } }
         launch { userPreferences.kbHeightLandscape.collectLatest { kbHeightLandscape = it } }
         launch { userPreferences.oneHandedWidthLandscape.collectLatest { oneHandedWidthLandscape = it } }
-        launch { userPreferences.splitKeyboard.collectLatest { splitKeyboardEnabled = it } }
         launch { userPreferences.spacebarLanguageSwitch.collectLatest { spacebarLanguageSwitchEnabled = it } }
         launch { userPreferences.enableArabic.collectLatest { enableArabic = it } }
         launch { userPreferences.forcedEnter.collectLatest { forcedEnterEnabled = it } }
@@ -121,7 +120,6 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.phoneticAutoCorrection.collectLatest { phoneticAutoCorrectionEnabled = it } }
         launch { userPreferences.nextWordSuggestions.collectLatest { nextWordSuggestionsEnabled = it } }
         launch { userPreferences.clipboardRecent.collectLatest { clipboardRecentEnabled = it } }
-        launch { userPreferences.clipboardImages.collectLatest { clipboardImagesEnabled = it } }
         launch { userPreferences.physicalKbEmoji.collectLatest { physicalKbEmojiEnabled = it } }
         launch { userPreferences.popupDismissDelay.collectLatest { popupDismissDelayState = it } }
         launch { userPreferences.holdPasteEnabled.collectLatest { holdPasteEnabled = it } }

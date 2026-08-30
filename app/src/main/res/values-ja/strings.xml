@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">ホーム</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">ゴールデンサンド</string>
     <string name="theme_lavender_dream">ラベンダードリーム</string>
     <string name="theme_light_minimal">ライトミニマル</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">AMOLEDブラック</string>
     <string name="theme_retro_grey">レトログレー</string>
     <string name="theme_cyberpunk">サイバーパンク</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">ツールバーを表示</string>
     <string name="kb_delete">削除</string>
     <string name="kb_space">スペース</string>
+    <string name="kb_enter">Enter</string>
+    <string name="kb_shift">Shift</string>
+    <string name="kb_backspace">⌫</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">秒</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">ストリーク＝連続した記録更新。自分のベストを更新し続けると増え、更新に失敗すると 1 に戻ります。</string>
 </resources>
+

@@ -9,7 +9,6 @@ import androidx.compose.material.icons.filled.AspectRatio
 import androidx.compose.material.icons.filled.LooksOne
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.TextFields
-import androidx.compose.material.icons.filled.VerticalSplit
 import androidx.compose.material.icons.filled.ViewStream
 import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
@@ -32,10 +31,9 @@ fun LayoutSettingsScreen(
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
     val prefs = remember { UserPreferences(context) }
-    val showNumRow by prefs.showNumberRow.collectAsState(initial = false)
+    val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
     val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
     val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)
-    val splitKb by prefs.splitKeyboard.collectAsState(initial = false)
     val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
     val alwaysShowSuggestions by prefs.alwaysShowSuggestions.collectAsState(initial = false)
     val unifiedHeader by prefs.unifiedHeader.collectAsState(initial = false)
@@ -48,7 +46,6 @@ fun LayoutSettingsScreen(
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingActionItem(stringResource(R.string.layout_resizing), stringResource(R.string.layout_resizing_desc), Icons.Default.AspectRatio, onNavigateToResize)
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
-        SettingSwitchItem(stringResource(R.string.layout_split), stringResource(R.string.layout_split_desc), Icons.Default.VerticalSplit, splitKb) { scope.launch { prefs.setSplitKeyboard(it) } }
         SettingSwitchItem(stringResource(R.string.layout_forced_enter), stringResource(R.string.layout_forced_enter_desc), Icons.AutoMirrored.Filled.KeyboardReturn, forcedEnter) { scope.launch { prefs.setForcedEnter(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingSwitchItem(stringResource(R.string.layout_always_suggestions), stringResource(R.string.layout_always_suggestions_desc), Icons.Default.TextFields, alwaysShowSuggestions) { scope.launch { prefs.setAlwaysShowSuggestions(it) } }

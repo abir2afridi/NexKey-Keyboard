@@ -186,7 +186,7 @@
     <string name="theme_golden_sand">Golden Sand</string>
     <string name="theme_lavender_dream">Lavender Dream</string>
     <string name="theme_light_minimal">Light Minimal</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">Amoled Black</string>
     <string name="theme_retro_grey">Retro Grey</string>
     <string name="theme_cyberpunk">Cyberpunk</string>
@@ -566,6 +566,10 @@
     <string name="kb_show_toolbar">Show toolbar</string>
     <string name="kb_delete">Delete</string>
     <string name="kb_space">Space</string>
+    <string name="kb_enter">Enter</string>
+    <string name="kb_shift">Shift</string>
+    <string name="kb_backspace">Backspace</string>
+    <string name="kb_symbols">Symbols</string>
 
     <!-- Speed Meter / Auto-Swipe Records -->
     <string name="meter_unit_cps">CPS</string>

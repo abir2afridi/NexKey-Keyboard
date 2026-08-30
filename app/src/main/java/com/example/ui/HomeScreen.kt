@@ -88,7 +88,7 @@ fun HomeScreen(
     onNavigateToClipboard: () -> Unit = {},
     onNavigateToTextCorrection: () -> Unit = {},
     onNavigateToMoreLanguages: () -> Unit = {},
-    onNavigateToGifQuality: () -> Unit = {},
+
     onNavigateToSpeedRecords: () -> Unit = {},
     onNavigateToSpeedLeaderboard: () -> Unit = {},
     onNavigateToLeaderboard: () -> Unit = {},
@@ -103,7 +103,7 @@ fun HomeScreen(
     val haptics by prefs.haptics.collectAsState(initial = true)
     val sound by prefs.sound.collectAsState(initial = true)
     val autoCorrection by prefs.autoCorrection.collectAsState(initial = true)
-    val showNumberRow by prefs.showNumberRow.collectAsState(initial = false)
+    val showNumberRow by prefs.showNumberRow.collectAsState(initial = true)
     val scope = rememberCoroutineScope()
     
     val db = remember { TypingAnalytics.getDatabase() }

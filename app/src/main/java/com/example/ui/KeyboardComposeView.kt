@@ -31,14 +31,18 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Backspace
 import androidx.compose.material.icons.filled.ContentCopy
+import androidx.compose.material.icons.filled.ContentCut
+import androidx.compose.material.icons.filled.ContentPaste
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Keyboard
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material.icons.filled.Mic
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.PushPin
+import androidx.compose.material.icons.filled.SelectAll
 import androidx.compose.material.icons.filled.SentimentSatisfiedAlt
 import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material.icons.automirrored.filled.Undo
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -126,7 +130,7 @@ fun KeyboardComposeView(
     composingText: String,
     suggestions: List<String>,
     actionLabel: String,
-    showNumberRow: Boolean = false,
+    showNumberRow: Boolean = true,
     hideLongPressHints: Boolean = false,
     keyboardHeightPortrait: Int = 100,
     keyboardHeightLandscape: Int = 100,
@@ -145,7 +149,6 @@ fun KeyboardComposeView(
     longPressDelayMs: Long = 300L,
     spaceCursorSpeed: Int = 150,
     spaceCursorDelay: Int = 1000,
-    splitKeyboardEnabled: Boolean = false,
     popupDismissDelay: String = "Default",
     physicalKbEmojiEnabled: Boolean = true,
     holdPasteEnabled: Boolean = false,
@@ -200,7 +203,14 @@ fun KeyboardComposeView(
     onThemeToggle: () -> Unit,
     onOpenSettings: () -> Unit,
     onCursorMove: (Int) -> Unit = {},
-    onHoldPaste: (() -> Unit)? = null
+    onHoldPaste: (() -> Unit)? = null,
+    isVoiceListening: Boolean = false,
+    hasSelection: Boolean = false,
+    onSelectAll: () -> Unit = {},
+    onCopy: () -> Unit = {},
+    onCut: () -> Unit = {},
+    onPaste: () -> Unit = {},
+    onUndo: () -> Unit = {}
 ) {
     val popupAutoDismissMs = when (popupDismissDelay) {
         "Short" -> 1500L
@@ -444,6 +454,7 @@ fun KeyboardComposeView(
                             meterFont = meterFont,
                             infoBoxFont = infoBoxFont,
                             enableArabic = enableArabic,
+                            isVoiceListening = isVoiceListening,
                             onModeChange = onModeChange,
                             onVoiceClick = onVoiceClick,
                             onThemeToggle = onThemeToggle,
@@ -477,6 +488,58 @@ fun KeyboardComposeView(
                         )
                     }
                 )
+
+                androidx.compose.animation.AnimatedVisibility(
+                    visible = hasSelection,
+                    enter = fadeIn(),
+                    exit = fadeOut()
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(40.dp)
+                            .background(theme.suggestionBgColor)
+                            .padding(horizontal = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        ToolbarIcon(
+                            icon = Icons.Default.SelectAll,
+                            contentDescription = "Select All",
+                            active = false,
+                            theme = theme,
+                            onClick = onSelectAll
+                        )
+                        ToolbarIcon(
+                            icon = Icons.Default.ContentCopy,
+                            contentDescription = "Copy",
+                            active = false,
+                            theme = theme,
+                            onClick = onCopy
+                        )
+                        ToolbarIcon(
+                            icon = Icons.Default.ContentCut,
+                            contentDescription = "Cut",
+                            active = false,
+                            theme = theme,
+                            onClick = onCut
+                        )
+                        ToolbarIcon(
+                            icon = Icons.Default.ContentPaste,
+                            contentDescription = "Paste",
+                            active = false,
+                            theme = theme,
+                            onClick = onPaste
+                        )
+                        ToolbarIcon(
+                            icon = Icons.AutoMirrored.Filled.Undo,
+                            contentDescription = "Undo",
+                            active = false,
+                            theme = theme,
+                            onClick = onUndo
+                        )
+                    }
+                }
 
                 when (mode) {
                     KeyboardMode.EMOJI -> {
@@ -585,7 +648,6 @@ fun KeyboardComposeView(
                             longPressDelayMs = longPressDelayMs,
                             spaceCursorSpeed = spaceCursorSpeed,
                             spaceCursorDelay = spaceCursorDelay,
-                            splitKeyboardEnabled = splitKeyboardEnabled,
                             backspaceRepeatDelayMs = backspaceRepeatDelayMs,
                             backspaceRepeatSpeedMs = backspaceRepeatSpeedMs,
                             lastSwipeDirection = lastSwipeDirection,
@@ -642,7 +704,8 @@ fun KeyboardComposeView(
                                 androidx.compose.animation.AnimatedVisibility(
                                     visible = languageSwitchPopupLabel != null,
                                     enter = fadeIn() + androidx.compose.animation.scaleIn(initialScale = 0.8f),
-                                    exit = fadeOut() + androidx.compose.animation.scaleOut(targetScale = 0.8f)
+                                    exit = fadeOut() + androidx.compose.animation.scaleOut(targetScale = 0.8f),
+                                    modifier = Modifier.semantics { contentDescription = persistentPopupLabel }
                                 ) {
                                     Box(
                                         modifier = Modifier
@@ -817,6 +880,7 @@ fun SmartToolbar(
     meterTheme: MeterTheme = MeterTheme.Calculator,
     meterFont: String = "DIGITAL",
     infoBoxFont: String = "DEFAULT",
+    isVoiceListening: Boolean = false,
     onModeChange: (KeyboardMode) -> Unit,
     onVoiceClick: () -> Unit,
     onThemeToggle: () -> Unit,
@@ -905,7 +969,45 @@ fun SmartToolbar(
             }
             if (showVoiceKey) {
                 item {
-                    ToolbarIcon(icon = Icons.Default.Mic, contentDescription = stringResource(R.string.kb_voice), active = false, theme = theme, onClick = onVoiceClick)
+                    if (isVoiceListening) {
+                        val voiceAlpha = remember { Animatable(0.4f) }
+                        val voiceScale = remember { Animatable(0.85f) }
+                        LaunchedEffect(Unit) {
+                            while (isActive) {
+                                launch { voiceAlpha.animateTo(1f, tween(600)); voiceAlpha.animateTo(0.4f, tween(600)) }
+                                launch { voiceScale.animateTo(1.15f, tween(600)); voiceScale.animateTo(0.85f, tween(600)) }
+                            }
+                        }
+                        Box(
+                            modifier = Modifier
+                                .size(34.dp)
+                                .clip(RoundedCornerShape(8.dp))
+                                .background(Color.Red.copy(alpha = 0.25f))
+                                .clickable(role = Role.Button, onClick = onVoiceClick)
+                                .graphicsLayer {
+                                    scaleX = voiceScale.value
+                                    scaleY = voiceScale.value
+                                    alpha = voiceAlpha.value
+                                }
+                                .semantics { contentDescription = "Voice listening"; role = Role.Button },
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.Mic,
+                                contentDescription = null,
+                                tint = Color.Red,
+                                modifier = Modifier.size(20.dp)
+                            )
+                        }
+                    } else {
+                        ToolbarIcon(
+                            icon = Icons.Default.Mic,
+                            contentDescription = stringResource(R.string.kb_voice),
+                            active = false,
+                            theme = theme,
+                            onClick = onVoiceClick
+                        )
+                    }
                 }
             }
             item {
@@ -1397,7 +1499,7 @@ fun KeyboardKeysGrid(
     shiftState: ShiftState,
     theme: KeyboardTheme,
     actionLabel: String,
-    showNumberRow: Boolean = false,
+    showNumberRow: Boolean = true,
     hideLongPressHints: Boolean = false,
     moveCursorSpaceEnabled: Boolean = true,
     spacebarLanguageSwitchEnabled: Boolean = false,
@@ -1405,7 +1507,6 @@ fun KeyboardKeysGrid(
     longPressDelayMs: Long = 300L,
     spaceCursorSpeed: Int = 150,
     spaceCursorDelay: Int = 1000,
-    splitKeyboardEnabled: Boolean = false,
     backspaceRepeatDelayMs: Long = 400L,
     backspaceRepeatSpeedMs: Long = 50L,
     liveCps: Float = 0f,
@@ -1506,7 +1607,7 @@ fun KeyboardKeysGrid(
         }
 
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, longPressDelayMs = longPressDelayMs, onClick = {
+            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, contentDescription = stringResource(R.string.kb_shift), longPressDelayMs = longPressDelayMs, onClick = {
                 iconAnimationScope.launch { shiftIconScale.playIconPop() }
                 onShiftTap()
             }) {
@@ -1603,6 +1704,7 @@ fun KeyboardKeysGrid(
                 modifier = Modifier.weight(1.2f),
                 theme = theme,
                 isSpecial = true,
+                contentDescription = stringResource(R.string.kb_symbols),
                 longPressDelayMs = longPressDelayMs,
                 onClick = {
                     hapticKeys.performHapticFeedback(HapticFeedbackType.LongPress)
@@ -1628,7 +1730,7 @@ fun KeyboardKeysGrid(
                     Text(text = text, color = theme.keySpecialTextColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
                 }
             }
-            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
+            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, contentDescription = ",", longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(",") }) {
                 Text(text = ",", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
             val spacebarLabel = when (mode) {
@@ -1745,10 +1847,10 @@ fun KeyboardKeysGrid(
                     Text(text = spacebarLabel, color = theme.keyTextColor.copy(alpha = 0.6f), fontSize = 13.sp)
                 }
             }
-            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
+            KeyButton(modifier = Modifier.weight(1f), theme = theme, isSpecial = false, contentDescription = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", longPressDelayMs = longPressDelayMs, onClick = { onKeyTap(if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".") }) {
                 Text(text = if (mode == KeyboardMode.BANGLA_PHONETIC || mode == KeyboardMode.BANGLA_JATIYO || mode == KeyboardMode.AVRO) "।" else ".", color = theme.keyTextColor, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             }
-            KeyButton(modifier = Modifier.weight(1.5f), theme = theme, isSpecial = true, longPressDelayMs = longPressDelayMs, onClick = onEnterTap) {
+            KeyButton(modifier = Modifier.weight(1.5f), theme = theme, isSpecial = true, contentDescription = stringResource(R.string.kb_enter), longPressDelayMs = longPressDelayMs, onClick = onEnterTap) {
                 Text(text = actionLabel, color = theme.accentColor, fontWeight = FontWeight.Bold, fontSize = 13.sp)
             }
         }
@@ -1776,6 +1878,7 @@ fun KeyItem(
         modifier = modifier,
         theme = theme,
         isSpecial = keyModel.isSpecial,
+        contentDescription = charToOutput,
         longPressDelayMs = longPressDelayMs,
         onClick = {
             onTap(charToOutput)

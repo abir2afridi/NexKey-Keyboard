@@ -40,7 +40,6 @@ class UserPreferences(private val context: Context) {
         private val KEY_DOUBLE_SPACE_TAB = booleanPreferencesKey("double_space_tab")
         private val KEY_CLIPBOARD_RECENT = booleanPreferencesKey("clipboard_recent")
         private val KEY_CLIPBOARD_EXPIRY = intPreferencesKey("clipboard_expiry")
-        private val KEY_CLIPBOARD_IMAGES = booleanPreferencesKey("clipboard_images")
         private val KEY_POPUP_ON_KEYPRESS = booleanPreferencesKey("popup_on_keypress")
         private val KEY_VOICE_INPUT_KEY = booleanPreferencesKey("voice_input_key")
         private val KEY_SHOW_EMOJI_KEY = booleanPreferencesKey("show_emoji_key")
@@ -58,7 +57,6 @@ class UserPreferences(private val context: Context) {
         private val KEY_KB_HEIGHT_LANDSCAPE = intPreferencesKey("kb_height_landscape")
         private val KEY_ONE_HANDED_WIDTH_PORTRAIT = intPreferencesKey("one_handed_width_portrait")
         private val KEY_ONE_HANDED_WIDTH_LANDSCAPE = intPreferencesKey("one_handed_width_landscape")
-        private val KEY_SPLIT_KEYBOARD = booleanPreferencesKey("split_keyboard")
         private val KEY_FORCED_ENTER = booleanPreferencesKey("forced_enter")
 
         // Text Correction
@@ -84,9 +82,6 @@ class UserPreferences(private val context: Context) {
         private val KEY_EMOJI_SEARCH_VISIBLE_ROWS = intPreferencesKey("emoji_search_visible_rows")
         private val KEY_EMOJI_SEARCH_HORIZONTAL = booleanPreferencesKey("emoji_search_horizontal")
 
-        // Gif Quality
-        private val KEY_HIGH_QUALITY_GIFS = booleanPreferencesKey("high_quality_gifs")
-        private val KEY_SEND_HIGH_QUALITY_GIFS = booleanPreferencesKey("send_high_quality_gifs")
 
         // Hold to Paste
         private val KEY_HOLD_PASTE_ENABLED = booleanPreferencesKey("hold_paste_enabled")
@@ -153,7 +148,7 @@ class UserPreferences(private val context: Context) {
     val incognito: Flow<Boolean> = context.dataStore.data.map { it[KEY_INCOGNITO] ?: false }
     val smartPunctuation: Flow<Boolean> = context.dataStore.data.map { it[KEY_SMART_PUNCTUATION] ?: true }
     val autoCapitalize: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_CAP] ?: true }
-    val showNumberRow: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_NUMBER_ROW] ?: false }
+    val showNumberRow: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_NUMBER_ROW] ?: true }
     val hapticIntensity: Flow<Int> = context.dataStore.data.map { it[KEY_HAPTIC_INTENSITY] ?: 50 }
     val soundVolume: Flow<Int> = context.dataStore.data.map { it[KEY_SOUND_VOLUME] ?: 50 }
     val totalWords: Flow<Int> = context.dataStore.data.map { it[KEY_TOTAL_WORDS] ?: 0 }
@@ -167,7 +162,6 @@ class UserPreferences(private val context: Context) {
     val doubleSpaceTab: Flow<Boolean> = context.dataStore.data.map { it[KEY_DOUBLE_SPACE_TAB] ?: false }
     val clipboardRecent: Flow<Boolean> = context.dataStore.data.map { it[KEY_CLIPBOARD_RECENT] ?: true }
     val clipboardExpiry: Flow<Int> = context.dataStore.data.map { it[KEY_CLIPBOARD_EXPIRY] ?: 120 }
-    val clipboardImages: Flow<Boolean> = context.dataStore.data.map { it[KEY_CLIPBOARD_IMAGES] ?: true }
     val popupOnKeypress: Flow<Boolean> = context.dataStore.data.map { it[KEY_POPUP_ON_KEYPRESS] ?: true }
     val voiceInputKey: Flow<Boolean> = context.dataStore.data.map { it[KEY_VOICE_INPUT_KEY] ?: true }
     val showEmojiKey: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_EMOJI_KEY] ?: true }
@@ -184,7 +178,6 @@ class UserPreferences(private val context: Context) {
     val kbHeightLandscape: Flow<Int> = context.dataStore.data.map { it[KEY_KB_HEIGHT_LANDSCAPE] ?: 100 }
     val oneHandedWidthPortrait: Flow<Int> = context.dataStore.data.map { it[KEY_ONE_HANDED_WIDTH_PORTRAIT] ?: 100 }
     val oneHandedWidthLandscape: Flow<Int> = context.dataStore.data.map { it[KEY_ONE_HANDED_WIDTH_LANDSCAPE] ?: 100 }
-    val splitKeyboard: Flow<Boolean> = context.dataStore.data.map { it[KEY_SPLIT_KEYBOARD] ?: false }
     val forcedEnter: Flow<Boolean> = context.dataStore.data.map { it[KEY_FORCED_ENTER] ?: false }
 
     val autoCorrection: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_CORRECTION] ?: true }
@@ -207,8 +200,6 @@ class UserPreferences(private val context: Context) {
     val emojiSearchVisibleRows: Flow<Int> = context.dataStore.data.map { it[KEY_EMOJI_SEARCH_VISIBLE_ROWS] ?: 2 }
     val emojiSearchHorizontal: Flow<Boolean> = context.dataStore.data.map { it[KEY_EMOJI_SEARCH_HORIZONTAL] ?: true }
 
-    val highQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_HIGH_QUALITY_GIFS] ?: true }
-    val sendHighQualityGifs: Flow<Boolean> = context.dataStore.data.map { it[KEY_SEND_HIGH_QUALITY_GIFS] ?: true }
 
     val holdPasteEnabled: Flow<Boolean> = context.dataStore.data.map { it[KEY_HOLD_PASTE_ENABLED] ?: false }
     val holdPasteDuration: Flow<Int> = context.dataStore.data.map { it[KEY_HOLD_PASTE_DURATION] ?: 400 }
@@ -263,7 +254,6 @@ class UserPreferences(private val context: Context) {
     suspend fun setDoubleSpaceTab(enabled: Boolean) = context.dataStore.edit { it[KEY_DOUBLE_SPACE_TAB] = enabled }
     suspend fun setClipboardRecent(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_RECENT] = enabled }
     suspend fun setClipboardExpiry(mins: Int) = context.dataStore.edit { it[KEY_CLIPBOARD_EXPIRY] = mins }
-    suspend fun setClipboardImages(enabled: Boolean) = context.dataStore.edit { it[KEY_CLIPBOARD_IMAGES] = enabled }
     suspend fun setPopupOnKeypress(enabled: Boolean) = context.dataStore.edit { it[KEY_POPUP_ON_KEYPRESS] = enabled }
     suspend fun setVoiceInputKey(enabled: Boolean) = context.dataStore.edit { it[KEY_VOICE_INPUT_KEY] = enabled }
     suspend fun setShowEmojiKey(enabled: Boolean) = context.dataStore.edit { it[KEY_SHOW_EMOJI_KEY] = enabled }
@@ -281,7 +271,6 @@ class UserPreferences(private val context: Context) {
     suspend fun setKbHeightLandscape(percentage: Int) = context.dataStore.edit { it[KEY_KB_HEIGHT_LANDSCAPE] = percentage }
     suspend fun setOneHandedWidthPortrait(percentage: Int) = context.dataStore.edit { it[KEY_ONE_HANDED_WIDTH_PORTRAIT] = percentage }
     suspend fun setOneHandedWidthLandscape(percentage: Int) = context.dataStore.edit { it[KEY_ONE_HANDED_WIDTH_LANDSCAPE] = percentage }
-    suspend fun setSplitKeyboard(enabled: Boolean) = context.dataStore.edit { it[KEY_SPLIT_KEYBOARD] = enabled }
     suspend fun setForcedEnter(enabled: Boolean) = context.dataStore.edit { it[KEY_FORCED_ENTER] = enabled }
 
     suspend fun setAutoCorrection(enabled: Boolean) = context.dataStore.edit { it[KEY_AUTO_CORRECTION] = enabled }
@@ -304,8 +293,6 @@ class UserPreferences(private val context: Context) {
     suspend fun setEmojiSearchVisibleRows(rows: Int) = context.dataStore.edit { it[KEY_EMOJI_SEARCH_VISIBLE_ROWS] = rows }
     suspend fun setEmojiSearchHorizontal(horizontal: Boolean) = context.dataStore.edit { it[KEY_EMOJI_SEARCH_HORIZONTAL] = horizontal }
 
-    suspend fun setHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_HIGH_QUALITY_GIFS] = enabled }
-    suspend fun setSendHighQualityGifs(enabled: Boolean) = context.dataStore.edit { it[KEY_SEND_HIGH_QUALITY_GIFS] = enabled }
 
     suspend fun setHoldPasteEnabled(enabled: Boolean) = context.dataStore.edit { it[KEY_HOLD_PASTE_ENABLED] = enabled }
     suspend fun setHoldPasteDuration(durationMs: Int) = context.dataStore.edit { it[KEY_HOLD_PASTE_DURATION] = durationMs }

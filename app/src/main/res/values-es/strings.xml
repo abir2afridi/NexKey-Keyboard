@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Inicio</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">Arena dorada</string>
     <string name="theme_lavender_dream">Sueño lavanda</string>
     <string name="theme_light_minimal">Claro minimalista</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">Negro amoled</string>
     <string name="theme_retro_grey">Gris retro</string>
     <string name="theme_cyberpunk">Ciberpunk</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">Mostrar barra de herramientas</string>
     <string name="kb_delete">Eliminar</string>
     <string name="kb_space">Espacio</string>
+    <string name="kb_enter">Intro</string>
+    <string name="kb_shift">Mayús</string>
+    <string name="kb_backspace">Borrar</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Seg</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Racha = récords consecutivos. Aumenta al superar tu mejor marca y se reinicia cuando fallas en una ventana.</string>
 </resources>
+

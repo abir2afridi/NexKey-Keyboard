@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">홈</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">골든 샌드</string>
     <string name="theme_lavender_dream">라벤더 드림</string>
     <string name="theme_light_minimal">라이트 미니멀</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">AMOLED 블랙</string>
     <string name="theme_retro_grey">레트로 그레이</string>
     <string name="theme_cyberpunk">사이버펑크</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">도구 모음 표시</string>
     <string name="kb_delete">삭제</string>
     <string name="kb_space">스페이스</string>
+    <string name="kb_enter">엔터</string>
+    <string name="kb_shift">시프트</string>
+    <string name="kb_backspace">⌫</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">초</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">스트릭 = 연속 기록 갱신. 자기 기록을 갱신하는 동안 증가하고, 기록을 놓치면 1로 초기화됩니다.</string>
 </resources>
+

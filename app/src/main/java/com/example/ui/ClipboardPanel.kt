@@ -55,8 +55,8 @@ fun ClipboardPanel(theme: KeyboardTheme, onClipClick: (String) -> Unit) {
                     Box(modifier = Modifier.width(160.dp).height(130.dp).clip(RoundedCornerShape(10.dp)).background(theme.keyBackgroundColor).border(width = 1.dp, color = if (clip.isPinned) theme.accentColor else Color.Transparent, shape = RoundedCornerShape(10.dp)).clickable(role = Role.Button, onClick = { onClipClick(clip.text) }).padding(8.dp)) {
                         Column(modifier = Modifier.fillMaxSize()) {
                             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
-                                Icon(imageVector = Icons.Default.PushPin, contentDescription = null, tint = if (clip.isPinned) theme.accentColor else theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.togglePin(clip.id) })
-                                Icon(imageVector = Icons.Default.Delete, contentDescription = null, tint = theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.deleteClip(clip.id) })
+                                Icon(imageVector = Icons.Default.PushPin, contentDescription = stringResource(R.string.clipboard_pin), tint = if (clip.isPinned) theme.accentColor else theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.togglePin(clip.id) })
+                                Icon(imageVector = Icons.Default.Delete, contentDescription = stringResource(R.string.clipboard_delete), tint = theme.keyTextColor.copy(alpha = 0.4f), modifier = Modifier.size(16.dp).clickable { ClipboardManager.deleteClip(clip.id) })
                             }
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(text = clip.text, color = theme.keyTextColor, fontSize = 12.sp, maxLines = 4)

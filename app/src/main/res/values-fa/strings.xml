@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">خانه</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">شن طلایی</string>
     <string name="theme_lavender_dream">رویای اسطوخودوس</string>
     <string name="theme_light_minimal">مینیمال روشن</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">مشکی AMOLED</string>
     <string name="theme_retro_grey">خاکستری رترو</string>
     <string name="theme_cyberpunk">سایبرپانک</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">نمایش نوار ابزار</string>
     <string name="kb_delete">حذف</string>
     <string name="kb_space">فاصله</string>
+    <string name="kb_enter">ورود</string>
+    <string name="kb_shift">شیفت</string>
+    <string name="kb_backspace">پاک‌کردن</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">ثانیه</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">سریال = شکستن رکوردهای پیاپی. تا وقتی رکورد خود را بشکنید زیاد می‌شود و در صورت خطا در یک نوبت به ۱ برگشت می‌کند.</string>
 </resources>
+

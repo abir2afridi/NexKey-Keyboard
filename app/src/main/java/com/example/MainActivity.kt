@@ -239,7 +239,6 @@ fun NexKeyApp() {
                         onNavigateToClipboard = { navController.navigate(Screen.ClipboardManager.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToSpeedRecords = { navController.navigate(Screen.SpeedRecords.route) },
                         onNavigateToSpeedLeaderboard = { navController.navigate(Screen.SpeedLeaderboard.route) },
                         onNavigateToLeaderboard = { navController.navigate(Screen.Leaderboard.route) },
@@ -253,13 +252,11 @@ fun NexKeyApp() {
                         onNavigateToFeedback = { navController.navigate(Screen.SettingsFeedback.route) },
                         onNavigateToLanguageKeys = { navController.navigate(Screen.SettingsLanguageKeys.route) },
                         onNavigateToLayout = { navController.navigate(Screen.SettingsLayout.route) },
-                        onNavigateToSize = { navController.navigate(Screen.SettingsSize.route) },
                         onNavigateToNavigation = { navController.navigate(Screen.SettingsNavigation.route) },
                         onNavigateToPaste = { navController.navigate(Screen.SettingsPaste.route) },
                         onNavigateToAdvancedGroup = { navController.navigate(Screen.SettingsAdvancedGroup.route) },
                         onNavigateToTextCorrection = { navController.navigate(Screen.SettingsTextCorrection.route) },
                         onNavigateToMoreLanguages = { navController.navigate(Screen.SettingsMoreLanguages.route) },
-                        onNavigateToGifQuality = { navController.navigate(Screen.SettingsGifQuality.route) },
                         onNavigateToHeaderAnimation = { navController.navigate(Screen.SettingsHeaderAnimation.route) },
                         onNavigateToEmoji = { navController.navigate(Screen.SettingsEmoji.route) },
                         onNavigateToSpeedMeter = { navController.navigate(Screen.SettingsSpeedMeter.route) },
@@ -287,9 +284,6 @@ fun NexKeyApp() {
                 composable(Screen.SettingsResize.route) {
                     KeyboardResizeScreen(onBack = { navController.popBackStack() })
                 }
-                composable(Screen.SettingsSize.route) {
-                    SizeSettingsScreen(onBack = { navController.popBackStack() })
-                }
                 composable(Screen.SettingsNavigation.route) {
                     NavigationSettingsScreen(onBack = { navController.popBackStack() })
                 }
@@ -308,9 +302,7 @@ fun NexKeyApp() {
                 composable(Screen.SettingsMoreLanguages.route) {
                     MoreLanguagesScreen(onBack = { navController.popBackStack() })
                 }
-                composable(Screen.SettingsGifQuality.route) {
-                    GifQualitySettingsScreen(onBack = { navController.popBackStack() })
-                }
+
                 composable(Screen.SettingsHeaderAnimation.route) {
                     HeaderAnimationSettingsScreen(onBack = { navController.popBackStack() })
                 }

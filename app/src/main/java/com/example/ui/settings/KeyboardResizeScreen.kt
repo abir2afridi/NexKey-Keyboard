@@ -38,7 +38,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
     val heightLandscape by prefs.kbHeightLandscape.collectAsState(initial = 100)
     val widthPortrait by prefs.oneHandedWidthPortrait.collectAsState(initial = 85)
     val widthLandscape by prefs.oneHandedWidthLandscape.collectAsState(initial = 40)
-    val showNumRow by prefs.showNumberRow.collectAsState(initial = false)
+    val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
 
     // Build the same theme the real keyboard uses (preset or custom).

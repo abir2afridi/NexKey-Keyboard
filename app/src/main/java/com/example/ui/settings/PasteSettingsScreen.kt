@@ -32,7 +32,6 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
     val holdPasteTriggerKey by prefs.holdPasteTriggerKey.collectAsState(initial = "v")
     val clipboardExpiry by prefs.clipboardExpiry.collectAsState(initial = 120)
     val clipboardRecent by prefs.clipboardRecent.collectAsState(initial = true)
-    val clipboardImages by prefs.clipboardImages.collectAsState(initial = true)
 
     SettingsSubScaffold(title = stringResource(R.string.settings_paste), onBack = onBack) {
         SettingSwitchItem(stringResource(R.string.paste_hold_paste), stringResource(R.string.paste_hold_paste_desc), Icons.Default.ContentPaste, holdPasteEnabled) { scope.launch { prefs.setHoldPasteEnabled(it) } }
@@ -65,7 +64,6 @@ fun PasteSettingsScreen(onBack: () -> Unit, onNavigateToClipboardHistory: () -> 
                 ClipboardManager.setExpiryMinutes(mins)
             }
         )
-        SettingSwitchItem(stringResource(R.string.paste_images), stringResource(R.string.paste_images_desc), Icons.Default.Image, clipboardImages) { scope.launch { prefs.setClipboardImages(it) } }
         Row(
             modifier = Modifier
                 .fillMaxWidth()

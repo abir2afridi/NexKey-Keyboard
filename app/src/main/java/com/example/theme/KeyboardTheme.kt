@@ -18,7 +18,6 @@ enum class ThemePreset {
     LAVENDER_DREAM,
     FOREST_MOSS,
     GOLDEN_SAND,
-    MATERIAL_YOU,
     CUSTOM
 }
 
@@ -266,21 +265,6 @@ data class KeyboardTheme(
             keyHintColor = Color(0xFFD7CCC8).copy(alpha = 0.4f)
         )
 
-        val MaterialYou = KeyboardTheme(
-            preset = ThemePreset.MATERIAL_YOU,
-            backgroundColor = Color(0xFFF7F9FF),
-            keyBackgroundColor = Color(0xFFFFFFFF),
-            keySpecialColor = Color(0xFFE1E2EC),
-            keyTextColor = Color(0xFF191C20),
-            keySpecialTextColor = Color(0xFF44474E),
-            accentColor = Color(0xFF0061A4),
-            suggestionBgColor = Color(0xFFF0F0F0),
-            suggestionTextColor = Color(0xFF191C20),
-            popupBackgroundColor = Color(0xFFE1E2EC),
-            popupTextColor = Color(0xFF0061A4),
-            keyHintColor = Color(0xFF191C20).copy(alpha = 0.35f)
-        )
-
         fun fromPreset(preset: ThemePreset): KeyboardTheme {
             return when (preset) {
                 ThemePreset.DARK_NEON -> DarkNeon
@@ -298,7 +282,6 @@ data class KeyboardTheme(
                 ThemePreset.LAVENDER_DREAM -> LavenderDream
                 ThemePreset.FOREST_MOSS -> ForestMoss
                 ThemePreset.GOLDEN_SAND -> GoldenSand
-                ThemePreset.MATERIAL_YOU -> MaterialYou
                 ThemePreset.CUSTOM -> DarkNeon // Default for custom if not set
             }
         }

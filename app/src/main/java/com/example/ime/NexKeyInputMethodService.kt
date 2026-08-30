@@ -53,6 +53,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var isPasswordField by mutableStateOf(false)
     internal var isSensitiveField by mutableStateOf(false)
     internal var isMultilineField by mutableStateOf(false)
+    internal var isVoiceListening by mutableStateOf(false)
+    internal var hasSelection by mutableStateOf(false)
     internal var lastSpaceTime = 0L
 
     // Speed Meter States
@@ -84,7 +86,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var smartPuncEnabled by mutableStateOf(true)
     internal var keyHeight by mutableStateOf(54)
     internal var keyRadius by mutableStateOf(10)
-    internal var showNumRow by mutableStateOf(false)
+    internal var showNumRow by mutableStateOf(true)
     internal var hideLongPressHints by mutableStateOf(false)
     internal var kbHeightPortrait by mutableStateOf(100)
     internal var oneHandedWidth by mutableStateOf(100)
@@ -109,7 +111,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var largeNumberRowEnabled by mutableStateOf(false)
     internal var kbHeightLandscape by mutableStateOf(100)
     internal var oneHandedWidthLandscape by mutableStateOf(40)
-    internal var splitKeyboardEnabled by mutableStateOf(false)
     internal var forcedEnterEnabled by mutableStateOf(false)
     internal var longPressDelayMsState by mutableStateOf(300)
     internal var spaceCursorDelayState by mutableStateOf(1000)
@@ -120,7 +121,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var phoneticAutoCorrectionEnabled by mutableStateOf(true)
     internal var nextWordSuggestionsEnabled by mutableStateOf(true)
     internal var clipboardRecentEnabled by mutableStateOf(true)
-    internal var clipboardImagesEnabled by mutableStateOf(true)
     internal var physicalKbEmojiEnabled by mutableStateOf(true)
     internal var popupDismissDelayState by mutableStateOf("Default")
     internal var holdPasteEnabled by mutableStateOf(false)
@@ -223,7 +223,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     longPressDelayMs = longPressDelayMsState.toLong(),
                     spaceCursorSpeed = spaceCursorSpeedState,
                     spaceCursorDelay = spaceCursorDelayState,
-                    splitKeyboardEnabled = splitKeyboardEnabled,
                     popupDismissDelay = popupDismissDelayState,
                     physicalKbEmojiEnabled = physicalKbEmojiEnabled,
                     holdPasteEnabled = holdPasteEnabled,
@@ -278,7 +277,14 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     onThemeToggle = { toggleTheme() },
                     onOpenSettings = { launchSettingsActivity() },
                     onCursorMove = { direction -> handleCursorMove(direction) },
-                    onHoldPaste = { handlePasteClipboard() }
+                    onHoldPaste = { handlePasteClipboard() },
+                    isVoiceListening = isVoiceListening,
+                    hasSelection = hasSelection,
+                    onSelectAll = { currentInputConnection?.performContextMenuAction(android.R.id.selectAll) },
+                    onCopy = { currentInputConnection?.performContextMenuAction(android.R.id.copy) },
+                    onCut = { currentInputConnection?.performContextMenuAction(android.R.id.cut) },
+                    onPaste = { currentInputConnection?.performContextMenuAction(android.R.id.paste) },
+                    onUndo = { if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) currentInputConnection?.performContextMenuAction(android.R.id.undo) }
                 )
             }
         }
@@ -288,6 +294,35 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     // Volume key interception for cursor control
     override fun onKeyDown(keyCode: Int, event: KeyEvent?): Boolean {
+        if (event != null && event.metaState and android.view.KeyEvent.META_CTRL_ON != 0) {
+            val ic = currentInputConnection
+            if (ic != null) {
+                when (keyCode) {
+                    KeyEvent.KEYCODE_A -> {
+                        ic.performContextMenuAction(android.R.id.selectAll)
+                        return true
+                    }
+                    KeyEvent.KEYCODE_C -> {
+                        ic.performContextMenuAction(android.R.id.copy)
+                        return true
+                    }
+                    KeyEvent.KEYCODE_V -> {
+                        ic.performContextMenuAction(android.R.id.paste)
+                        return true
+                    }
+                    KeyEvent.KEYCODE_X -> {
+                        ic.performContextMenuAction(android.R.id.cut)
+                        return true
+                    }
+                    KeyEvent.KEYCODE_Z -> {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                            ic.performContextMenuAction(android.R.id.undo)
+                            return true
+                        }
+                    }
+                }
+            }
+        }
         if (volumeCursorEnabled && (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN)) {
             if (smartVolumeControlEnabled) {
                 val am = getSystemService(AUDIO_SERVICE) as AudioManager
@@ -370,6 +405,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         candidatesEnd: Int
     ) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, candidatesStart, candidatesEnd)
+
+        hasSelection = newSelStart != newSelEnd
 
         // While we are composing, the cursor always sits at the END of the composing
         // region (setComposingText moves it there). If the cursor moved anywhere else —
@@ -519,10 +556,11 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
             speechRecognizer?.setRecognitionListener(object : RecognitionListener {
                 override fun onReadyForSpeech(params: Bundle?) {
-                    Toast.makeText(this@NexKeyInputMethodService, getString(R.string.ime_listening), Toast.LENGTH_SHORT).show()
+                    isVoiceListening = true
                 }
 
                 override fun onResults(results: Bundle?) {
+                    isVoiceListening = false
                     val matches = results?.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION)
                     if (!matches.isNullOrEmpty()) {
                         currentInputConnection?.beginBatchEdit()
@@ -532,6 +570,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                 }
 
                 override fun onError(error: Int) {
+                    isVoiceListening = false
                     val msg = when (error) {
                         SpeechRecognizer.ERROR_NO_MATCH -> getString(R.string.ime_no_speech)
                         SpeechRecognizer.ERROR_SPEECH_TIMEOUT -> getString(R.string.ime_speech_timeout)
@@ -545,7 +584,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
 
                 override fun onBeginningOfSpeech() {}
                 override fun onBufferReceived(buffer: ByteArray?) {}
-                override fun onEndOfSpeech() {}
+                override fun onEndOfSpeech() { isVoiceListening = false }
                 override fun onEvent(eventType: Int, params: Bundle?) {}
                 override fun onPartialResults(partialResults: Bundle?) {}
                 override fun onRmsChanged(rmsdB: Float) {}

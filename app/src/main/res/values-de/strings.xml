@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">NexKey</string>
     <string name="nav_home">Start</string>
@@ -187,7 +187,7 @@
     <string name="theme_golden_sand">Goldener Sand</string>
     <string name="theme_lavender_dream">Lavendeltraum</string>
     <string name="theme_light_minimal">Hell-minimalistisch</string>
-    <string name="theme_material_you">Material You</string>
+
     <string name="theme_amoled_black">Amoled-Schwarz</string>
     <string name="theme_retro_grey">Retro-Grau</string>
     <string name="theme_cyberpunk">Cyberpunk</string>
@@ -567,6 +567,10 @@
     <string name="kb_show_toolbar">Symbolleiste anzeigen</string>
     <string name="kb_delete">Löschen</string>
     <string name="kb_space">Leertaste</string>
+    <string name="kb_enter">Eingabe</string>
+    <string name="kb_shift">Umschalt</string>
+    <string name="kb_backspace">Rücktaste</string>
+    <string name="kb_symbols">\?123</string>
 <string name="meter_unit_cps">CPS</string>
     <string name="meter_unit_cpm">CPM</string>
     <string name="meter_unit_sec">Sek</string>
@@ -640,3 +644,4 @@
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = aufeinanderfolgende Rekordbrüche. Sie wächst, solange du dein Rekord halt, und springt auf 1 zurück, wenn du an einem Fenster keine Rekord erzielst.</string>
 </resources>
+
