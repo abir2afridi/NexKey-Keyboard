@@ -1,8 +1,12 @@
 package com.example.ime
 
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+
+internal var candidatesJob: Job? = null
 
 internal fun NexKeyInputMethodService.rememberCommittedWord(word: String) {
     if (word.isBlank()) return
@@ -15,7 +19,9 @@ internal fun NexKeyInputMethodService.updateCandidates(query: String) {
         candidates = emptyList()
         return
     }
-    scope.launch {
+    candidatesJob?.cancel()
+    candidatesJob = scope.launch {
+        delay(50)
         val predictions = withContext(Dispatchers.Default) {
             predictionEngine.getSuggestions(
                 prefix = query,

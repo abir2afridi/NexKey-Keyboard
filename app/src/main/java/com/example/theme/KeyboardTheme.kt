@@ -1,5 +1,6 @@
 package com.example.theme
 
+import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
 enum class ThemePreset {
@@ -21,6 +22,7 @@ enum class ThemePreset {
     CUSTOM
 }
 
+@Immutable
 data class KeyboardTheme(
     val preset: ThemePreset = ThemePreset.DARK_NEON,
     val backgroundColor: Color = Color(0xFF12131C),

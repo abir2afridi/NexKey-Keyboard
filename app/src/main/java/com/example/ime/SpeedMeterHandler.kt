@@ -5,17 +5,19 @@ import com.example.R
 import com.example.data.SpeedRecordEntity
 import com.example.data.TypingAnalytics
 import java.util.Locale
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 enum class SpeedMeterPhase { LIVE, WAITING, RESULT }
 
 internal fun NexKeyInputMethodService.countMeteredWord() {
-    if (isTypingActive) burstWordCount++
+    if (speedMeter.isTypingActive) burstWordCount++
 }
 
 internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
-    if (!isTypingActive) return
-    isTypingActive = false
+    if (!speedMeter.isTypingActive) return
+    speedMeter = speedMeter.copy(isTypingActive = false)
     if (!meterEnabled && !infoBoxEnabledState) {
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
@@ -23,7 +25,7 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     }
 
     val keys = burstKeyCount
-    val trailingWord = if (burstLastChar.length == 1 && burstLastChar[0].isLetter()) 1 else 0
+    val trailingWord = if (speedMeter.burstLastChar.length == 1 && speedMeter.burstLastChar[0].isLetter()) 1 else 0
     val words = burstWordCount + trailingWord
     if (keys <= 0) {
         meterPhase = SpeedMeterPhase.WAITING
@@ -40,7 +42,6 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
     val unit = if (isMinute) service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
 
     val lineIn = service.getString(R.string.meter_swipe_in, windowSec.toInt())
-    // Key count (default) or sentence word count, chosen in Settings → Speed Meter.
     val lineCount = if (meterCountModeState == "words") {
         service.getString(R.string.meter_swipe_words, words)
     } else {
@@ -50,24 +51,42 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
 
     scope.launch {
         try {
-            val dao = TypingAnalytics.getDatabase()?.speedRecordDao()
-            val best = dao?.bestForInterval(label)
-            val isRecord = best == null || speed > best.speed
+            var isRecord = false
+            var recordStreak = 0
+            var bestSpeed = 0f
+            var bestIntervalMs = 0L
+            var dao: com.example.data.SpeedRecordDao? = null
+
+            withContext(Dispatchers.IO) {
+                dao = TypingAnalytics.getDatabase()?.speedRecordDao()
+                val best = dao?.bestForInterval(label)
+                isRecord = best == null || speed > best.speed
+                if (best != null) {
+                    bestSpeed = best.speed
+                    bestIntervalMs = best.intervalMs
+                }
+                if (isRecord) {
+                    val streak = (streakCounter[label] ?: 0) + 1
+                    streakCounter[label] = streak
+                    recordStreak = streak
+                    dao?.insert(
+                        SpeedRecordEntity(
+                            intervalLabel = label,
+                            intervalMs = windowSec.toInt() * 1000L,
+                            recordAt = System.currentTimeMillis(),
+                            wordCount = words,
+                            keyCount = keys,
+                            speed = speed,
+                            streak = streak
+                        )
+                    )
+                } else {
+                    streakCounter[label] = 0
+                    recordStreak = 0
+                }
+            }
 
             if (isRecord) {
-                val streak = (streakCounter[label] ?: 0) + 1
-                streakCounter[label] = streak
-                dao?.insert(
-                    SpeedRecordEntity(
-                        intervalLabel = label,
-                        intervalMs = windowSec.toInt() * 1000L,
-                        recordAt = System.currentTimeMillis(),
-                        wordCount = words,
-                        keyCount = keys,
-                        speed = speed,
-                        streak = streak
-                    )
-                )
                 val bestLine = String.format(Locale.US, "%.1f %s", speed, unit)
                 meterResultLines = listOf(
                     lineIn,
@@ -79,13 +98,12 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
                 if (dao != null) {
                     Toast.makeText(
                         service,
-                        service.getString(R.string.meter_result_record, bestLine, streak),
+                        service.getString(R.string.meter_result_record, bestLine, recordStreak),
                         Toast.LENGTH_SHORT
                     ).show()
                 }
             } else {
-                streakCounter[label] = 0
-                val bestUnit = if (best.intervalMs >= 60000)
+                val bestUnit = if (bestIntervalMs >= 60000)
                     service.getString(R.string.meter_unit_cpm) else service.getString(R.string.meter_unit_cps)
                 meterResultLines = listOf(
                     lineIn,
@@ -93,7 +111,7 @@ internal fun NexKeyInputMethodService.finalizeSpeedWindow() {
                     lineSpeed,
                     service.getString(
                         R.string.meter_swipe_best,
-                        String.format(Locale.US, "%.1f %s", best.speed, bestUnit)
+                        String.format(Locale.US, "%.1f %s", bestSpeed, bestUnit)
                     )
                 )
                 meterPhase = SpeedMeterPhase.RESULT

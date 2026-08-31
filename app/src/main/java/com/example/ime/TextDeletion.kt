@@ -18,8 +18,8 @@ internal fun NexKeyInputMethodService.handleBackspace() {
 
     if (composingBuffer.isNotEmpty()) {
         composingBuffer = composingBuffer.dropLast(1)
-        if (lastPressedWord.isNotEmpty()) {
-            lastPressedWord = lastPressedWord.dropLast(1)
+        if (speedMeter.lastPressedWord.isNotEmpty()) {
+            speedMeter = speedMeter.copy(lastPressedWord = speedMeter.lastPressedWord.dropLast(1))
         }
         if (composingBuffer.isNotEmpty()) {
             val parsed = parseComposing(currentMode, composingBuffer)
@@ -35,8 +35,8 @@ internal fun NexKeyInputMethodService.handleBackspace() {
             candidates = emptyList()
         }
     } else {
-        if (lastPressedWord.isNotEmpty()) {
-            lastPressedWord = lastPressedWord.dropLast(1)
+        if (speedMeter.lastPressedWord.isNotEmpty()) {
+            speedMeter = speedMeter.copy(lastPressedWord = speedMeter.lastPressedWord.dropLast(1))
         }
         deleteGraphemeBackward(ic)
     }
@@ -55,7 +55,7 @@ internal fun NexKeyInputMethodService.handleBackspaceWord() {
 
     if (composingBuffer.isNotEmpty()) {
         composingBuffer = ""
-        lastPressedWord = ""
+        speedMeter = speedMeter.copy(lastPressedWord = "")
         // FIX (words left behind during hold-delete): finishComposingText() kept the composing
         // word in the editor, so the next repeat tick (or a finger release) left it behind.
         // setComposingText("", 1) removes the whole composing word from the editor in one tick.
@@ -73,7 +73,7 @@ internal fun NexKeyInputMethodService.handleBackspaceWord() {
         if (deleteCount > 0) {
             ic.deleteSurroundingText(deleteCount, 0)
         }
-        lastPressedWord = ""
+        speedMeter = speedMeter.copy(lastPressedWord = "")
     }
 }
 

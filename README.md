@@ -76,6 +76,13 @@
 | Performance | Keyboard layout rows cached with `remember` | ✅ |
 | Performance | Suggestion strip LazyRow keyed items | ✅ |
 | Performance | Clipboard filter memoized | ✅ |
+| Performance | Zero `runBlocking` on typing path (cached feature flags) | ✅ |
+| Performance | Speed meter states batched into single recomposition trigger | ✅ |
+| Performance | Suggestion pipeline debounced (50ms, no per-keystroke storms) | ✅ |
+| Performance | DAWG correction off main thread (`Dispatchers.Default`) | ✅ |
+| Performance | Room DB ops on `Dispatchers.IO` (speed meter, analytics) | ✅ |
+| Performance | InfoBox skip animation during LIVE typing phase | ✅ |
+| Performance | `KeyboardTheme` marked `@Immutable` for Compose skip optimization | ✅ |
 | Reliability | Thread-safe streak counter (ConcurrentHashMap) | ✅ |
 | Reliability | Long overflow-safe stats (Long not Int) | ✅ |
 | Reliability | R8 ProGuard rules correct for prediction engine | ✅ |
@@ -220,7 +227,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 **Version:** 1.7.1 | **Published:** August 31, 2026
 
-- **APK:** [Download v1.7.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.7.1](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**
@@ -242,7 +249,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - ✅ Unused dependencies removed
 - ✅ System Logs — debug details & process monitoring in App Settings
 - ✅ Stability fixes — coroutine exception handler, scope lifecycle, DataStore singleton, context leak, thread-safe counters
-- ✅ Performance — memoized keyboard rows, keyed LazyRow items, cached clipboard filter
+- ✅ Performance — zero runBlocking on typing path, batched state recomposition, debounced suggestions, async DAWG correction, IO-dispatched DB ops
 
 **Checksums:**
 

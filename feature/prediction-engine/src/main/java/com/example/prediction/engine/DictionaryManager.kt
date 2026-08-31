@@ -15,7 +15,6 @@ import com.example.prediction.ranking.RankingEngine
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
 /**
@@ -34,16 +33,23 @@ class DictionaryManager(
     private val cache = CacheManager()
     private val detector = ScriptIntentDetector()
 
+    // Cached flag values — updated by a single collector in ImePreferenceCollector.
+    // Eliminates runBlocking { flow.first() } on every keystroke.
+    @JvmField var cachedLearningThreshold: Int = 3
+    @JvmField var cachedEmojiEnabled: Boolean = true
+    @JvmField var cachedPersonalLearningEnabled: Boolean = true
+    @JvmField var cachedIncognito: Boolean = false
+
     private val suggestionEngine = SuggestionEngine(builtin, personalTrie, ngram, ranking, {
-        runBlockingGet { flags.learningThreshold.first() }
+        cachedLearningThreshold
     }) { prefix, isBangla, now ->
         autoCorrection.correct(prefix, isBangla, now, correctionEnabled = true)?.correction
     }
     private val banglishEngine = BanglishLearningEngine(personalTrie) {
-        runBlockingGet { flags.learningThreshold.first() }
+        cachedLearningThreshold
     }
     private val autoCorrection = AutoCorrectionEngine(builtin, personalTrie) {
-        runBlockingGet { flags.learningThreshold.first() }
+        cachedLearningThreshold
     }
 
     private var learningEngine: LearningEngine? = null
@@ -54,16 +60,6 @@ class DictionaryManager(
         private set
     var banglaLoadMs: Long = 0
         private set
-
-    private fun runBlockingGet(block: suspend () -> Int): Int = runBlockingCatch(block)
-
-    private fun runBlockingCatch(block: suspend () -> Int): Int {
-        return try {
-            kotlinx.coroutines.runBlocking { block() }
-        } catch (e: Exception) {
-            3
-        }
-    }
 
     override fun init(context: Context) {
         try {
@@ -79,8 +75,8 @@ class DictionaryManager(
                 personalWordDao = db.personalWordDao(),
                 recentWordDao = db.recentWordDao(),
                 personalTrie = personalTrie,
-                learningEnabled = { liveFlag { flags.personalLearningEnabled.first() } },
-                incognitoEnabled = { liveFlag { flags.incognito.first() } }
+                learningEnabled = { cachedPersonalLearningEnabled },
+                incognitoEnabled = { cachedIncognito }
             )
             scope.launch {
                 try {
@@ -97,14 +93,6 @@ class DictionaryManager(
         }
     }
 
-    private fun liveFlag(block: suspend () -> Boolean): Boolean {
-        return try {
-            kotlinx.coroutines.runBlocking { block() }
-        } catch (e: Exception) {
-            false
-        }
-    }
-
     override fun getSuggestions(
         prefix: String,
         isBangla: Boolean,
@@ -115,9 +103,8 @@ class DictionaryManager(
     ): List<PredictionCandidate> {
         val cacheKey = "$prefix|$isBangla|${previousWords.lastOrNull()}|$showTypedWordFirst|$limit"
         cache.get(cacheKey)?.let { return it }
-        val emojiEnabled = liveFlag { flags.emojiPredictionEnabled.first() }
         val result = suggestionEngine.getSuggestions(
-            prefix, isBangla, previousWords, showTypedWordFirst, limit, now, emojiEnabled
+            prefix, isBangla, previousWords, showTypedWordFirst, limit, now, cachedEmojiEnabled
         )
         cache.put(cacheKey, result)
         return result
@@ -169,7 +156,7 @@ class DictionaryManager(
 
     override fun isTokenConfident(token: String): Boolean {
         val freq = personalTrie.get(token.trim().lowercase())?.frequency ?: 0
-        return freq >= runBlockingGet { flags.learningThreshold.first() }
+        return freq >= cachedLearningThreshold
     }
 
     override fun clearPersonalData() {

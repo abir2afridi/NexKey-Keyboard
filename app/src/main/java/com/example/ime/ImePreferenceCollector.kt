@@ -77,6 +77,7 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
             userPreferences.incognito.collectLatest { incognitoEnabled ->
                 isIncognito = incognitoEnabled
                 ClipboardManager.setIncognito(incognitoEnabled)
+                (predictionEngine as? com.example.prediction.engine.DictionaryManager)?.cachedIncognito = incognitoEnabled
             }
         }
         launch { userPreferences.haptics.collectLatest { hapticsEnabled = it } }
@@ -103,7 +104,10 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.smartVolumeControl.collectLatest { smartVolumeControlEnabled = it } }
         launch { userPreferences.popupOnKeypress.collectLatest { popupOnKeypressEnabled = it } }
         launch { userPreferences.showSuggestions.collectLatest { showSuggestionsEnabled = it } }
-        launch { userPreferences.personalizedSuggestions.collectLatest { personalizedSuggestionsEnabled = it } }
+        launch { userPreferences.personalizedSuggestions.collectLatest {
+            personalizedSuggestionsEnabled = it
+            (predictionEngine as? com.example.prediction.engine.DictionaryManager)?.cachedPersonalLearningEnabled = it
+        } }
         launch { userPreferences.enableKbResizing.collectLatest { enableResizing = it } }
         launch { userPreferences.largeNumberRow.collectLatest { largeNumberRowEnabled = it } }
         launch { userPreferences.kbHeightLandscape.collectLatest { kbHeightLandscape = it } }
@@ -149,11 +153,10 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.meterEnabled.collectLatest { enabled ->
             meterEnabled = enabled
             if (!enabled) {
-                isTypingActive = false
+                speedMeter = SpeedMeterSnapshot()
                 typingStopJob?.cancel()
                 meterPhase = SpeedMeterPhase.WAITING
                 meterResultLines = emptyList()
-                lastPressedWord = ""
             }
         } }
         launch { userPreferences.meterPosition.collectLatest { meterPositionState = it } }

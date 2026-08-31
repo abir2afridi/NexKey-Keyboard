@@ -1224,7 +1224,8 @@ fun MeterHeaderPair(
                 frame = infoFrame,
                 textColor = infoTextColor,
                 customTextColor = infoCustomTextColor,
-                fontStyle = infoBoxFont
+                fontStyle = infoBoxFont,
+                isLive = meterPhase == SpeedMeterPhase.LIVE
             )
         }
     }
@@ -1237,7 +1238,8 @@ fun InfoBox(
     textColor: Color,
     customActive: Boolean = false,
     customTextColor: Color = Color.White,
-    fontStyle: String = "DEFAULT"
+    fontStyle: String = "DEFAULT",
+    isLive: Boolean = false
 ) {
     val displayColor = if (customActive) customTextColor else textColor
     val fontFamily = com.example.theme.meterFontFamily(fontStyle)
@@ -1253,18 +1255,14 @@ fun InfoBox(
         shadowElevation = frame.glowRadius.dp,
         tonalElevation = 4.dp
     ) {
-        AnimatedContent(
-            targetState = text,
-            transitionSpec = { (fadeIn(tween(300)) togetherWith fadeOut(tween(300))) },
-            label = "infoBoxText"
-        ) { target ->
+        if (isLive) {
             Box(
                 modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                if (target.isNotEmpty()) {
+                if (text.isNotEmpty()) {
                     Text(
-                        text = target,
+                        text = text,
                         color = displayColor,
                         fontWeight = FontWeight.ExtraBold,
                         fontSize = 10.sp,
@@ -1274,6 +1272,31 @@ fun InfoBox(
                         textAlign = TextAlign.Center,
                         overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
                     )
+                }
+            }
+        } else {
+            AnimatedContent(
+                targetState = text,
+                transitionSpec = { (fadeIn(tween(300)) togetherWith fadeOut(tween(300))) },
+                label = "infoBoxText"
+            ) { target ->
+                Box(
+                    modifier = Modifier.fillMaxSize().padding(horizontal = 4.dp),
+                    contentAlignment = Alignment.Center
+                ) {
+                    if (target.isNotEmpty()) {
+                        Text(
+                            text = target,
+                            color = displayColor,
+                            fontWeight = FontWeight.ExtraBold,
+                            fontSize = 10.sp,
+                            fontFamily = fontFamily,
+                            letterSpacing = 0.3.sp,
+                            maxLines = 1,
+                            textAlign = TextAlign.Center,
+                            overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                        )
+                    }
                 }
             }
         }

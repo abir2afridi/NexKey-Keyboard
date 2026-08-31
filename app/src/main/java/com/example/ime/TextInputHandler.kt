@@ -5,8 +5,10 @@ import android.view.inputmethod.InputMethodManager
 import com.example.data.TypingAnalytics
 import com.example.ui.KeyboardMode
 import com.example.ui.ShiftState
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
     playFeedback()
@@ -34,30 +36,32 @@ internal fun NexKeyInputMethodService.handleKeyTap(key: String) {
         // Live Speed Meter + Info Box logic (runs when either box is enabled)
         if (meterEnabled || infoBoxEnabledState) {
             val now = System.currentTimeMillis()
+            val sm = speedMeter
             if (now - lastKeyPressTime > meterIdleMsState) {
                 burstStartTime = now
                 burstKeyCount = 0
                 burstWordCount = 0
-                isTypingActive = true
-                currentLiveCps = 0f
-                maxBurstCps = 0f
+                speedMeter = SpeedMeterSnapshot(isTypingActive = true)
             }
 
             lastKeyPressTime = now
             burstKeyCount++
 
             val elapsedSec = (now - burstStartTime) / 1000f
-            if (elapsedSec > 0.1f) {
-                currentLiveCps = burstKeyCount / elapsedSec
-                if (currentLiveCps > maxBurstCps) {
-                    maxBurstCps = currentLiveCps
-                }
-            }
+            val liveCps = if (elapsedSec > 0.1f) burstKeyCount / elapsedSec else sm.liveCps
+            val maxCps = if (liveCps > sm.maxBurstCps) liveCps else sm.maxBurstCps
+            val wordChar = outputKey.length == 1 && outputKey[0].isLetter()
+            val word = if (wordChar) sm.lastPressedWord + outputKey else ""
+
+            speedMeter = SpeedMeterSnapshot(
+                liveCps = liveCps,
+                maxBurstCps = maxCps,
+                isTypingActive = true,
+                burstLastChar = outputKey,
+                lastPressedWord = word
+            )
 
             meterPhase = SpeedMeterPhase.LIVE
-            burstLastChar = outputKey
-            val wordChar = outputKey.length == 1 && outputKey[0].isLetter()
-            lastPressedWord = if (wordChar) lastPressedWord + outputKey else ""
 
             typingStopJob?.cancel()
             typingStopJob = scope.launch {
@@ -142,33 +146,46 @@ internal fun NexKeyInputMethodService.isNewSentence(): Boolean {
 internal fun NexKeyInputMethodService.handleSpace() {
     playFeedback()
     val ic = currentInputConnection ?: return
-    lastPressedWord = ""
+    speedMeter = speedMeter.copy(lastPressedWord = "")
 
     if (composingBuffer.isNotEmpty()) {
         val rawWord = parseComposing(currentMode, composingBuffer)
         val isBangla = isBanglaMode(currentMode)
-        val correctedWord = if (autoCorrectionEnabled && !isSensitiveField) {
-            val correction = predictionEngine.getCorrection(rawWord, isBangla, System.currentTimeMillis())?.correction
-            if (correction != null && rawWord.length > 2) correction else rawWord
-        } else {
-            rawWord
-        }
         ic.beginBatchEdit()
-        ic.commitText("$correctedWord ", 1)
+        ic.commitText("$rawWord ", 1)
         ic.endBatchEdit()
         countMeteredWord()
         if (!isSensitiveField) {
-            predictionEngine.onWordCommitted(
-                correctedWord, isBangla, recentCommittedWords.toList(), System.currentTimeMillis()
-            )
-            rememberCommittedWord(correctedWord)
-            if (!isIncognito) {
-                scope.launch { userPreferences.incrementStats(words = 1, chars = correctedWord.length + 1) }
-            }
-            if (nextWordSuggestionsEnabled) {
-                candidates = predictionEngine.getNextWordPredictions(
-                    recentCommittedWords.toList(), isBangla, 3, System.currentTimeMillis()
-                ).map { it.word }
+            scope.launch {
+                val correctedWord = if (autoCorrectionEnabled) {
+                    val correction = withContext(Dispatchers.Default) {
+                        predictionEngine.getCorrection(rawWord, isBangla, System.currentTimeMillis())?.correction
+                    }
+                    if (correction != null && rawWord.length > 2) correction else rawWord
+                } else {
+                    rawWord
+                }
+                if (correctedWord != rawWord) {
+                    val ic2 = currentInputConnection ?: return@launch
+                    ic2.beginBatchEdit()
+                    ic2.deleteSurroundingText(correctedWord.length + 1, 0)
+                    ic2.commitText("$correctedWord ", 1)
+                    ic2.endBatchEdit()
+                }
+                predictionEngine.onWordCommitted(
+                    correctedWord, isBangla, recentCommittedWords.toList(), System.currentTimeMillis()
+                )
+                rememberCommittedWord(correctedWord)
+                if (!isIncognito) {
+                    userPreferences.incrementStats(words = 1, chars = correctedWord.length + 1)
+                }
+                if (nextWordSuggestionsEnabled) {
+                    candidates = withContext(Dispatchers.Default) {
+                        predictionEngine.getNextWordPredictions(
+                            recentCommittedWords.toList(), isBangla, 3, System.currentTimeMillis()
+                        ).map { it.word }
+                    }
+                }
             }
         }
         composingBuffer = ""
@@ -199,7 +216,7 @@ internal fun NexKeyInputMethodService.handleSpace() {
 internal fun NexKeyInputMethodService.handleEnter() {
     playFeedback()
     val ic = currentInputConnection ?: return
-    lastPressedWord = ""
+    speedMeter = speedMeter.copy(lastPressedWord = "")
     mayStartSentence = true
 
     if (composingBuffer.isNotEmpty()) {

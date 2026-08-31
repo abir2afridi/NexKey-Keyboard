@@ -42,6 +42,14 @@ import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
 import com.example.debug.AppLogger
 
+internal data class SpeedMeterSnapshot(
+    val liveCps: Float = 0f,
+    val maxBurstCps: Float = 0f,
+    val isTypingActive: Boolean = false,
+    val burstLastChar: String = "",
+    val lastPressedWord: String = ""
+)
+
 class NexKeyInputMethodService : LifecycleInputMethodService() {
 
     internal var currentMode by mutableStateOf(KeyboardMode.BANGLA_JATIYO)
@@ -59,10 +67,8 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var hasSelection by mutableStateOf(false)
     internal var lastSpaceTime = 0L
 
-    // Speed Meter States
-    internal var currentLiveCps by mutableStateOf(0f)
-    internal var maxBurstCps by mutableStateOf(0f)
-    internal var isTypingActive by mutableStateOf(false)
+    // Speed Meter States — batched into single state to reduce recomposition
+    internal var speedMeter by mutableStateOf(SpeedMeterSnapshot())
     internal var burstStartTime = 0L
     internal var burstKeyCount = 0
     internal var burstWordCount = 0
@@ -72,7 +78,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var meterIntervalState by mutableStateOf("5s")
     internal var meterDisplayModeState by mutableStateOf("speed")
     internal var meterCountModeState by mutableStateOf("keys")
-    internal var burstLastChar by mutableStateOf("")
     internal val streakCounter = java.util.concurrent.ConcurrentHashMap<String, Int>()
 
     // Live Preferences
@@ -140,7 +145,6 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var meterPositionState by mutableStateOf("right")
     internal var meterPhase by mutableStateOf(SpeedMeterPhase.WAITING)
     internal var meterResultLines by mutableStateOf<List<String>>(emptyList())
-    internal var lastPressedWord by mutableStateOf("")
     internal var infoBoxFrameState by mutableStateOf("CLASSIC")
     internal var infoBoxTextColorState by mutableStateOf("#00FF41")
     internal var infoBoxInfoColorState by mutableStateOf("#00FF41")
@@ -243,14 +247,14 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     headerAnimation = HeaderAnimation.fromName(headerAnimation),
                     backspaceRepeatDelayMs = backspaceRepeatDelayMsState.toLong(),
                     backspaceRepeatSpeedMs = backspaceRepeatSpeedMsState.toLong(),
-                    liveCps = currentLiveCps,
-                    maxBurstCps = maxBurstCps,
-                    isSpeedActive = isTypingActive,
+                    liveCps = speedMeter.liveCps,
+                    maxBurstCps = speedMeter.maxBurstCps,
+                    isSpeedActive = speedMeter.isTypingActive,
                     meterEnabled = meterEnabled,
                     meterPosition = meterPositionState,
                     meterPhase = meterPhase,
                     meterResultLines = meterResultLines,
-                    lastPressedWord = lastPressedWord,
+                    lastPressedWord = speedMeter.lastPressedWord,
                     infoBoxFrame = infoBoxFrameState,
                     infoBoxTextColor = infoBoxTextColorState,
                     infoBoxInfoColor = infoBoxInfoColorState,
@@ -366,10 +370,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         burstKeyCount = 0
         burstWordCount = 0
         typingStopJob?.cancel()
-        isTypingActive = false
+        speedMeter = SpeedMeterSnapshot()
         meterPhase = SpeedMeterPhase.WAITING
         meterResultLines = emptyList()
-        lastPressedWord = ""
 
         // Compute the label shown on the Enter key so it matches what Enter will
         // actually DO (see handleEnter() in TextInputHandler.kt). We only show a

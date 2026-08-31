@@ -16,6 +16,15 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 - `TypingAnalytics.endSession()` database write failure now logged and caught
 - `DictionaryManager.init()` and `onWordCommitted()` wrapped in try-catch — prediction engine init failure no longer kills the keyboard
 
+### Performance
+- **Zero `runBlocking` on typing path** — `learningThreshold`, `emojiEnabled`, `personalLearning`, `incognito` cached as plain vars in `DictionaryManager`, updated by single collector in `ImePreferenceCollector`. Eliminated 3-15ms main-thread blocking per keystroke
+- **Speed meter states batched** — 5 separate `mutableStateOf` variables merged into single `SpeedMeterSnapshot` data class. Reduces recompositions from 5 to 1 per keystroke
+- **Suggestion pipeline debounced** — `updateCandidates()` uses 50ms debounce via cancellable Job. Fast typing no longer triggers full prediction pipeline per character
+- **DAWG correction off main thread** — `handleSpace()` runs `getCorrection()` and `getNextWordPredictions()` via `withContext(Dispatchers.Default)`. Frees main thread during space handling
+- **Room DB ops on IO** — `SpeedMeterHandler.finalizeSpeedWindow()` wraps `bestForInterval` and `insert` in `withContext(Dispatchers.IO)`
+- **InfoBox skip animation in LIVE phase** — `AnimatedContent` bypassed during active typing for instant text updates
+- **`KeyboardTheme` marked `@Immutable`** — Compose can now skip recomposition when theme hasn't changed
+
 ---
 
 ## [1.7.0] — August 30, 2026
