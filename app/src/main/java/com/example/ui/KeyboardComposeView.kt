@@ -1604,18 +1604,22 @@ fun KeyboardKeysGrid(
                 }
                 KeyboardMode.ARABIC -> listOf(ArabicLayout.Row1, ArabicLayout.Row2, ArabicLayout.Row3)
                 KeyboardMode.SYMBOLS -> if (effectiveTextMode == KeyboardMode.BANGLA_JATIYO || effectiveTextMode == KeyboardMode.AVRO || effectiveTextMode == KeyboardMode.BANGLA_PHONETIC) {
-                    listOf(KeyboardLayouts.BanglaNumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                    listOf(KeyboardLayouts.BanglaNumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3, KeyboardLayouts.SymbolsRow4)
                 } else {
-                    listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                    listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3, KeyboardLayouts.SymbolsRow4)
                 }
-                KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2)
+                KeyboardMode.NUMBERS -> listOf(KeyboardLayouts.NumbersRow, KeyboardLayouts.SymbolsRow1, KeyboardLayouts.SymbolsRow2, KeyboardLayouts.SymbolsRow3, KeyboardLayouts.SymbolsRow4)
                 else -> listOf(EnglishLayout.Row1, EnglishLayout.Row2, EnglishLayout.Row3)
             }
         }
 
-        rows.take(2).forEach { rowKeys ->
+        val isSymbolMode = mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS
+        val symbolTheme = if (isSymbolMode) theme.copy(keyHeightDp = theme.keyHeightDp / 2) else theme
+
+        if (isSymbolMode) {
+            // Symbol mode: number row (full height) + symbol rows (half height)
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
-                rowKeys.forEach { keyModel ->
+                rows[0].forEach { keyModel ->
                     KeyItem(
                         keyModel = keyModel,
                         shiftState = shiftState,
@@ -1629,98 +1633,230 @@ fun KeyboardKeysGrid(
                     )
                 }
             }
-        }
-
-        Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
-            KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, contentDescription = stringResource(R.string.kb_shift), longPressDelayMs = longPressDelayMs, onClick = {
-                iconAnimationScope.launch { shiftIconScale.playIconPop() }
-                onShiftTap()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.KeyboardArrowUp,
-                    contentDescription = null,
-                    tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor,
-                    modifier = Modifier.graphicsLayer {
-                        scaleX = shiftIconScale.value
-                        scaleY = shiftIconScale.value
-                    }
-                )
-            }
-            rows.getOrNull(2)?.forEach { keyModel ->
-                KeyItem(
-                    keyModel = keyModel,
-                    shiftState = shiftState,
-                    theme = theme,
-                    modifier = Modifier.weight(1f),
-                    hideHints = hideLongPressHints,
-                    longPressDelayMs = longPressDelayMs,
-                    onTap = { onKeyTap(it) },
-                    onLongPress = { onLongPress(keyModel) },
-                    onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
-                )
-            }
-            val deleteLabel = stringResource(R.string.kb_delete)
-            var backspaceRepeatJob by remember { mutableStateOf<Job?>(null) }
-            DisposableEffect(Unit) {
-                onDispose { backspaceRepeatJob?.cancel() }
-            }
-            Box(
-                modifier = Modifier.weight(1.3f)
-                    .height(theme.keyHeightDp.dp)
-                    .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
-                    .background(theme.keySpecialColor)
-                    .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
-                        while (true) {
-                            awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
-                            backspaceRepeatJob?.cancel()
-                            var didRepeat = false
-                            try {
-                                coroutineScope {
-                                    val repeatJob = launch {
-                                        delay(backspaceRepeatDelayMs)
-                                        didRepeat = true
-                                        val wordPhaseStart = System.currentTimeMillis() + 1500L
-                                        while (isActive) {
-                                            iconAnimationScope.launch { backspaceIconScale.playIconPop() }
-                                            if (System.currentTimeMillis() >= wordPhaseStart) {
-                                                onBackspaceWord()
-                                            } else {
-                                                onBackspaceTap()
-                                            }
-                                            delay(backspaceRepeatSpeedMs)
-                                        }
-                                    }
-                                    backspaceRepeatJob = repeatJob
-                                    awaitPointerEventScope {
-                                        while (true) {
-                                            val event = awaitPointerEvent()
-                                            if (event.changes.all { !it.pressed }) break
-                                        }
-                                    }
-                                    repeatJob.cancel()
-                                }
-                            } finally {
-                                backspaceRepeatJob?.cancel()
-                                backspaceRepeatJob = null
-                            }
-                            if (!didRepeat) {
-                                iconAnimationScope.launch { backspaceIconScale.playIconPop() }
-                                onBackspaceTap()
-                            }
+            // Symbol rows 1..3 at half height
+            for (rowIndex in 1..3) {
+                rows.getOrNull(rowIndex)?.let { rowKeys ->
+                    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                        rowKeys.forEach { keyModel ->
+                            KeyItem(
+                                keyModel = keyModel,
+                                shiftState = shiftState,
+                                theme = symbolTheme,
+                                modifier = Modifier.weight(1f),
+                                hideHints = hideLongPressHints,
+                                longPressDelayMs = longPressDelayMs,
+                                onTap = { onKeyTap(it) },
+                                onLongPress = { onLongPress(keyModel) },
+                                onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
+                            )
                         }
                     }
-                    .semantics { contentDescription = deleteLabel; role = Role.Button },
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Backspace,
-                    contentDescription = null,
-                    tint = theme.keySpecialTextColor,
-                    modifier = Modifier.graphicsLayer {
-                        scaleX = backspaceIconScale.value
-                        scaleY = backspaceIconScale.value
+                }
+            }
+            // Shift + last symbol row + Backspace at half height
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                KeyButton(modifier = Modifier.weight(1.3f), theme = symbolTheme, isSpecial = shiftState != ShiftState.OFF, contentDescription = stringResource(R.string.kb_shift), longPressDelayMs = longPressDelayMs, onClick = {
+                    iconAnimationScope.launch { shiftIconScale.playIconPop() }
+                    onShiftTap()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = shiftIconScale.value
+                            scaleY = shiftIconScale.value
+                        }
+                    )
+                }
+                rows.getOrNull(4)?.forEach { keyModel ->
+                    KeyItem(
+                        keyModel = keyModel,
+                        shiftState = shiftState,
+                        theme = symbolTheme,
+                        modifier = Modifier.weight(1f),
+                        hideHints = hideLongPressHints,
+                        longPressDelayMs = longPressDelayMs,
+                        onTap = { onKeyTap(it) },
+                        onLongPress = { onLongPress(keyModel) },
+                        onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
+                    )
+                }
+                val deleteLabel = stringResource(R.string.kb_delete)
+                var backspaceRepeatJob by remember { mutableStateOf<Job?>(null) }
+                DisposableEffect(Unit) {
+                    onDispose { backspaceRepeatJob?.cancel() }
+                }
+                Box(
+                    modifier = Modifier.weight(1.3f)
+                        .height(symbolTheme.keyHeightDp.dp)
+                        .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
+                        .background(theme.keySpecialColor)
+                        .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
+                            while (true) {
+                                awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                                backspaceRepeatJob?.cancel()
+                                var didRepeat = false
+                                try {
+                                    coroutineScope {
+                                        val repeatJob = launch {
+                                            delay(backspaceRepeatDelayMs)
+                                            didRepeat = true
+                                            val wordPhaseStart = System.currentTimeMillis() + 1500L
+                                            while (isActive) {
+                                                iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                                if (System.currentTimeMillis() >= wordPhaseStart) {
+                                                    onBackspaceWord()
+                                                } else {
+                                                    onBackspaceTap()
+                                                }
+                                                delay(backspaceRepeatSpeedMs)
+                                            }
+                                        }
+                                        backspaceRepeatJob = repeatJob
+                                        awaitPointerEventScope {
+                                            while (true) {
+                                                val event = awaitPointerEvent()
+                                                if (event.changes.all { !it.pressed }) break
+                                            }
+                                        }
+                                        repeatJob.cancel()
+                                    }
+                                } finally {
+                                    backspaceRepeatJob?.cancel()
+                                    backspaceRepeatJob = null
+                                }
+                                if (!didRepeat) {
+                                    iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                    onBackspaceTap()
+                                }
+                            }
+                        }
+                        .semantics { contentDescription = deleteLabel; role = Role.Button },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Backspace,
+                        contentDescription = null,
+                        tint = theme.keySpecialTextColor,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = backspaceIconScale.value
+                            scaleY = backspaceIconScale.value
+                        }
+                    )
+                }
+            }
+        } else {
+            // Normal mode: original rendering
+            rows.take(2).forEach { rowKeys ->
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+                    rowKeys.forEach { keyModel ->
+                        KeyItem(
+                            keyModel = keyModel,
+                            shiftState = shiftState,
+                            theme = theme,
+                            modifier = Modifier.weight(1f),
+                            hideHints = hideLongPressHints,
+                            longPressDelayMs = longPressDelayMs,
+                            onTap = { onKeyTap(it) },
+                            onLongPress = { onLongPress(keyModel) },
+                            onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
+                        )
                     }
-                )
+                }
+            }
+
+            Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(4.dp), verticalAlignment = Alignment.CenterVertically) {
+                KeyButton(modifier = Modifier.weight(1.3f), theme = theme, isSpecial = shiftState != ShiftState.OFF, contentDescription = stringResource(R.string.kb_shift), longPressDelayMs = longPressDelayMs, onClick = {
+                    iconAnimationScope.launch { shiftIconScale.playIconPop() }
+                    onShiftTap()
+                }) {
+                    Icon(
+                        imageVector = Icons.Default.KeyboardArrowUp,
+                        contentDescription = null,
+                        tint = if (shiftState == ShiftState.CAPS_LOCK) theme.accentColor else theme.keyTextColor,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = shiftIconScale.value
+                            scaleY = shiftIconScale.value
+                        }
+                    )
+                }
+                rows.getOrNull(2)?.forEach { keyModel ->
+                    KeyItem(
+                        keyModel = keyModel,
+                        shiftState = shiftState,
+                        theme = theme,
+                        modifier = Modifier.weight(1f),
+                        hideHints = hideLongPressHints,
+                        longPressDelayMs = longPressDelayMs,
+                        onTap = { onKeyTap(it) },
+                        onLongPress = { onLongPress(keyModel) },
+                        onTapWithCoords = { char, coords -> onKeyTapWithCoords(char, coords) }
+                    )
+                }
+                val deleteLabel = stringResource(R.string.kb_delete)
+                var backspaceRepeatJob by remember { mutableStateOf<Job?>(null) }
+                DisposableEffect(Unit) {
+                    onDispose { backspaceRepeatJob?.cancel() }
+                }
+                Box(
+                    modifier = Modifier.weight(1.3f)
+                        .height(theme.keyHeightDp.dp)
+                        .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
+                        .background(theme.keySpecialColor)
+                        .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
+                            while (true) {
+                                awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
+                                backspaceRepeatJob?.cancel()
+                                var didRepeat = false
+                                try {
+                                    coroutineScope {
+                                        val repeatJob = launch {
+                                            delay(backspaceRepeatDelayMs)
+                                            didRepeat = true
+                                            val wordPhaseStart = System.currentTimeMillis() + 1500L
+                                            while (isActive) {
+                                                iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                                if (System.currentTimeMillis() >= wordPhaseStart) {
+                                                    onBackspaceWord()
+                                                } else {
+                                                    onBackspaceTap()
+                                                }
+                                                delay(backspaceRepeatSpeedMs)
+                                            }
+                                        }
+                                        backspaceRepeatJob = repeatJob
+                                        awaitPointerEventScope {
+                                            while (true) {
+                                                val event = awaitPointerEvent()
+                                                if (event.changes.all { !it.pressed }) break
+                                            }
+                                        }
+                                        repeatJob.cancel()
+                                    }
+                                } finally {
+                                    backspaceRepeatJob?.cancel()
+                                    backspaceRepeatJob = null
+                                }
+                                if (!didRepeat) {
+                                    iconAnimationScope.launch { backspaceIconScale.playIconPop() }
+                                    onBackspaceTap()
+                                }
+                            }
+                        }
+                        .semantics { contentDescription = deleteLabel; role = Role.Button },
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Filled.Backspace,
+                        contentDescription = null,
+                        tint = theme.keySpecialTextColor,
+                        modifier = Modifier.graphicsLayer {
+                            scaleX = backspaceIconScale.value
+                            scaleY = backspaceIconScale.value
+                        }
+                    )
+                }
             }
         }
 

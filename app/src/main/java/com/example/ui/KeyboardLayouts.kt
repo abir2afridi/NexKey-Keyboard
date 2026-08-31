@@ -93,6 +93,19 @@ object KeyboardLayouts {
         KeyModel("]", popupCandidates = listOf(")"))
     )
 
+    val SymbolsRow4 = listOf(
+        KeyModel("€", popupCandidates = listOf("₠")),
+        KeyModel("£", popupCandidates = listOf("₺")),
+        KeyModel("¥", popupCandidates = listOf("元", "円")),
+        KeyModel("₹", popupCandidates = listOf("৳")),
+        KeyModel("৳", popupCandidates = listOf("$")),
+        KeyModel("÷", popupCandidates = listOf("⁄")),
+        KeyModel("≠", popupCandidates = listOf("≉")),
+        KeyModel("≈", popupCandidates = listOf("≃")),
+        KeyModel("★", popupCandidates = listOf("☆", "✦")),
+        KeyModel("\\", popupCandidates = listOf("|"))
+    )
+
     val BanglaSymbolsRow1 = listOf(
         KeyModel("।", popupCandidates = listOf(".", "॥")),
         KeyModel("৳", popupCandidates = listOf("$", "€", "£", "¥")),
