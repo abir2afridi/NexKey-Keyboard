@@ -12,14 +12,14 @@
 ![Language](https://img.shields.io/badge/language-Kotlin-7F52FF?logo=kotlin)
 ![API](https://img.shields.io/badge/minSdk-24-3DDC84)
 ![Target](https://img.shields.io/badge/targetSdk-36-3DDC84)
-![Version](https://img.shields.io/badge/version-1.7.1-blue)
+![Version](https://img.shields.io/badge/version-1.8.0-blue)
 ![License](https://img.shields.io/badge/license-Apache%202.0-blue)
 [![Contributing](https://img.shields.io/badge/contributing-guide-2ea043)](.github/CONTRIBUTING.md)
 [![Code of Conduct](https://img.shields.io/badge/code%20of%20conduct-Contributor%20Covenant-7057ff)](.github/CODE_OF_CONDUCT.md)
 [![Security](https://img.shields.io/badge/security-policy-e4e669)](.github/SECURITY.md)
-[![Changelog](https://img.shields.io/badge/changelog-1.7.1-A97BFF)](CHANGELOG.md)
+[![Changelog](https://img.shields.io/badge/changelog-1.8.0-A97BFF)](CHANGELOG.md)
 [![Issues](https://img.shields.io/badge/issue%20templates-7%20forms-1B5E20)](https://github.com/abir2afridi/NexKey-Keyboard/issues/new/choose)
-[![Releases](https://img.shields.io/badge/releases-1.7.1-ff69b4)](../releases)
+[![Releases](https://img.shields.io/badge/releases-1.8.0-ff69b4)](../releases)
 
 ---
 
@@ -225,9 +225,9 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 ## Latest Release
 
-**Version:** 1.7.1 | **Published:** August 31, 2026
+**Version:** 1.8.0 | **Published:** August 31, 2026
 
-- **APK:** [Download v1.7.1](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
+- **APK:** [Download v1.8.0](https://github.com/abir2afridi/NexKey-Keyboard/releases/latest)
 - **Release Notes:** See [RELEASE_NOTES.md](RELEASE_NOTES.md) for full details
 
 **Highlights:**

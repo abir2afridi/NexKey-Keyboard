@@ -6,6 +6,37 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [1.8.0] — August 31, 2026
+
+### Added
+- Expanded symbol keyboard — `?123` now shows 4 half-height symbol rows instead of 2 full-height rows, doubling the directly accessible symbols (€, £, ¥, ₹, ৳, ÷, ≠, ≈, ★, \, ~, `, |, ^, <, >, {, }, [, ] now one-tap accessible)
+- Text editing toolbar — quick access to select all, cut, copy, paste, undo, and redo actions
+- System logs and process monitoring UI — 3-tab debug screen for viewing app logs, process info, and clearing log history
+
+### Fixed
+- **CRITICAL: Keyboard auto-closes while typing** — added `CoroutineExceptionHandler` to IME service scope; any uncaught exception now logs and continues instead of killing the IME process
+- `onDestroy()` cleanup ordering — `scope.cancel()` moved after `super.onDestroy()` to prevent DataStore corruption
+- `Color.parseColor()` crash — corrupted custom theme hex strings fall back to `Color.White`
+- `SpeedMeterHandler` and `TypingAnalytics` Room database operations wrapped in try-catch
+- `DictionaryManager.init()` and `onWordCommitted()` wrapped in try-catch
+- Missing Bangla/Arabic translations for spacebar switch and advanced backspace settings
+- Keyboard height mismatch between ABC and `?123` modes — vertical spacing now adapts to maintain consistent height during mode switch
+
+### Performance
+- **Zero `runBlocking` on typing path** — feature flags cached as plain vars, updated by single collector. Eliminated 3-15ms main-thread blocking per keystroke
+- **Speed meter states batched** — 5 `mutableStateOf` merged into single `SpeedMeterSnapshot` data class, reducing recompositions from 5 to 1 per keystroke
+- **Suggestion pipeline debounced** — `updateCandidates()` uses 50ms debounce via cancellable Job
+- **DAWG correction off main thread** — `handleSpace()` runs prediction via `withContext(Dispatchers.Default)`
+- **Room DB ops on IO** — speed meter finalize/insert wrapped in `withContext(Dispatchers.IO)`
+- **InfoBox skip animation in LIVE phase** — `AnimatedContent` bypassed during active typing
+- **`KeyboardTheme` marked `@Immutable`** — Compose can skip recomposition when theme unchanged
+
+### Refactored
+- Symbol mode rendering — split into dedicated branch with half-height `symbolTheme` for symbol rows, preserving full-height number row and bottom bar
+- Vertical spacing dynamically computed: `3.6.dp` for symbol mode, `6.dp` for text mode, ensuring identical total keyboard height across all modes
+
+---
+
 ## [1.7.1] — August 31, 2026
 
 ### Fixed

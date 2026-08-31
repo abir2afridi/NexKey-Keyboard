@@ -1,40 +1,41 @@
-# NexKey Keyboard v1.7.0 — Release Notes
+# NexKey Keyboard v1.8.0
 
-## Overview
+**Published:** August 31, 2026
 
-NexKey Keyboard v1.7.0 focuses on typing feel and correctness. The backspace ghost-repeat bug is fixed, the `?123` symbol button no longer accidentally switches languages, the speed meter ticker that was silently re-rendering the entire keyboard 5 times per second is gone, and the suggestion engine no longer blocks the UI thread. A handful of new features round it out: independent language-switch settings, Arabic layout toggle, and toolbar pinning.
+## What's New
 
-## Highlights
+### Doubled Symbol Access
+The `?123` symbol keyboard now shows **4 rows of half-height keys** instead of 2 full-height rows. This doubles the directly accessible symbols — currencies (€, £, ¥, ₹, ৳), math operators (÷, ≠, ≈), and more are now one-tap away. Symbols that still don't fit remain available via long-press.
 
-- **Backspace ghost repeat fixed** — rapid taps no longer produce phantom deletes after your finger lifts. The repeat job lifecycle is now managed with a remembered state variable and cleanup on composition dispose.
-- **`?123` button no longer switches language** — a dedicated `handleSymbolToggle()` bypasses the language-change path, so tapping `?123` toggles to symbols without touching the active language.
-- **Typing lag resolved** — the 200ms elapsed-ticker job that recomposed every key in the grid 5×/sec is gone. The speed meter now computes elapsed time locally in Compose. The suggestion engine runs on `Dispatchers.Default` instead of blocking the main thread on every letter.
-- **Emoji list stabilized** — `recentEmojis` is now a single reusable `mutableStateListOf` instead of a fresh allocation per recomposition, eliminating a full-keyboard re-render on every state change.
-- **Independent language-switch settings** — `showGlobeKey` and `spacebarLanguageSwitch` can be toggled independently in Language Keys settings.
-- **Toolbar pinning** — typing keeps the toolbar header visible until a new typing burst begins.
-- **Arabic layout toggle** — enable/disable the Arabic keyboard from settings.
+### Text Editing Toolbar
+Quick access to common text editing actions: select all, cut, copy, paste, undo, and redo.
 
-## What's Changed
+### System Logs & Debug UI
+A new 3-tab debug screen for viewing app logs, process information, and clearing log history — useful for troubleshooting on-device.
 
-- New `handleSymbolToggle()` in `TextInputHandler.kt` for pure symbol mode switching
-- `DisposableEffect` + remembered `backspaceRepeatJob` state in `KeyboardComposeView.kt`
-- `updateCandidates()` now launches prediction on `Dispatchers.Default` via coroutine
-- `DigitalSpeedMeter` computes `localElapsedSec` via `LaunchedEffect(isLive)` — no external ticker
-- Stable `recentEmojisList` on `NexKeyInputMethodService` kept in sync by `ImePreferenceCollector`
-- `LanguageKeysSettingsScreen` rewritten with Scaffold, SnackbarHost, and minimum-one enforcement
-- `liveElapsedSec` parameter removed from all Compose function signatures
+## Stability Fixes
 
-## Files
+- **Keyboard auto-close fix** — uncaught exceptions in coroutine handlers no longer kill the entire IME process
+- Crash resilience for DataStore, Room database operations, and prediction engine initialization
+- Missing Bangla/Arabic translations added
+- Keyboard height now stays consistent when switching between ABC and `?123` modes
 
-- `NexKey-Keyboard-v1.7.0.apk` — signed production release
-- `NexKey-Keyboard-v1.7.0.apk.sha256` / `.md5` — integrity checksums
+## Performance
 
-## Installation
+- Zero `runBlocking` on the typing path (3-15ms saved per keystroke)
+- Speed meter recompositions reduced from 5 to 1 per keystroke
+- Suggestion pipeline debounced at 50ms
+- DAWG correction moved off main thread
+- Room DB operations moved to IO dispatcher
 
-Download the APK and enable "Install unknown apps" for your file manager or browser. Or install via ADB:
+## Files Changed
 
-```
-adb install NexKey-Keyboard-v1.7.0.apk
-```
+- `app/build.gradle.kts` — version bump
+- `app/src/main/java/com/example/ui/KeyboardLayouts.kt` — SymbolsRow4 added
+- `app/src/main/java/com/example/ui/KeyboardComposeView.kt` — half-height symbol rendering, spacing fix
+- `CHANGELOG.md` — v1.8.0 entry
+- `README.md` — version badges updated
 
-Then enable the keyboard in **Settings → System → Languages & input → NexKey Keyboard**.
+## APK
+
+Download the latest APK from the [Releases page](https://github.com/abir2afridi/NexKey-Keyboard/releases/tag/v1.8.0).
