@@ -1560,12 +1560,14 @@ fun KeyboardKeysGrid(
     val shiftIconScale = remember { Animatable(1f) }
     val backspaceIconScale = remember { Animatable(1f) }
 
+        val isSymbolMode = mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 3.dp, vertical = 2.dp)
                 .padding(bottom = 6.dp),
-            verticalArrangement = Arrangement.spacedBy(6.dp)
+            verticalArrangement = Arrangement.spacedBy(if (isSymbolMode) 3.6.dp else 6.dp)
         ) {
         if (showNumberRow && mode != KeyboardMode.SYMBOLS && mode != KeyboardMode.NUMBERS) {
             val numRowHeight = if (largeNumberRowEnabled) 48.dp else 36.dp
@@ -1613,7 +1615,6 @@ fun KeyboardKeysGrid(
             }
         }
 
-        val isSymbolMode = mode == KeyboardMode.SYMBOLS || mode == KeyboardMode.NUMBERS
         val symbolTheme = if (isSymbolMode) theme.copy(keyHeightDp = theme.keyHeightDp / 2) else theme
 
         if (isSymbolMode) {
