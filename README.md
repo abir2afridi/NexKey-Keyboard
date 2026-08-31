@@ -37,6 +37,7 @@
 | Typing & Languages | More Languages screen (toggle English/Phonetic/Jatiyo/Avro/Arabic) | ✅ |
 | Typing & Languages | App Language selector | ✅ |
 | Text Input | Symbols & Numbers panels | ✅ |
+| Text Input | Expanded symbol keyboard — 4 half-height rows, 40+ symbols directly accessible | ✅ |
 | Text Input | Auto-capitalization | ✅ |
 | Text Input | Caps lock (double-tap shift) | ✅ |
 | Text Input | Smart punctuation (double-space period) | ✅ |
@@ -232,12 +233,13 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 **Highlights:**
 
+- ✅ Expanded symbol keyboard — 4 half-height rows (40+ symbols directly accessible, doubled from v1.7)
+- ✅ Text editing toolbar — Select All / Copy / Cut / Paste / Undo when text is selected
 - ✅ DAWG dictionary engine — 46K English + 45K Bangla words with compressed trie
 - ✅ Typo auto-correction — weighted Damerau-Levenshtein + QWERTY physical distance
 - ✅ Next-word prediction — bigram/trigram with interpolated backoff
 - ✅ Personal learning with confidence threshold
 - ✅ Banglish disambiguation (common abbreviation expansion)
-- ✅ Text editing toolbar — Select All / Copy / Cut / Paste / Undo when text is selected
 - ✅ Physical keyboard Ctrl+A/C/V/X/Z shortcuts
 - ✅ Voice input visual state — pulsing red mic icon when listening
 - ✅ Keyboard resizing — adjust keyboard height/width for portrait and landscape with a live preview
@@ -255,7 +257,7 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 
 | File | SHA256 | MD5 |
 | --- | --- | --- |
-| NexKey-Keyboard-v1.7.0.apk | `de7f922ed3300060ed814289d7c775f27e0336689ec78f68fa3784c8a1f76f37` | `14d869dc3a41bb8118a6b8891fd41b64` |
+| NexKey-Keyboard-v1.8.0.apk | `40F7C9AF0E360FCDD02468D4B9D2B2D4D60A40257BB52B7E3312F0602A000F8A` | `E021332C314AB2103B66271B90E79CE6` |
 
 [View all releases →](../releases)
 
