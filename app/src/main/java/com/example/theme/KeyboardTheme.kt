@@ -1,5 +1,8 @@
 package com.example.theme
 
+import android.content.Context
+import android.content.res.Configuration
+import android.os.Build
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Color
 
@@ -19,6 +22,20 @@ enum class ThemePreset {
     LAVENDER_DREAM,
     FOREST_MOSS,
     GOLDEN_SAND,
+    MATERIAL_YOU,
+    NOTHING_DARK,
+    NOTHING_LIGHT,
+    AMOLED_NOTHING,
+    AMOLED_DARK_PURPLE,
+    ORBIT,
+    SUNFLOWER,
+    SNOWFALL,
+    STEEL_GRAY,
+    COTTON_CANDY,
+    DEEP_SEA_LIGHT,
+    DEEP_SEA_DARK,
+    CLASSIC_MATERIAL_LIGHT,
+    CLASSIC_MATERIAL_DARK,
     CUSTOM
 }
 
@@ -36,6 +53,7 @@ data class KeyboardTheme(
     val popupBackgroundColor: Color = Color(0xFF2D314E),
     val popupTextColor: Color = Color(0xFFFFFFFF),
     val keyHintColor: Color = Color(0xFFEEEEEE).copy(alpha = 0.4f),
+    val showKeyBorders: Boolean = false,
     val keyRadiusDp: Int = 10,
     val keyHeightDp: Int = 54,
     val enableHaptics: Boolean = true,
@@ -267,7 +285,282 @@ data class KeyboardTheme(
             keyHintColor = Color(0xFFD7CCC8).copy(alpha = 0.4f)
         )
 
-        fun fromPreset(preset: ThemePreset): KeyboardTheme {
+        val MaterialYouDark = KeyboardTheme(
+            preset = ThemePreset.MATERIAL_YOU,
+            backgroundColor = Color(0xFF141218),
+            keyBackgroundColor = Color(0xFF1D1B20),
+            keySpecialColor = Color(0xFF322F35),
+            keyTextColor = Color(0xFFE6E0E9),
+            keySpecialTextColor = Color(0xFFD0BCFF),
+            accentColor = Color(0xFFD0BCFF),
+            suggestionBgColor = Color(0xFF0F0D13),
+            suggestionTextColor = Color(0xFFE6E0E9),
+            popupBackgroundColor = Color(0xFF49454F),
+            popupTextColor = Color(0xFFD0BCFF),
+            keyHintColor = Color(0xFFE6E0E9).copy(alpha = 0.4f)
+        )
+
+        val MaterialYouLight = KeyboardTheme(
+            preset = ThemePreset.MATERIAL_YOU,
+            backgroundColor = Color(0xFFFFF7FF),
+            keyBackgroundColor = Color(0xFFF3EDF7),
+            keySpecialColor = Color(0xFFE8DEF8),
+            keyTextColor = Color(0xFF1D1B20),
+            keySpecialTextColor = Color(0xFF6750A4),
+            accentColor = Color(0xFF6750A4),
+            suggestionBgColor = Color(0xFFF7F2FA),
+            suggestionTextColor = Color(0xFF1D1B20),
+            popupBackgroundColor = Color(0xFFE8DEF8),
+            popupTextColor = Color(0xFF6750A4),
+            keyHintColor = Color(0xFF1D1B20).copy(alpha = 0.35f)
+        )
+
+        val NothingDark = KeyboardTheme(
+            preset = ThemePreset.NOTHING_DARK,
+            backgroundColor = Color(0xFF000000),
+            keyBackgroundColor = Color(0xFF0D0C11),
+            keySpecialColor = Color(0xFF1B1A1F),
+            keyTextColor = Color(0xFFF1F1F1),
+            keySpecialTextColor = Color(0xFFD71921),
+            accentColor = Color(0xFFD71921),
+            suggestionBgColor = Color(0xFF0D0C11),
+            suggestionTextColor = Color(0xFFE6E1E5),
+            popupBackgroundColor = Color(0xFF1B1A1F),
+            popupTextColor = Color(0xFFD71921),
+            keyHintColor = Color(0xFFF1F1F1).copy(alpha = 0.4f)
+        )
+
+        val NothingLight = KeyboardTheme(
+            preset = ThemePreset.NOTHING_LIGHT,
+            backgroundColor = Color(0xFFE4E7E9),
+            keyBackgroundColor = Color(0xFFECEFF1),
+            keySpecialColor = Color(0xFFD5D5D5),
+            keyTextColor = Color(0xFF191C1C),
+            keySpecialTextColor = Color(0xFFD71921),
+            accentColor = Color(0xFFD71921),
+            suggestionBgColor = Color(0xFFD5D5D5),
+            suggestionTextColor = Color(0xFF191C1C),
+            popupBackgroundColor = Color(0xFFD5D5D5),
+            popupTextColor = Color(0xFFD71921),
+            keyHintColor = Color(0xFF191C1C).copy(alpha = 0.35f)
+        )
+
+        val AmoledNothing = KeyboardTheme(
+            preset = ThemePreset.AMOLED_NOTHING,
+            backgroundColor = Color(0xFF000000),
+            keyBackgroundColor = Color(0xFF0D0C11),
+            keySpecialColor = Color(0xFF1B1A1F),
+            keyTextColor = Color(0xFFFFFFFF),
+            keySpecialTextColor = Color(0xFFD71921),
+            accentColor = Color(0xFFD71921),
+            suggestionBgColor = Color(0xFF000000),
+            suggestionTextColor = Color(0xFFFFFFFF),
+            popupBackgroundColor = Color(0xFF1B1A1F),
+            popupTextColor = Color(0xFFD71921),
+            keyHintColor = Color(0xFFFFFFFF).copy(alpha = 0.4f)
+        )
+
+        val AmoledDarkPurple = KeyboardTheme(
+            preset = ThemePreset.AMOLED_DARK_PURPLE,
+            backgroundColor = Color(0xFF000000),
+            keyBackgroundColor = Color(0xFF0D0D12),
+            keySpecialColor = Color(0xFF4A4458),
+            keyTextColor = Color(0xFFE6E1E5),
+            keySpecialTextColor = Color(0xFFD0BCFF),
+            accentColor = Color(0xFFD0BCFF),
+            suggestionBgColor = Color(0xFF000000),
+            suggestionTextColor = Color(0xFFE6E1E5),
+            popupBackgroundColor = Color(0xFF4A4458),
+            popupTextColor = Color(0xFFD0BCFF),
+            keyHintColor = Color(0xFFE6E1E5).copy(alpha = 0.4f)
+        )
+
+        val Orbit = KeyboardTheme(
+            preset = ThemePreset.ORBIT,
+            backgroundColor = Color(0xFF000000),
+            keyBackgroundColor = Color(0xFF1C1D20),
+            keySpecialColor = Color(0xFF2A5288),
+            keyTextColor = Color(0xFFEAE6E1),
+            keySpecialTextColor = Color(0xFFEAE6E1),
+            accentColor = Color(0xFFC23636),
+            suggestionBgColor = Color(0xFF1C1D20),
+            suggestionTextColor = Color(0xFFEAE6E1),
+            popupBackgroundColor = Color(0xFF2A5288),
+            popupTextColor = Color(0xFFEAE6E1),
+            keyHintColor = Color(0xFFEAE6E1).copy(alpha = 0.4f)
+        )
+
+        val Sunflower = KeyboardTheme(
+            preset = ThemePreset.SUNFLOWER,
+            backgroundColor = Color(0xFFFFF9EE),
+            keyBackgroundColor = Color(0xFFFAF3E5),
+            keySpecialColor = Color(0xFFEAE2D0),
+            keyTextColor = Color(0xFF1E1B13),
+            keySpecialTextColor = Color(0xFF6D5E0F),
+            accentColor = Color(0xFF6D5E0F),
+            suggestionBgColor = Color(0xFFF4EDDF),
+            suggestionTextColor = Color(0xFF1E1C13),
+            popupBackgroundColor = Color(0xFFEAE2D0),
+            popupTextColor = Color(0xFF6D5E0F),
+            keyHintColor = Color(0xFF1E1B13).copy(alpha = 0.35f)
+        )
+
+        val Snowfall = KeyboardTheme(
+            preset = ThemePreset.SNOWFALL,
+            backgroundColor = Color(0xFFF8F8F8),
+            keyBackgroundColor = Color(0xFFF1EDEC),
+            keySpecialColor = Color(0xFFE0E3E3),
+            keyTextColor = Color(0xFF1C1B1B),
+            keySpecialTextColor = Color(0xFF212223),
+            accentColor = Color(0xFF212223),
+            suggestionBgColor = Color(0xFFFFFFFF),
+            suggestionTextColor = Color(0xFF1C1B1B),
+            popupBackgroundColor = Color(0xFFE5E2E1),
+            popupTextColor = Color(0xFF212223),
+            keyHintColor = Color(0xFF1C1B1B).copy(alpha = 0.35f)
+        )
+
+        val SteelGray = KeyboardTheme(
+            preset = ThemePreset.STEEL_GRAY,
+            backgroundColor = Color(0xFFA8A8A8),
+            keyBackgroundColor = Color(0xFFBBBBBB),
+            keySpecialColor = Color(0xFFE0E3E3),
+            keyTextColor = Color(0xFF1C1B1B),
+            keySpecialTextColor = Color(0xFF212223),
+            accentColor = Color(0xFF212223),
+            suggestionBgColor = Color(0xFFDDD9D9),
+            suggestionTextColor = Color(0xFF1C1B1B),
+            popupBackgroundColor = Color(0xFFE5E2E1),
+            popupTextColor = Color(0xFF212223),
+            keyHintColor = Color(0xFF1C1B1B).copy(alpha = 0.4f)
+        )
+
+        val CottonCandy = KeyboardTheme(
+            preset = ThemePreset.COTTON_CANDY,
+            backgroundColor = Color(0xFFFFECF9),
+            keyBackgroundColor = Color(0xFFFFF0F8),
+            keySpecialColor = Color(0xFFF2DDEB),
+            keyTextColor = Color(0xFF21191F),
+            keySpecialTextColor = Color(0xFFEC5EB4),
+            accentColor = Color(0xFFEC5EB4),
+            suggestionBgColor = Color(0xFFF9EAF2),
+            suggestionTextColor = Color(0xFF21191F),
+            popupBackgroundColor = Color(0xFFF2DDEB),
+            popupTextColor = Color(0xFFEC5EB4),
+            keyHintColor = Color(0xFF21191F).copy(alpha = 0.35f)
+        )
+
+        val DeepSeaLight = KeyboardTheme(
+            preset = ThemePreset.DEEP_SEA_LIGHT,
+            backgroundColor = Color(0xFFDBE8FF),
+            keyBackgroundColor = Color(0xFFF5F2FD),
+            keySpecialColor = Color(0xFFE1E0F7),
+            keyTextColor = Color(0xFF1A1B26),
+            keySpecialTextColor = Color(0xFF4062D3),
+            accentColor = Color(0xFF4062D3),
+            suggestionBgColor = Color(0xFFEFECF7),
+            suggestionTextColor = Color(0xFF1B1B22),
+            popupBackgroundColor = Color(0xFFE1E0F7),
+            popupTextColor = Color(0xFF4062D3),
+            keyHintColor = Color(0xFF1A1B26).copy(alpha = 0.35f)
+        )
+
+        val DeepSeaDark = KeyboardTheme(
+            preset = ThemePreset.DEEP_SEA_DARK,
+            backgroundColor = Color(0xFF12132D),
+            keyBackgroundColor = Color(0xFF1F1F26),
+            keySpecialColor = Color(0xFF292931),
+            keyTextColor = Color(0xFFE3E1F0),
+            keySpecialTextColor = Color(0xFFBEC2FF),
+            accentColor = Color(0xFFBEC2FF),
+            suggestionBgColor = Color(0xFF0D0E15),
+            suggestionTextColor = Color(0xFFE3E1EC),
+            popupBackgroundColor = Color(0xFF292931),
+            popupTextColor = Color(0xFFBEC2FF),
+            keyHintColor = Color(0xFFE3E1F0).copy(alpha = 0.4f)
+        )
+
+        val ClassicMaterialLight = KeyboardTheme(
+            preset = ThemePreset.CLASSIC_MATERIAL_LIGHT,
+            backgroundColor = Color(0xFFE4E7E9),
+            keyBackgroundColor = Color(0xFFECEFF1),
+            keySpecialColor = Color(0xFFDAE5E2),
+            keyTextColor = Color(0xFF191C1C),
+            keySpecialTextColor = Color(0xFF4DB6AC),
+            accentColor = Color(0xFF4DB6AC),
+            suggestionBgColor = Color(0xFFF0F2F4),
+            suggestionTextColor = Color(0xFF191C1C),
+            popupBackgroundColor = Color(0xFFDAE5E2),
+            popupTextColor = Color(0xFF006A63),
+            keyHintColor = Color(0xFF191C1C).copy(alpha = 0.35f)
+        )
+
+        val ClassicMaterialDark = KeyboardTheme(
+            preset = ThemePreset.CLASSIC_MATERIAL_DARK,
+            backgroundColor = Color(0xFF21272B),
+            keyBackgroundColor = Color(0xFF263238),
+            keySpecialColor = Color(0xFF3F4947),
+            keyTextColor = Color(0xFFFFFFFF),
+            keySpecialTextColor = Color(0xFF80CBC4),
+            accentColor = Color(0xFF80CBC4),
+            suggestionBgColor = Color(0xFF1A1F22),
+            suggestionTextColor = Color(0xFFFFFFFF),
+            popupBackgroundColor = Color(0xFF3F4947),
+            popupTextColor = Color(0xFF80CBC4),
+            keyHintColor = Color(0xFFFFFFFF).copy(alpha = 0.4f)
+        )
+
+        private fun isNightMode(context: Context): Boolean {
+            return (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
+                Configuration.UI_MODE_NIGHT_YES
+        }
+
+        @androidx.annotation.RequiresApi(Build.VERSION_CODES.S)
+        private fun dynamicMaterialYouDark(context: Context): KeyboardTheme {
+            fun c(resId: Int) = Color(context.getColor(resId))
+            return KeyboardTheme(
+                preset = ThemePreset.MATERIAL_YOU,
+                backgroundColor = c(android.R.color.system_neutral1_900),
+                keyBackgroundColor = c(android.R.color.system_neutral2_800),
+                keySpecialColor = c(android.R.color.system_neutral2_700),
+                keyTextColor = c(android.R.color.system_neutral1_50),
+                keySpecialTextColor = c(android.R.color.system_accent1_200),
+                accentColor = c(android.R.color.system_accent1_300),
+                suggestionBgColor = c(android.R.color.system_neutral1_1000),
+                suggestionTextColor = c(android.R.color.system_neutral1_50),
+                popupBackgroundColor = c(android.R.color.system_neutral2_700),
+                popupTextColor = c(android.R.color.system_accent1_200),
+                keyHintColor = c(android.R.color.system_neutral1_50).copy(alpha = 0.4f)
+            )
+        }
+
+        @androidx.annotation.RequiresApi(Build.VERSION_CODES.S)
+        private fun dynamicMaterialYouLight(context: Context): KeyboardTheme {
+            fun c(resId: Int) = Color(context.getColor(resId))
+            return KeyboardTheme(
+                preset = ThemePreset.MATERIAL_YOU,
+                backgroundColor = c(android.R.color.system_neutral1_50),
+                keyBackgroundColor = c(android.R.color.system_neutral2_100),
+                keySpecialColor = c(android.R.color.system_neutral2_200),
+                keyTextColor = c(android.R.color.system_neutral1_900),
+                keySpecialTextColor = c(android.R.color.system_accent1_600),
+                accentColor = c(android.R.color.system_accent1_500),
+                suggestionBgColor = c(android.R.color.system_neutral1_100),
+                suggestionTextColor = c(android.R.color.system_neutral1_900),
+                popupBackgroundColor = c(android.R.color.system_neutral2_200),
+                popupTextColor = c(android.R.color.system_accent1_600),
+                keyHintColor = c(android.R.color.system_neutral1_900).copy(alpha = 0.35f)
+            )
+        }
+
+        fun materialYou(context: Context): KeyboardTheme {
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                return if (isNightMode(context)) MaterialYouDark else MaterialYouLight
+            }
+            return if (isNightMode(context)) dynamicMaterialYouDark(context) else dynamicMaterialYouLight(context)
+        }
+
+        fun fromPreset(preset: ThemePreset, context: Context? = null): KeyboardTheme {
             return when (preset) {
                 ThemePreset.DARK_NEON -> DarkNeon
                 ThemePreset.LIGHT_MINIMAL -> LightMinimal
@@ -284,14 +577,28 @@ data class KeyboardTheme(
                 ThemePreset.LAVENDER_DREAM -> LavenderDream
                 ThemePreset.FOREST_MOSS -> ForestMoss
                 ThemePreset.GOLDEN_SAND -> GoldenSand
+                ThemePreset.MATERIAL_YOU -> context?.let { materialYou(it) } ?: MaterialYouDark
+                ThemePreset.NOTHING_DARK -> NothingDark
+                ThemePreset.NOTHING_LIGHT -> NothingLight
+                ThemePreset.AMOLED_NOTHING -> AmoledNothing
+                ThemePreset.AMOLED_DARK_PURPLE -> AmoledDarkPurple
+                ThemePreset.ORBIT -> Orbit
+                ThemePreset.SUNFLOWER -> Sunflower
+                ThemePreset.SNOWFALL -> Snowfall
+                ThemePreset.STEEL_GRAY -> SteelGray
+                ThemePreset.COTTON_CANDY -> CottonCandy
+                ThemePreset.DEEP_SEA_LIGHT -> DeepSeaLight
+                ThemePreset.DEEP_SEA_DARK -> DeepSeaDark
+                ThemePreset.CLASSIC_MATERIAL_LIGHT -> ClassicMaterialLight
+                ThemePreset.CLASSIC_MATERIAL_DARK -> ClassicMaterialDark
                 ThemePreset.CUSTOM -> DarkNeon // Default for custom if not set
             }
         }
 
-        fun allThemes(): List<KeyboardTheme> {
+        fun allThemes(context: Context? = null): List<KeyboardTheme> {
             return ThemePreset.values()
                 .filter { it != ThemePreset.CUSTOM }
-                .map { fromPreset(it) }
+                .map { fromPreset(it, context) }
         }
     }
 }

@@ -138,6 +138,7 @@ private fun KeyboardThemesTab(onNavigateToCustomTheme: () -> Unit) {
     val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
+    val keyBorders by prefs.keyBorders.collectAsState(initial = false)
 
     val customBg by prefs.customBgColor.collectAsState(initial = "#FF12131C")
     val customKeyBg by prefs.customKeyBgColor.collectAsState(initial = "#FF1E2136")
@@ -168,13 +169,18 @@ private fun KeyboardThemesTab(onNavigateToCustomTheme: () -> Unit) {
         )
     }
 
-    val themes = remember(customTheme) { listOf(customTheme) + KeyboardTheme.allThemes() }
+    val themes = remember(customTheme, keyBorders, context) {
+        (listOf(customTheme) + KeyboardTheme.allThemes(context)).map {
+            it.copy(showKeyBorders = keyBorders)
+        }
+    }
 
-    val selectedTheme = remember(savedThemePresetName) {
+    val selectedTheme = remember(savedThemePresetName, keyBorders, context) {
         try {
-            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName))
+            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName), context)
+                .copy(showKeyBorders = keyBorders)
         } catch (e: Exception) {
-            KeyboardTheme.DarkNeon
+            KeyboardTheme.DarkNeon.copy(showKeyBorders = keyBorders)
         }
     }
 
@@ -203,7 +209,7 @@ private fun KeyboardThemesTab(onNavigateToCustomTheme: () -> Unit) {
 
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
-            modifier = Modifier.heightIn(max = 2400.dp),
+            modifier = Modifier.heightIn(max = 5000.dp),
             horizontalArrangement = Arrangement.spacedBy(12.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp),
             userScrollEnabled = false

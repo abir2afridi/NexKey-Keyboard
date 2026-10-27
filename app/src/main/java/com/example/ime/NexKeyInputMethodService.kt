@@ -522,7 +522,7 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     private fun toggleTheme() {
         val themes = ThemePreset.values()
         val nextIndex = (currentTheme.preset.ordinal + 1) % themes.size
-        currentTheme = KeyboardTheme.fromPreset(themes[nextIndex])
+        currentTheme = KeyboardTheme.fromPreset(themes[nextIndex], this)
         scope.launch { userPreferences.setTheme(currentTheme.preset) }
     }
 

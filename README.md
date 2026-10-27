@@ -62,7 +62,11 @@
 | Emoji & Stickers | Emoji search (keyword-based, 400+ mapped emojis) | ✅ |
 | Emoji & Stickers | Emoji search layout settings (horizontal/vertical, visible rows) | ✅ |
 | Emoji & Stickers | Recent emoji retention (configurable expiry) | ✅ |
-| Themes & Appearance | Theme system (16 presets + custom, DataStore) | ✅ |
+| Themes & Appearance | Theme system (29 presets + custom, DataStore) | ✅ |
+| Themes & Appearance | Material You dynamic theme (Android 12+) | ✅ |
+| Themes & Appearance | Orbitt-inspired presets (Nothing Dark/Light, AMOLED Nothing/Purple, Orbit, Sunflower, Snowfall, Steel Gray, Cotton Candy, Deep Sea Light/Dark, Classic Material Light/Dark) | ✅ |
+| Themes & Appearance | Theme search & live preview grid | ✅ |
+| Themes & Appearance | Key borders toggle | ✅ |
 | Themes & Appearance | Custom theme engine (11 color groups + live preview) | ✅ |
 | Themes & Appearance | HSV color picker (theme creator) | ✅ |
 | Themes & Appearance | App theme (System/Light/Dark) | ✅ |

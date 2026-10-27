@@ -40,6 +40,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
     val widthLandscape by prefs.oneHandedWidthLandscape.collectAsState(initial = 40)
     val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
+    val keyBorders by prefs.keyBorders.collectAsState(initial = false)
 
     // Build the same theme the real keyboard uses (preset or custom).
     val customBg by prefs.customBgColor.collectAsState(initial = "#FF12131C")
@@ -56,6 +57,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
 
     val theme = remember(
         savedThemePresetName,
+        keyBorders,
         customBg, customKeyBg, customKeySpec, customKeyText, customKeySpecText,
         customAccent, customSugBg, customSugText, customPopBg, customPopText, customKeyHint
     ) {
@@ -72,13 +74,15 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
                 suggestionTextColor = Color(android.graphics.Color.parseColor(customSugText)),
                 popupBackgroundColor = Color(android.graphics.Color.parseColor(customPopBg)),
                 popupTextColor = Color(android.graphics.Color.parseColor(customPopText)),
-                keyHintColor = Color(android.graphics.Color.parseColor(customKeyHint))
+                keyHintColor = Color(android.graphics.Color.parseColor(customKeyHint)),
+                showKeyBorders = keyBorders
             )
         } else {
             try {
-                KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName))
+                KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName), context)
+                    .copy(showKeyBorders = keyBorders)
             } catch (e: Exception) {
-                KeyboardTheme.DarkNeon
+                KeyboardTheme.DarkNeon.copy(showKeyBorders = keyBorders)
             }
         }
     }

@@ -176,7 +176,7 @@ fun SandboxScreen(
                     onThemeToggle = {
                         val themes = ThemePreset.values()
                         val nextIndex = (sandboxTheme.preset.ordinal + 1) % themes.size
-                        sandboxTheme = KeyboardTheme.fromPreset(themes[nextIndex])
+                        sandboxTheme = KeyboardTheme.fromPreset(themes[nextIndex], context)
                     },
                     onOpenSettings = {}
                 )

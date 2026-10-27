@@ -37,6 +37,7 @@ class UserPreferences private constructor(private val context: Context) {
         private val KEY_SMART_PUNCTUATION = booleanPreferencesKey("smart_punctuation")
         private val KEY_AUTO_CAP = booleanPreferencesKey("auto_capitalize")
         private val KEY_SHOW_NUMBER_ROW = booleanPreferencesKey("show_number_row")
+        private val KEY_KEY_BORDERS = booleanPreferencesKey("show_key_borders")
         private val KEY_HAPTIC_INTENSITY = intPreferencesKey("haptic_intensity")
         private val KEY_SOUND_VOLUME = intPreferencesKey("sound_volume")
         private val KEY_TOTAL_WORDS = longPreferencesKey("total_words_typed")
@@ -159,6 +160,7 @@ class UserPreferences private constructor(private val context: Context) {
     val smartPunctuation: Flow<Boolean> = context.dataStore.data.map { it[KEY_SMART_PUNCTUATION] ?: true }
     val autoCapitalize: Flow<Boolean> = context.dataStore.data.map { it[KEY_AUTO_CAP] ?: true }
     val showNumberRow: Flow<Boolean> = context.dataStore.data.map { it[KEY_SHOW_NUMBER_ROW] ?: true }
+    val keyBorders: Flow<Boolean> = context.dataStore.data.map { it[KEY_KEY_BORDERS] ?: false }
     val hapticIntensity: Flow<Int> = context.dataStore.data.map { it[KEY_HAPTIC_INTENSITY] ?: 50 }
     val soundVolume: Flow<Int> = context.dataStore.data.map { it[KEY_SOUND_VOLUME] ?: 50 }
     val totalWords: Flow<Long> = context.dataStore.data.map { it[KEY_TOTAL_WORDS] ?: 0L }
@@ -405,6 +407,10 @@ class UserPreferences private constructor(private val context: Context) {
 
     suspend fun setShowNumberRow(show: Boolean) {
         context.dataStore.edit { it[KEY_SHOW_NUMBER_ROW] = show }
+    }
+
+    suspend fun setKeyBorders(enabled: Boolean) {
+        context.dataStore.edit { it[KEY_KEY_BORDERS] = enabled }
     }
 
     suspend fun setHapticIntensity(intensity: Int) {

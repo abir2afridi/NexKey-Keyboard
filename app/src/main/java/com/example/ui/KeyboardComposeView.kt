@@ -1693,6 +1693,7 @@ fun KeyboardKeysGrid(
                         .height(symbolTheme.keyHeightDp.dp)
                         .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
                         .background(theme.keySpecialColor)
+                        .keyBorder(theme, true)
                         .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
                             while (true) {
                                 awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
@@ -1805,6 +1806,7 @@ fun KeyboardKeysGrid(
                         .height(theme.keyHeightDp.dp)
                         .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
                         .background(theme.keySpecialColor)
+                        .keyBorder(theme, true)
                         .pointerInput(backspaceRepeatDelayMs, backspaceRepeatSpeedMs) {
                             while (true) {
                                 awaitPointerEventScope { awaitFirstDown(requireUnconsumed = false) }
@@ -1921,6 +1923,7 @@ fun KeyboardKeysGrid(
                         .height(theme.keyHeightDp.dp)
                         .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
                         .background(if (spacebarPressed) theme.keyBackgroundColor.copy(alpha = 0.8f) else theme.keyBackgroundColor)
+                        .keyBorder(theme, false)
                         .pointerInput(longPressDelayMs) {
                             // Hold-then-swipe ONLY: language changes ONLY when you hold
                             // the spacebar firmly (~380ms, like Gboard/others apk) and
@@ -2072,6 +2075,12 @@ fun KeyItem(
     }
 }
 
+private fun Modifier.keyBorder(theme: KeyboardTheme, isSpecial: Boolean): Modifier {
+    if (!theme.showKeyBorders) return this
+    val color = (if (isSpecial) theme.keySpecialTextColor else theme.keyTextColor).copy(alpha = 0.16f)
+    return border(1.dp, color, RoundedCornerShape(theme.keyRadiusDp.dp))
+}
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun KeyButton(
@@ -2101,6 +2110,7 @@ fun KeyButton(
             .height(theme.keyHeightDp.dp)
             .clip(RoundedCornerShape(theme.keyRadiusDp.dp))
             .background(if (isPressed) pressedBg else bgColor)
+            .keyBorder(theme, isSpecial)
             .combinedClickable(
                 interactionSource = interactionSource,
                 indication = null,

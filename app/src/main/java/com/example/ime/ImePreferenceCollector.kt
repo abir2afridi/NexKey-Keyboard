@@ -15,7 +15,7 @@ import org.json.JSONArray
 internal fun NexKeyInputMethodService.collectAllPreferences() {
     scope.launch {
         launch {
-            combine(
+            combine<Any, KeyboardTheme>(
                 userPreferences.theme,
                 userPreferences.customBgColor,
                 userPreferences.customKeyBgColor,
@@ -27,7 +27,8 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
                 userPreferences.customSuggestionTextColor,
                 userPreferences.customPopupBgColor,
                 userPreferences.customPopupTextColor,
-                userPreferences.customKeyHintColor
+                userPreferences.customKeyHintColor,
+                userPreferences.keyBorders
             ) { values ->
                 val savedTheme = values[0] as String
                 val preset = try { ThemePreset.valueOf(savedTheme) } catch (e: Exception) { ThemePreset.DARK_NEON }
@@ -48,10 +49,12 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
                         suggestionTextColor = parseColor(values[8]),
                         popupBackgroundColor = parseColor(values[9]),
                         popupTextColor = parseColor(values[10]),
-                        keyHintColor = parseColor(values[11])
+                        keyHintColor = parseColor(values[11]),
+                        showKeyBorders = values[12] as Boolean
                     )
                 } else {
-                    KeyboardTheme.fromPreset(preset)
+                    KeyboardTheme.fromPreset(preset, this@collectAllPreferences)
+                        .copy(showKeyBorders = values[12] as Boolean)
                 }
             }.collectLatest { currentTheme = it }
         }

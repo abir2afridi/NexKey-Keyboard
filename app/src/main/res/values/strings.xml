@@ -190,6 +190,25 @@
     <string name="theme_amoled_black">Amoled Black</string>
     <string name="theme_retro_grey">Retro Grey</string>
     <string name="theme_cyberpunk">Cyberpunk</string>
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing Dark</string>
+    <string name="theme_nothing_light">Nothing Light</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED Dark Purple</string>
+    <string name="theme_orbit">Orbit</string>
+    <string name="theme_sunflower">Sunflower</string>
+    <string name="theme_snowfall">Snowfall</string>
+    <string name="theme_steel_gray">Steel Gray</string>
+    <string name="theme_cotton_candy">Cotton Candy</string>
+    <string name="theme_deep_sea_light">Deep Sea Light</string>
+    <string name="theme_deep_sea_dark">Deep Sea Dark</string>
+    <string name="theme_classic_material_light">Classic Material Light</string>
+    <string name="theme_classic_material_dark">Classic Material Dark</string>
+    <string name="themes_search_hint">Search themes</string>
+    <string name="themes_search_clear">Clear search</string>
+    <string name="themes_no_results">No themes found</string>
+    <string name="themes_key_borders">Key borders</string>
+    <string name="themes_key_borders_desc">Show a subtle outline around each key</string>
     <string name="theme_custom">Custom</string>
 
     <!-- Sandbox -->

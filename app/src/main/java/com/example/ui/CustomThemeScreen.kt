@@ -58,6 +58,7 @@ fun CustomThemeScreen(
     val customPopBg by prefs.customPopupBgColor.collectAsState(initial = "#FF2A2E4B")
     val customPopText by prefs.customPopupTextColor.collectAsState(initial = "#FF00E5FF")
     val customKeyHintColor by prefs.customKeyHintColor.collectAsState(initial = "#66F1F3FB")
+    val keyBorders by prefs.keyBorders.collectAsState(initial = false)
 
     // State for the editor (initialized with saved values)
     var bgColor by remember(customBg) { mutableStateOf(hexToColor(customBg)) }
@@ -99,7 +100,8 @@ fun CustomThemeScreen(
         suggestionTextColor = suggestionTextColor,
         popupBackgroundColor = popupBgColor,
         popupTextColor = popupTextColor,
-        keyHintColor = keyHintColor
+        keyHintColor = keyHintColor,
+        showKeyBorders = keyBorders
     )
 
     Scaffold(

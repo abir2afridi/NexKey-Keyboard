@@ -22,6 +22,8 @@ debug.keystore
 docs+/
 .artifacts/
 .vscode
+
+Orbitt/
 # aapt2 / build artifacts accidentally extracted at project root
 /AndroidManifest.xml
 /META-INF/

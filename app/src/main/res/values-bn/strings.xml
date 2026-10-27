@@ -191,6 +191,25 @@
     <string name="theme_amoled_black">অ্যামোলেড ব্ল্যাক</string>
     <string name="theme_retro_grey">রেট্রো গ্রে</string>
     <string name="theme_cyberpunk">সাইবারপাংক</string>
+    <string name="theme_material_you">ম্যাটেরিয়াল ইউ</string>
+    <string name="theme_nothing_dark">নাথিং ডার্ক</string>
+    <string name="theme_nothing_light">নাথিং লাইট</string>
+    <string name="theme_amoled_nothing">অ্যামোলেড নাথিং</string>
+    <string name="theme_amoled_dark_purple">অ্যামোলেড ডার্ক পার্পল</string>
+    <string name="theme_orbit">অরবিট</string>
+    <string name="theme_sunflower">সূর্যমুখী</string>
+    <string name="theme_snowfall">তুষারপাত</string>
+    <string name="theme_steel_gray">স্টিল গ্রে</string>
+    <string name="theme_cotton_candy">কটন ক্যান্ডি</string>
+    <string name="theme_deep_sea_light">গভীর সমুদ্র (হালকা)</string>
+    <string name="theme_deep_sea_dark">গভীর সমুদ্র (গাঢ়)</string>
+    <string name="theme_classic_material_light">ক্লাসিক ম্যাটেরিয়াল (হালকা)</string>
+    <string name="theme_classic_material_dark">ক্লাসিক ম্যাটেরিয়াল (গাঢ়)</string>
+    <string name="themes_search_hint">থিম খুঁজুন</string>
+    <string name="themes_search_clear">অনুসন্ধান মুছুন</string>
+    <string name="themes_no_results">কোনো থিম পাওয়া যায়নি</string>
+    <string name="themes_key_borders">কী-এর সীমানা</string>
+    <string name="themes_key_borders_desc">প্রতিটি কী-এর চারপাশে হালকা রেখা দেখান</string>
     <string name="theme_custom">কাস্টম</string>
 
     <!-- Sandbox -->

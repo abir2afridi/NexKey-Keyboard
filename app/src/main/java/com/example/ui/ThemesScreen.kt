@@ -10,12 +10,15 @@ import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import com.example.R
 import androidx.compose.ui.text.font.FontWeight
@@ -30,10 +33,12 @@ import kotlinx.coroutines.launch
 fun ThemesScreen(
     onBack: () -> Unit
 ) {
-    val context = androidx.compose.ui.platform.LocalContext.current
+    val context = LocalContext.current
     val prefs = remember { com.example.data.UserPreferences.getInstance(context) }
     val scope = rememberCoroutineScope()
     val savedThemePresetName by prefs.theme.collectAsState(initial = ThemePreset.DARK_NEON.name)
+    val keyBorders by prefs.keyBorders.collectAsState(initial = false)
+    var searchQuery by remember { mutableStateOf("") }
 
     // Custom Theme State
     val customBg by prefs.customBgColor.collectAsState(initial = "#FF12131C")
@@ -65,13 +70,27 @@ fun ThemesScreen(
         )
     }
 
-    val themes = remember(customTheme) { listOf(customTheme) + KeyboardTheme.allThemes() }
-    
-    val selectedTheme = remember(savedThemePresetName) {
+    val themes = remember(customTheme, keyBorders, context) {
+        (listOf(customTheme) + KeyboardTheme.allThemes(context)).map {
+            it.copy(showKeyBorders = keyBorders)
+        }
+    }
+
+    val selectedTheme = remember(savedThemePresetName, keyBorders, context) {
         try {
-            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName))
+            KeyboardTheme.fromPreset(ThemePreset.valueOf(savedThemePresetName), context)
+                .copy(showKeyBorders = keyBorders)
         } catch (e: Exception) {
-            KeyboardTheme.DarkNeon
+            KeyboardTheme.DarkNeon.copy(showKeyBorders = keyBorders)
+        }
+    }
+
+    val filteredThemes = if (searchQuery.isBlank()) {
+        themes
+    } else {
+        themes.filter { theme ->
+            context.getString(themePresetLabelRes(theme.preset))
+                .contains(searchQuery.trim(), ignoreCase = true)
         }
     }
 
@@ -103,26 +122,85 @@ fun ThemesScreen(
                 text = stringResource(R.string.themes_subtitle),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp,
-                modifier = Modifier.padding(vertical = 24.dp)
+                modifier = Modifier.padding(top = 24.dp, bottom = 16.dp)
             )
 
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                horizontalArrangement = Arrangement.spacedBy(20.dp),
-                verticalArrangement = Arrangement.spacedBy(20.dp),
-                modifier = Modifier.padding(bottom = 24.dp),
-                contentPadding = PaddingValues(bottom = 120.dp)
-            ) {
-                items(themes) { theme ->
-                    ThemePreviewCard(
-                        theme = theme,
-                        isSelected = selectedTheme.preset == theme.preset,
-                        onClick = {
-                            scope.launch {
-                                prefs.setTheme(theme.preset)
-                            }
+            OutlinedTextField(
+                value = searchQuery,
+                onValueChange = { searchQuery = it },
+                modifier = Modifier.fillMaxWidth(),
+                placeholder = { Text(stringResource(R.string.themes_search_hint)) },
+                leadingIcon = {
+                    Icon(Icons.Default.Search, contentDescription = null)
+                },
+                trailingIcon = {
+                    if (searchQuery.isNotEmpty()) {
+                        IconButton(onClick = { searchQuery = "" }) {
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.themes_search_clear))
                         }
+                    }
+                },
+                singleLine = true,
+                shape = RoundedCornerShape(16.dp)
+            )
+
+            Spacer(modifier = Modifier.height(12.dp))
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = stringResource(R.string.themes_key_borders),
+                        color = MaterialTheme.colorScheme.onSurface,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 15.sp
                     )
+                    Text(
+                        text = stringResource(R.string.themes_key_borders_desc),
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        fontSize = 12.sp
+                    )
+                }
+                Switch(
+                    checked = keyBorders,
+                    onCheckedChange = {
+                        scope.launch { prefs.setKeyBorders(it) }
+                    }
+                )
+            }
+
+            Spacer(modifier = Modifier.height(8.dp))
+
+            if (filteredThemes.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.themes_no_results),
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    fontSize = 15.sp,
+                    modifier = Modifier.padding(vertical = 24.dp)
+                )
+            } else {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    horizontalArrangement = Arrangement.spacedBy(20.dp),
+                    verticalArrangement = Arrangement.spacedBy(20.dp),
+                    modifier = Modifier.padding(bottom = 24.dp),
+                    contentPadding = PaddingValues(bottom = 120.dp)
+                ) {
+                    items(filteredThemes) { theme ->
+                        ThemePreviewCard(
+                            theme = theme,
+                            isSelected = selectedTheme.preset == theme.preset,
+                            onClick = {
+                                scope.launch {
+                                    prefs.setTheme(theme.preset)
+                                }
+                            }
+                        )
+                    }
                 }
             }
         }
@@ -182,7 +260,7 @@ fun ThemePreviewCard(
             // Row 1
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
                 repeat(10) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, showBorder = theme.showKeyBorders)
                 }
             }
             // Row 2
@@ -191,29 +269,36 @@ fun ThemePreviewCard(
                 horizontalArrangement = Arrangement.spacedBy(3.dp)
             ) {
                 repeat(9) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, showBorder = theme.showKeyBorders)
                 }
             }
             // Row 3
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f) // Shift
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f, showBorder = theme.showKeyBorders) // Shift
                 repeat(7) {
-                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor)
+                    MiniKey(theme.keyBackgroundColor, theme.keyTextColor, theme.keyHintColor, showBorder = theme.showKeyBorders)
                 }
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f) // Backspace
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.5f, showBorder = theme.showKeyBorders) // Backspace
             }
             // Row 4
             Row(horizontalArrangement = Arrangement.spacedBy(3.dp)) {
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f) // Mode
-                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f) // Emoji
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f, showBorder = theme.showKeyBorders) // Mode
+                MiniKey(theme.keySpecialColor, theme.keySpecialTextColor, theme.keyHintColor, weight = 1.2f, showBorder = theme.showKeyBorders) // Emoji
                 Box(
                     modifier = Modifier
                         .weight(4f)
                         .height(16.dp)
                         .clip(RoundedCornerShape(3.dp))
                         .background(theme.accentColor)
+                        .then(
+                            if (theme.showKeyBorders) Modifier.border(
+                                0.5.dp,
+                                theme.accentColor.copy(alpha = 0.35f),
+                                RoundedCornerShape(3.dp)
+                            ) else Modifier
+                        )
                 )
-                MiniKey(theme.keySpecialColor, theme.accentColor, theme.keyHintColor, weight = 1.6f) // Enter
+                MiniKey(theme.keySpecialColor, theme.accentColor, theme.keyHintColor, weight = 1.6f, showBorder = theme.showKeyBorders) // Enter
             }
         }
 
@@ -234,14 +319,22 @@ fun RowScope.MiniKey(
     bgColor: Color,
     textColor: Color,
     hintColor: Color,
-    weight: Float = 1f
+    weight: Float = 1f,
+    showBorder: Boolean = false
 ) {
     Box(
         modifier = Modifier
             .weight(weight)
             .height(16.dp)
             .clip(RoundedCornerShape(3.dp))
-            .background(bgColor),
+            .background(bgColor)
+            .then(
+                if (showBorder) Modifier.border(
+                    0.5.dp,
+                    textColor.copy(alpha = 0.18f),
+                    RoundedCornerShape(3.dp)
+                ) else Modifier
+            ),
         contentAlignment = Alignment.Center
     ) {
         // Main text dot
@@ -267,24 +360,38 @@ fun RowScope.MiniKey(
 // Extension to avoid compilation error if capitalize() is deprecated in some Kotlin versions
 private fun String.capitalize() = this.replaceFirstChar { it.uppercase() }
 
+private fun themePresetLabelRes(preset: ThemePreset): Int = when (preset) {
+    ThemePreset.DARK_NEON -> R.string.theme_dark_neon
+    ThemePreset.LIGHT_MINIMAL -> R.string.theme_light_minimal
+    ThemePreset.AMOLED_BLACK -> R.string.theme_amoled_black
+    ThemePreset.EMERALD_GREEN -> R.string.theme_emerald_green
+    ThemePreset.MIDNIGHT_BLUE -> R.string.theme_midnight_blue
+    ThemePreset.SUNSET_ORANGE -> R.string.theme_sunset_orange
+    ThemePreset.ROYAL_PURPLE -> R.string.theme_royal_purple
+    ThemePreset.RETRO_GREY -> R.string.theme_retro_grey
+    ThemePreset.CYBERPUNK -> R.string.theme_cyberpunk
+    ThemePreset.SAKURA_PINK -> R.string.theme_sakura_pink
+    ThemePreset.DEEP_OCEAN -> R.string.theme_deep_ocean
+    ThemePreset.CRIMSON_RED -> R.string.theme_crimson_red
+    ThemePreset.LAVENDER_DREAM -> R.string.theme_lavender_dream
+    ThemePreset.FOREST_MOSS -> R.string.theme_forest_moss
+    ThemePreset.GOLDEN_SAND -> R.string.theme_golden_sand
+    ThemePreset.MATERIAL_YOU -> R.string.theme_material_you
+    ThemePreset.NOTHING_DARK -> R.string.theme_nothing_dark
+    ThemePreset.NOTHING_LIGHT -> R.string.theme_nothing_light
+    ThemePreset.AMOLED_NOTHING -> R.string.theme_amoled_nothing
+    ThemePreset.AMOLED_DARK_PURPLE -> R.string.theme_amoled_dark_purple
+    ThemePreset.ORBIT -> R.string.theme_orbit
+    ThemePreset.SUNFLOWER -> R.string.theme_sunflower
+    ThemePreset.SNOWFALL -> R.string.theme_snowfall
+    ThemePreset.STEEL_GRAY -> R.string.theme_steel_gray
+    ThemePreset.COTTON_CANDY -> R.string.theme_cotton_candy
+    ThemePreset.DEEP_SEA_LIGHT -> R.string.theme_deep_sea_light
+    ThemePreset.DEEP_SEA_DARK -> R.string.theme_deep_sea_dark
+    ThemePreset.CLASSIC_MATERIAL_LIGHT -> R.string.theme_classic_material_light
+    ThemePreset.CLASSIC_MATERIAL_DARK -> R.string.theme_classic_material_dark
+    ThemePreset.CUSTOM -> R.string.theme_custom
+}
+
 @Composable
-fun themePresetLabel(preset: ThemePreset): String = stringResource(
-    when (preset) {
-        ThemePreset.DARK_NEON -> R.string.theme_dark_neon
-        ThemePreset.LIGHT_MINIMAL -> R.string.theme_light_minimal
-        ThemePreset.AMOLED_BLACK -> R.string.theme_amoled_black
-        ThemePreset.EMERALD_GREEN -> R.string.theme_emerald_green
-        ThemePreset.MIDNIGHT_BLUE -> R.string.theme_midnight_blue
-        ThemePreset.SUNSET_ORANGE -> R.string.theme_sunset_orange
-        ThemePreset.ROYAL_PURPLE -> R.string.theme_royal_purple
-        ThemePreset.RETRO_GREY -> R.string.theme_retro_grey
-        ThemePreset.CYBERPUNK -> R.string.theme_cyberpunk
-        ThemePreset.SAKURA_PINK -> R.string.theme_sakura_pink
-        ThemePreset.DEEP_OCEAN -> R.string.theme_deep_ocean
-        ThemePreset.CRIMSON_RED -> R.string.theme_crimson_red
-        ThemePreset.LAVENDER_DREAM -> R.string.theme_lavender_dream
-        ThemePreset.FOREST_MOSS -> R.string.theme_forest_moss
-        ThemePreset.GOLDEN_SAND -> R.string.theme_golden_sand
-        ThemePreset.CUSTOM -> R.string.theme_custom
-    }
-)
+fun themePresetLabel(preset: ThemePreset): String = stringResource(themePresetLabelRes(preset))
