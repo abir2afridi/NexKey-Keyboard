@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. 情報ボックス（メーターの隣）は、入力中に入力した単語をリアルタイム表示します。自動スワイプが終わると、スワイプ情報、続いてカスタムテキスト（あれば）を表示します。常時モードは情報の後にテキストを繰り返し表示し、時間指定モードは設定時間だけ表示します。タイムアウト後はボックスは空になります。枠・色・テキストはストア → 情報ボックスで設定します。</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">ストリーク＝連続した記録更新。自分のベストを更新し続けると増え、更新に失敗すると 1 に戻ります。</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing ダーク</string>
+    <string name="theme_nothing_light">Nothing ライト</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED ダークパープル</string>
+    <string name="theme_orbit">オービット</string>
+    <string name="theme_sunflower">ひまわり</string>
+    <string name="theme_snowfall">降雪</string>
+    <string name="theme_steel_gray">スチールグレー</string>
+    <string name="theme_cotton_candy">コットンキャンディ</string>
+    <string name="theme_deep_sea_light">ディープシー ライト</string>
+    <string name="theme_deep_sea_dark">ディープシー ダーク</string>
+    <string name="theme_classic_material_light">クラシック Material ライト</string>
+    <string name="theme_classic_material_dark">クラシック Material ダーク</string>
+    <string name="theme_nothing_theme">Nothing テーマ</string>
+    <string name="theme_dynamic_nothing">ダイナミック Nothing</string>
+    <string name="theme_dynamic_dark">ダイナミック ダーク</string>
+    <string name="theme_dynamic_light">ダイナミック ライト</string>
+    <string name="themes_search_hint">テーマを検索</string>
+    <string name="themes_search_clear">検索をクリア</string>
+    <string name="themes_no_results">テーマが見つかりません</string>
+    <string name="themes_key_borders">キーの枠線</string>
+    <string name="themes_key_borders_desc">各キーの周囲に控えめな輪郭を表示</string>
+    <string name="layout_long_press_clipboard">C/X/V 長押しショートカット</string>
+    <string name="layout_long_press_clipboard_desc">C 長押しでコピー、X で切り取り、V で貼り付け</string>
+    <string name="resize_bottom_offset">キーボード下部のオフセット</string>
 </resources>
 

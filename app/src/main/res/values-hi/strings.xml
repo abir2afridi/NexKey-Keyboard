@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. इन्फो बॉक्स (मीटर के पास) टाइप किए गए शब्द को लाइव दिखाता है; ऑटो-स्वाइप के बाद स्वाइप जानकारी और फिर आपके कस्टम टेक्स्ट (यदि हैं) दिखाता है। हमेशा मोड जानकारी के बाद टेक्स्ट दोहराता है, समयबद्ध मोड निर्धारित अवधि तक दिखाता है। टाइमआउट के बाद बॉक्स खाली हो जाता है। इसका रंग, फ्रेम और टेक्स्ट स्टोर → इन्फो बॉक्स में सेट होते हैं।</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">स्ट्रीक = लगातार रिकॉर्ड तोड़ना। जब तक अपना बेस्ट तोड़ते हैं बढ़ती है; किसी विंडो में रिकॉर्ड न तोड़ने पर 1 पर रीसेट हो जाती है।</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing डार्क</string>
+    <string name="theme_nothing_light">Nothing लाइट</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED गहरा बैंगनी</string>
+    <string name="theme_orbit">ऑर्बिट</string>
+    <string name="theme_sunflower">सूरजमुखी</string>
+    <string name="theme_snowfall">हिमपात</string>
+    <string name="theme_steel_gray">स्टील ग्रे</string>
+    <string name="theme_cotton_candy">कॉटन कैंडी</string>
+    <string name="theme_deep_sea_light">गहरा समुद्र लाइट</string>
+    <string name="theme_deep_sea_dark">गहरा समुद्र डार्क</string>
+    <string name="theme_classic_material_light">क्लासिक मटेरियल लाइट</string>
+    <string name="theme_classic_material_dark">क्लासिक मटेरियल डार्क</string>
+    <string name="theme_nothing_theme">Nothing थीम</string>
+    <string name="theme_dynamic_nothing">डायनामिक नथिंग</string>
+    <string name="theme_dynamic_dark">डायनामिक डार्क</string>
+    <string name="theme_dynamic_light">डायनामिक लाइट</string>
+    <string name="themes_search_hint">थीम खोजें</string>
+    <string name="themes_search_clear">खोज साफ़ करें</string>
+    <string name="themes_no_results">कोई थीम नहीं मिली</string>
+    <string name="themes_key_borders">कुंजी सीमाएँ</string>
+    <string name="themes_key_borders_desc">प्रत्येक कुंजी के चारों ओर हल्की रूपरेखा दिखाएँ</string>
+    <string name="layout_long_press_clipboard">C/X/V देर तक दबाने के शॉर्टकट</string>
+    <string name="layout_long_press_clipboard_desc">कॉपी के लिए C, काटने के लिए X, पेस्ट के लिए V देर तक दबाएँ</string>
+    <string name="resize_bottom_offset">कीबोर्ड निचला ऑफ़सेट</string>
 </resources>
 

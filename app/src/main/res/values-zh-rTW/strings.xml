@@ -634,4 +634,31 @@
     <string name="meter_rules_line7">7. 資訊框（位於測速旁）會即時顯示正在輸入的字；自動滑動結束後依序顯示滑動資訊與自訂文字（如有）。始終模式會在資訊後反覆顯示文字，定時模式會按設定時長顯示。逾時後資訊框變為空白。其邊框、顏色與文字可在商店 → 資訊框中設定。</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">連勝＝連續打破紀錄。持續刷新自己的最佳成績就會增加；某窗口錯失紀錄時重置為 1。</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing 深色</string>
+    <string name="theme_nothing_light">Nothing 淺色</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED 深紫</string>
+    <string name="theme_orbit">軌道</string>
+    <string name="theme_sunflower">向日葵</string>
+    <string name="theme_snowfall">降雪</string>
+    <string name="theme_steel_gray">鋼灰</string>
+    <string name="theme_cotton_candy">棉花糖</string>
+    <string name="theme_deep_sea_light">深海淺色</string>
+    <string name="theme_deep_sea_dark">深海深色</string>
+    <string name="theme_classic_material_light">經典 Material 淺色</string>
+    <string name="theme_classic_material_dark">經典 Material 深色</string>
+    <string name="theme_nothing_theme">Nothing 主題</string>
+    <string name="theme_dynamic_nothing">動態 Nothing</string>
+    <string name="theme_dynamic_dark">動態深色</string>
+    <string name="theme_dynamic_light">動態淺色</string>
+    <string name="themes_search_hint">搜尋主題</string>
+    <string name="themes_search_clear">清除搜尋</string>
+    <string name="themes_no_results">找不到主題</string>
+    <string name="themes_key_borders">按鍵邊框</string>
+    <string name="themes_key_borders_desc">在每個按鍵周圍顯示細微輪廓</string>
+    <string name="layout_long_press_clipboard">長按 C/X/V 快速鍵</string>
+    <string name="layout_long_press_clipboard_desc">長按 C 複製、X 剪下、V 貼上</string>
+    <string name="resize_bottom_offset">鍵盤底部偏移</string>
 </resources>

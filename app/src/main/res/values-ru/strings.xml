@@ -697,5 +697,32 @@
     <string name="meter_rules_line7">7. Инфо-бокс (рядом со счётчиком) показывает набираемое слово в реальном времени, а после автопроводки — информацию о проводке, затем ваши пользовательские тексты (если есть). Режим «Всегда» повторяет тексты после информации о проводке, режим «По времени» показывает их в течение заданного времени. После таймаута бокс пустеет. Рамка, цвет и тексты настраиваются в магазине → Инфо-бокс.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Серия — это подряд записанные рекорды. Она растёт, пока вы бьёте свой рекорд, и сбрасывается, если рекорд не побит.</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing Тёмная</string>
+    <string name="theme_nothing_light">Nothing Светлая</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED Тёмно-фиолетовая</string>
+    <string name="theme_orbit">Орбита</string>
+    <string name="theme_sunflower">Подсолнух</string>
+    <string name="theme_snowfall">Снегопад</string>
+    <string name="theme_steel_gray">Стальной серый</string>
+    <string name="theme_cotton_candy">Сахарная вата</string>
+    <string name="theme_deep_sea_light">Глубокое море светлая</string>
+    <string name="theme_deep_sea_dark">Глубокое море тёмная</string>
+    <string name="theme_classic_material_light">Классический Material светлая</string>
+    <string name="theme_classic_material_dark">Классический Material тёмная</string>
+    <string name="theme_nothing_theme">Тема Nothing</string>
+    <string name="theme_dynamic_nothing">Динамический Nothing</string>
+    <string name="theme_dynamic_dark">Динамическая тёмная</string>
+    <string name="theme_dynamic_light">Динамическая светлая</string>
+    <string name="themes_search_hint">Поиск тем</string>
+    <string name="themes_search_clear">Очистить поиск</string>
+    <string name="themes_no_results">Темы не найдены</string>
+    <string name="themes_key_borders">Границы клавиш</string>
+    <string name="themes_key_borders_desc">Показывать тонкий контур вокруг каждой клавиши</string>
+    <string name="layout_long_press_clipboard">Длительное нажатие C/X/V</string>
+    <string name="layout_long_press_clipboard_desc">Долгое нажатие C — копировать, X — вырезать, V — вставить</string>
+    <string name="resize_bottom_offset">Нижний отступ клавиатуры</string>
 </resources>
 

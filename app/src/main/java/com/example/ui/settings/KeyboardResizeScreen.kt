@@ -36,6 +36,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
     val resizingEnabled by prefs.enableKbResizing.collectAsState(initial = false)
     val heightPortrait by prefs.kbHeightPortrait.collectAsState(initial = 100)
     val heightLandscape by prefs.kbHeightLandscape.collectAsState(initial = 100)
+    val bottomOffset by prefs.keyboardBottomOffset.collectAsState(initial = 0)
     val widthPortrait by prefs.oneHandedWidthPortrait.collectAsState(initial = 85)
     val widthLandscape by prefs.oneHandedWidthLandscape.collectAsState(initial = 40)
     val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
@@ -144,6 +145,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
                     showNumberRow = showNumRow,
                     keyboardHeightPortrait = effectiveHeightPortrait,
                     keyboardHeightLandscape = if (resizingEnabled) heightLandscape else 100,
+                    keyboardBottomOffsetDp = bottomOffset,
                     oneHandedWidth = effectiveWidthPortrait,
                     oneHandedWidthLandscape = if (resizingEnabled) widthLandscape else 40,
                     showGlobeKey = false,
@@ -174,6 +176,9 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
             SettingSliderItem(stringResource(R.string.size_height_landscape), heightLandscape.toFloat(), 50f..150f, enabled = resizingEnabled) {
                 scope.launch { prefs.setKbHeightLandscape(it.toInt()) }
             }
+            SettingSliderItem(stringResource(R.string.resize_bottom_offset), bottomOffset.toFloat(), 0f..250f) {
+                scope.launch { prefs.setKeyboardBottomOffset(it.toInt()) }
+            }
             HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
             SettingSliderItem(stringResource(R.string.size_width_portrait), widthPortrait.toFloat(), 50f..100f, enabled = resizingEnabled) {
                 scope.launch { prefs.setOneHandedWidthPortrait(it.toInt()) }
@@ -187,6 +192,7 @@ fun KeyboardResizeScreen(onBack: () -> Unit) {
                     scope.launch {
                         prefs.setKbHeightPortrait(100)
                         prefs.setKbHeightLandscape(100)
+                        prefs.setKeyboardBottomOffset(0)
                         prefs.setOneHandedWidthPortrait(85)
                         prefs.setOneHandedWidthLandscape(40)
                     }

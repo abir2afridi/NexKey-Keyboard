@@ -390,6 +390,10 @@ private fun themePresetLabelRes(preset: ThemePreset): Int = when (preset) {
     ThemePreset.DEEP_SEA_DARK -> R.string.theme_deep_sea_dark
     ThemePreset.CLASSIC_MATERIAL_LIGHT -> R.string.theme_classic_material_light
     ThemePreset.CLASSIC_MATERIAL_DARK -> R.string.theme_classic_material_dark
+    ThemePreset.NOTHING_THEME -> R.string.theme_nothing_theme
+    ThemePreset.DYNAMIC_NOTHING -> R.string.theme_dynamic_nothing
+    ThemePreset.DYNAMIC_DARK -> R.string.theme_dynamic_dark
+    ThemePreset.DYNAMIC_LIGHT -> R.string.theme_dynamic_light
     ThemePreset.CUSTOM -> R.string.theme_custom
 }
 

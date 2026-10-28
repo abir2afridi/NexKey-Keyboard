@@ -204,6 +204,10 @@
     <string name="theme_deep_sea_dark">Deep Sea Dark</string>
     <string name="theme_classic_material_light">Classic Material Light</string>
     <string name="theme_classic_material_dark">Classic Material Dark</string>
+    <string name="theme_nothing_theme">Nothing Theme</string>
+    <string name="theme_dynamic_nothing">Dynamic Nothing</string>
+    <string name="theme_dynamic_dark">Dynamic Dark</string>
+    <string name="theme_dynamic_light">Dynamic Light</string>
     <string name="themes_search_hint">Search themes</string>
     <string name="themes_search_clear">Clear search</string>
     <string name="themes_no_results">No themes found</string>
@@ -363,11 +367,14 @@
     <string name="layout_large_number_row">Large number row</string>
     <string name="layout_hide_hints">Hide long press hints</string>
     <string name="layout_hide_hints_desc">Hide small labels from key corners</string>
+    <string name="layout_long_press_clipboard">Long-press C/X/V shortcuts</string>
+    <string name="layout_long_press_clipboard_desc">Long-press C to copy, X to cut, and V to paste</string>
     <string name="layout_resizing">Enable keyboard resizing</string>
     <string name="layout_resizing_desc">Open the resizing screen with a live keyboard preview</string>
     <string name="resize_title">Keyboard Resizing</string>
     <string name="resize_enable_desc">Applies your custom height and width to the keyboard</string>
     <string name="resize_preview_hint">Live preview — changes apply instantly</string>
+    <string name="resize_bottom_offset">Keyboard bottom offset</string>
     <string name="resize_reset">Reset to default</string>
     <string name="layout_split">Enable split keyboard</string>
     <string name="layout_split_desc">For foldable phones</string>

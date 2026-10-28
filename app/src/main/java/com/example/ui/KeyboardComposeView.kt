@@ -132,8 +132,10 @@ fun KeyboardComposeView(
     actionLabel: String,
     showNumberRow: Boolean = true,
     hideLongPressHints: Boolean = false,
+    longPressCxvShortcutsEnabled: Boolean = false,
     keyboardHeightPortrait: Int = 100,
     keyboardHeightLandscape: Int = 100,
+    keyboardBottomOffsetDp: Int = 0,
     oneHandedWidth: Int = 100,
     oneHandedWidthLandscape: Int = 40,
     isIncognito: Boolean = false,
@@ -411,7 +413,7 @@ fun KeyboardComposeView(
         modifier = Modifier.fillMaxWidth(),
         color = theme.backgroundColor
     ) {
-        Box {
+        Box(modifier = Modifier.padding(bottom = keyboardBottomOffsetDp.dp)) {
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -676,10 +678,20 @@ fun KeyboardComposeView(
                             onCursorMove = onCursorMove,
                             onLongPress = { key ->
                                 tapPopupChar = null
-                                if (holdPasteEnabled && key.code == holdPasteTriggerKey) {
-                                    onHoldPaste?.invoke()
-                                } else {
-                                    longPressKey = key
+                                val shortcutHandled = if (longPressCxvShortcutsEnabled) {
+                                    when (key.code.lowercase(Locale.getDefault())) {
+                                        "c" -> { onCopy(); true }
+                                        "x" -> { onCut(); true }
+                                        "v" -> { onPaste(); true }
+                                        else -> false
+                                    }
+                                } else false
+                                if (!shortcutHandled) {
+                                    if (holdPasteEnabled && key.code == holdPasteTriggerKey) {
+                                        onHoldPaste?.invoke()
+                                    } else {
+                                        longPressKey = key
+                                    }
                                 }
                             },
                             onSpacebarLongPress = {

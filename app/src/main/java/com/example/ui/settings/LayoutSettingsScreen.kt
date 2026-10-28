@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardReturn
 import androidx.compose.material.icons.filled.AspectRatio
+import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material.icons.filled.LooksOne
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material.icons.filled.TextFields
@@ -34,6 +35,7 @@ fun LayoutSettingsScreen(
     val showNumRow by prefs.showNumberRow.collectAsState(initial = true)
     val largeNumRow by prefs.largeNumberRow.collectAsState(initial = false)
     val hideHints by prefs.hideLongPressHints.collectAsState(initial = false)
+    val longPressCxv by prefs.longPressCxvShortcuts.collectAsState(initial = false)
     val forcedEnter by prefs.forcedEnter.collectAsState(initial = false)
     val alwaysShowSuggestions by prefs.alwaysShowSuggestions.collectAsState(initial = false)
     val unifiedHeader by prefs.unifiedHeader.collectAsState(initial = false)
@@ -43,6 +45,7 @@ fun LayoutSettingsScreen(
         SettingSwitchItem(stringResource(R.string.layout_number_row), stringResource(R.string.layout_number_row_desc), Icons.Default.LooksOne, showNumRow) { scope.launch { prefs.setShowNumberRow(it) } }
         SettingSwitchItem(stringResource(R.string.layout_large_number_row), null, Icons.Default.ViewStream, largeNumRow) { scope.launch { prefs.setLargeNumberRow(it) } }
         SettingSwitchItem(stringResource(R.string.layout_hide_hints), stringResource(R.string.layout_hide_hints_desc), Icons.Default.VisibilityOff, hideHints) { scope.launch { prefs.setHideLongPressHints(it) } }
+        SettingSwitchItem(stringResource(R.string.layout_long_press_clipboard), stringResource(R.string.layout_long_press_clipboard_desc), Icons.Default.ContentCopy, longPressCxv) { scope.launch { prefs.setLongPressCxvShortcuts(it) } }
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)
         SettingActionItem(stringResource(R.string.layout_resizing), stringResource(R.string.layout_resizing_desc), Icons.Default.AspectRatio, onNavigateToResize)
         HorizontalDivider(modifier = Modifier.padding(vertical = 8.dp), color = MaterialTheme.colorScheme.outlineVariant)

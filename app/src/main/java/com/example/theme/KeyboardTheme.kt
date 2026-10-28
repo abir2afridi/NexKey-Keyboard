@@ -36,6 +36,10 @@ enum class ThemePreset {
     DEEP_SEA_DARK,
     CLASSIC_MATERIAL_LIGHT,
     CLASSIC_MATERIAL_DARK,
+    NOTHING_THEME,
+    DYNAMIC_NOTHING,
+    DYNAMIC_DARK,
+    DYNAMIC_LIGHT,
     CUSTOM
 }
 
@@ -510,6 +514,22 @@ data class KeyboardTheme(
             keyHintColor = Color(0xFFFFFFFF).copy(alpha = 0.4f)
         )
 
+        // Orbitt's default "Nothing Theme" (VoiceInputTheme) palette
+        val NothingTheme = KeyboardTheme(
+            preset = ThemePreset.NOTHING_THEME,
+            backgroundColor = Color(0xFF000000),
+            keyBackgroundColor = Color(0xFF0E0E11),
+            keySpecialColor = Color(0xFF1B1B1F),
+            keyTextColor = Color(0xFFFFFFFF),
+            keySpecialTextColor = Color(0xFFE5252A),
+            accentColor = Color(0xFFE5252A),
+            suggestionBgColor = Color(0xFF0E0E11),
+            suggestionTextColor = Color(0xFFFFFFFF),
+            popupBackgroundColor = Color(0xFF1B1B1F),
+            popupTextColor = Color(0xFFE5252A),
+            keyHintColor = Color(0xFFFFFFFF).copy(alpha = 0.4f)
+        )
+
         private fun isNightMode(context: Context): Boolean {
             return (context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK) ==
                 Configuration.UI_MODE_NIGHT_YES
@@ -560,6 +580,24 @@ data class KeyboardTheme(
             return if (isNightMode(context)) dynamicMaterialYouDark(context) else dynamicMaterialYouLight(context)
         }
 
+        // Orbitt "Dynamic Nothing": follows system day/night between Nothing Light and Nothing Dark
+        fun nothingDynamic(context: Context): KeyboardTheme {
+            val base = if (isNightMode(context)) NothingDark else NothingLight
+            return base.copy(preset = ThemePreset.DYNAMIC_NOTHING)
+        }
+
+        // Orbitt "Dynamic Dark": Material You palette forced to dark
+        fun materialYouDark(context: Context): KeyboardTheme {
+            val base = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicMaterialYouDark(context) else MaterialYouDark
+            return base.copy(preset = ThemePreset.DYNAMIC_DARK)
+        }
+
+        // Orbitt "Dynamic Light": Material You palette forced to light
+        fun materialYouLight(context: Context): KeyboardTheme {
+            val base = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) dynamicMaterialYouLight(context) else MaterialYouLight
+            return base.copy(preset = ThemePreset.DYNAMIC_LIGHT)
+        }
+
         fun fromPreset(preset: ThemePreset, context: Context? = null): KeyboardTheme {
             return when (preset) {
                 ThemePreset.DARK_NEON -> DarkNeon
@@ -591,6 +629,10 @@ data class KeyboardTheme(
                 ThemePreset.DEEP_SEA_DARK -> DeepSeaDark
                 ThemePreset.CLASSIC_MATERIAL_LIGHT -> ClassicMaterialLight
                 ThemePreset.CLASSIC_MATERIAL_DARK -> ClassicMaterialDark
+                ThemePreset.NOTHING_THEME -> NothingTheme
+                ThemePreset.DYNAMIC_NOTHING -> context?.let { nothingDynamic(it) } ?: NothingDark
+                ThemePreset.DYNAMIC_DARK -> context?.let { materialYouDark(it) } ?: MaterialYouDark
+                ThemePreset.DYNAMIC_LIGHT -> context?.let { materialYouLight(it) } ?: MaterialYouLight
                 ThemePreset.CUSTOM -> DarkNeon // Default for custom if not set
             }
         }

@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. Das Infofeld (neben dem Messgerät) zeigt das Wort live, dann nach dem Auto-Swipe die Wisch-Info und danach deine eigenen Texte (falls vorhanden). Immer wiederholt die Texte nach der Wisch-Info, Zeitgesteuert zeigt sie für die festgesetzte Dauer. Nach dem Wisch-Timeout wird das Feld leer. Rahmen, Farbe und Texte werden im Store eingestellt.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = aufeinanderfolgende Rekordbrüche. Sie wächst, solange du dein Rekord halt, und springt auf 1 zurück, wenn du an einem Fenster keine Rekord erzielst.</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing Dunkel</string>
+    <string name="theme_nothing_light">Nothing Hell</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED Dunkellila</string>
+    <string name="theme_orbit">Orbit</string>
+    <string name="theme_sunflower">Sonnenblume</string>
+    <string name="theme_snowfall">Schneefall</string>
+    <string name="theme_steel_gray">Stahlgrau</string>
+    <string name="theme_cotton_candy">Zuckerwatte</string>
+    <string name="theme_deep_sea_light">Tiefsee Hell</string>
+    <string name="theme_deep_sea_dark">Tiefsee Dunkel</string>
+    <string name="theme_classic_material_light">Klassisches Material Hell</string>
+    <string name="theme_classic_material_dark">Klassisches Material Dunkel</string>
+    <string name="theme_nothing_theme">Nothing-Theme</string>
+    <string name="theme_dynamic_nothing">Dynamisch: Nothing</string>
+    <string name="theme_dynamic_dark">Dynamisch: Dunkel</string>
+    <string name="theme_dynamic_light">Dynamisch: Hell</string>
+    <string name="themes_search_hint">Themen suchen</string>
+    <string name="themes_search_clear">Suche löschen</string>
+    <string name="themes_no_results">Keine Themen gefunden</string>
+    <string name="themes_key_borders">Tastenumrandungen</string>
+    <string name="themes_key_borders_desc">Zeigt eine dezente Umrandung um jede Taste</string>
+    <string name="layout_long_press_clipboard">C/X/V-Langdruck-Tastenkürzel</string>
+    <string name="layout_long_press_clipboard_desc">C lange drücken zum Kopieren, X zum Ausschneiden, V zum Einfügen</string>
+    <string name="resize_bottom_offset">Unterer Tastaturabstand</string>
 </resources>
 

@@ -205,6 +205,10 @@
     <string name="theme_deep_sea_dark">গভীর সমুদ্র (গাঢ়)</string>
     <string name="theme_classic_material_light">ক্লাসিক ম্যাটেরিয়াল (হালকা)</string>
     <string name="theme_classic_material_dark">ক্লাসিক ম্যাটেরিয়াল (গাঢ়)</string>
+    <string name="theme_nothing_theme">নাথিং থিম</string>
+    <string name="theme_dynamic_nothing">ডায়নামিক নাথিং</string>
+    <string name="theme_dynamic_dark">ডায়নামিক (গাঢ়)</string>
+    <string name="theme_dynamic_light">ডায়নামিক (হালকা)</string>
     <string name="themes_search_hint">থিম খুঁজুন</string>
     <string name="themes_search_clear">অনুসন্ধান মুছুন</string>
     <string name="themes_no_results">কোনো থিম পাওয়া যায়নি</string>
@@ -364,11 +368,14 @@
     <string name="layout_large_number_row">বড় নাম্বার রো</string>
     <string name="layout_hide_hints">লং প্রেস হিন্ট লুকান</string>
     <string name="layout_hide_hints_desc">কী-এর কোণে থাকা ছোট লেবেলগুলো লুকান</string>
+    <string name="layout_long_press_clipboard">C/X/V দীর্ঘ-চাপ শর্টকাট</string>
+    <string name="layout_long_press_clipboard_desc">কপি করতে C, কাট করতে X, পেস্ট করতে V দীর্ঘক্ষণ চাপুন</string>
     <string name="layout_resizing">কীবোর্ড রিসাইজিং সক্রিয় করুন</string>
     <string name="layout_resizing_desc">লাইভ কীবোর্ড প্রিভিউসহ রিসাইজিং স্ক্রিন খুলুন</string>
     <string name="resize_title">কীবোর্ড রিসাইজিং</string>
     <string name="resize_enable_desc">কীবোর্ডে আপনার কাস্টম উচ্চতা এবং প্রস্থ প্রয়োগ করে</string>
     <string name="resize_preview_hint">লাইভ প্রিভিউ — পরিবর্তন সাথে সাথে প্রয়োগ হয়</string>
+    <string name="resize_bottom_offset">কীবোর্ডের নিচের ফাঁক</string>
     <string name="resize_reset">ডিফল্টে রিসেট করুন</string>
     <string name="layout_split">স্প্লিট কীবোর্ড সক্রিয় করুন</string>
     <string name="layout_split_desc">ফোল্ডেবল ফোনের জন্য</string>

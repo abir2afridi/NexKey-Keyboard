@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. انفو باکس (میٹر کے ساتھ) ٹائپ شدہ لفظ کو لائیو دکھاتا ہے؛ آٹو سوائپ کے بعد سوائپ معلومات اور پھر آپ کے کسٹم ٹیکسٹ (اگر ہوں) دکھاتا ہے۔ ہمیشہ موڈ معلومات کے بعد ہر بار ٹیکسٹ دہراتا ہے، وقت میں موڈ مقررہ مدت تک دکھاتا ہے۔ ٹائم آؤٹ کے بعد باکس خالی ہو جاتا ہے۔ رنگ، فریم اور ٹیکسٹ اسٹور میں سیٹ ہوتے ہیں۔</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">اسٹریک = مسلسل ریکارڈ توڑنا۔ جب تک اپنا بہترین ریکارڈ توڑتے ہیں بڑھتی ہے، کسی ونڈو میں ریکارڈ نہ توڑنے پر 1 سمجھوت ہو جاتی ہے۔</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing گہرا</string>
+    <string name="theme_nothing_light">Nothing ہلکا</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED گہرا جامنی</string>
+    <string name="theme_orbit">مدار</string>
+    <string name="theme_sunflower">سورج مکھی</string>
+    <string name="theme_snowfall">برف باری</string>
+    <string name="theme_steel_gray">اسٹیل گرے</string>
+    <string name="theme_cotton_candy">کاٹن کینڈی</string>
+    <string name="theme_deep_sea_light">گہرا سمندر ہلکا</string>
+    <string name="theme_deep_sea_dark">گہرا سمندر ڈارک</string>
+    <string name="theme_classic_material_light">کلاسک Material ہلکا</string>
+    <string name="theme_classic_material_dark">کلاسک Material گہرا</string>
+    <string name="theme_nothing_theme">Nothing تھیم</string>
+    <string name="theme_dynamic_nothing">ڈائنامک Nothing</string>
+    <string name="theme_dynamic_dark">ڈائنامک گہرا</string>
+    <string name="theme_dynamic_light">ڈائنامک ہلکا</string>
+    <string name="themes_search_hint">تھیمز تلاش کریں</string>
+    <string name="themes_search_clear">تلاش صاف کریں</string>
+    <string name="themes_no_results">کوئی تھیم نہیں ملی</string>
+    <string name="themes_key_borders">کلیدوں کی سرحدیں</string>
+    <string name="themes_key_borders_desc">ہر کلید کے گرد ہلکی سرحد دکھائیں</string>
+    <string name="layout_long_press_clipboard">C/X/V دیر تک دبانے کے شارٹ کٹس</string>
+    <string name="layout_long_press_clipboard_desc">کاپی کے لیے C، کاٹنے کے لیے X اور پیسٹ کے لیے V دیر تک دبائیں</string>
+    <string name="resize_bottom_offset">کی بورڈ نیچے کا فاصلہ</string>
 </resources>
 

@@ -6,6 +6,21 @@ The format is inspired by [Keep a Changelog](https://keepachangelog.com/en/1.1.0
 
 ---
 
+## [Unreleased]
+
+### Added
+- 14 orbitt-inspired keyboard themes (Material You, Nothing Dark/Light, AMOLED Nothing/Dark Purple, Orbit, Sunflower, Snowfall, Steel Gray, Cotton Candy, Deep Sea Light/Dark, Classic Material Light/Dark)
+- Material You dynamic color support on Android 12+ with automatic light/dark fallback
+- Theme search and a key borders toggle in the theme picker
+- Keyboard bottom offset (0-250 dp) in keyboard resizing
+- Optional long-press C/X/V copy/cut/paste shortcuts
+- Theme and new feature strings translated across all supported locales
+
+### Fixed
+- Material You theme now follows system light/dark mode changes while the keyboard is active
+
+---
+
 ## [1.8.0] — August 31, 2026
 
 ### Added

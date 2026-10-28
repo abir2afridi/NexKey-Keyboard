@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. La boîte d’informations (à côté du compteur) affiche en direct le mot tapé, puis, quand le balayage automatique se termine, affiche les infos de balayage puis vos textes personnalisés (si présents). Mode Toujours : les textes défilent après les infos ; mode Minuté : ils restent pendant la durée définie. Après le délai de balayage, la boîte se vide. Cadre, couleurs et textes se règlent dans Magasin → Boîte d’informations.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Streak = records battus consécutifs. Il augmente tant que vous battez votre meilleur record et revient à 1 si vous manquez un record.</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing Sombre</string>
+    <string name="theme_nothing_light">Nothing Clair</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED Violet Foncé</string>
+    <string name="theme_orbit">Orbite</string>
+    <string name="theme_sunflower">Tournesol</string>
+    <string name="theme_snowfall">Chute de neige</string>
+    <string name="theme_steel_gray">Gris acier</string>
+    <string name="theme_cotton_candy">Barbe à papa</string>
+    <string name="theme_deep_sea_light">Mer profonde claire</string>
+    <string name="theme_deep_sea_dark">Mer profonde foncée</string>
+    <string name="theme_classic_material_light">Material classique clair</string>
+    <string name="theme_classic_material_dark">Material classique foncé</string>
+    <string name="theme_nothing_theme">Thème Nothing</string>
+    <string name="theme_dynamic_nothing">Nothing dynamique</string>
+    <string name="theme_dynamic_dark">Dynamique foncé</string>
+    <string name="theme_dynamic_light">Dynamique clair</string>
+    <string name="themes_search_hint">Rechercher des thèmes</string>
+    <string name="themes_search_clear">Effacer la recherche</string>
+    <string name="themes_no_results">Aucun thème trouvé</string>
+    <string name="themes_key_borders">Bordures des touches</string>
+    <string name="themes_key_borders_desc">Afficher un contour discret autour de chaque touche</string>
+    <string name="layout_long_press_clipboard">Raccourcis d’appui long C/X/V</string>
+    <string name="layout_long_press_clipboard_desc">Appuyez longuement sur C pour copier, X pour couper et V pour coller</string>
+    <string name="resize_bottom_offset">Décalage inférieur du clavier</string>
 </resources>
 

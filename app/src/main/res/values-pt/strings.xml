@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">7. A caixa de informações (ao lado do medidor) mostra a palavra digitada em tempo real; ao terminar o deslize automático, mostra a informação do deslize e depois os textos personalizados (se houver). Sempre repete os textos depois da informação do deslize, Cronometrado mostra por a duração definida. Após o tempo limite, a caixa fica vazia. Moldura, cor e textos são definidos em Loja → Caixa de informações.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">Sequência de recordes consecutivos. Ela aumenta enquanto você supera a própria marca e zera quando não bate o recorde de uma janela.</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing Escuro</string>
+    <string name="theme_nothing_light">Nothing Claro</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED Roxo Escuro</string>
+    <string name="theme_orbit">Órbita</string>
+    <string name="theme_sunflower">Girassol</string>
+    <string name="theme_snowfall">Nevasca</string>
+    <string name="theme_steel_gray">Cinza Aço</string>
+    <string name="theme_cotton_candy">Algodão Doce</string>
+    <string name="theme_deep_sea_light">Mar Profundo Claro</string>
+    <string name="theme_deep_sea_dark">Mar Profundo Escuro</string>
+    <string name="theme_classic_material_light">Material Clássico Claro</string>
+    <string name="theme_classic_material_dark">Material Clássico Escuro</string>
+    <string name="theme_nothing_theme">Tema Nothing</string>
+    <string name="theme_dynamic_nothing">Nothing Dinâmico</string>
+    <string name="theme_dynamic_dark">Dinâmico Escuro</string>
+    <string name="theme_dynamic_light">Dinâmico Claro</string>
+    <string name="themes_search_hint">Pesquisar temas</string>
+    <string name="themes_search_clear">Limpar pesquisa</string>
+    <string name="themes_no_results">Nenhum tema encontrado</string>
+    <string name="themes_key_borders">Bordas das teclas</string>
+    <string name="themes_key_borders_desc">Mostrar um contorno sutil ao redor de cada tecla</string>
+    <string name="layout_long_press_clipboard">Atalhos de pressionar e segurar C/X/V</string>
+    <string name="layout_long_press_clipboard_desc">Pressione e segure C para copiar, X para recortar e V para colar</string>
+    <string name="resize_bottom_offset">Deslocamento inferior do teclado</string>
 </resources>
 

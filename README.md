@@ -47,6 +47,8 @@
 | Text Input | IME action labels (Search/Go/Done/Next) with multiline detection | ✅ |
 | Text Input | Space bar cursor move (swipe to position caret) | ✅ |
 | Text Input | Text editing toolbar (Select All / Copy / Cut / Paste / Undo) | ✅ |
+| Text Input | Optional long-press C/X/V copy/cut/paste shortcuts | ✅ |
+| Text Input | Keyboard bottom offset (0–250 dp) for comfortable thumb reach | ✅ |
 | Prediction & Correction | DAWG dictionary engine (46K English + 45K Bangla words) | ✅ |
 | Prediction & Correction | Typo auto-correction (weighted Damerau-Levenshtein + QWERTY distance) | ✅ |
 | Prediction & Correction | Next-word prediction (bigram/trigram with interpolated backoff) | ✅ |
@@ -247,6 +249,8 @@ adb install -r app/build/outputs/apk/debug/app-debug.apk
 - ✅ Physical keyboard Ctrl+A/C/V/X/Z shortcuts
 - ✅ Voice input visual state — pulsing red mic icon when listening
 - ✅ Keyboard resizing — adjust keyboard height/width for portrait and landscape with a live preview
+- ✅ Keyboard bottom offset — raise the keyboard by up to 250 dp for easier thumb reach
+- ✅ Long-press C/X/V clipboard shortcuts (optional)
 - ✅ Emoji leaderboard and all-emoji browsing screen with search
 - ✅ App theme (System/Light/Dark) applied live across every screen
 - ✅ Number row default ON

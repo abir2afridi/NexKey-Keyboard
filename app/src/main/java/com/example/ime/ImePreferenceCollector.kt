@@ -91,7 +91,9 @@ internal fun NexKeyInputMethodService.collectAllPreferences() {
         launch { userPreferences.keyRadius.collectLatest { keyRadius = it } }
         launch { userPreferences.showNumberRow.collectLatest { showNumRow = it } }
         launch { userPreferences.hideLongPressHints.collectLatest { hideLongPressHints = it } }
+        launch { userPreferences.longPressCxvShortcuts.collectLatest { longPressCxvShortcutsEnabled = it } }
         launch { userPreferences.kbHeightPortrait.collectLatest { kbHeightPortrait = it } }
+        launch { userPreferences.keyboardBottomOffset.collectLatest { keyboardBottomOffset = it } }
         launch { userPreferences.oneHandedWidthPortrait.collectLatest { oneHandedWidth = it } }
         launch { userPreferences.hapticIntensity.collectLatest { hapticLevel = it } }
         launch { userPreferences.soundVolume.collectLatest { soundLevel = it } }

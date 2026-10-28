@@ -695,5 +695,32 @@
     <string name="meter_rules_line7">۷. کادر اطلاعات (کنار سرعتسنج) کلمهای را که در هنگام نوشتن میزنید، زنده نشان میدهد؛ هنگام پایان سوایپ خودکار، اطلاعات سوایپ و سپس متنهای سفارشی شما (در صورت وجود) نمایش داده میشود. حالت «همیشه» پس از اطلاعات، متنها را تکرار میکند؛ حالت «دورهای» برای مدت مشخص نمایش میدهد. پس از مهلت، کادر خالی میشود. قاب، رنگ و متنهای آن از فروشگاه ← کادر اطلاعات تنظیم میشود.</string>
     <string name="speed_records_record_no_short">#%1$d</string>
     <string name="speed_records_streak_hint">سریال = شکستن رکوردهای پیاپی. تا وقتی رکورد خود را بشکنید زیاد می‌شود و در صورت خطا در یک نوبت به ۱ برگشت می‌کند.</string>
+
+    <string name="theme_material_you">Material You</string>
+    <string name="theme_nothing_dark">Nothing تیره</string>
+    <string name="theme_nothing_light">Nothing روشن</string>
+    <string name="theme_amoled_nothing">AMOLED Nothing</string>
+    <string name="theme_amoled_dark_purple">AMOLED بنفش تیره</string>
+    <string name="theme_orbit">مدار</string>
+    <string name="theme_sunflower">گل آفتابگردان</string>
+    <string name="theme_snowfall">بارش برف</string>
+    <string name="theme_steel_gray">خاکستری فولادی</string>
+    <string name="theme_cotton_candy">آب نبات پنبه‌ای</string>
+    <string name="theme_deep_sea_light">دریای عمیق روشن</string>
+    <string name="theme_deep_sea_dark">دریای عمیق تیره</string>
+    <string name="theme_classic_material_light">Material کلاسیک روشن</string>
+    <string name="theme_classic_material_dark">Material کلاسیک تیره</string>
+    <string name="theme_nothing_theme">پوسته Nothing</string>
+    <string name="theme_dynamic_nothing">Nothing پویا</string>
+    <string name="theme_dynamic_dark">پویا تیره</string>
+    <string name="theme_dynamic_light">پویا روشن</string>
+    <string name="themes_search_hint">جستجوی تم‌ها</string>
+    <string name="themes_search_clear">پاک کردن جستجو</string>
+    <string name="themes_no_results">تمی یافت نشد</string>
+    <string name="themes_key_borders">حاشیه کلیدها</string>
+    <string name="themes_key_borders_desc">نمایش یک حاشیه ظریف دور هر کلید</string>
+    <string name="layout_long_press_clipboard">میانبرهای نگه‌داشتن C/X/V</string>
+    <string name="layout_long_press_clipboard_desc">نگه‌داشتن C برای کپی، X برای برش و V برای چسباندن</string>
+    <string name="resize_bottom_offset">فاصله پایین صفحه‌کلید</string>
 </resources>
 

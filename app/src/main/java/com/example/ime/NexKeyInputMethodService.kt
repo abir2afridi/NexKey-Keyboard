@@ -1,6 +1,7 @@
 package com.example.ime
 
 import android.content.Intent
+import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.Build
 import android.os.Bundle
@@ -95,7 +96,9 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
     internal var keyRadius by mutableStateOf(10)
     internal var showNumRow by mutableStateOf(true)
     internal var hideLongPressHints by mutableStateOf(false)
+    internal var longPressCxvShortcutsEnabled by mutableStateOf(false)
     internal var kbHeightPortrait by mutableStateOf(100)
+    internal var keyboardBottomOffset by mutableStateOf(0)
     internal var oneHandedWidth by mutableStateOf(100)
     internal var hapticLevel by mutableStateOf(50)
     internal var soundLevel by mutableStateOf(50)
@@ -199,6 +202,20 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
         collectAllPreferences()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        when (currentTheme.preset) {
+            ThemePreset.MATERIAL_YOU,
+            ThemePreset.DYNAMIC_NOTHING,
+            ThemePreset.DYNAMIC_DARK,
+            ThemePreset.DYNAMIC_LIGHT -> {
+                currentTheme = KeyboardTheme.fromPreset(currentTheme.preset, this)
+                    .copy(showKeyBorders = currentTheme.showKeyBorders)
+            }
+            else -> { }
+        }
+    }
+
     override fun onCreateInputView(): View {
         AppLogger.i("IME", getString(R.string.logs_ime_view_created))
         val composeView = ComposeView(this).apply {
@@ -219,8 +236,10 @@ class NexKeyInputMethodService : LifecycleInputMethodService() {
                     actionLabel = actionLabel,
                     showNumberRow = showNumRow,
                     hideLongPressHints = hideLongPressHints,
+                    longPressCxvShortcutsEnabled = longPressCxvShortcutsEnabled,
                     keyboardHeightPortrait = if (enableResizing) kbHeightPortrait else 100,
                     keyboardHeightLandscape = kbHeightLandscape,
+                    keyboardBottomOffsetDp = keyboardBottomOffset,
                     oneHandedWidth = oneHandedWidth,
                     oneHandedWidthLandscape = oneHandedWidthLandscape,
                     isIncognito = isIncognito,
